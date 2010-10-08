@@ -2,6 +2,8 @@ package models;
 
 import java.util.ArrayList;
 
+import javax.annotation.Generated;
+
 public class User {
 
 	private String name;
@@ -22,7 +24,7 @@ public class User {
 		this.id = user_id;
 		manager.getUsers().add(this);
 		user_id++;
-		activity.add("Log for "+name);
+		activity.add(name + " is generated");
 	}
 
 	public String getName() {

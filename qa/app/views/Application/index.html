@@ -2,7 +2,7 @@
 #{set title:'ESE KB - Home' /}
 #{if user}
 <p align="right">
-you are logged in as: ${session.get("username")} |
+You are logged in as: ${session.get("username")} |
 <a href="@{Admin.showUserLog(session.get("username"))}">show my activities</a>  |  
 <a href="@{Secure.logout()}">logout</a>
 </p>
@@ -24,9 +24,14 @@ you are logged in as: ${session.get("username")} |
     <a href="@{Application.showAnswers(question.getId())}"/><h3>${question.getContent()}<h3></a>
    	<p style="font-size:8pt">by ${question.getOwner()}<p>
    	<br />
+   	#{if user==question.owner}
+   	<p style="font-size:8pt">You can't rate your own post!</p>
+   	#{/if}
+   	#{else}
    	<form id="vote" action="@{Admin.voteQuestion(question.getId())}" method="GET">
    		<p style="font-size:8pt">Score: ${question.getScore()} Vote: <input id="up" type="submit" value ="1" name="vote" /> <input id="up" type="submit" value ="-1" name="vote" /></p>
    	</form>
+   	#{/else}
    	<legend class="question" align="bottom">${question.getTimestamp()}</legend>
     </fieldset>
 #{/list}
