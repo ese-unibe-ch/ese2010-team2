@@ -1,9 +1,19 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Home' /}
 #{if user}
-you are logged in as: ${session.get("username")}  |  
-<a href="@{Admin.showUserLog(session.get("username"))}">show my activities</a>
+<p align="right">
+you are logged in as: ${session.get("username")} |
+<a href="@{Admin.showUserLog(session.get("username"))}">show my activities</a>  |  
+<a href="@{Secure.logout()}">logout</a>
+</p>
 #{/if}
+#{else}
+<p align="right">
+<a href="@{Application.showRegister()}">register</a> |
+<a href="@{Secure.login()}">login</a>
+</p>
+#{/else}
+
 <h2> Questions in the ESE KB</h2>
 
 <a href="@{Application.showRecentQuestionsByNumber()}">newest questions</a>

@@ -10,7 +10,7 @@ public class BasicTest extends UnitTest {
 	@Before
 	public void setUp() {
 		manager = UserQuestionAnswerManager.getInstance();
-		admin = new User("admin", "admin@admin.ch", "admin");
+		admin = new User("admin", "admin@admin.ch", "admin"); 
 	}
 
 	@Test
@@ -19,24 +19,26 @@ public class BasicTest extends UnitTest {
 		User b = new User("b", "b@b.ch", "b");
 		User c = new User("c", "c@c.ch", "c");
 
-		assertEquals(1, a.getId());
-		assertEquals(2, b.getId());
-		assertEquals(3, c.getId());
+		// 5 Testuser, 1x Admin= 6 User
+		assertEquals(7, a.getId());
+		assertEquals(8, b.getId());
+		assertEquals(9, c.getId());
 
+		
 		Question question = new Question("content of question", admin);
 		Question question1 = new Question("content of question1", admin);
 		Question question2 = new Question("content of question2", admin);
 
-		assertEquals(0, question.getId());
-		assertEquals(1, question1.getId());
-		assertEquals(2, question2.getId());
+		assertEquals(25, question.getId());
+		assertEquals(26, question1.getId());
+		assertEquals(27, question2.getId());
 
 		Answer answer = new Answer("content of answer", admin, manager
-				.getQuestions().get(0));
+				.getQuestions().get(25));
 		Answer answer1 = new Answer("content of answer1", admin, manager
-				.getQuestions().get(0));
+				.getQuestions().get(26));
 		Answer answer2 = new Answer("content of answer2", admin, manager
-				.getQuestions().get(0));
+				.getQuestions().get(27));
 
 		assertEquals(0, answer.getId());
 		assertEquals(1, answer1.getId());
@@ -61,9 +63,9 @@ public class BasicTest extends UnitTest {
 		@SuppressWarnings("unused")
 		Question question = new Question("content of question", admin);
 
-		assertEquals("content of question", manager.getQuestions().get(0)
+		assertEquals("content of question", manager.getQuestions().get(25)
 				.getContent());
-		assertEquals(admin.getName(), manager.getQuestions().get(0).getOwner());
+		assertEquals(admin.getName(), manager.getQuestions().get(25).getOwner());
 	}
 
 	@Test
@@ -74,8 +76,8 @@ public class BasicTest extends UnitTest {
 
 		assertEquals("content of answer", manager.getAnswer().get(0)
 				.getContent());
-		assertEquals(admin.getName(), manager.getQuestions().get(0).getOwner());
-		assertEquals(manager.getQuestions().get(0).getId(), (manager
+		assertEquals(admin.getName(), manager.getQuestions().get(25).getOwner());
+		assertEquals(manager.getQuestions().get(25).getId(), (manager
 				.getAnswer()).get(0).getQuestionId());
 	}
 
