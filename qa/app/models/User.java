@@ -1,12 +1,14 @@
 package models;
 
+import java.util.ArrayList;
+
 public class User {
 
 	private String name;
 	private String email;
 	private String password;
 	private int id;
-	public String activity = new String();
+	public ArrayList<String> activity = new ArrayList<String>();
 
 	private static int user_id = 0;
 
@@ -20,6 +22,7 @@ public class User {
 		this.id = user_id;
 		manager.getUsers().add(this);
 		user_id++;
+		activity.add("Log for "+name);
 	}
 
 	public String getName() {
@@ -43,7 +46,11 @@ public class User {
 	}
 
 	public void addActivity(String act) {
-		this.activity.concat("\n" + act);
+		this.activity.add(act);
+	}
+
+	public ArrayList<String> getActivities() {
+		return this.activity;
 	}
 
 }

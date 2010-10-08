@@ -121,4 +121,8 @@ public class UserQuestionAnswerManager {
 		
 		return sortedQuestions;
 	}
+	
+	public ArrayList<String> getUserLog(String username){
+		return this.getUserByName(username).getActivities();
+	}
 }

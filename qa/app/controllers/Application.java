@@ -20,12 +20,13 @@ public class Application extends Controller {
 			.getInstance();
 
 	public static void index() {
+		String user=session.get("username");
 		if (manager.getQuestions().isEmpty()) {
 			String message = "no questions";
-			render(message);
+			render(message, user);
 		} else {
 			ArrayList<Question> questions = manager.getQuestionsSortedByScore();
-			render(questions);
+			render(questions,user);
 		}
 	}
 
@@ -103,11 +104,9 @@ public class Application extends Controller {
 		for(int i=size-1;i>=size-number && i>0;i--){
 			recentQuestionsByNumber.add((Question) allQuestions.get(i));
 		}
-
 		
 		render(recentQuestionsByNumber);
-		
-
 	}
-
+	
+	
 }

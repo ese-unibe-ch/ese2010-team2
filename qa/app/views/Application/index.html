@@ -1,8 +1,14 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Home' /}
+#{if user}
+you are logged in as: ${session.get("username")}  |  
+<a href="@{Admin.showUserLog(session.get("username"))}">show my activities</a>
+#{/if}
 <h2> Questions in the ESE KB</h2>
+
 <a href="@{Application.showRecentQuestionsByNumber()}">newest questions</a>
 <h3>${message}</h3>
+
 #{list items:questions, as:'question'}
 	<fieldset>
     <a href="@{Application.showAnswers(question.getId())}"/><h3>${question.getContent()}<h3></a>

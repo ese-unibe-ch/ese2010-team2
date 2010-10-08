@@ -27,7 +27,7 @@ public class Admin extends Controller {
 		} else {
 			@SuppressWarnings("unused")
 			Question question = new Question(newQuestion, user);
-			user.addActivity("\nAsked question: " + newQuestion);
+			user.addActivity("Asked question: " + newQuestion);
 			redirect("/");
 		}
 	}
@@ -42,7 +42,7 @@ public class Admin extends Controller {
 			@SuppressWarnings("unused")
 			Answer answer = new Answer(newAnswer, user, manager
 					.getQuestionById(intId));
-			user.addActivity("\nAnswered question: "
+			user.addActivity("Answered question: "
 					+ manager.getQuestionById(intId).getContent()
 					+ " by writing: " + newAnswer);
 			redirect("/question/" + qid + "/answers/");
@@ -62,7 +62,7 @@ public class Admin extends Controller {
 		} else {
 			manager.getQuestionById(id).vote(vote);
 			manager.getQuestionById(id).userVotedForQuestion(user);
-			user.addActivity("\nVoted: "+vote+" for question: "+id);
+			user.addActivity("Voted: " + vote + " for question: " + id);
 			redirect("/");
 		}
 	}
@@ -82,7 +82,8 @@ public class Admin extends Controller {
 		} else {
 			manager.getAnswerById(id).vote(vote);
 			manager.getAnswerById(id).userVotedForAnswer(user);
-			user.addActivity("\nVoted:  "+vote+" for answer "+aid+" to question "+qid);
+			user.addActivity("Voted:  " + vote + " for answer " + aid
+					+ " to question " + qid);
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
@@ -103,4 +104,14 @@ public class Admin extends Controller {
 			render(users);
 		}
 	}
+
+	public static void showUserLog(String uname) {
+		ArrayList<String> userLog = manager.getUserLog(uname);
+		if(userLog.size()==1){
+			String message= "no activities so far.";
+			render(message);
+		}
+		render(userLog);
+	}
+	
 }
