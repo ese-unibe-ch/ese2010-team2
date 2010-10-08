@@ -1,5 +1,6 @@
 package models;
 
+import java.sql.Timestamp;
 import java.util.Comparator;
 
 public class VotableComparator implements Comparator {
@@ -21,5 +22,17 @@ public class VotableComparator implements Comparator {
 		return (Integer) null;
 
 	}
+	
+	public final int compareByDate(Object aGiven, Object bGiven){
+		Votable a=(Votable) aGiven;
+		Votable b=(Votable) bGiven;
+		
+		Timestamp valueA=a.getDate();
+		Timestamp valueB=b.getDate();
+		
+		return valueA.compareTo(valueB);
+	}
+	
+	
 
 }

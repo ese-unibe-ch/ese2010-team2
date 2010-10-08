@@ -74,19 +74,39 @@ public class Application extends Controller {
 		Timestamp oldest = new Timestamp(calendar.getTime().getTime()
 				- period.getTime());
 
-		ArrayList<Question> recentQuestions = new ArrayList<Question>();
+		ArrayList<Question> recentQuestionsByDate = new ArrayList<Question>();
 
 		for (Question q : manager.getQuestions()) {
 			if (q.getDate().compareTo(oldest) >= 0)
-				recentQuestions.add(q);
+				recentQuestionsByDate.add(q);
 
 		}
-		if(recentQuestions.size()==0){
-			String message= "recently no questions asked";
+		if (recentQuestionsByDate.size() == 0) {
+			String message = "recently no questions asked";
 			render(message);
+		} else
+			render(recentQuestionsByDate);
+
+	}
+
+	
+	/**
+	 * Renders the preferred amount of newest questions
+	 */
+	public static void showRecentQuestionsByNumber() {
+		final int number = 3;	//The number of questions rendered
+		ArrayList<Question> recentQuestionsByNumber= new ArrayList<Question>(); //= ( manager.getQuestionsSortedByDate().subList(0, number-1);
+		ArrayList allQuestions=manager.getQuestionsSortedByDate();
+		int size=allQuestions.size();
+		
+		// Pick last three questions out of the list sorted by date.
+		for(int i=size-1;i>=size-number && i>0;i--){
+			recentQuestionsByNumber.add((Question) allQuestions.get(i));
 		}
-		else
-			render(recentQuestions);
+
+		
+		render(recentQuestionsByNumber);
+		
 
 	}
 

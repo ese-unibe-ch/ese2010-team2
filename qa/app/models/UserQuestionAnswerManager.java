@@ -113,4 +113,12 @@ public class UserQuestionAnswerManager {
 
 		return sortedAnswers;
 	}
+	
+	public ArrayList<Question> getQuestionsSortedByDate(){
+		ArrayList<Question> sortedQuestions= this.getQuestions();
+		
+		Collections.sort(sortedQuestions, new DateComparator());
+		
+		return sortedQuestions;
+	}
 }
