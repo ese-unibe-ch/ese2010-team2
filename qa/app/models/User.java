@@ -6,6 +6,7 @@ public class User {
 	private String email;
 	private String password;
 	private int id;
+	public String activity = new String();
 
 	private static int user_id = 0;
 
@@ -39,6 +40,10 @@ public class User {
 
 	public int getId() {
 		return id;
+	}
+
+	public void addActivity(String act) {
+		this.activity.concat("\n" + act);
 	}
 
 }

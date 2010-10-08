@@ -1,18 +1,20 @@
 package controllers;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import com.mchange.util.AssertException;
 
-import models.Answer;
-import models.Question;
-import models.User;
-import models.UserQuestionAnswerManager;
+import models.*;
 
 import play.data.validation.Required;
 import play.mvc.*;
 
 public class Application extends Controller {
+
+	static Calendar calendar = Calendar.getInstance();
 
 	private static UserQuestionAnswerManager manager = UserQuestionAnswerManager
 			.getInstance();
@@ -64,6 +66,28 @@ public class Application extends Controller {
 		} else {
 			render(answers, question);
 		}
+	}
+
+	public static void showRecentQuestionsByDate() {
+		// "recent" shall mean 5 days
+		final Timestamp period = new java.sql.Timestamp(0, 0, 5, 0, 0, 0, 0);
+		Timestamp oldest = new Timestamp(calendar.getTime().getTime()
+				- period.getTime());
+
+		ArrayList<Question> recentQuestions = new ArrayList<Question>();
+
+		for (Question q : manager.getQuestions()) {
+			if (q.getDate().compareTo(oldest) >= 0)
+				recentQuestions.add(q);
+
+		}
+		if(recentQuestions.size()==0){
+			String message= "recently no questions asked";
+			render(message);
+		}
+		else
+			render(recentQuestions);
+
 	}
 
 }
