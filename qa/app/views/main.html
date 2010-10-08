@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>#{get 'title' /}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/main.css'}">
+        #{get 'moreStyles' /}
+        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+        <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
+        #{get 'moreScripts' /}
+    </head>
+    <body>
+    	<div class="main">
+    		<div class="header">
+        		<a href="@{Application.index()}"><h1>ESE KB</h1></a>
+        		<h4>a simple knowledge base by jruef and flangenegger</h4>
+        		<div class="navi">
+        			<a href="@{Admin.showQuestionForm()}">add new Question</a>
+        		</div><!-- end navi -->
+        		<div class="login">
+        			<a href="@{Application.showRegister()}">register</a> |
+        			<a href="@{Secure.logout()}">logout</a>
+        		</div><!-- end login -->
+        	</div><!-- end header -->
+        #{doLayout /}
+    </div><!-- end main -->
+    </body>
+</html>

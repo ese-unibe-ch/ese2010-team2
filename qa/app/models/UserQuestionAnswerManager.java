@@ -1,0 +1,116 @@
+package models;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Scanner;
+
+import com.mchange.v2.resourcepool.ResourcePool.Manager;
+
+public class UserQuestionAnswerManager {
+
+	public static ArrayList<Question> questions;
+	public static ArrayList<Answer> answers;
+	public static ArrayList<User> users;
+
+	private static final UserQuestionAnswerManager INSTANCE = new UserQuestionAnswerManager();
+
+	/**
+	 * Statische Methode „getInstance()“ liefert die einzige Instanz der Klasse
+	 * zurück.
+	 */
+	public static UserQuestionAnswerManager getInstance() {
+		return INSTANCE;
+	}
+
+	private UserQuestionAnswerManager() {
+		questions = new ArrayList<Question>();
+		answers = new ArrayList<Answer>();
+		users = new ArrayList<User>();
+	}
+
+	public boolean checkUserNameIsOccupied(String name) {
+		if (users.size() != 0) {
+			for (int i = 0; i < users.size(); i++) {
+				if (name.equals(users.get(i).getName())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean checkQuestionDuplication(String content) {
+		if (questions.size() != 0) {
+			for (int i = 0; i < questions.size(); i++) {
+				if (content.equals(questions.get(i).getContent())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public ArrayList<Question> getQuestions() {
+		return questions;
+	}
+
+	public ArrayList<Answer> getAnswer() {
+		return answers;
+	}
+
+	public ArrayList<User> getUsers() {
+		return users;
+	}
+
+	public User getUserByName(String name) {
+		for (User user : users) {
+			if (user.getName().equals(name))
+				return user;
+		}
+		return null;
+	}
+
+	public ArrayList<Answer> getAllAnswersByQuestionId(int id) {
+		ArrayList<Answer> questionAnswers = new ArrayList<Answer>();
+		for (Answer answer : answers) {
+			if (answer.getQuestionId() == id) {
+				questionAnswers.add(answer);
+			}
+		}
+		return questionAnswers;
+	}
+
+	public Question getQuestionById(int id) {
+		for (Question question : questions)
+			if (question.getId() == id)
+				return question;
+		return null;
+	}
+
+	public Answer getAnswerById(int id) {
+		for (Answer answer : answers)
+			if (answer.getId() == id)
+				return answer;
+		return null;
+	}
+
+	public ArrayList<Question> getQuestionsSortedByScore() {
+		ArrayList<Question> sortedQuestions = questions;
+
+		Collections.sort(sortedQuestions, new VotableComparator());
+
+		return sortedQuestions;
+	}
+
+	public ArrayList<Answer> getAnswersSortedByScore(int id) {
+		ArrayList<Answer> sortedAnswers = this.getAllAnswersByQuestionId(id);
+
+		Collections.sort(sortedAnswers, new VotableComparator());
+
+		return sortedAnswers;
+	}
+}

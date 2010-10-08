@@ -1,0 +1,91 @@
+*
+{
+	margin: 0;
+	padding: 0;
+}
+
+body
+{
+	background:#666666;
+	background-repeat: repeat;
+	background-position: center;
+	color: #000000;
+	font-family: arial, helvetica, sans-serif;
+	font-size: 100.1%;
+	padding: 0px;
+	text-align: left;
+}
+
+a {
+	border: 0px;
+	color:#000;
+	text-decoration:none;
+}
+
+img {
+	border: 0px;
+}
+h1 {
+	font-size: 24pt;
+	padding: 0px 0px 10px 0px;
+	color:#000;
+}
+h2 {
+	font-size: 20pt;
+	padding: 10px 0px 10px 0px;
+}
+h3 {
+	font-size: 14pt;
+	padding: 0px 0px 5px 0px;
+	color:#000;
+	padding: 0px 0px 10px 0px;
+}
+h4 {
+	font-size: 12pt;
+	padding: 0px 0px 5px 0px;
+	color:#AAA;
+	padding: 0px 0px 10px 0px;
+}
+
+hr {
+	margin-bottom: 15px;
+}
+fieldset{
+	padding:20px;
+}
+legend.question {
+	text-align:right;
+	font-size:10px;
+}
+td {
+	padding:10px;
+}
+ul {
+	margin-left:10px;
+}
+/*--------------------------------------------------------*/
+/* DIV's */
+/*--------------------------------------------------------*/
+div.main {
+	background:#FFF;
+	width:900px;
+	min-height:700px;
+	margin: 0 auto;
+	border: 1px solid #000;
+	padding: 20px;
+}
+div.header{
+	border: 1px solid #000;
+	background:#045FB4;
+	padding:10px 20px 30px 10px;
+
+}
+div.navi {
+	width:70%;
+	float:left;
+}
+div.login{
+	width:20%;
+	float:right;
+	text-align:right;
+}

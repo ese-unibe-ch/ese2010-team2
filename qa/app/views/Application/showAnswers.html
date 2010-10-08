@@ -1,0 +1,16 @@
+#{extends 'main.html' /}
+#{set title:'ESE KB Answers' /}
+<h2>${question.getContent()}</h2>
+<h3>${message}</h3>
+<a href="@{Admin.showAnswerForm(question.getId())}"/>Post your Answer</a>
+<br />
+#{list items:answers, as:'answer'}
+	<fieldset>
+   <h3>${answer.getContent()}<h3>
+   	<p style="font-size:8pt">by ${answer.getOwner()}<p>
+   	   	<form id="vote" action="@{Admin.voteAnswer(question.getId(),answer.getId())}" method="GET">
+   		<p style="font-size:8pt">Score: ${answer.getScore()} Vote: <input id="aid" type="submit" value ="1" name="vote" /> <input id="aid" type="submit" value ="-1" name="vote" /></p>
+   	</form>
+   	<legend class="question" align="bottom">${answer.getTimestamp()}</legend>
+    </fieldset>
+#{/list}

@@ -1,0 +1,20 @@
+#{extends 'main.html' /}
+#{set title:'ESE KB - Add a new question' /}
+<h2>Add a new Question</h2>
+<fieldset>
+ <legend>Add new Question:</legend>
+	<form action="@{Admin.addQuestion()}" method="GET">
+	<table>
+		<tr>
+			<td>Enter your Question:</td>
+			<td><input type="text" name="newQuestion" /> </td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" value="Post your Question!" /></td>
+		</tr>
+	</table>
+	</form>
+</fieldset>
+
+    

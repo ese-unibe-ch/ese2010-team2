@@ -1,0 +1,18 @@
+#{extends 'main.html' /}
+#{set title:'ESE KB - Your Answer' /}
+<h3>Please insert your Answer</h3>
+<fieldset>
+ <legend>Your Answer</legend>
+	<form action="@{Admin.addAnswer(question.getId())}" method="GET">
+	<table>
+		<tr>
+			<td>Enter your Answer:</td>
+			<td><input type="text" name="newAnswer" /> </td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" value="Post your Answers!" /></td>
+		</tr>
+	</table>
+	</form>
+</fieldset>
