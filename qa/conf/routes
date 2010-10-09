@@ -26,3 +26,5 @@ GET                /question/{qid}/vote                        		Admin.voteQuest
 GET                /question/{qid}/answers/{aid}/vote               Admin.voteAnswer
 GET			       /recent											Application.showRecentQuestionsByNumber
 GET				   /users/{uname}/log								Admin.showUserLog
+GET				   /editUserProfile									Application.editUserProfile
+GET				   /showUserProfile									Application.showUserProfile

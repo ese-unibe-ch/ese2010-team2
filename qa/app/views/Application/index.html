@@ -2,9 +2,19 @@
 #{set title:'ESE KB - Home' /}
 #{if user}
 <p align="right">
-You are logged in as: ${session.get("username")} |
-<a href="@{Admin.showUserLog(session.get("username"))}">show my activities</a>  |  
+<p align="right">
+<font color = "#c00">You are logged in as: ${session.get("username")}</font>
+</p>
+<p align="right">
+<a href="@{Application.showRegister()}">register</a> |
 <a href="@{Secure.logout()}">logout</a>
+</p>
+<p align="right">
+<a href="@{Admin.showQuestionForm()}">add new Question</a> |
+<a href="@{Application.showRecentQuestionsByNumber()}">newest questions</a> |
+<a href="@{Admin.showUserLog(session.get("username"))}">show my activities</a>  |
+<a href="@{Application.showUserProfile()}">edit user profile</a>  
+</p>
 </p>
 #{/if}
 #{else}
@@ -16,7 +26,6 @@ You are logged in as: ${session.get("username")} |
 
 <h2> Questions in the ESE KB</h2>
 
-<a href="@{Application.showRecentQuestionsByNumber()}">newest questions</a>
 <h3>${message}</h3>
 
 #{list items:questions, as:'question'}

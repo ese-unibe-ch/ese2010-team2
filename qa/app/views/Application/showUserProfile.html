@@ -1,0 +1,42 @@
+#{extends 'main.html' /}
+#{set title:'ESE KB - Edit User Profile' /}
+<h2>Edit your User Profile</h2>
+<h3 style="color:#c00">${message}</h3>
+#{list items:currentUser, as:'user'}
+<fieldset>
+ <legend>Edit your Profile:</legend>
+	<form action="@{Application.editUserProfile()}" method="GET">
+	<table>
+		<tr>
+			<td><h4 style="color:#c00">Your current User Name: ${user.getName()}</h4></td>
+		</tr>
+		<tr>
+			<td>New Username</td>
+			<td><input type="text" name="name" value="${name}" /></td>
+		</tr>
+		<tr>
+			<td><h4 style="color:#c00">Your current Email: ${user.getEmail()}</h4></td>
+		</tr>
+		<tr>
+			<td>New Email</td>
+			<td><input type="text" name="email" value="${email}" /></td>
+		</tr>
+		<tr>
+			<td><h4 style="color:#c00">Your current Password: ${user.getPassword()}</h4></td>
+		</tr>
+		<tr>
+			<td>New Password</td>
+			<td><input type="password" name="password" value="${password}" /></td>
+		</tr>
+		<tr>
+			<td>New Password again</td>
+			<td><input type="password" name="password2" value="${password2}" /></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" value="Save" /></td>
+		</tr>
+	</table>
+	</form>
+</fieldset>
+#{/list}

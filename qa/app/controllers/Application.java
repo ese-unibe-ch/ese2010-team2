@@ -20,13 +20,13 @@ public class Application extends Controller {
 			.getInstance();
 
 	public static void index() {
-		String user=session.get("username");
+		String user = session.get("username");
 		if (manager.getQuestions().isEmpty()) {
 			String message = "no questions";
 			render(message, user);
 		} else {
 			ArrayList<Question> questions = manager.getQuestionsSortedByScore();
-			render(questions,user);
+			render(questions, user);
 		}
 	}
 
@@ -90,23 +90,70 @@ public class Application extends Controller {
 
 	}
 
-	
 	/**
 	 * Renders the preferred amount of newest questions
 	 */
 	public static void showRecentQuestionsByNumber() {
-		final int number = 3;	//The number of questions rendered
-		ArrayList<Question> recentQuestionsByNumber= new ArrayList<Question>(); //= ( manager.getQuestionsSortedByDate().subList(0, number-1);
-		ArrayList allQuestions=manager.getQuestionsSortedByDate();
-		int size=allQuestions.size();
-		
+		final int number = 3; // The number of questions rendered
+		ArrayList<Question> recentQuestionsByNumber = new ArrayList<Question>(); // =
+																					// (
+																					// manager.getQuestionsSortedByDate().subList(0,
+																					// number-1);
+		ArrayList allQuestions = manager.getQuestionsSortedByDate();
+		int size = allQuestions.size();
+
 		// Pick last three questions out of the list sorted by date.
-		for(int i=size-1;i>=size-number && i>0;i--){
+		for (int i = size - 1; i >= size - number && i > 0; i--) {
 			recentQuestionsByNumber.add((Question) allQuestions.get(i));
 		}
-		
+
 		render(recentQuestionsByNumber);
 	}
-	
-	
+
+	public static void showUserProfile(String message) {
+		ArrayList<User> currentUser = new ArrayList<User>();
+		currentUser.add(manager.getUserByName(session.get("username")));
+		render(message, currentUser);
+	}
+
+	public static void editUserProfile(String name, String password,
+			String password2, String email) {
+
+		if (name.equals("") && password.equals("") && email.equals("")
+				&& password2.equals("")) {
+			Application.showUserProfile("Please insert a name!");
+		}
+		if (!name.equals("")) {
+			if (!manager.checkUserNameIsOccupied(name)) {
+				manager.getUserByName(session.get("username")).setName(name);
+				redirect("/");
+			} else {
+				Application.showUserProfile("Sorry, this user already exists");
+			}
+
+		}
+		if (!email.equals("")) {
+			if (email.contains("@") || email.contains(".")) {
+				manager.getUserByName(session.get("username")).setEmail(email);
+				redirect("/");
+			} else {
+				Application.showUserProfile("Please check your email address!");
+
+			}
+		}
+
+		if (!password.equals("")) {
+			if (password.equals(password2)) {
+				manager.getUserByName(session.get("username")).setPassword(
+						password);
+				redirect("/");
+			} else {
+				Application.showUserProfile("Please check your password!");
+			}
+		}
+		if (!password2.equals("")) {
+			Application.showUserProfile("Please check your password!");
+		}
+
+	}
 }
