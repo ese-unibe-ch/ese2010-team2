@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.annotation.Generated;
 
@@ -57,7 +58,7 @@ public class User {
 	}
 
 	public void addActivity(String act) {
-		this.activity.add(act);
+		this.activity.add(0, act);
 	}
 
 	public ArrayList<String> getActivities() {

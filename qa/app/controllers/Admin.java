@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import models.*;
 import play.data.validation.Required;
@@ -11,6 +12,7 @@ public class Admin extends Controller {
 
 	private static UserQuestionAnswerManager manager = UserQuestionAnswerManager
 			.getInstance();
+	private static Calendar calendar= Calendar.getInstance();
 
 	public static void showQuestionForm() {
 		render();
@@ -27,7 +29,7 @@ public class Admin extends Controller {
 		} else {
 			@SuppressWarnings("unused")
 			Question question = new Question(newQuestion, user);
-			user.addActivity("Asked question: <" + newQuestion +">");
+			user.addActivity("Asked question <" + newQuestion +">");
 			redirect("/");
 		}
 	}
@@ -42,7 +44,7 @@ public class Admin extends Controller {
 			@SuppressWarnings("unused")
 			Answer answer = new Answer(newAnswer, user, manager
 					.getQuestionById(intId));
-			user.addActivity("Answered question: <"
+			user.addActivity("Answered question <"
 					+ manager.getQuestionById(intId).getContent()
 					+ "> by writing: <" + newAnswer +">");
 			redirect("/question/" + qid + "/answers/");
@@ -62,7 +64,7 @@ public class Admin extends Controller {
 		} else {
 			manager.getQuestionById(id).vote(vote);
 			manager.getQuestionById(id).userVotedForQuestion(user);
-			user.addActivity("Voted: <" + vote + "> for question: <" + id+">");
+			user.addActivity("Voted <" + vote + "> for question <" + id+">");
 			redirect("/");
 		}
 	}
@@ -82,7 +84,7 @@ public class Admin extends Controller {
 		} else {
 			manager.getAnswerById(id).vote(vote);
 			manager.getAnswerById(id).userVotedForAnswer(user);
-			user.addActivity("Voted:  <" + vote + "> for answer <" + aid
+			user.addActivity("Voted  <" + vote + "> for answer <" + aid
 					+ "> to question <" + qid+">");
 			redirect("/question/" + qid + "/answers/");
 		}

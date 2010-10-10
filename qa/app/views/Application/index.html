@@ -3,11 +3,14 @@
 #{if user}
 <p align="right">
 <p align="right">
-<font color = "#c00">You are logged in as: ${session.get("username")}</font>
+<font color = "#c00">You are logged in as: ${session.get("username")}</font> |
+<a href="@{Secure.logout()}">logout</a>
 </p>
 <p align="right">
+#{ifnot user}
 <a href="@{Application.showRegister()}">register</a> |
-<a href="@{Secure.logout()}">logout</a>
+#{/ifnot}
+
 </p>
 <p align="right">
 <a href="@{Admin.showQuestionForm()}">add new Question</a> |
