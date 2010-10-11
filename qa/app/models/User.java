@@ -11,6 +11,7 @@ public class User {
 	private String email;
 	private String password;
 	private int id;
+	private int score;
 	private String phone, street, town, birthdate, background, hobbies, moto, quote;
 	public ArrayList<String> activity = new ArrayList<String>();
 
@@ -24,6 +25,7 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.id = user_id;
+		this.score = 0;
 		manager.getUsers().add(this);
 		user_id++;
 		activity.add(name + " is generated");
@@ -36,6 +38,15 @@ public class User {
 		return this.activity;
 	}
 
+	private void computeScore() {
+		int userScore = 0;
+		ArrayList<Votable> usersVotables = manager.getVotablesByUserId(this.getId());
+		for  (Votable currentVotable : usersVotables) {
+			userScore += currentVotable.getScore();
+		}
+		this.setScore(userScore);
+	}
+	
 	/**List of getters*/
 	public String getName() {
 		return name;
@@ -73,6 +84,10 @@ public class User {
 	public int getId() {
 		return id;
 	}
+	public int getScore() {
+		this.computeScore();
+		return score;
+	}
 
 	/**List of setters*/
 	public void setName(String name){
@@ -108,10 +123,14 @@ public class User {
 	public void setQuote(String quote){
 		this.quote = quote;
 	}
-	
+	public void setScore(int score) {
+		this.score = score;
+	}
 	
 	public String toString() {
 		return name;
 	}
+	
+	
 
 }
