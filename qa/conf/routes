@@ -20,7 +20,8 @@ GET                /showRegister                                    Application.
 GET                /question/{id}/answers/                          Application.showAnswers
 GET                /users                                           Admin.showUsers
 GET                /register                                        Application.register
-GET                /question/{qid}/addAnswer/                   	Admin.showAnswerForm
+GET                /question/{qid}/setbestanswer/{aid}              Application.setBestAnswer
+GET                /question/{qid}/addAnswer	                   	Admin.showAnswerForm
 GET                /question/{qid}/answer/addAnswer             	Admin.addAnswer
 GET                /question/{qid}/vote                        		Admin.voteQuestion
 GET                /question/{qid}/answers/{aid}/vote               Admin.voteAnswer

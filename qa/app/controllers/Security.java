@@ -9,7 +9,11 @@ public class Security extends Secure.Security {
     
     static boolean authenticate(String username, String password) {
         User user = manager.getUserByName(username);
-        return user != null && user.getPassword().equals(password);
+        if ( user != null && user.getPassword().equals(password) ) {
+        	session.put("uid", user.getId());
+        	return true;
+        }
+        return false;
     }    
     
 }

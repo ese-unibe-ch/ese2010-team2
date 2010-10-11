@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.mchange.util.AssertException;
-
 import models.*;
 
 import play.data.validation.Required;
@@ -110,6 +108,15 @@ public class Application extends Controller {
 		render(recentQuestionsByNumber);
 	}
 
+	public static void setBestAnswer(int qid, int aid) {
+		Question q = manager.getQuestionById(qid);
+		Answer a = manager.getAnswerById(aid);
+		
+		q.setBestAnswer(a);
+		
+		showAnswers(Integer.toString(qid));
+	}
+	
 	public static void showUserProfile(String message) {
 		ArrayList<User> currentUser = new ArrayList<User>();
 		currentUser.add(manager.getUserByName(session.get("username")));

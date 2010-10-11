@@ -45,7 +45,7 @@ public class BootStrap extends Job {
     		User u = new User("user-"+i, "user-"+i+"@ese.ch", "user-"+i);
     		//5 questions per user
     		for(int j = 1; j <= questionsPerUser; j++){
-        		Question q = new Question("question "+j+", from "+u.getName(), u);
+        		Question q = new Question("question "+j, u);
         	}	
     	}
     	

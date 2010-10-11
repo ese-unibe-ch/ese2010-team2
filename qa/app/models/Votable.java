@@ -13,11 +13,8 @@ public abstract class Votable {
 
 	protected int id;
 	protected String content;
-	protected String owner;
+	protected User owner;
 	protected int score = 0;
-	protected File directory;
-	protected String[] listOfFilenamesArray;
-	protected ArrayList<String> listOfFilenames;
 	protected static UserQuestionAnswerManager userQuestionAnswerManager = UserQuestionAnswerManager
 			.getInstance();
 
@@ -46,8 +43,12 @@ public abstract class Votable {
 		return content;
 	}
 
-	public String getOwner() {
+	public User getOwner() {
 		return owner;
+	}
+	
+	public boolean isOwner(int uid) {
+		return owner.getId() == uid;
 	}
 
 	public int getId() {
@@ -57,10 +58,10 @@ public abstract class Votable {
 	public int getScore() {
 		return score;
 	}
+	
 	public String getTimestamp() {
         return currentTimestamp.toString();
-}
-	
+	}
 
 	public void setTimeStamp(String timeStamp) throws ParseException {
 		DateFormat formatter;

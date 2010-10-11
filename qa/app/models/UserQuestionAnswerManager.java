@@ -1,14 +1,9 @@
 package models;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Scanner;
-
-import com.mchange.v2.resourcepool.ResourcePool.Manager;
 
 public class UserQuestionAnswerManager {
 

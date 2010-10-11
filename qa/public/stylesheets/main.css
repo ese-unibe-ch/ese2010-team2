@@ -89,3 +89,11 @@ div.login{
 	float:right;
 	text-align:right;
 }
+
+/**
+ * spans
+ */
+
+span.bestanswer {
+	color: red;
+}
