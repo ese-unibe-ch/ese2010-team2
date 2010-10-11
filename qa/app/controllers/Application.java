@@ -123,17 +123,11 @@ public class Application extends Controller {
 		render(message, currentUser);
 	}
 
-	public static void editUserProfile(String name, String password,
-			String password2, String email) {
+	public static void editUserProfile(String name, String birthdate, String email, String phone, String password, String password2, String street, String town, String hobbies, String moto, String background, String quote) {
 
-		if (name.equals("") && password.equals("") && email.equals("")
-				&& password2.equals("")) {
-			Application.showUserProfile("Please insert a name!");
-		}
 		if (!name.equals("")) {
 			if (!manager.checkUserNameIsOccupied(name)) {
 				manager.getUserByName(session.get("username")).setName(name);
-				redirect("/");
 			} else {
 				Application.showUserProfile("Sorry, this user already exists");
 			}
@@ -142,25 +136,42 @@ public class Application extends Controller {
 		if (!email.equals("")) {
 			if (email.contains("@") || email.contains(".")) {
 				manager.getUserByName(session.get("username")).setEmail(email);
-				redirect("/");
 			} else {
 				Application.showUserProfile("Please check your email address!");
-
 			}
 		}
-
 		if (!password.equals("")) {
 			if (password.equals(password2)) {
 				manager.getUserByName(session.get("username")).setPassword(
 						password);
-				redirect("/");
 			} else {
 				Application.showUserProfile("Please check your password!");
 			}
 		}
-		if (!password2.equals("")) {
-			Application.showUserProfile("Please check your password!");
+		if (!phone.equals("")) {
+				manager.getUserByName(session.get("username")).setPhone(phone);
 		}
-
+		if (!street.equals("")) {
+			manager.getUserByName(session.get("username")).setStreet(street);
+		}
+		if (!town.equals("")) {
+			manager.getUserByName(session.get("username")).setTown(town);
+		}
+		if (!birthdate.equals("")) {
+			manager.getUserByName(session.get("username")).setBirthdate(birthdate);
+		}
+		if (!background.equals("")) {
+			manager.getUserByName(session.get("username")).setBackground(background);
+		}
+		if (!hobbies.equals("")) {
+			manager.getUserByName(session.get("username")).setHobbies(hobbies);
+		}
+		if (!moto.equals("")) {
+			manager.getUserByName(session.get("username")).setMoto(moto);
+		}
+		if (!quote.equals("")) {
+			manager.getUserByName(session.get("username")).setQuote(quote);
+		}
+		redirect("/");
 	}
 }
