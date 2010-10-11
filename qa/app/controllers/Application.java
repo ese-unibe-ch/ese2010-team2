@@ -92,11 +92,8 @@ public class Application extends Controller {
 	 * Renders the preferred amount of newest questions
 	 */
 	public static void showRecentQuestionsByNumber() {
-		final int number = 3; // The number of questions rendered
-		ArrayList<Question> recentQuestionsByNumber = new ArrayList<Question>(); // =
-																					// (
-																					// manager.getQuestionsSortedByDate().subList(0,
-																					// number-1);
+		final int number = 25; // The number of questions rendered
+		ArrayList<Question> recentQuestionsByNumber = new ArrayList<Question>(); 
 		ArrayList allQuestions = manager.getQuestionsSortedByDate();
 		int size = allQuestions.size();
 

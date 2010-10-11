@@ -64,7 +64,6 @@ public class Admin extends Controller {
 		} else {
 			manager.getQuestionById(id).vote(vote);
 			manager.getQuestionById(id).userVotedForQuestion(user);
-			user.addActivity("Voted <" + vote + "> for question <" + id+">");
 			redirect("/");
 		}
 	}
@@ -84,8 +83,6 @@ public class Admin extends Controller {
 		} else {
 			manager.getAnswerById(id).vote(vote);
 			manager.getAnswerById(id).userVotedForAnswer(user);
-			user.addActivity("Voted  <" + vote + "> for answer <" + aid
-					+ "> to question <" + qid+">");
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
