@@ -120,4 +120,19 @@ public class UserQuestionAnswerManager {
 	public ArrayList<String> getUserLog(String username){
 		return this.getUserByName(username).getActivities();
 	}
+	
+	public ArrayList<Votable> getVotablesByUserId(int userId) {
+		ArrayList<Votable> usersVotables = new ArrayList<Votable>();
+		for (Question currentQuestion : questions) {
+			if (currentQuestion.getOwner().getId()  == userId) {
+				usersVotables.add(currentQuestion);
+			}
+		}
+		for (Answer currentAnswer : answers) {
+			if (currentAnswer.getOwner().getId() == userId) {
+				usersVotables.add(currentAnswer);
+			}
+		}
+		return usersVotables;
+	}
 }
