@@ -60,15 +60,6 @@ public class Question extends Votable {
 	}
 	
 	/**
-	 * Only to be used in a template
-	 * @param uid numeric user id as string
-	 * @return
-	 */
-	public boolean isOwner(String uid) {
-		return Integer.parseInt(uid) == owner.getId();
-	}
-	
-	/**
 	 * 
 	 * @return true if best answer was set less than 30 min ago or
 	 * 		   no best answer is set yet, false otherwise.

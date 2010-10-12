@@ -47,7 +47,16 @@ public abstract class Votable {
 		return owner;
 	}
 	
-	public boolean isOwner(int uid) {
+	/**
+	 * Only to be used in a template
+	 * @param uid numeric user id as string
+	 * @return
+	 */
+	public boolean ownerIs(String uid) {
+		return owner.getId() == Integer.parseInt(uid);
+	}
+	
+	public boolean ownerIs(int uid) {
 		return owner.getId() == uid;
 	}
 

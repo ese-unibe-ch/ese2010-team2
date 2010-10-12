@@ -21,13 +21,13 @@
 	   
 	    <p style="font-size:8pt">by ${answer.getOwner()}</p>
 	   	
-	    #{ifnot session.get("username")==answer.owner}
+	    #{ifnot answer.ownerIs(session.uid)}
 	    <form id="vote" action="@{Admin.voteAnswer(question.getId(),answer.getId())}" method="GET">
 	    <p style="font-size:8pt">Score: ${answer.getScore()} Vote: <input id="aid" type="submit" value ="1" name="vote" /> <input id="aid" type="submit" value ="-1" name="vote" /></p>
 	    </form>
 	    #{/ifnot}
 	   	
-	    #{if question.isOwner(session.uid) && question.bestAnswerChangeable() && !answer.isBestAnswer()}
+	    #{if question.ownerIs(session.uid) && question.bestAnswerChangeable() && !answer.isBestAnswer()}
 	    <a href="/question/${question.getId()}/setbestanswer/${answer.getId()}">
 	    Select as best answer.</a>
 	    #{/if}
