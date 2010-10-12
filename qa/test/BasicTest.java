@@ -194,5 +194,4 @@ public class BasicTest extends UnitTest {
 		assertEquals("Activity2",logTester.getActivities().get(0));
 		
 	}
-
 }
