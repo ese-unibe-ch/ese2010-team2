@@ -184,5 +184,15 @@ public class BasicTest extends UnitTest {
 		answer.vote("2");
 		assertEquals(3,topScorer.getScore());
 	}
+	
+	@Test
+	public void shouldAddUserLog(){
+		User logTester=new User("logTester","test@log","pw");
+		logTester.addActivity("Activity1");
+		logTester.addActivity("Activity2");
+		assertEquals(3,logTester.getActivities().size());
+		assertEquals("Activity2",logTester.getActivities().get(0));
+		
+	}
 
 }
