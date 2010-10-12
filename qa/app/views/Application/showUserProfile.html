@@ -9,85 +9,74 @@
 	<form action="@{Application.editUserProfile()}" method="GET">
 	<table>
 		<tr>
-			<td><h4 style="color:#c00">Your current User Name: ${user.getName()}</h4></td>
+			<td><font color = "#c00">Your current User Name: ${user.getName()}</font></td>
 		</tr>
 		<tr>
-			<td>New Username</td>
-			<td><input type="text" name="name" value="${name}" /></td>
+			<td>New Username: <input type="text" name="name" value="${name}" /></td>
+			
 		</tr>
 		<tr>
-			<td><h4 style="color:#c00">Your current Birthdate: ${user.getBirthdate()}</h4></td>
+			<td><font color = "#c00">Your current Birthdate: ${user.getBirthdate()}</font></td>
 		</tr>
 		<tr>
-			<td>New Birthdate</td>
-			<td><input type="text" name="birthdate" value="${birthdate}" /></td>
+			<td>New Birthdate: <input type="text" name="birthdate" value="${birthdate}" /></td>
 		</tr>
 		<tr>
-			<td><h4 style="color:#c00">Your current Email: ${user.getEmail()}</h4></td>
+			<td><font color = "#c00">Your current Email: ${user.getEmail()}</font></td>
 		</tr>
 		<tr>
-			<td>New Email</td>
-			<td><input type="text" name="email" value="${email}" /></td>
+			<td>New Email: <input type="text" name="email" value="${email}" /></td>
 		</tr>
 		<tr>
-			<td><h4 style="color:#c00">Your current Phone Number: ${user.getPhone()}</h4></td>
+			<td><font color = "#c00">Your current Phone Number: ${user.getPhone()}</font></td>
 		</tr>
 		<tr>
-			<td>New Phone Number</td>
-			<td><input type="text" name="phone" value="${phone}" /></td>
+			<td>New Phone Number: <input type="text" name="phone" value="${phone}" /></td>
+	
 		</tr>
 		<tr>
-			<td><h4 style="color:#c00">Your current Password: ${user.getPassword()}</h4></td>
+			<td><font color = "#c00">Your current Password: ${user.getPassword()}</font></td>
 		</tr>
 		<tr>
-			<td>New Password</td>
-			<td><input type="password" name="password" value="${password}" /></td>
+			<td>New Password: <input type="password" name="password" value="${password}" /></td>
 		</tr>
 		<tr>
-			<td>New Password again</td>
-			<td><input type="password" name="password2" value="${password2}" /></td>
+			<td>New Password again: <input type="password" name="password2" value="${password2}" /></td>
 		</tr>
 		<tr>
-			<td><h4 style="color:#c00">Your current Address: ${user.getStreet()} ${user.getTown()}</h4></td>
+			<td><font color = "#c00">Your current Address: ${user.getStreet()} ${user.getTown()}</font></td>
 		</tr>
 		<tr>
-			<td>New Street</td>
-			<td><input type="text" name="street" value="${street}" /></td>
+			<td>New Street: <input type="text" name="street" value="${street}" /></td>
 		</tr>
 		<tr>
-			<td>New Town</td>
-			<td><input type="text" name="town" value="${town}" /></td>
+			<td>New Town: <input type="text" name="town" value="${town}" /></td>
 		</tr>
 		<tr>
-			<td><h4 style="color:#c00">Your current Hobbies: ${user.getHobbies()}</h4></td>
+			<td><font color = "#c00">Your current Hobbies: ${user.getHobbies()}</font></td>
 		</tr>
 		<tr>
-			<td>New Hobbies</td>
-			<td><input type="text" name="hobbies" value="${hobbies}" /></td>
+			<td>New Hobbies: <textarea id="hobbies" name="hobbies" value="${hobbies}"></textarea></td>
 		</tr>
 		<tr>
-			<td><h4 style="color:#c00">Your current Moto: ${user.getMoto()}</h4></td>
+			<td><font color = "#c00">Your current Moto: ${user.getMoto()}</font></td>
 		</tr>
 		<tr>
-			<td>New Moto</td>
-			<td><input type="text" name="moto" value="${moto}" /></td>
+			<td>New Moto: <textarea id="moto" name="moto" value="${moto}"></textarea></td>
 		</tr>
 		<tr>
-			<td><h4 style="color:#c00">Your current technical Background: ${user.getBackground()}</h4></td>
+			<td><font color = "#c00">Your current technical Background: ${user.getBackground()}</font></td>
 		</tr>
 		<tr>
-			<td>New technical Background</td>
-			<td><input type="text" name="background" value="${background}" /></td>
+			<td>New technical Background: <textarea id="background" name="background" value="${background}"></textarea></td>
 		</tr>
 		<tr>
-			<td><h4 style="color:#c00">Your current favourite Quote: ${user.getQuote()}</h4></td>
+			<td><font color = "#c00">Your current favourite Quote: ${user.getQuote()}</font></td>
 		</tr>
 		<tr>
-			<td>New favourite Quote</td>
-			<td><input type="text" name="quote" value="${quote}" /></td>
+			<td>New favourite Quote: <textarea id="quote" name="quote" value="${quote}"></textarea></td>
 		</tr>
 		<tr>
-			<td></td>
 			<td><input type="submit" value="Save" /></td>
 		</tr>
 	</table>

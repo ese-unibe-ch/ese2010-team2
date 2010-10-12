@@ -114,12 +114,14 @@ public class Application extends Controller {
 		showAnswers(Integer.toString(qid));
 	}
 	
+	/**renders the current user profile*/
 	public static void showUserProfile(String message) {
 		ArrayList<User> currentUser = new ArrayList<User>();
 		currentUser.add(manager.getUserByName(session.get("username")));
 		render(message, currentUser);
 	}
-
+	
+	/**Saves changes in user Profile*/
 	public static void editUserProfile(String name, String birthdate, String email, String phone, String password, String password2, String street, String town, String hobbies, String moto, String background, String quote) {
 
 		if (!name.equals("")) {
