@@ -28,7 +28,9 @@
 #{/else}
 
 <h2> Questions in the ESE KB</h2>
-
+#{if user}
+	Your current Reputation: ${score}
+#{/if}
 <h3>${message}</h3>
 
 #{list items:questions, as:'question'}

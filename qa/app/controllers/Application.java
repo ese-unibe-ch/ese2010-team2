@@ -19,12 +19,15 @@ public class Application extends Controller {
 
 	public static void index() {
 		String user = session.get("username");
+		int score = 0;
+		if (user != null)
+			score = manager.getUserByName(user).getScore();
 		if (manager.getQuestions().isEmpty()) {
 			String message = "no questions";
-			render(message, user);
+			render(message, user, score);
 		} else {
 			ArrayList<Question> questions = manager.getQuestionsSortedByScore();
-			render(questions, user);
+			render(questions, user, score);
 		}
 	}
 
