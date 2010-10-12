@@ -160,5 +160,29 @@ public class BasicTest extends UnitTest {
 				.getContent());
 		assertNull(manager.getAnswerById(-1));
 	}
+	
+	@Test
+	public void shouldGetUsersVotablesById() {
+		User user1 = new User("user1","user@1","password");
+		User user2 = new User("user2","user@2","password");
+		Question question = new Question ("something",user1);
+		Answer answer1 = new Answer("something",user2,question);
+		Answer answer2 = new Answer("something",user1,question);
+		ArrayList<Votable> list = manager.getVotablesByUserId(user1.getId());
+		assertEquals(2,list.size());
+		assertTrue(list.contains(question));
+		assertTrue(list.contains(answer2));
+		assertFalse(list.contains(answer1));
+	}
+	
+	@Test
+	public void shouldGetRightScore() {
+		User topScorer = new User("scorer","user@champion","password");
+		Question question = new Question("Good Question", topScorer);
+		Answer answer = new Answer("Good Answer", topScorer, question);
+		question.vote("1");
+		answer.vote("2");
+		assertEquals(3,topScorer.getScore());
+	}
 
 }
