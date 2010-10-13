@@ -22,7 +22,11 @@ public class Admin extends Controller {
 	public static void showQuestionForm() {
 		render();
 	}
-
+	
+	public static void showCommentForm(Votable commentedVotable, String questionId) {
+		render(commentedVotable, questionId);
+	}
+	
 	public static void addQuestion(String newQuestion, String tags) {
 		User user = manager.getUserByName(session.get("username"));
 		if (newQuestion.equals("") || newQuestion.equals(" ")) {
@@ -57,6 +61,17 @@ public class Admin extends Controller {
 		}
 	}
 
+	public static void addComment(Votable commentedVotable, String questionId, String newComment) {
+		User user = manager.getUserByName(session.get("username"));
+		if (newComment.equals("") || newComment.equals(" ")) {
+			String message = "Your comment is empty!";
+			render(message);
+		} else {
+			Comment comment = new Comment(user,commentedVotable,newComment);
+			redirect("/");
+		}
+	}
+	
 	public static void voteQuestion(String qid, String vote) {
 		int id = Integer.parseInt(qid);
 		User user = manager.getUserByName(session.get("username"));

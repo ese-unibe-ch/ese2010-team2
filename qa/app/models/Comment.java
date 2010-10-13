@@ -19,7 +19,7 @@ public class Comment {
 	private static UserQuestionAnswerManager manager = UserQuestionAnswerManager
 			.getInstance();
 	
-	public Comment(User owner,Votable commentedVotable,String content,Timestamp timestamp) {
+	public Comment(User owner,Votable commentedVotable, String content) {
 		this.owner = owner;
 		this.commentedVotable = commentedVotable;
 		this.content = content;
