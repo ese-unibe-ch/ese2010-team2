@@ -12,13 +12,13 @@ public class Admin extends Controller {
 
 	private static UserQuestionAnswerManager manager = UserQuestionAnswerManager
 			.getInstance();
-	private static Calendar calendar= Calendar.getInstance();
+	private static Calendar calendar = Calendar.getInstance();
 
 	public static void showQuestionForm() {
 		render();
 	}
 
-	public static void addQuestion(String newQuestion) {
+	public static void addQuestion(String newQuestion, String tags) {
 		User user = manager.getUserByName(session.get("username"));
 		if (newQuestion.equals("") || newQuestion.equals(" ")) {
 			String message = "Your question is empty!";
@@ -29,7 +29,7 @@ public class Admin extends Controller {
 		} else {
 			@SuppressWarnings("unused")
 			Question question = new Question(newQuestion, user);
-			user.addActivity("Asked question <" + newQuestion +">");
+			user.addActivity("Asked question <" + newQuestion + ">");
 			redirect("/");
 		}
 	}
@@ -46,7 +46,7 @@ public class Admin extends Controller {
 					.getQuestionById(intId));
 			user.addActivity("Answered question <"
 					+ manager.getQuestionById(intId).getContent()
-					+ "> by writing: <" + newAnswer +">");
+					+ "> by writing: <" + newAnswer + ">");
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
@@ -106,11 +106,11 @@ public class Admin extends Controller {
 
 	public static void showUserLog(String uname) {
 		ArrayList<String> userLog = manager.getUserLog(uname);
-		if(userLog.size()==1){
-			String message= "no activities so far.";
+		if (userLog.size() == 1) {
+			String message = "no activities so far.";
 			render(message);
 		}
 		render(userLog);
 	}
-	
+
 }
