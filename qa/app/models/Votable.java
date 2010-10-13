@@ -9,6 +9,11 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Votable delivers functionality for all objects that are votable
+ * (e.g. answers and questions).
+ */
 public abstract class Votable {
 
 	protected int id;
@@ -17,26 +22,69 @@ public abstract class Votable {
 	protected int score = 0;
 	protected static UserQuestionAnswerManager userQuestionAnswerManager = UserQuestionAnswerManager
 			.getInstance();
-
 	protected Calendar calendar = Calendar.getInstance();
 	protected java.sql.Timestamp currentTimestamp;
 
+	/**
+	 * Vote for a votable.
+	 * 
+	 * @param newVote
+	 *            - The vote you want to add. This is an String-object
+	 *            containing an integer number.
+	 */
 	public void vote(String newVote) {
 		int vote = Integer.parseInt(newVote);
 		score = score + vote;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return content + "\n by " + owner;
 	}
 
-	public java.sql.Timestamp getDate() {
-		return currentTimestamp;
+	/**
+	 * Checks if the user with the id #uid is the owner of the votable.
+	 * 
+	 * @param uid
+	 *            numeric user id as string
+	 * @return true, if successful
+	 */
+	public boolean ownerIs(String uid) {
+		return owner.getId() == Integer.parseInt(uid);
 	}
 
-	public void setId(String id) {
-		this.id = Integer.parseInt(id);
+	/**
+	 * Checks if the user with the id #uid is the owner of the votable.
+	 * 
+	 * @param uid
+	 *            the uid
+	 * @return true, if successful
+	 */
+	public boolean ownerIs(int uid) {
+		return owner.getId() == uid;
+	}
 
+	/*
+	 * Getter methods
+	 */
+	public int getId() {
+		return id;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public String getTimestamp() {
+		return currentTimestamp.toString();
+	}
+
+	public java.sql.Timestamp getDate() {
+		return currentTimestamp;
 	}
 
 	public String getContent() {
@@ -46,30 +94,12 @@ public abstract class Votable {
 	public User getOwner() {
 		return owner;
 	}
-	
-	/**
-	 * Only to be used in a template
-	 * @param uid numeric user id as string
-	 * @return
+
+	/*
+	 * Setter methods
 	 */
-	public boolean ownerIs(String uid) {
-		return owner.getId() == Integer.parseInt(uid);
-	}
-	
-	public boolean ownerIs(int uid) {
-		return owner.getId() == uid;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public int getScore() {
-		return score;
-	}
-	
-	public String getTimestamp() {
-        return currentTimestamp.toString();
+	public void setId(String id) {
+		this.id = Integer.parseInt(id);
 	}
 
 	public void setTimeStamp(String timeStamp) throws ParseException {

@@ -7,11 +7,16 @@ import models.*;
 import play.data.validation.Required;
 import play.mvc.*;
 
+/**
+ * The Class Admin controls access on the database such as adding Answers or
+ * Questions or voting and also managing the users.
+ */
 @With(Secure.class)
 public class Admin extends Controller {
 
 	private static UserQuestionAnswerManager manager = UserQuestionAnswerManager
 			.getInstance();
+
 	private static Calendar calendar = Calendar.getInstance();
 
 	public static void showQuestionForm() {
