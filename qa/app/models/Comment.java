@@ -1,6 +1,7 @@
 package models;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 public class Comment {
 	
@@ -10,12 +11,22 @@ public class Comment {
 	private Timestamp timestamp;
 	private int id;
 	
-	public Comment(User owner,Votable commentedVotable,String content,Timestamp timestamp, int id) {
+	private Calendar calendar = Calendar.getInstance();
+	
+	private static int comment_id;
+	
+	/** The application-manager. */
+	private static UserQuestionAnswerManager manager = UserQuestionAnswerManager
+			.getInstance();
+	
+	public Comment(User owner,Votable commentedVotable,String content,Timestamp timestamp) {
 		this.owner = owner;
 		this.commentedVotable = commentedVotable;
 		this.content = content;
-		this.timestamp = timestamp;
-		this.id = id;
+		this.timestamp = new Timestamp(calendar.getTime().getTime());
+		this.id = comment_id;
+		comment_id++;
+		manager.getComments().add(this);
 	}
 	
 	public void setOwner(User owner) {
