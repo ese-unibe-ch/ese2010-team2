@@ -1,6 +1,7 @@
 import models.Answer;
 import models.Question;
 import models.User;
+import models.UserQuestionAnswerManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -49,5 +50,16 @@ public class QuestionTest extends UnitTest {
 		assertTrue(question.bestAnswerChangeable());
 		assertTrue(question.hasBestAnswer());
 		assertEquals(a2, question.getBestAnswer());
+	}
+	
+	@Test
+	public void shouldAddTags(){
+		question.addTags("hello world planet earth");
+		assertEquals(4,question.getTags().size());
+		assertEquals(4,UserQuestionAnswerManager.tags.size());
+		assertTrue(question.getTags().contains("hello"));
+		assertTrue(question.getTags().contains("world"));
+		assertTrue(question.getTags().contains("planet"));
+		assertTrue(question.getTags().contains("earth"));
 	}
 }
