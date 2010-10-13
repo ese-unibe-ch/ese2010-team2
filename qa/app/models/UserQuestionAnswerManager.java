@@ -17,6 +17,8 @@ public class UserQuestionAnswerManager {
 	/** All answers stored. */
 	public static ArrayList<Answer> answers;
 
+	public static ArrayList<Comment> comments;
+
 	/** All registered users. */
 	public static ArrayList<User> users;
 
@@ -40,6 +42,7 @@ public class UserQuestionAnswerManager {
 	private UserQuestionAnswerManager() {
 		questions = new ArrayList<Question>();
 		answers = new ArrayList<Answer>();
+		comments = new ArrayList<Comment>();
 		users = new ArrayList<User>();
 		tags = new ArrayList<String>();
 	}
@@ -78,6 +81,11 @@ public class UserQuestionAnswerManager {
 			}
 		}
 		return false;
+	}
+
+
+	public ArrayList<Comment> getComments() {
+		return comments;
 	}
 
 	/**

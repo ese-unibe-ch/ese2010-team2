@@ -70,6 +70,7 @@ public class Application extends Controller {
 		}
 	}
 
+	@Unused
 	public static void showRecentQuestionsByDate() {
 		// "recent" shall mean 5 days
 		final Timestamp period = new java.sql.Timestamp(0, 0, 5, 0, 0, 0, 0);
