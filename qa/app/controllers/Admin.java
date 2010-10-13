@@ -29,6 +29,7 @@ public class Admin extends Controller {
 		} else {
 			@SuppressWarnings("unused")
 			Question question = new Question(newQuestion, user);
+			question.addTags(tags);
 			user.addActivity("Asked question <" + newQuestion + ">");
 			redirect("/");
 		}

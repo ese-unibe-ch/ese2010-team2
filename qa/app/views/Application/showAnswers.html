@@ -6,11 +6,19 @@
 	<p>${question.getContent()}</p>
 	<p style="font-size:8pt">by ${question.getOwner()}</p>
 	<legend class="question" align="bottom">${question.getTimestamp()}</legend>
+	<h6>Tags:
+	#{ifnot question.getTags()}
+		none
+	#{/ifnot}
+	#{list items:question.getTags(), as:'tag'}
+		#${tag} 
+	#{/list}</h6>
 </fieldset>
-<a href="/question/${question.getId()}/addAnswer"/>Post your Answer</a>
-
+<!--Link zu add answer - auskommentiert!-->
+<!--<a href="/question/${question.getId()}/addAnswer"/>Post your Answer</a>-->
 <br />
 
+<!--List of all answers-->
 #{list items:answers, as:'answer'}
 	<fieldset>
 	    #{if answer.isBestAnswer()}
@@ -36,3 +44,20 @@
    	
     </fieldset>
 #{/list}
+
+<!--Answer form-->
+<fieldset>
+ <legend>Your Answer</legend>
+	<form action="@{Admin.addAnswer(question.getId())}" method="GET">
+	<table>
+		<tr>
+			<td>Enter your Answer:</td>
+			<td><textarea id="newAnswer" name="newAnswer" cols="90" rows="5"></textarea></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" value="Post your Answers!" /></td>
+		</tr>
+	</table>
+	</form>
+</fieldset>

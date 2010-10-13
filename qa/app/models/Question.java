@@ -75,7 +75,7 @@ public class Question extends Votable {
 	}
 
 	/**
-	 * Adds tags to the question separated by spaces
+	 * Adds tags to the question separated by spaces and also adds new Tags to the tag-List in the manager.
 	 * 
 	 * @param tags
 	 *            - A string containing all tags separated by spaces
@@ -84,7 +84,12 @@ public class Question extends Votable {
 		String delimiter="[ ]+";
 		for(String t:tags.split(delimiter)){
 			this.tags.add(t);
+			userQuestionAnswerManager.addTag(t);
 		}
+	}
+	
+	public ArrayList<String> getTags(){
+		return this.tags;
 	}
 
 }

@@ -10,6 +10,7 @@ public class UserQuestionAnswerManager {
 	public static ArrayList<Question> questions;
 	public static ArrayList<Answer> answers;
 	public static ArrayList<User> users;
+	public static ArrayList<String> tags;
 
 	private static final UserQuestionAnswerManager INSTANCE = new UserQuestionAnswerManager();
 
@@ -25,6 +26,7 @@ public class UserQuestionAnswerManager {
 		questions = new ArrayList<Question>();
 		answers = new ArrayList<Answer>();
 		users = new ArrayList<User>();
+		tags=new ArrayList<String>();
 	}
 
 	public boolean checkUserNameIsOccupied(String name) {
@@ -134,5 +136,10 @@ public class UserQuestionAnswerManager {
 			}
 		}
 		return usersVotables;
+	}
+	
+	public void addTag(String singleTag){
+		if(!this.tags.contains(singleTag))
+			this.tags.add(singleTag);
 	}
 }
