@@ -13,6 +13,7 @@
 	#{list items:question.getTags(), as:'tag'}
 		#${tag} 
 	#{/list}</h6>
+	<h6><p align="right"><a href="@{Admin.showCommentForm(question,question.getId())}">write comment</a></p></h6>
 </fieldset>
 <!--Link zu add answer - auskommentiert!-->
 <!--<a href="/question/${question.getId()}/addAnswer"/>Post your Answer</a>-->
