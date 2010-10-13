@@ -37,7 +37,7 @@ public class Application extends Controller {
 	}
 
 	public static void register(String name, String password, String password2,
-			String email) {
+			String email) throws Throwable {
 		if (name.equals(""))
 			Application.showRegister("Please insert a name!", name, password,
 					password2, email);
@@ -54,7 +54,7 @@ public class Application extends Controller {
 		else {
 			@SuppressWarnings("unused")
 			User user = new User(name, email, password);
-			redirect("/");
+			Secure.logout();
 		}
 	}
 
@@ -124,56 +124,69 @@ public class Application extends Controller {
 		render(message, currentUser);
 	}
 	
-	/**Saves changes in user Profile*/
-	public static void editUserProfile(String name, String birthdate, String email, String phone, String password, String password2, String street, String town, String hobbies, String moto, String background, String quote) {
-
+	/**Saves changes in user Profile
+	 * @throws Throwable */
+	public static void editUserProfile(String name, String birthdate, String email, String phone, String password, String password2, String street, String town, String hobbies, String moto, String background, String quote) throws Throwable {
+		String username;
+		if(name.equals("")){
+			username = session.get("username");
+		}
+		else{
+			username = name;
+		}
+		
 		if (!name.equals("")) {
 			if (!manager.checkUserNameIsOccupied(name)) {
 				manager.getUserByName(session.get("username")).setName(name);
 			} else {
-				Application.showUserProfile("Sorry, this user already exists");
+				Application.showUserProfile("Sorry, this user already exists!");
 			}
 
 		}
 		if (!email.equals("")) {
 			if (email.contains("@") || email.contains(".")) {
-				manager.getUserByName(session.get("username")).setEmail(email);
+				manager.getUserByName(username).setEmail(email);
 			} else {
-				Application.showUserProfile("Please check your email address!");
+				Application.showUserProfile("Please re-check your email address!");
 			}
 		}
 		if (!password.equals("")) {
 			if (password.equals(password2)) {
-				manager.getUserByName(session.get("username")).setPassword(
+				manager.getUserByName(username).setPassword(
 						password);
 			} else {
-				Application.showUserProfile("Please check your password!");
+				Application.showUserProfile("Passwords are not identical!");
 			}
 		}
 		if (!phone.equals("")) {
-				manager.getUserByName(session.get("username")).setPhone(phone);
+			manager.getUserByName(username).setPhone(phone);
 		}
 		if (!street.equals("")) {
-			manager.getUserByName(session.get("username")).setStreet(street);
+			manager.getUserByName(username).setStreet(street);
 		}
 		if (!town.equals("")) {
-			manager.getUserByName(session.get("username")).setTown(town);
+			manager.getUserByName(username).setTown(town);
 		}
 		if (!birthdate.equals("")) {
-			manager.getUserByName(session.get("username")).setBirthdate(birthdate);
+			manager.getUserByName(username).setBirthdate(birthdate);
 		}
 		if (!background.equals("")) {
-			manager.getUserByName(session.get("username")).setBackground(background);
+			manager.getUserByName(username).setBackground(background);
 		}
 		if (!hobbies.equals("")) {
-			manager.getUserByName(session.get("username")).setHobbies(hobbies);
+			manager.getUserByName(username).setHobbies(hobbies);
 		}
 		if (!moto.equals("")) {
-			manager.getUserByName(session.get("username")).setMoto(moto);
+			manager.getUserByName(username).setMoto(moto);
 		}
 		if (!quote.equals("")) {
-			manager.getUserByName(session.get("username")).setQuote(quote);
+			manager.getUserByName(username).setQuote(quote);
 		}
-		redirect("/");
+		if(name.equals("")){
+			redirect("/");
+		}
+		else{
+			Secure.logout();
+		}
 	}
 }
