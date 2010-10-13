@@ -9,6 +9,7 @@ public class UserQuestionAnswerManager {
 
 	public static ArrayList<Question> questions;
 	public static ArrayList<Answer> answers;
+	public static ArrayList<Comment> comments;
 	public static ArrayList<User> users;
 	public static ArrayList<String> tags;
 
@@ -25,6 +26,7 @@ public class UserQuestionAnswerManager {
 	private UserQuestionAnswerManager() {
 		questions = new ArrayList<Question>();
 		answers = new ArrayList<Answer>();
+		comments = new ArrayList<Comment>();
 		users = new ArrayList<User>();
 		tags=new ArrayList<String>();
 	}
@@ -61,6 +63,10 @@ public class UserQuestionAnswerManager {
 
 	public ArrayList<User> getUsers() {
 		return users;
+	}
+	
+	public ArrayList<Comment> getComments() {
+		return comments;
 	}
 
 	public User getUserByName(String name) {
