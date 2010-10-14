@@ -39,6 +39,9 @@ public class Answer extends Votable {
 		this.id = answer_id;
 		isBestAnswer = false;
 		currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
+		user.addActivity("Answered question <"
+				+ question.getContent()
+				+ "> by writing: <" + content+ ">");
 		userQuestionAnswerManager.getAnswer().add(this);
 		answer_id++;
 	}

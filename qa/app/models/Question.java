@@ -41,6 +41,7 @@ public class Question extends Votable {
 		this.score = 0;
 		tags = new ArrayList<String>();
 		userQuestionAnswerManager.getQuestions().add(this);
+		questionOwner.addActivity("Asked question <" + content + ">");
 		question_id++;
 	}
 

@@ -22,11 +22,12 @@ public class Admin extends Controller {
 	public static void showQuestionForm() {
 		render();
 	}
-	
-	public static void showCommentForm(Votable commentedVotable, String questionId) {
+
+	public static void showCommentForm(Votable commentedVotable,
+			String questionId) {
 		render(commentedVotable, questionId);
 	}
-	
+
 	public static void addQuestion(String newQuestion, String tags) {
 		User user = manager.getUserByName(session.get("username"));
 		if (newQuestion.equals("") || newQuestion.equals(" ")) {
@@ -39,7 +40,8 @@ public class Admin extends Controller {
 			@SuppressWarnings("unused")
 			Question question = new Question(newQuestion, user);
 			question.addTags(tags);
-			user.addActivity("Asked question <" + newQuestion + ">");
+			// user.addActivity("Asked question <" + newQuestion + ">");
+			//  -> moved Logging-functionality to model
 			redirect("/");
 		}
 	}
@@ -54,24 +56,25 @@ public class Admin extends Controller {
 			@SuppressWarnings("unused")
 			Answer answer = new Answer(newAnswer, user, manager
 					.getQuestionById(intId));
-			user.addActivity("Answered question <"
-					+ manager.getQuestionById(intId).getContent()
-					+ "> by writing: <" + newAnswer + ">");
+//			user.addActivity("Answered question <"
+//					+ manager.getQuestionById(intId).getContent()
+//					+ "> by writing: <" + newAnswer + ">");
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
 
-	public static void addComment(Votable commentedVotable, String questionId, String newComment) {
+	public static void addComment(Votable commentedVotable, String questionId,
+			String newComment) {
 		User user = manager.getUserByName(session.get("username"));
 		if (newComment.equals("") || newComment.equals(" ")) {
 			String message = "Your comment is empty!";
 			render(message);
 		} else {
-			Comment comment = new Comment(user,commentedVotable,newComment);
+			Comment comment = new Comment(user, commentedVotable, newComment);
 			redirect("/");
 		}
 	}
-	
+
 	public static void voteQuestion(String qid, String vote) {
 		int id = Integer.parseInt(qid);
 		User user = manager.getUserByName(session.get("username"));

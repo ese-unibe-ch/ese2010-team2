@@ -97,14 +97,7 @@ public class Application extends Controller {
 	 */
 	public static void showRecentQuestionsByNumber() {
 		final int number = 25; // The number of questions rendered
-		ArrayList<Question> recentQuestionsByNumber = new ArrayList<Question>(); 
-		ArrayList allQuestions = manager.getQuestionsSortedByDate();
-		int size = allQuestions.size();
-
-		// Pick last three questions out of the list sorted by date.
-		for (int i = size - 1; i >= size - number && i > 0; i--) {
-			recentQuestionsByNumber.add((Question) allQuestions.get(i));
-		}
+		ArrayList<Question> recentQuestionsByNumber = manager.getRecentQuestionsByNumber(number); 
 
 		render(recentQuestionsByNumber);
 	}

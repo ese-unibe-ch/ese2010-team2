@@ -83,7 +83,6 @@ public class UserQuestionAnswerManager {
 		return false;
 	}
 
-
 	public ArrayList<Comment> getComments() {
 		return comments;
 	}
@@ -231,6 +230,26 @@ public class UserQuestionAnswerManager {
 	public void addTag(String singleTag) {
 		if (!this.tags.contains(singleTag))
 			this.tags.add(singleTag);
+	}
+
+	/**
+	 * Gets the #count newest questions in the knowledgeBase.
+	 * 
+	 * @param count
+	 *            - the number of questions.
+	 * @return - the newest questions in the KB. The size of the array equals
+	 *         'count'.
+	 */
+	public ArrayList<Question> getRecentQuestionsByNumber(int count){
+		ArrayList allQuestions = getQuestionsSortedByDate();
+		ArrayList recentQuestions= new ArrayList<String>();
+		int size = allQuestions.size();
+
+		// Pick last '#count' questions out of the list sorted by date.
+		for (int i = size - 1; i >= size - count && i > 0; i--) {
+			recentQuestions.add((Question) allQuestions.get(i));
+		}
+		return recentQuestions;
 	}
 
 	/*
