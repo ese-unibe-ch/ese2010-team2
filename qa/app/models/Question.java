@@ -159,7 +159,7 @@ public class Question extends Votable {
 		for (String newTag : tags.split(delimiter)) {
 			for (String existingTag : userQuestionAnswerManager.getTagList()) {
 				if (models.algorithms.Levenshtein.getLevenshteinDistance(newTag
-						.toLowerCase(), existingTag) < maxDistance
+						.toLowerCase(), existingTag) <= maxDistance
 						&& !userQuestionAnswerManager.getTagList().contains(
 								newTag)) {
 					existingTags = existingTags + "#" + existingTag + " ";
