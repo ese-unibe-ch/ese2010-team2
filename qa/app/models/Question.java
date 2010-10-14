@@ -128,20 +128,23 @@ public class Question extends Votable {
 		String existingTags = new String();
 		for (String newTag : tags.split(delimiter)) {
 			this.tags.add(newTag);
-			userQuestionAnswerManager.addTag(newTag.toLowerCase());
+			if (!userQuestionAnswerManager.getTagList().contains(newTag))
+				userQuestionAnswerManager.addTag(newTag.toLowerCase());
 		}
 	}
 
 	public static String checkTags(String tags) {
 		String delimiter = "[ ]+";
 		// The minimum Levenshtein distance two strings need to have.
-		int maxDistance=3;
+		int maxDistance = 2;
 		String existingTags = new String();
 		for (String newTag : tags.split(delimiter)) {
 			for (String existingTag : userQuestionAnswerManager.getTagList()) {
-				if (models.algorithms.Levenshtein.getLevenshteinDistance(
-						newTag.toLowerCase(), existingTag) < maxDistance) {
-					existingTags=existingTags+"#" + existingTag + " ";
+				if (models.algorithms.Levenshtein.getLevenshteinDistance(newTag
+						.toLowerCase(), existingTag) < maxDistance
+						&& !userQuestionAnswerManager.getTagList().contains(
+								newTag)) {
+					existingTags = existingTags + "#" + existingTag + " ";
 				}
 			}
 		}
