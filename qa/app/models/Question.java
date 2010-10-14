@@ -125,10 +125,27 @@ public class Question extends Votable {
 	 */
 	public void addTags(String tags) {
 		String delimiter = "[ ]+";
-		for (String t : tags.split(delimiter)) {
-			this.tags.add(t);
-			userQuestionAnswerManager.addTag(t);
+		String existingTags = new String();
+		for (String newTag : tags.split(delimiter)) {
+			this.tags.add(newTag);
+			userQuestionAnswerManager.addTag(newTag.toLowerCase());
 		}
+	}
+
+	public static String checkTags(String tags) {
+		String delimiter = "[ ]+";
+		// The minimum Levenshtein distance two strings need to have.
+		int maxDistance=3;
+		String existingTags = new String();
+		for (String newTag : tags.split(delimiter)) {
+			for (String existingTag : userQuestionAnswerManager.getTagList()) {
+				if (models.algorithms.Levenshtein.getLevenshteinDistance(
+						newTag.toLowerCase(), existingTag) < maxDistance) {
+					existingTags=existingTags+"#" + existingTag + " ";
+				}
+			}
+		}
+		return existingTags;
 	}
 
 	/*

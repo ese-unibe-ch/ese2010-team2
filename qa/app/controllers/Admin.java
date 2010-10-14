@@ -36,6 +36,10 @@ public class Admin extends Controller {
 		} else if (manager.checkQuestionDuplication(newQuestion)) {
 			String message = "Your question already exists!";
 			render(message);
+		} else if (!Question.checkTags(tags).isEmpty()) {
+			String message = "The following tags already exist: "
+					+ Question.checkTags(tags) + ". Please review your tags.";
+			render(message);
 		} else {
 			@SuppressWarnings("unused")
 			Question question = new Question(newQuestion, user);
