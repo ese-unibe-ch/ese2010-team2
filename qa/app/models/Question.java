@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+import annotations.Testing;
+
 /**
  * The Class Question delivers all functionality of the questions that other
  * votables don't have (those would be located in the class @see Votable.java.
@@ -38,6 +40,20 @@ public class Question extends Votable {
 		this.content = content;
 		currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
 		this.id = question_id;
+		this.score = 0;
+		tags = new ArrayList<String>();
+		userQuestionAnswerManager.getQuestions().add(this);
+		questionOwner.addActivity("Asked question <" + content + ">");
+		question_id++;
+	}
+	
+	@Testing
+	public Question(String content, User questionOwner, int questionId) {
+		this.owner = questionOwner;
+		this.content = content;
+		currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
+		this.id = questionId;
+		this.question_id = questionId;
 		this.score = 0;
 		tags = new ArrayList<String>();
 		userQuestionAnswerManager.getQuestions().add(this);

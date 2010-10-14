@@ -3,6 +3,8 @@ package models;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import annotations.Testing;
+
 /**
  * The Class Answer delivers all functionality of the answers that other
  * votables don't have as well (those would be located in the class
@@ -42,7 +44,23 @@ public class Answer extends Votable {
 		user.addActivity("Answered question <"
 				+ question.getContent()
 				+ "> by writing: <" + content+ ">");
-		userQuestionAnswerManager.getAnswer().add(this);
+		userQuestionAnswerManager.getAnswers().add(this);
+		answer_id++;
+	}
+	
+	@Testing
+	public Answer(String content, User user, Question question, int answerId) {
+		this.questionId = question.getId();
+		this.content = content;
+		this.owner = user;
+		this.id = answerId;
+		this.answer_id = answerId;
+		isBestAnswer = false;
+		currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
+		user.addActivity("Answered question <"
+				+ question.getContent()
+				+ "> by writing: <" + content+ ">");
+		userQuestionAnswerManager.getAnswers().add(this);
 		answer_id++;
 	}
 

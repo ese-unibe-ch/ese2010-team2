@@ -259,7 +259,7 @@ public class UserQuestionAnswerManager {
 		return questions;
 	}
 
-	public ArrayList<Answer> getAnswer() {
+	public ArrayList<Answer> getAnswers() {
 		return answers;
 	}
 

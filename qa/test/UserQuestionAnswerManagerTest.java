@@ -1,3 +1,5 @@
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,7 +10,7 @@ import models.UserQuestionAnswerManager;
 import play.test.UnitTest;
 
 public class UserQuestionAnswerManagerTest extends UnitTest {
-	private UserQuestionAnswerManager manager;
+	private static UserQuestionAnswerManager manager;
 	private User admin;
 
 	@Before
@@ -149,5 +151,14 @@ public class UserQuestionAnswerManagerTest extends UnitTest {
 		assertTrue(manager.getTagList().contains("Tag1"));
 		assertTrue(manager.getTagList().contains("Tag2"));
 		assertTrue(manager.getTagList().contains("Tag3"));
+	}
+	
+	@AfterClass
+	public static void tearDown(){
+		//Cleaning up so next tests will not fail.
+		manager.getUsers().clear();
+		System.out.println(manager.getUsers().size());
+		manager.getQuestions().clear();
+		manager.getAnswers().clear();
 	}
 }

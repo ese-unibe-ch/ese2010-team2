@@ -1,10 +1,11 @@
 import org.junit.*;
+
 import java.util.*;
 import play.test.*;
 import models.*;
 
 public class BasicTest extends UnitTest {
-	private UserQuestionAnswerManager manager;
+	private static UserQuestionAnswerManager manager;
 	private User admin;
 
 	@Before
@@ -15,34 +16,43 @@ public class BasicTest extends UnitTest {
 
 	@Test
 	public void shouldCreateIds() {
-		User a = new User("a", "a@a.ch", "a");
+		for(int i = 0; i<manager.getUsers().size(); i++){
+			System.out.println(manager.getUsers().get(i).getName());
+			System.out.println("****************");
+		}
+		
+		User a = new User("a", "a@a.ch", "a", 0);
 		User b = new User("b", "b@b.ch", "b");
 		User c = new User("c", "c@c.ch", "c");
 
 		// 5 Testuser, 1x Admin= 6 User
-		assertEquals(7, a.getId());
-		assertEquals(8, b.getId());
-		assertEquals(9, c.getId());
+		assertEquals(0, a.getId());
+		assertEquals(1, b.getId());
+		assertEquals(2, c.getId());
 
 		
-		Question question = new Question("content of question", admin);
+		Question question = new Question("content of question", admin, 0);
 		Question question1 = new Question("content of question1", admin);
 		Question question2 = new Question("content of question2", admin);
 
-		assertEquals(25, question.getId());
-		assertEquals(26, question1.getId());
-		assertEquals(27, question2.getId());
+		assertEquals(0, question.getId());
+		assertEquals(1, question1.getId());
+		assertEquals(2, question2.getId());
 
 		Answer answer = new Answer("content of answer", admin, manager
-				.getQuestions().get(25));
+				.getQuestions().get(0), 0);
 		Answer answer1 = new Answer("content of answer1", admin, manager
-				.getQuestions().get(26));
+				.getQuestions().get(1));
 		Answer answer2 = new Answer("content of answer2", admin, manager
-				.getQuestions().get(27));
+				.getQuestions().get(2));
 
 		assertEquals(0, answer.getId());
 		assertEquals(1, answer1.getId());
 		assertEquals(2, answer2.getId());
+		for(int i = 0; i<manager.getUsers().size(); i++){
+			System.out.println(manager.getUsers().get(i).getName());
+			System.out.println("****************");
+		}
 
 	}
 
@@ -63,9 +73,9 @@ public class BasicTest extends UnitTest {
 		@SuppressWarnings("unused")
 		Question question = new Question("content of question", admin);
 
-		assertEquals("content of question", manager.getQuestions().get(25)
+		assertEquals("content of question", manager.getQuestions().get(0)
 				.getContent());
-		assertEquals(admin.getName(), manager.getQuestions().get(25).getOwner().getName());
+		assertEquals(admin.getName(), manager.getQuestions().get(0).getOwner().getName());
 	}
 
 	@Test
@@ -74,11 +84,11 @@ public class BasicTest extends UnitTest {
 		Answer answer = new Answer("content of answer", admin, manager
 				.getQuestions().get(0));
 
-		assertEquals("content of answer", manager.getAnswer().get(0)
+		assertEquals("content of answer", manager.getAnswers().get(0)
 				.getContent());
-		assertEquals(admin.getName(), manager.getQuestions().get(25).getOwner().getName());
-		assertEquals(manager.getQuestions().get(25).getId(), (manager
-				.getAnswer()).get(0).getQuestionId());
+		assertEquals(admin.getName(), manager.getQuestions().get(0).getOwner().getName());
+		assertEquals(manager.getQuestions().get(0).getId(), (manager
+				.getAnswers()).get(0).getQuestionId());
 	}
 
 	@Test
@@ -191,7 +201,15 @@ public class BasicTest extends UnitTest {
 		logTester.addActivity("Activity1");
 		logTester.addActivity("Activity2");
 		assertEquals(3,logTester.getActivities().size());
-		assertEquals("Activity2",logTester.getActivities().get(0));
-		
+		assertEquals("Activity2",logTester.getActivities().get(0));	
+	}
+	
+	@AfterClass
+	public static void tearDown(){
+		//Cleaning up so next tests will not fail.
+		manager.getUsers().clear();
+		System.out.println(manager.getUsers().size());
+		manager.getQuestions().clear();
+		manager.getAnswers().clear();
 	}
 }
