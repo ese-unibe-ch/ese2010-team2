@@ -40,8 +40,6 @@ public class Admin extends Controller {
 			@SuppressWarnings("unused")
 			Question question = new Question(newQuestion, user);
 			question.addTags(tags);
-			// user.addActivity("Asked question <" + newQuestion + ">");
-			//  -> moved Logging-functionality to model
 			redirect("/");
 		}
 	}
@@ -56,9 +54,6 @@ public class Admin extends Controller {
 			@SuppressWarnings("unused")
 			Answer answer = new Answer(newAnswer, user, manager
 					.getQuestionById(intId));
-//			user.addActivity("Answered question <"
-//					+ manager.getQuestionById(intId).getContent()
-//					+ "> by writing: <" + newAnswer + ">");
 			redirect("/question/" + qid + "/answers/");
 		}
 	}

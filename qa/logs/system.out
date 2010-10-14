@@ -1,0 +1,23 @@
+12:42:37,498 INFO  ~ Starting /home/alexander/ESE/ese-team2/qa
+12:42:37,505 INFO  ~ Module secure is available (/home/alexander/frameworks/play-1.0.3.2/modules/secure)
+12:42:37,506 INFO  ~ Module cobertura is available (/home/alexander/frameworks/play-1.0.3.2/modules/cobertura-2.0)
+12:42:38,508 WARN  ~ Actually play.tmp is set to null. Set it to play.tmp=none
+12:42:38,525 INFO  ~ 
+12:42:38,525 INFO  ~ Go to http://localhost:9000/@tests to run the tests
+12:42:38,526 INFO  ~ 
+12:42:38,526 WARN  ~ You're running Play! in DEV mode
+12:42:38,663 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
+Cobertura: Saved information on 20 classes.
+12:42:41,429 INFO  ~ Connected to jdbc:hsqldb:mem:playembed
+12:42:41,514 INFO  ~ Application 'qa' is now started !
+12:42:41,551 INFO  ~ fill Model with test-data
+12:42:45,739 INFO  ~ Cobertura plugin: generating test coverage report
+Cobertura: Loaded information on 20 classes.
+Cobertura: Saved information on 20 classes.
+Cobertura 1.9.2 - GNU GPL License (NO WARRANTY) - See COPYRIGHT file
+Cobertura: Loaded information on 20 classes.
+Report time: 326ms
+Cobertura 1.9.2 - GNU GPL License (NO WARRANTY) - See COPYRIGHT file
+Cobertura: Loaded information on 20 classes.
+Report time: 214ms
+12:42:48,289 INFO  ~ Test coverage report has been generated: file:/home/alexander/ESE/ese-team2/qa/test-result/code-coverage/index.html

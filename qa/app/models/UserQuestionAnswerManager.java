@@ -266,4 +266,8 @@ public class UserQuestionAnswerManager {
 	public ArrayList<User> getUsers() {
 		return users;
 	}
+	
+	public ArrayList<String> getTagList(){
+		return this.tags;
+	}
 }
