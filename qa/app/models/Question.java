@@ -125,6 +125,7 @@ public class Question extends Votable {
 	 */
 	public void addTags(String tags) {
 		String delimiter = "[ ]+";
+		tags=tags.toLowerCase();
 		String existingTags = new String();
 		for (String newTag : tags.split(delimiter)) {
 			this.tags.add(newTag);
@@ -137,6 +138,7 @@ public class Question extends Votable {
 		String delimiter = "[ ]+";
 		// The minimum Levenshtein distance two strings need to have.
 		int maxDistance = 2;
+		tags=tags.toLowerCase();
 		String existingTags = new String();
 		for (String newTag : tags.split(delimiter)) {
 			for (String existingTag : userQuestionAnswerManager.getTagList()) {
