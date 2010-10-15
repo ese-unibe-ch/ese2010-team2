@@ -151,11 +151,17 @@ public class UserQuestionAnswerManagerTest extends UnitTest {
 
 	@Test
 	public void shouldAddSingleTag() {
+		// clear Tag-list in order to be able to count the total amount of tags
+		// stored.
+		manager.getTagList().clear();
+		assertEquals(0, manager.getTagList().size());
+		
 		Question question1 = new Question("question1", admin);
-		question1.addTags("Hello world Earth");
+		question1.addTags("Hello hello world Earth earth World");
 		assertTrue(manager.getTagList().contains("hello"));
 		assertTrue(manager.getTagList().contains("world"));
 		assertTrue(manager.getTagList().contains("earth"));
+		assertEquals(3, manager.getTagList().size());
 	}
 
 	@AfterClass
@@ -165,5 +171,6 @@ public class UserQuestionAnswerManagerTest extends UnitTest {
 		System.out.println(manager.getUsers().size());
 		manager.getQuestions().clear();
 		manager.getAnswers().clear();
+		manager.getTagList().clear();
 	}
 }
