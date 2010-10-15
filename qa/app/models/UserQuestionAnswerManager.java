@@ -246,7 +246,7 @@ public class UserQuestionAnswerManager {
 		int size = allQuestions.size();
 
 		// Pick last '#count' questions out of the list sorted by date.
-		for (int i = size - 1; i >= size - count && i > 0; i--) {
+		for (int i = size - 1; i >= size - count && i >= 0; i--) {
 			recentQuestions.add((Question) allQuestions.get(i));
 		}
 		return recentQuestions;

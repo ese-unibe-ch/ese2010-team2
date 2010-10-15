@@ -90,72 +90,77 @@ public class UserQuestionAnswerManagerTest extends UnitTest {
 		Answer answer1 = new Answer("answer1", admin, q);
 		assertEquals(answer1, manager.getAnswerById(answer1.getId()));
 	}
-	
+
 	@Test
-	public void QuestionsShouldBeSortedByScore(){
-		Question question1= new Question("content1", admin);
-		Question question2= new Question("content2", admin);
-		Question question3= new Question("content3", admin);
-		Question question4= new Question("content4", admin);
-		
+	public void QuestionsShouldBeSortedByScore() {
+		Question question1 = new Question("content1", admin);
+		Question question2 = new Question("content2", admin);
+		Question question3 = new Question("content3", admin);
+		Question question4 = new Question("content4", admin);
+
 		question1.vote("2");
 		question2.vote("3");
 		question3.vote("4");
 		question4.vote("5");
-		
+
 		assertEquals(question4, manager.getQuestionsSortedByScore().get(0));
 		assertEquals(question3, manager.getQuestionsSortedByScore().get(1));
 		assertEquals(question2, manager.getQuestionsSortedByScore().get(2));
 		assertEquals(question1, manager.getQuestionsSortedByScore().get(3));
-		
-		
+
 	}
-	
-	@Test 
-	public void answersShouldBeSortedByScore(){
-		Question question1= new Question("content1", admin);
-		
-		Answer answer1= new Answer("content1", admin, question1);
-		Answer answer2= new Answer("content2", admin, question1);
-		Answer answer3= new Answer("content3", admin, question1);
-		Answer answer4= new Answer("content4", admin, question1);
-		
+
+	@Test
+	public void answersShouldBeSortedByScore() {
+		Question question1 = new Question("content1", admin);
+
+		Answer answer1 = new Answer("content1", admin, question1);
+		Answer answer2 = new Answer("content2", admin, question1);
+		Answer answer3 = new Answer("content3", admin, question1);
+		Answer answer4 = new Answer("content4", admin, question1);
+
 		answer1.vote("2");
 		answer2.vote("3");
 		answer3.vote("4");
 		answer4.vote("5");
-		
-		assertEquals(answer4, manager.getAnswersSortedByScore(question1.getId()).get(0));
-		assertEquals(answer3, manager.getAnswersSortedByScore(question1.getId()).get(1));
-		assertEquals(answer2, manager.getAnswersSortedByScore(question1.getId()).get(2));
-		assertEquals(answer1, manager.getAnswersSortedByScore(question1.getId()).get(3));
+
+		assertEquals(answer4, manager
+				.getAnswersSortedByScore(question1.getId()).get(0));
+		assertEquals(answer3, manager
+				.getAnswersSortedByScore(question1.getId()).get(1));
+		assertEquals(answer2, manager
+				.getAnswersSortedByScore(question1.getId()).get(2));
+		assertEquals(answer1, manager
+				.getAnswersSortedByScore(question1.getId()).get(3));
 	}
-	
+
 	@Test
-	public void shouldGetVotablesByUser(){
-		Question question1= new Question("question1", admin);
-		Question question2= new Question("question2",admin);
-		Answer answer1=new Answer("answer1", admin, question1);
-		Answer answer2=new Answer("answer2",admin,question2);
-		
-		assertTrue(manager.getVotablesByUserId(admin.getId()).contains(question1));
-		assertTrue(manager.getVotablesByUserId(admin.getId()).contains(question2));
+	public void shouldGetVotablesByUser() {
+		Question question1 = new Question("question1", admin);
+		Question question2 = new Question("question2", admin);
+		Answer answer1 = new Answer("answer1", admin, question1);
+		Answer answer2 = new Answer("answer2", admin, question2);
+
+		assertTrue(manager.getVotablesByUserId(admin.getId()).contains(
+				question1));
+		assertTrue(manager.getVotablesByUserId(admin.getId()).contains(
+				question2));
 		assertTrue(manager.getVotablesByUserId(admin.getId()).contains(answer1));
 		assertTrue(manager.getVotablesByUserId(admin.getId()).contains(answer2));
 	}
-	
+
 	@Test
-	public void shouldAddSingleTag(){
-		Question question1= new Question("question1",admin);
-		question1.addTags("Tag1 Tag2 Tag3");
-		assertTrue(manager.getTagList().contains("Tag1"));
-		assertTrue(manager.getTagList().contains("Tag2"));
-		assertTrue(manager.getTagList().contains("Tag3"));
+	public void shouldAddSingleTag() {
+		Question question1 = new Question("question1", admin);
+		question1.addTags("Hello world Earth");
+		assertTrue(manager.getTagList().contains("hello"));
+		assertTrue(manager.getTagList().contains("world"));
+		assertTrue(manager.getTagList().contains("earth"));
 	}
-	
+
 	@AfterClass
-	public static void tearDown(){
-		//Cleaning up so next tests will not fail.
+	public static void tearDown() {
+		// Cleaning up so next tests will not fail.
 		manager.getUsers().clear();
 		System.out.println(manager.getUsers().size());
 		manager.getQuestions().clear();
