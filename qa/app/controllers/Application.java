@@ -3,14 +3,14 @@ package controllers;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
+import models.Answer;
+import models.Question;
+import models.Search;
+import models.User;
+import models.UserQuestionAnswerManager;
+import play.mvc.Controller;
 import annotations.Unused;
-
-import models.*;
-
-import play.data.validation.Required;
-import play.mvc.*;
 
 public class Application extends Controller {
 
@@ -184,5 +184,44 @@ public class Application extends Controller {
 		else{
 			Secure.logout();
 		}
+	}
+	
+	public static void search(String text) {
+		if (text == null) {
+			render();
+		}
+		if (text != null && text.equals("")) {
+			String message = "You have not inserted a Search Phrase";
+			render(message);
+		}
+		if (!text.equals("")) {
+			Search search = new Search(text);
+			search.fullTextOnly();
+
+			ArrayList<Question> questionResults = new ArrayList<Question>();
+			ArrayList<Answer> answerResults = new ArrayList<Answer>();
+
+			for (int i = 0; i < search.getQuestionIndexes().size(); i++) {
+				int index = search.getQuestionIndexes().get(i);
+				questionResults.add(manager.getQuestions().get(index));
+			}
+
+			for (int i = 0; i < search.getAnswerIndexes().size(); i++) {
+				int index = search.getAnswerIndexes().get(i);
+				answerResults.add(manager.getAnswers().get(index));
+			}
+
+			render(answerResults, questionResults);
+		}
+	}
+
+	public static void searchResults(String text) {
+		if (text == null) {
+			Application.searchResults("Text is null");
+			render();
+		} else {
+			Application.searchResults("text has a value");
+			render();
+	}
 	}
 }

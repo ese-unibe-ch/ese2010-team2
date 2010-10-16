@@ -1,0 +1,68 @@
+#{extends 'main.html' /}
+#{set title:'ESE KB - Search' /}
+<a href="/">back</a>
+<h2>The Search</h2>
+<h3 style="color:#c00">${message}</h3>
+<form action="@{Application.Search()}" method="GET">
+<table>
+		<tr>
+			<td><input type="text" name="text" value="${text}"><input type="submit" value="Search" /></td>
+		</tr>
+</table>
+</form>
+#{list items:questionResults, as:'question'}
+#{/list}
+#{if question}
+	<h3>Questions</h3>
+#{/if}
+#{list items:questionResults, as:'question'}
+	
+	<fieldset>
+    <a href="@{Application.showAnswers(question.getId())}"/><h3>${question.getContent()}<h3></a>
+   	<p style="font-size:8pt">by ${question.getOwner()}<p>
+   	<br />
+	#{if user}
+		#{if question.ownerIs(session.uid)}
+		<p style="font-size:8pt">You can't rate your own post!</p>
+   		#{/if}
+   		#{else}
+   		<form id="vote" action="@{Admin.voteQuestion(question.getId())}" method="GET">
+   		<p style="font-size:8pt">Score: ${question.getScore()} Vote: <input id="up" type="submit" value ="1" name="vote" /> <input id="up" type="submit" value ="-1" name="vote" /></p>
+   		</form>
+   		#{/else}
+   	#{/if}
+
+   	<legend class="question" align="bottom">${question.getTimestamp()}</legend>
+    </fieldset>
+#{/list}
+#{list items:answerResults, as:'answer'}
+#{/list}
+#{if answer}
+<h3><br><br>Answers</h3>
+#{/if}
+#{list items:answerResults, as:'answer'}
+	<fieldset>
+	    #{if answer.isBestAnswer()}
+	    <span class="bestanswer">Best answer according to OP</span>
+	    #{/if}
+	   
+	    <p>${answer.getContent()}<p>
+	   
+	    <p style="font-size:8pt">by ${answer.getOwner()}</p>
+	   	
+	    #{ifnot answer.ownerIs(session.uid)}
+	    <form id="vote" action="@{Admin.voteAnswer(question.getId(),answer.getId())}" method="GET">
+	    <p style="font-size:8pt">Score: ${answer.getScore()} Vote: <input id="aid" type="submit" value ="1" name="vote" /> <input id="aid" type="submit" value ="-1" name="vote" /></p>
+	    </form>
+	    #{/ifnot}
+		
+	   	<legend class="question" align="bottom">${answer.getTimestamp()}</legend>
+   		
+   		<!--List of comments--!>
+		#{list items:answer.getComments(), as:'comment'}
+			<p style="font-size:11pt">${comment.getContent()}</p>
+			<p style="font-size:8pt">by ${comment.getOwner()}</p>
+			<p style="font-size:8pt">at ${comment.getTimestamp()}</p>
+		#{/list}
+    </fieldset>
+#{/list}

@@ -1,8 +1,16 @@
-import org.junit.*;
+import java.util.ArrayList;
 
-import java.util.*;
-import play.test.*;
-import models.*;
+import models.Answer;
+import models.Question;
+import models.User;
+import models.UserQuestionAnswerManager;
+import models.Votable;
+
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Test;
+
+import play.test.UnitTest;
 
 public class BasicTest extends UnitTest {
 	private static UserQuestionAnswerManager manager;
@@ -208,7 +216,6 @@ public class BasicTest extends UnitTest {
 	public static void tearDown(){
 		//Cleaning up so next tests will not fail.
 		manager.getUsers().clear();
-		System.out.println(manager.getUsers().size());
 		manager.getQuestions().clear();
 		manager.getAnswers().clear();
 	}
