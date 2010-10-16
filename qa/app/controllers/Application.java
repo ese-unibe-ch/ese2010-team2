@@ -37,6 +37,15 @@ public class Application extends Controller {
 			String password, String password2, String email) {
 		render(message, name, password, password2, email);
 	}
+	
+	public static void showState() {
+		int userCount = manager.countOfUsers();
+		int questionCount = manager.countOfQuestions();
+		int answerCount = manager.countOfAnswers();
+		int commentCount = manager.countOfComments();
+		int tagCount = manager.countOfTags();
+		render(userCount, questionCount, answerCount, commentCount, tagCount);
+	}
 
 	public static void register(String name, String password, String password2,
 			String email) throws Throwable {

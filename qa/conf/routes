@@ -22,6 +22,7 @@ GET                /addCommentToQuestion                            Admin.addCom
 GET                /addCommentToAnswer                              Admin.addCommentToAnswer
 GET                /showRegister                                    Application.showRegister
 GET                /question/{id}/answers/                          Application.showAnswers
+GET                /showState                                       Application.showState
 GET                /users                                           Admin.showUsers
 GET                /register                                        Application.register
 GET                /question/{qid}/setbestanswer/{aid}              Application.setBestAnswer
