@@ -84,10 +84,6 @@ public class UserQuestionAnswerManager {
 		return false;
 	}
 
-	public ArrayList<Comment> getComments() {
-		return comments;
-	}
-
 	/**
 	 * Gets a user by his name.
 	 * 
@@ -290,10 +286,14 @@ public class UserQuestionAnswerManager {
 		}
 		return recentQuestions;
 	}
-
+	
 	/*
 	 * Getter methods
 	 */
+	public ArrayList<User> getUsers() {
+		return users;
+	}
+	
 	public ArrayList<Question> getQuestions() {
 		return questions;
 	}
@@ -302,11 +302,34 @@ public class UserQuestionAnswerManager {
 		return answers;
 	}
 
-	public ArrayList<User> getUsers() {
-		return users;
+	public ArrayList<Comment> getComments() {
+		return comments;
 	}
 	
 	public ArrayList<String> getTagList(){
 		return this.tags;
+	}
+	
+	/*
+	 * Count methods
+	 */
+	public int countOfUsers() {
+		return this.getUsers().size();
+	}
+	
+	public int countOfQuestions() {
+		return this.getQuestions().size();
+	}
+	
+	public int countOfAnswers() {
+		return this.getAnswers().size();
+	}
+
+	public int countOfComments() {
+		return this.getComments().size();
+	}
+	
+	public int countOfTags() {
+		return this.getTagList().size();
 	}
 }
