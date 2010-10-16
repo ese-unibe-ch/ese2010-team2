@@ -13,7 +13,14 @@
 	#{list items:question.getTags(), as:'tag'}
 		#${tag} 
 	#{/list}</h6>
-	<h6><p align="right"><a href="@{Admin.showCommentForm(question,question.getId())}">write comment</a></p></h6>
+	<h6><p align="right"><a href="@{Admin.showQuestionCommentForm(question.getId())}">write comment</a></p></h6>
+	
+	<!--List of comments--!>
+	#{list items:question.getComments(), as:'comment'}
+		<p style="font-size:11pt">${comment.getContent()}</p>
+		<p style="font-size:8pt">by ${comment.getOwner()}</p>
+		<p style="font-size:8pt">at ${comment.getTimestamp()}</p>
+	#{/list}
 </fieldset>
 <!--Link zu add answer - auskommentiert!-->
 <!--<a href="/question/${question.getId()}/addAnswer"/>Post your Answer</a>-->
@@ -43,6 +50,14 @@
 		
 	   	<legend class="question" align="bottom">${answer.getTimestamp()}</legend>
    	
+   		<h6><p align="right"><a href="@{Admin.showAnswerCommentForm(answer.getId(),question.getId())}">write comment</a></p></h6>
+   		
+   		<!--List of comments--!>
+		#{list items:answer.getComments(), as:'comment'}
+			<p style="font-size:11pt">${comment.getContent()}</p>
+			<p style="font-size:8pt">by ${comment.getOwner()}</p>
+			<p style="font-size:8pt">at ${comment.getTimestamp()}</p>
+		#{/list}
     </fieldset>
 #{/list}
 

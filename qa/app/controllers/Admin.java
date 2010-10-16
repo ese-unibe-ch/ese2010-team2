@@ -23,9 +23,12 @@ public class Admin extends Controller {
 		render();
 	}
 
-	public static void showCommentForm(Votable commentedVotable,
-			String questionId) {
-		render(commentedVotable, questionId);
+	public static void showQuestionCommentForm(int questionId) {
+		render(questionId);
+	}
+	
+	public static void showAnswerCommentForm(int answerId, int questionId) {
+		render(answerId, questionId);
 	}
 
 	public static void addQuestion(String newQuestion, String tags) {
@@ -62,15 +65,27 @@ public class Admin extends Controller {
 		}
 	}
 
-	public static void addComment(Votable commentedVotable, String questionId,
-			String newComment) {
+	public static void addCommentToQuestion(int questionId,String newComment) {
 		User user = manager.getUserByName(session.get("username"));
+		Question question = manager.getQuestionById(questionId);
 		if (newComment.equals("") || newComment.equals(" ")) {
 			String message = "Your comment is empty!";
 			render(message);
 		} else {
-			Comment comment = new Comment(user, commentedVotable, newComment);
-			redirect("/");
+			Comment comment = new Comment(user, question, newComment);
+			redirect("/question/" + questionId + "/answers/");
+		}
+	}
+	
+	public static void addCommentToAnswer(int answerId, String newComment, int questionId) {
+		User user = manager.getUserByName(session.get("username"));
+		Answer answer = manager.getAnswerById(answerId);
+		if (newComment.equals("") || newComment.equals(" ")) {
+			String message = "Your comment is empty!";
+			render(message);
+		} else {
+			Comment comment = new Comment(user, answer, newComment);
+			redirect("/question/" + questionId + "/answers/");
 		}
 	}
 
