@@ -204,6 +204,7 @@ public class UserQuestionAnswerManager {
 			if (currentComment.getCommentedVotable().equals(currentQuestion))
 				sortedComments.add(currentComment);
 		}
+		Collections.sort(sortedComments, new CommentDateComparator());
 		return sortedComments;
 	}
 	
@@ -222,6 +223,7 @@ public class UserQuestionAnswerManager {
 			if (currentComment.getCommentedVotable().equals(currentAnswer))
 				sortedComments.add(currentComment);
 		}
+		Collections.sort(sortedComments, new CommentDateComparator());
 		return sortedComments;
 	}
 
