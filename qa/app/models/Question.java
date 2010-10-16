@@ -178,5 +178,14 @@ public class Question extends Votable {
 	public ArrayList<String> getTags() {
 		return this.tags;
 	}
+	
+	/**
+	 * Gets all Comments which belongs to this question
+	 * 
+	 * @return - a sorted list of comments
+	 */
+	public ArrayList<Comment> getComments() {
+		return userQuestionAnswerManager.getAllCommentsByQuestionIdSortedByDate(this.getId());
+	}
 
 }

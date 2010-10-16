@@ -17,6 +17,7 @@ public class UserQuestionAnswerManager {
 	/** All answers stored. */
 	public static ArrayList<Answer> answers;
 
+	/** All comments stored. */
 	public static ArrayList<Comment> comments;
 
 	/** All registered users. */
@@ -186,6 +187,42 @@ public class UserQuestionAnswerManager {
 		Collections.sort(sortedQuestions, new DateComparator());
 
 		return sortedQuestions;
+	}
+	
+	/**
+	 * Gets all comments to a certain question sorted by date.
+	 * 
+	 * @param id
+	 *            - the id of the question
+	 *            
+	 * @return - comments sorted by date
+	 */
+	public ArrayList<Comment> getAllCommentsByQuestionIdSortedByDate(int questionId) {
+		ArrayList<Comment> sortedComments = new ArrayList<Comment>();
+		Question currentQuestion = this.getQuestionById(questionId);
+		for (Comment currentComment : this.getComments()) {
+			if (currentComment.getCommentedVotable().equals(currentQuestion))
+				sortedComments.add(currentComment);
+		}
+		return sortedComments;
+	}
+	
+	/**
+	 * Gets all comments to a certain answer sorted by date.
+	 * 
+	 * @param id
+	 *            - the id of the answer
+	 *            
+	 * @return - comments sorted by date
+	 */
+	public ArrayList<Comment> getAllCommentsByAnswerIdSortedByDate(int answerId) {
+		ArrayList<Comment> sortedComments = new ArrayList<Comment>();
+		Answer currentAnswer = this.getAnswerById(answerId);
+		for (Comment currentComment : this.getComments()) {
+			if (currentComment.getCommentedVotable().equals(currentAnswer))
+				sortedComments.add(currentComment);
+		}
+		return sortedComments;
 	}
 
 	/**

@@ -133,4 +133,13 @@ public class Answer extends Votable {
 	public boolean belongsToQuestion(int qid) {
 		return qid == questionId;
 	}
+	
+	/**
+	 * Gets all Comments which belongs to this answer
+	 * 
+	 * @return - a sorted list of comments
+	 */
+	public ArrayList<Comment> getComments() {
+		return userQuestionAnswerManager.getAllCommentsByAnswerIdSortedByDate(this.getId());
+	}
 }
