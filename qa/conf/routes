@@ -15,11 +15,7 @@ GET     /public/                                staticDir:public
 
 # Catch all
 GET                /showQuestionForm                                Admin.showQuestionForm
-GET                /showQuestionCommentForm                         Admin.showQuestionCommentForm
-GET                /showAnswerCommentForm                           Admin.showAnswerCommentForm
 GET                /addQuestion                                     Admin.addQuestion
-GET                /addCommentToQuestion                            Admin.addCommentToQuestion
-GET                /addCommentToAnswer                              Admin.addCommentToAnswer
 GET                /showRegister                                    Application.showRegister
 GET                /question/{id}/answers/                          Application.showAnswers
 GET                /showState                                       Application.showState
@@ -27,7 +23,11 @@ GET                /users                                           Admin.showUs
 GET                /register                                        Application.register
 GET                /question/{qid}/setbestanswer/{aid}              Application.setBestAnswer
 GET                /question/{qid}/addAnswer	                   	Admin.showAnswerForm
+GET                /question/{qid}/comment_question                 Admin.showQuestionCommentForm
+GET                /question/{qid}/comment_answer                   Admin.showAnswerCommentForm
 GET                /question/{qid}/answer/addAnswer             	Admin.addAnswer
+GET                /question/{qid}/addQuestionComment               Admin.addCommentToQuestion
+GET                /question/{qid}/addAnswerComment                 Admin.addCommentToAnswer
 GET                /question/{qid}/vote                        		Admin.voteQuestion
 GET                /question/{qid}/answers/{aid}/vote               Admin.voteAnswer
 GET			       /recent											Application.showRecentQuestionsByNumber
