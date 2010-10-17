@@ -28,6 +28,8 @@ public class BootStrap extends Job {
 
 		log.info("fill Model with test-data");
 
+		User user = new User("admin", "admin@admin.ch", "admin");
+
 		int users = 5;
 		int questionsPerUser = 5;
 
