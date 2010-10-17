@@ -37,7 +37,7 @@ public class Application extends Controller {
 			String password, String password2, String email) {
 		render(message, name, password, password2, email);
 	}
-	
+
 	public static void showState() {
 		int userCount = manager.countOfUsers();
 		int questionCount = manager.countOfQuestions();
@@ -108,7 +108,8 @@ public class Application extends Controller {
 	 */
 	public static void showRecentQuestionsByNumber() {
 		final int number = 25; // The number of questions rendered
-		ArrayList<Question> recentQuestionsByNumber = manager.getRecentQuestionsByNumber(number); 
+		ArrayList<Question> recentQuestionsByNumber = manager
+				.getRecentQuestionsByNumber(number);
 
 		render(recentQuestionsByNumber);
 	}
@@ -116,30 +117,35 @@ public class Application extends Controller {
 	public static void setBestAnswer(int qid, int aid) {
 		Question q = manager.getQuestionById(qid);
 		Answer a = manager.getAnswerById(aid);
-		
+
 		q.setBestAnswer(a);
-		
+
 		showAnswers(Integer.toString(qid));
 	}
-	
-	/**renders the current user profile*/
+
+	/** renders the current user profile */
 	public static void showUserProfile(String message) {
 		ArrayList<User> currentUser = new ArrayList<User>();
 		currentUser.add(manager.getUserByName(session.get("username")));
 		render(message, currentUser);
 	}
-	
-	/**Saves changes in user Profile
-	 * @throws Throwable */
-	public static void editUserProfile(String name, String birthdate, String email, String phone, String password, String password2, String street, String town, String hobbies, String moto, String background, String quote) throws Throwable {
+
+	/**
+	 * Saves changes in user Profile
+	 * 
+	 * @throws Throwable
+	 */
+	public static void editUserProfile(String name, String birthdate,
+			String email, String phone, String password, String password2,
+			String street, String town, String hobbies, String moto,
+			String background, String quote) throws Throwable {
 		String username;
-		if(name.equals("")){
+		if (name.equals("")) {
 			username = session.get("username");
-		}
-		else{
+		} else {
 			username = name;
 		}
-		
+
 		if (!name.equals("")) {
 			if (!manager.checkUserNameIsOccupied(name)) {
 				manager.getUserByName(session.get("username")).setName(name);
@@ -152,13 +158,13 @@ public class Application extends Controller {
 			if (email.contains("@") || email.contains(".")) {
 				manager.getUserByName(username).setEmail(email);
 			} else {
-				Application.showUserProfile("Please re-check your email address!");
+				Application
+						.showUserProfile("Please re-check your email address!");
 			}
 		}
 		if (!password.equals("")) {
 			if (password.equals(password2)) {
-				manager.getUserByName(username).setPassword(
-						password);
+				manager.getUserByName(username).setPassword(password);
 			} else {
 				Application.showUserProfile("Passwords are not identical!");
 			}
@@ -187,50 +193,57 @@ public class Application extends Controller {
 		if (!quote.equals("")) {
 			manager.getUserByName(username).setQuote(quote);
 		}
-		if(name.equals("")){
+		if (name.equals("")) {
 			redirect("/");
-		}
-		else{
+		} else {
 			Secure.logout();
 		}
 	}
-	
+
+	/** Renders Search Results */
 	public static void search(String text) {
 		if (text == null) {
 			render();
 		}
 		if (text != null && text.equals("")) {
-			String message = "You have not inserted a Search Phrase";
+			String message = "Nothing to search";
 			render(message);
 		}
 		if (!text.equals("")) {
 			Search search = new Search(text);
-			search.fullTextOnly();
+			search.searchQuestionTags();
+			search.searchQuestionContent();
+			search.searchAnswerContent();
 
-			ArrayList<Question> questionResults = new ArrayList<Question>();
-			ArrayList<Answer> answerResults = new ArrayList<Answer>();
+			ArrayList<Question> questionContentResults = new ArrayList<Question>();
+			ArrayList<Question> questionTagResults = new ArrayList<Question>();
+			ArrayList<Answer> answerContentResults = new ArrayList<Answer>();
 
-			for (int i = 0; i < search.getQuestionIndexes().size(); i++) {
-				int index = search.getQuestionIndexes().get(i);
-				questionResults.add(manager.getQuestions().get(index));
+			// 3x Create ArrayLists with search results
+			for (int i = 0; i < search.getQuestionTagIndexes().size(); i++) {
+				int index = search.getQuestionTagIndexes().get(i);
+				questionTagResults.add(manager.getQuestions().get(index));
 			}
 
-			for (int i = 0; i < search.getAnswerIndexes().size(); i++) {
-				int index = search.getAnswerIndexes().get(i);
-				answerResults.add(manager.getAnswers().get(index));
+			for (int i = 0; i < search.getQuestionContentIndexes().size(); i++) {
+				int index = search.getQuestionContentIndexes().get(i);
+				questionContentResults.add(manager.getQuestions().get(index));
 			}
 
-			render(answerResults, questionResults);
+			for (int i = 0; i < search.getAnswerContentIndexes().size(); i++) {
+				int index = search.getAnswerContentIndexes().get(i);
+				answerContentResults.add(manager.getAnswers().get(index));
+			}
+
+			if (questionTagResults.size() != 0
+					|| questionContentResults.size() != 0
+					|| answerContentResults.size() != 0) {
+				render(questionTagResults, answerContentResults,
+						questionContentResults);
+			} else {
+				String message = "No Results";
+				render(message);
+			}
 		}
-	}
-
-	public static void searchResults(String text) {
-		if (text == null) {
-			Application.searchResults("Text is null");
-			render();
-		} else {
-			Application.searchResults("text has a value");
-			render();
-	}
 	}
 }

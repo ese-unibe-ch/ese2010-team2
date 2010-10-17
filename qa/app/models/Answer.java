@@ -1,7 +1,6 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import annotations.Testing;
 
@@ -41,13 +40,12 @@ public class Answer extends Votable {
 		this.id = answer_id;
 		isBestAnswer = false;
 		currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
-		user.addActivity("Answered question <"
-				+ question.getContent()
-				+ "> by writing: <" + content+ ">");
+		user.addActivity("Answered question <" + question.getContent()
+				+ "> by writing: <" + content + ">");
 		userQuestionAnswerManager.getAnswers().add(this);
 		answer_id++;
 	}
-	
+
 	@Testing
 	public Answer(String content, User user, Question question, int answerId) {
 		this.questionId = question.getId();
@@ -57,9 +55,8 @@ public class Answer extends Votable {
 		this.answer_id = answerId;
 		isBestAnswer = false;
 		currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
-		user.addActivity("Answered question <"
-				+ question.getContent()
-				+ "> by writing: <" + content+ ">");
+		user.addActivity("Answered question <" + question.getContent()
+				+ "> by writing: <" + content + ">");
 		userQuestionAnswerManager.getAnswers().add(this);
 		answer_id++;
 	}
@@ -133,13 +130,14 @@ public class Answer extends Votable {
 	public boolean belongsToQuestion(int qid) {
 		return qid == questionId;
 	}
-	
+
 	/**
 	 * Gets all Comments which belongs to this answer
 	 * 
 	 * @return - a sorted list of comments
 	 */
 	public ArrayList<Comment> getComments() {
-		return userQuestionAnswerManager.getAllCommentsByAnswerIdSortedByDate(this.getId());
+		return userQuestionAnswerManager
+				.getAllCommentsByAnswerIdSortedByDate(this.getId());
 	}
 }

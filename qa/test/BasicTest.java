@@ -19,16 +19,12 @@ public class BasicTest extends UnitTest {
 	@Before
 	public void setUp() {
 		manager = UserQuestionAnswerManager.getInstance();
-		admin = new User("admin", "admin@admin.ch", "admin"); 
+		admin = new User("admin", "admin@admin.ch", "admin");
 	}
 
 	@Test
 	public void shouldCreateIds() {
-		for(int i = 0; i<manager.getUsers().size(); i++){
-			System.out.println(manager.getUsers().get(i).getName());
-			System.out.println("****************");
-		}
-		
+
 		User a = new User("a", "a@a.ch", "a", 0);
 		User b = new User("b", "b@b.ch", "b");
 		User c = new User("c", "c@c.ch", "c");
@@ -38,7 +34,6 @@ public class BasicTest extends UnitTest {
 		assertEquals(1, b.getId());
 		assertEquals(2, c.getId());
 
-		
 		Question question = new Question("content of question", admin, 0);
 		Question question1 = new Question("content of question1", admin);
 		Question question2 = new Question("content of question2", admin);
@@ -57,10 +52,6 @@ public class BasicTest extends UnitTest {
 		assertEquals(0, answer.getId());
 		assertEquals(1, answer1.getId());
 		assertEquals(2, answer2.getId());
-		for(int i = 0; i<manager.getUsers().size(); i++){
-			System.out.println(manager.getUsers().get(i).getName());
-			System.out.println("****************");
-		}
 
 	}
 
@@ -83,7 +74,8 @@ public class BasicTest extends UnitTest {
 
 		assertEquals("content of question", manager.getQuestions().get(0)
 				.getContent());
-		assertEquals(admin.getName(), manager.getQuestions().get(0).getOwner().getName());
+		assertEquals(admin.getName(), manager.getQuestions().get(0).getOwner()
+				.getName());
 	}
 
 	@Test
@@ -94,9 +86,10 @@ public class BasicTest extends UnitTest {
 
 		assertEquals("content of answer", manager.getAnswers().get(0)
 				.getContent());
-		assertEquals(admin.getName(), manager.getQuestions().get(0).getOwner().getName());
-		assertEquals(manager.getQuestions().get(0).getId(), (manager
-				.getAnswers()).get(0).getQuestionId());
+		assertEquals(admin.getName(), manager.getQuestions().get(0).getOwner()
+				.getName());
+		assertEquals(manager.getQuestions().get(0).getId(),
+				(manager.getAnswers()).get(0).getQuestionId());
 	}
 
 	@Test
@@ -165,8 +158,8 @@ public class BasicTest extends UnitTest {
 	@Test
 	public void shouldGetQuestionById() {
 		Question question = new Question("content of question", admin);
-		assertEquals(question.getContent(), manager.getQuestionById(
-				question.getId()).getContent());
+		assertEquals(question.getContent(),
+				manager.getQuestionById(question.getId()).getContent());
 		assertNull(manager.getQuestionById(-1));
 	}
 
@@ -178,43 +171,42 @@ public class BasicTest extends UnitTest {
 				.getContent());
 		assertNull(manager.getAnswerById(-1));
 	}
-	
+
 	@Test
 	public void shouldGetUsersVotablesById() {
-		User user1 = new User("user1","user@1","password");
-		User user2 = new User("user2","user@2","password");
-		Question question = new Question ("something",user1);
-		Answer answer1 = new Answer("something",user2,question);
-		Answer answer2 = new Answer("something",user1,question);
+		User user1 = new User("user1", "user@1", "password");
+		User user2 = new User("user2", "user@2", "password");
+		Question question = new Question("something", user1);
+		Answer answer1 = new Answer("something", user2, question);
+		Answer answer2 = new Answer("something", user1, question);
 		ArrayList<Votable> list = manager.getVotablesByUserId(user1.getId());
-		assertEquals(2,list.size());
+		assertEquals(2, list.size());
 		assertTrue(list.contains(question));
 		assertTrue(list.contains(answer2));
 		assertFalse(list.contains(answer1));
 	}
-	
+
 	@Test
 	public void shouldGetRightScore() {
-		User topScorer = new User("scorer","user@champion","password");
+		User topScorer = new User("scorer", "user@champion", "password");
 		Question question = new Question("Good Question", topScorer);
 		Answer answer = new Answer("Good Answer", topScorer, question);
 		question.vote("1");
 		answer.vote("2");
-		assertEquals(3,topScorer.getScore());
+		assertEquals(3, topScorer.getScore());
 	}
-	
+
 	@Test
-	public void shouldAddUserLog(){
-		User logTester=new User("logTester","test@log","pw");
+	public void shouldAddUserLog() {
+		User logTester = new User("logTester", "test@log", "pw");
 		logTester.addActivity("Activity1");
 		logTester.addActivity("Activity2");
-		assertEquals(3,logTester.getActivities().size());
-		assertEquals("Activity2",logTester.getActivities().get(0));	
+		assertEquals(3, logTester.getActivities().size());
+		assertEquals("Activity2", logTester.getActivities().get(0));
 	}
-	
+
 	@AfterClass
-	public static void tearDown(){
-		//Cleaning up so next tests will not fail.
+	public static void tearDown() {
 		manager.getUsers().clear();
 		manager.getQuestions().clear();
 		manager.getAnswers().clear();

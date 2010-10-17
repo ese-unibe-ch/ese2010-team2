@@ -1,7 +1,6 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
 import annotations.Testing;
@@ -46,7 +45,7 @@ public class Question extends Votable {
 		questionOwner.addActivity("Asked question <" + content + ">");
 		question_id++;
 	}
-	
+
 	@Testing
 	public Question(String content, User questionOwner, int questionId) {
 		this.owner = questionOwner;
@@ -141,10 +140,11 @@ public class Question extends Votable {
 	 */
 	public void addTags(String tags) {
 		String delimiter = "[ ]+";
-		tags=tags.toLowerCase();
+		tags = tags.toLowerCase();
 		for (String newTag : tags.split(delimiter)) {
 			this.tags.add(newTag);
-			if (!userQuestionAnswerManager.getTagList().contains(newTag.toLowerCase()))
+			if (!userQuestionAnswerManager.getTagList().contains(
+					newTag.toLowerCase()))
 				userQuestionAnswerManager.addTag(newTag.toLowerCase());
 		}
 	}
@@ -153,12 +153,12 @@ public class Question extends Votable {
 		String delimiter = "[ ]+";
 		// The minimum Levenshtein distance two strings need to have.
 		int minDistance = 2;
-		tags=tags.toLowerCase();
+		tags = tags.toLowerCase();
 		String existingTags = new String();
 		for (String newTag : tags.split(delimiter)) {
 			for (String existingTag : userQuestionAnswerManager.getTagList()) {
-				if (models.algorithms.Levenshtein.getLevenshteinDistance(newTag
-						.toLowerCase(), existingTag) <= minDistance
+				if (models.algorithms.Levenshtein.getLevenshteinDistance(
+						newTag.toLowerCase(), existingTag) <= minDistance
 						&& !userQuestionAnswerManager.getTagList().contains(
 								newTag)) {
 					existingTags = existingTags + "#" + existingTag + " ";
@@ -178,14 +178,15 @@ public class Question extends Votable {
 	public ArrayList<String> getTags() {
 		return this.tags;
 	}
-	
+
 	/**
 	 * Gets all Comments which belongs to this question
 	 * 
 	 * @return - a sorted list of comments
 	 */
 	public ArrayList<Comment> getComments() {
-		return userQuestionAnswerManager.getAllCommentsByQuestionIdSortedByDate(this.getId());
+		return userQuestionAnswerManager
+				.getAllCommentsByQuestionIdSortedByDate(this.getId());
 	}
 
 }
