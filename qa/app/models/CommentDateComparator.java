@@ -4,8 +4,8 @@ import java.sql.Timestamp;
 import java.util.Comparator;
 
 /**
- * The Class CommentDateComparator implements Comparator and only overrides the method
- * compare().
+ * The Class CommentDateComparator implements Comparator and only overrides the
+ * method compare().
  */
 public class CommentDateComparator implements Comparator {
 

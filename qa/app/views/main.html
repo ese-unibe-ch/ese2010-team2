@@ -12,7 +12,11 @@
     </head>
     <body>
     	<div class="main">
-    	<p align="right"><a href="@{Application.showState()}">statistics</a></p>
+    	<div align="right">
+        	<form action="@{Application.Search()}" method="GET">
+				<input size="15" type="text" name="text" value="${text}"><input type="submit" value="Search" />
+			</form>
+		</div>
     		<div class="header">
         		<a href="@{Application.index()}"><h1>ESE KB</h1></a>
         		<h4>knowledge base by eseTeam-2 for ewernli </h4>

@@ -1,12 +1,12 @@
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
-
 import models.Answer;
 import models.Question;
 import models.User;
 import models.UserQuestionAnswerManager;
+
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Test;
+
 import play.test.UnitTest;
 
 public class UserQuestionAnswerManagerTest extends UnitTest {
@@ -155,7 +155,7 @@ public class UserQuestionAnswerManagerTest extends UnitTest {
 		// stored.
 		manager.getTagList().clear();
 		assertEquals(0, manager.getTagList().size());
-		
+
 		Question question1 = new Question("question1", admin);
 		question1.addTags("Hello hello world Earth earth World");
 		assertTrue(manager.getTagList().contains("hello"));
@@ -166,9 +166,7 @@ public class UserQuestionAnswerManagerTest extends UnitTest {
 
 	@AfterClass
 	public static void tearDown() {
-		// Cleaning up so next tests will not fail.
 		manager.getUsers().clear();
-		System.out.println(manager.getUsers().size());
 		manager.getQuestions().clear();
 		manager.getAnswers().clear();
 		manager.getTagList().clear();

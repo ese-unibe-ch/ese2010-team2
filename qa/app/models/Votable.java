@@ -1,15 +1,11 @@
 package models;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Votable delivers functionality for all objects that are votable
  * (e.g. answers and questions).
@@ -18,6 +14,7 @@ public abstract class Votable {
 
 	protected int id;
 	protected String content;
+
 	protected User owner;
 	protected int score = 0;
 	protected static UserQuestionAnswerManager userQuestionAnswerManager = UserQuestionAnswerManager
@@ -37,11 +34,6 @@ public abstract class Votable {
 		score = score + vote;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	public String toString() {
 		return content + "\n by " + owner;
 	}
@@ -113,5 +105,4 @@ public abstract class Votable {
 
 		this.currentTimestamp = new java.sql.Timestamp(cal.getTime().getTime());
 	}
-
 }

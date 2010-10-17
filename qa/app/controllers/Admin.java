@@ -3,9 +3,13 @@ package controllers;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import models.*;
-import play.data.validation.Required;
-import play.mvc.*;
+import models.Answer;
+import models.Comment;
+import models.Question;
+import models.User;
+import models.UserQuestionAnswerManager;
+import play.mvc.Controller;
+import play.mvc.With;
 
 /**
  * The Class Admin controls access on the database such as adding Answers or
@@ -26,9 +30,15 @@ public class Admin extends Controller {
 	public static void showQuestionCommentForm(String qid) {
 		render(qid);
 	}
+<<<<<<< HEAD
 	
 	public static void showAnswerCommentForm(int answerId, String qid) {
 		render(answerId, qid);
+=======
+
+	public static void showAnswerCommentForm(int answerId, int questionId) {
+		render(answerId, questionId);
+>>>>>>> 34198862e76f0621b8e1e8a43626386e048cf963
 	}
 
 	public static void addQuestion(String newQuestion, String tags) {
@@ -59,13 +69,17 @@ public class Admin extends Controller {
 			render(message, qid);
 		} else {
 			@SuppressWarnings("unused")
-			Answer answer = new Answer(newAnswer, user, manager
-					.getQuestionById(intId));
+			Answer answer = new Answer(newAnswer, user,
+					manager.getQuestionById(intId));
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
 
+<<<<<<< HEAD
 	public static void addCommentToQuestion(int qid ,String newComment) {
+=======
+	public static void addCommentToQuestion(int questionId, String newComment) {
+>>>>>>> 34198862e76f0621b8e1e8a43626386e048cf963
 		User user = manager.getUserByName(session.get("username"));
 		Question question = manager.getQuestionById(qid);
 		if (newComment.equals("") || newComment.equals(" ")) {
@@ -76,8 +90,14 @@ public class Admin extends Controller {
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
+<<<<<<< HEAD
 	
 	public static void addCommentToAnswer(int answerId, int qid, String newComment) {
+=======
+
+	public static void addCommentToAnswer(int answerId, String newComment,
+			int questionId) {
+>>>>>>> 34198862e76f0621b8e1e8a43626386e048cf963
 		User user = manager.getUserByName(session.get("username"));
 		Answer answer = manager.getAnswerById(answerId);
 		if (newComment.equals("") || newComment.equals(" ")) {
@@ -92,8 +112,8 @@ public class Admin extends Controller {
 	public static void voteQuestion(String qid, String vote) {
 		int id = Integer.parseInt(qid);
 		User user = manager.getUserByName(session.get("username"));
-		if (manager.getQuestionById(id).getOwner().equals(
-				session.get("username"))) {
+		if (manager.getQuestionById(id).getOwner()
+				.equals(session.get("username"))) {
 			String message = "You cannot vote your own question!";
 			render(message, qid);
 		} else if (manager.getQuestionById(id).checkUserVotedForQuestion(user)) {

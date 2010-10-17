@@ -1,8 +1,6 @@
 package models;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -184,16 +182,17 @@ public class UserQuestionAnswerManager {
 
 		return sortedQuestions;
 	}
-	
+
 	/**
 	 * Gets all comments to a certain question sorted by date.
 	 * 
 	 * @param id
 	 *            - the id of the question
-	 *            
+	 * 
 	 * @return - comments sorted by date
 	 */
-	public ArrayList<Comment> getAllCommentsByQuestionIdSortedByDate(int questionId) {
+	public ArrayList<Comment> getAllCommentsByQuestionIdSortedByDate(
+			int questionId) {
 		ArrayList<Comment> sortedComments = new ArrayList<Comment>();
 		Question currentQuestion = this.getQuestionById(questionId);
 		for (Comment currentComment : this.getComments()) {
@@ -203,13 +202,13 @@ public class UserQuestionAnswerManager {
 		Collections.sort(sortedComments, new CommentDateComparator());
 		return sortedComments;
 	}
-	
+
 	/**
 	 * Gets all comments to a certain answer sorted by date.
 	 * 
 	 * @param id
 	 *            - the id of the answer
-	 *            
+	 * 
 	 * @return - comments sorted by date
 	 */
 	public ArrayList<Comment> getAllCommentsByAnswerIdSortedByDate(int answerId) {
@@ -275,9 +274,9 @@ public class UserQuestionAnswerManager {
 	 * @return - the newest questions in the KB. The size of the array equals
 	 *         'count'.
 	 */
-	public ArrayList<Question> getRecentQuestionsByNumber(int count){
+	public ArrayList<Question> getRecentQuestionsByNumber(int count) {
 		ArrayList allQuestions = getQuestionsSortedByDate();
-		ArrayList recentQuestions= new ArrayList<String>();
+		ArrayList recentQuestions = new ArrayList<String>();
 		int size = allQuestions.size();
 
 		// Pick last '#count' questions out of the list sorted by date.
@@ -286,14 +285,14 @@ public class UserQuestionAnswerManager {
 		}
 		return recentQuestions;
 	}
-	
+
 	/*
 	 * Getter methods
 	 */
 	public ArrayList<User> getUsers() {
 		return users;
 	}
-	
+
 	public ArrayList<Question> getQuestions() {
 		return questions;
 	}
@@ -305,22 +304,22 @@ public class UserQuestionAnswerManager {
 	public ArrayList<Comment> getComments() {
 		return comments;
 	}
-	
-	public ArrayList<String> getTagList(){
+
+	public ArrayList<String> getTagList() {
 		return this.tags;
 	}
-	
+
 	/*
 	 * Count methods
 	 */
 	public int countOfUsers() {
 		return this.getUsers().size();
 	}
-	
+
 	public int countOfQuestions() {
 		return this.getQuestions().size();
 	}
-	
+
 	public int countOfAnswers() {
 		return this.getAnswers().size();
 	}
@@ -328,7 +327,7 @@ public class UserQuestionAnswerManager {
 	public int countOfComments() {
 		return this.getComments().size();
 	}
-	
+
 	public int countOfTags() {
 		return this.getTagList().size();
 	}
