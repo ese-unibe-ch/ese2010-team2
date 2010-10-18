@@ -1,5 +1,6 @@
 package controllers;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -25,6 +26,46 @@ public class Admin extends Controller {
 
 	public static void showQuestionForm() {
 		render();
+	}
+	
+	//TO-DO
+	
+	public static void showEditCommentForm(String content) {
+	}
+	
+	//TO-DO
+	
+	public static void editComment(){
+	}
+	
+	public static void showEditQuestionForm(int qid) {
+		Question question = manager.getQuestionById(qid);
+		render(question, qid);
+	}
+	
+	/**
+	 * Sets the content of the question to the new value
+	 * @param qid
+	 * @param newContent
+	 */
+	public static void editQuestion(int qid, String newContent){
+		manager.getQuestionById(qid).setContent(newContent);
+		redirect("/");
+	}
+
+	public static void showEditAnswerForm(int answerId, int qid) {
+		Answer answer = manager.getAnswerById(answerId);
+		render(answer, answerId);
+	}
+	
+	/**
+	 * Sets the content of the answer to the new value
+	 * @param answerId
+	 * @param newContent
+	 */
+	public static void editAnswer(int answerId, String newContent) {
+		manager.getAnswerById(answerId).setContent(newContent);
+		redirect("/");
 	}
 
 	public static void showQuestionCommentForm(String qid) {

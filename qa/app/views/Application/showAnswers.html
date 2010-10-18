@@ -13,7 +13,11 @@
 	#{list items:question.getTags(), as:'tag'}
 		#${tag} 
 	#{/list}</h6>
-	<h6><p align="right"><a href="@{Admin.showQuestionCommentForm(question.getId())}">write comment</a></p></h6>
+	
+	<h6><p align="right">
+	<a href="@{Admin.showEditQuestionForm(question.getId())}">edit question</a> |
+	<a href="@{Admin.showQuestionCommentForm(question.getId())}">write comment</a>
+	</p></h6>
 	
 	<!--List of comments--!>
 	#{list items:question.getComments(), as:'comment'}
@@ -50,7 +54,10 @@
 		
 	   	<legend class="question" align="bottom">${answer.getTimestamp()}</legend>
    	
-   		<h6><p align="right"><a href="@{Admin.showAnswerCommentForm(answer.getId(),question.getId())}">write comment</a></p></h6>
+   		<h6><p align="right">
+   		<a href="@{Admin.showEditAnswerForm(answer.getId(),question.getId())}">edit answer</a> | 
+   		<a href="@{Admin.showAnswerCommentForm(answer.getId(),question.getId())}">write comment</a>
+   		</p></h6>
    		
    		<!--List of comments--!>
 		#{list items:answer.getComments(), as:'comment'}

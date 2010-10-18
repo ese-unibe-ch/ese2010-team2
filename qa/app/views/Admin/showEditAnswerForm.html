@@ -1,0 +1,15 @@
+#{extends 'main.html' /}
+#{set title:'ESE KB - Edit answer' /}
+<a href="javascript:history.back()">back</a>
+<h2>Edit answer:</h2>
+<form action="@{Admin.editAnswer(answer.getId())}" method="GET">
+ <table>
+		<tr>
+			<td><textarea id="newContent" name="newContent">${answer.getContent()}</textarea></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" value="Save!" /></td>
+		</tr>
+	</table>
+</form>
