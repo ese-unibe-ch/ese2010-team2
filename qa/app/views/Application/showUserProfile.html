@@ -66,4 +66,19 @@
 	</table>
 	</form>
 </fieldset>
+<fieldset>
+	<legend>Avatar</legend>
+	
+	#{if user.hasAvatar()}
+	<img src="/public/images/avatars/${user.getAvatarFileName()}" title="your avatar" alt="your avatar" />
+	#{/if}
+	#{else}
+	<p>No avatar set yet.</p>
+	#{/else}
+	
+	<form action="@{Application.setAvatar()}" method="POST" enctype="multipart/form-data">
+		<input type="file" name="avatar" id="avatar" accept="image/*" />
+		<input type="submit" value="Upload" />
+	</form>
+</fieldset>
 #{/list}

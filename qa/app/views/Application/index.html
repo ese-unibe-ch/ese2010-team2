@@ -30,8 +30,15 @@
 
 #{list items:questions, as:'question'}
 	<fieldset>
-    <a href="@{Application.showAnswers(question.getId())}"/><h3>${question.getContent()}<h3></a>
-   	<p style="font-size:8pt">by ${question.getOwner()}<p>
+	<p>
+    	<a href="@{Application.showAnswers(question.getId())}" />
+    		${question.getHtml().raw()}
+    	</a>
+    </p>
+   	<p style="font-size:8pt">
+   		by ${question.getOwner()}
+   		#{avatar user:question.getOwner() /}
+   	<p>
    	<br />
 	#{if user}
 		#{if question.ownerIs(session.uid)}

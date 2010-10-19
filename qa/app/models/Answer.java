@@ -117,6 +117,7 @@ public class Answer extends Votable {
 	 */
 	public void markAsBestAnswer(boolean status) {
 		isBestAnswer = status;
+		score += isBestAnswer ? 5 : -5;
 	}
 
 	/**

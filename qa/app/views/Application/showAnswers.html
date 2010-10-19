@@ -3,8 +3,11 @@
 
 <a href="/">back</a>
 <fieldset>
-	<p>${question.getContent()}</p>
-	<p style="font-size:8pt">by ${question.getOwner()}</p>
+	<p>${question.getHtml().raw()}</p>
+	<p style="font-size:8pt">
+		by ${question.getOwner()}
+		#{avatar user:question.getOwner() /}
+	</p>
 	<legend class="question" align="bottom">${question.getTimestamp()}</legend>
 	<h6>Tags:
 	#{ifnot question.getTags()}
@@ -37,9 +40,12 @@
 	    <span class="bestanswer">Best answer according to OP</span>
 	    #{/if}
 	   
-	    <p>${answer.getContent()}<p>
+	    <p>${answer.getHtml().raw()}<p>
 	   
-	    <p style="font-size:8pt">by ${answer.getOwner()}</p>
+	    <p style="font-size:8pt">
+	    	by ${answer.getOwner()}
+	    	#{avatar user:answer.getOwner() /}
+	    </p>
 	   	
 	    #{ifnot answer.ownerIs(session.uid)}
 	    <form id="vote" action="@{Admin.voteAnswer(question.getId(),answer.getId())}" method="GET">

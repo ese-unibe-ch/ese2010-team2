@@ -1,5 +1,6 @@
 package models;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import annotations.Testing;
@@ -21,6 +22,8 @@ public class User {
 	/** The fields describing a user's personality. */
 	private String phone, street, town, birthdate, background, hobbies, moto,
 			quote;
+	
+	private File avatar;
 
 	/** The activity-log. */
 	public ArrayList<String> activity = new ArrayList<String>();
@@ -209,4 +212,34 @@ public class User {
 		return name;
 	}
 
+	/**
+	 * @param avatar File instance representing new avatar
+	 */
+	public void setAvatar(File avatar) {
+		this.avatar = avatar;
+	}
+
+	/**
+	 * @return avatar filename
+	 */
+	public String getAvatarFileName() {
+		return avatar.getName();
+	}
+	
+	/**
+	 * 
+	 * @return File instance representing avatar image
+	 * @see File
+	 */	
+	public File getAvatar() {
+		return avatar;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean hasAvatar() {
+		return avatar != null;
+	}
 }
