@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.petebevin.markdown.MarkdownProcessor;
+
 /**
  * The Class Votable delivers functionality for all objects that are votable
  * (e.g. answers and questions).
@@ -36,6 +38,14 @@ public abstract class Votable {
 
 	public String toString() {
 		return content + "\n by " + owner;
+	}
+	
+	/**
+	 * TODO do not create a new instance for every call, how?
+	 * @return parsed markdown string, so either plain text or HTML.
+	 */
+	public String getHtml() {
+		return new MarkdownProcessor().markdown(content);
 	}
 
 	/**

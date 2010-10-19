@@ -3,7 +3,7 @@
 
 <a href="/">back</a>
 <fieldset>
-	<p>${question.getContent()}</p>
+	<p>${question.getHtml().raw()}</p>
 	<p style="font-size:8pt">
 		by ${question.getOwner()}
 		#{avatar user:question.getOwner() /}
@@ -36,7 +36,7 @@
 	    <span class="bestanswer">Best answer according to OP</span>
 	    #{/if}
 	   
-	    <p>${answer.getContent()}<p>
+	    <p>${answer.getHtml().raw()}<p>
 	   
 	    <p style="font-size:8pt">
 	    	by ${answer.getOwner()}
