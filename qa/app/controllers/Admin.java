@@ -28,16 +28,6 @@ public class Admin extends Controller {
 		render();
 	}
 	
-	//TO-DO
-	
-	public static void showEditCommentForm(String content) {
-	}
-	
-	//TO-DO
-	
-	public static void editComment(){
-	}
-	
 	public static void showEditQuestionForm(int qid) {
 		Question question = manager.getQuestionById(qid);
 		render(question, qid);
@@ -50,12 +40,12 @@ public class Admin extends Controller {
 	 */
 	public static void editQuestion(int qid, String newContent){
 		manager.getQuestionById(qid).setContent(newContent);
-		redirect("/");
+		redirect("/question/" + qid + "/answers/");
 	}
 
 	public static void showEditAnswerForm(int answerId, int qid) {
 		Answer answer = manager.getAnswerById(answerId);
-		render(answer, answerId);
+		render(answer, answerId, qid);
 	}
 	
 	/**
@@ -63,9 +53,9 @@ public class Admin extends Controller {
 	 * @param answerId
 	 * @param newContent
 	 */
-	public static void editAnswer(int answerId, String newContent) {
+	public static void editAnswer(int answerId, int qid, String newContent) {
 		manager.getAnswerById(answerId).setContent(newContent);
-		redirect("/");
+		redirect("/question/" + qid + "/answers/");
 	}
 
 	public static void showQuestionCommentForm(String qid) {
