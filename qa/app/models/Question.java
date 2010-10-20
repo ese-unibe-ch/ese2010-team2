@@ -1,3 +1,4 @@
+
 package models;
 
 import java.util.ArrayList;
@@ -151,6 +152,9 @@ public class Question extends Post {
 	/*
 	 * Getter methods
 	 */
+	public String getTagByIndex(int i) {
+		return tags.get(i);
+	}
 	public Answer getBestAnswer() {
 		return bestAnswer;
 	}

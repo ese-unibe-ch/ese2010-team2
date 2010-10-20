@@ -58,9 +58,15 @@ public class QuestionTest extends UnitTest {
 
 	@Test
 	public void shouldAddTags() {
+		// Before checking size before adding 4 tags
+		assertEquals(4, DbManager.getTagList().size());
+
 		question.addTags("hello world planet earth");
 		assertEquals(4, question.getTags().size());
-		assertEquals(4, DbManager.getTagList().size());
+
+		// Size after adding 4 tags should now incremented by 4
+		assertEquals(8, DbManager.getTagList().size());
+
 		assertTrue(question.getTags().contains("hello"));
 		assertTrue(question.getTags().contains("world"));
 		assertTrue(question.getTags().contains("planet"));

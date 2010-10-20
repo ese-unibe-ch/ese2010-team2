@@ -8,13 +8,15 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import org.apache.commons.io.IOUtils;
-
 import models.Answer;
+import models.Comment;
+import models.DbManager;
 import models.Question;
 import models.Search;
 import models.User;
-import models.DbManager;
+
+import org.apache.commons.io.IOUtils;
+
 import play.Play;
 import play.mvc.Controller;
 import annotations.Unused;
@@ -146,6 +148,11 @@ public class Application extends Controller {
 			String email, String phone, String password, String password2,
 			String street, String town, String hobbies, String moto,
 			String background, String quote) throws Throwable {
+
+		// This block will be used when changing the user name and one of the
+		// following attributes e.g. email
+		// email must be changed for the new user name not the old, so you have
+		// to determine if the user name was changed.
 		String username;
 		if (name.equals("")) {
 			username = session.get("username");
@@ -153,6 +160,7 @@ public class Application extends Controller {
 			username = name;
 		}
 
+		// Checks if user name is already occupied
 		if (!name.equals("")) {
 			if (!manager.checkUserNameIsOccupied(name)) {
 				manager.getUserByName(session.get("username")).setName(name);
@@ -161,6 +169,7 @@ public class Application extends Controller {
 			}
 
 		}
+		// Checks if the email has a @ and a dot
 		if (!email.equals("")) {
 			if (email.contains("@") || email.contains(".")) {
 				manager.getUserByName(username).setEmail(email);
@@ -169,6 +178,7 @@ public class Application extends Controller {
 						.showUserProfile("Please re-check your email address!");
 			}
 		}
+		// Checks if two similar password were typed in.
 		if (!password.equals("")) {
 			if (password.equals(password2)) {
 				manager.getUserByName(username).setPassword(password);
@@ -176,6 +186,7 @@ public class Application extends Controller {
 				Application.showUserProfile("Passwords are not identical!");
 			}
 		}
+
 		if (!phone.equals("")) {
 			manager.getUserByName(username).setPhone(phone);
 		}
@@ -200,6 +211,7 @@ public class Application extends Controller {
 		if (!quote.equals("")) {
 			manager.getUserByName(username).setQuote(quote);
 		}
+
 		if (name.equals("")) {
 			redirect("/");
 		} else {
@@ -253,47 +265,42 @@ public class Application extends Controller {
 
 	/** Renders Search Results */
 	public static void search(String text) {
+		// When site is first time loaded
 		if (text == null) {
 			render();
 		}
+		// If no query is typed in
 		if (text != null && text.equals("")) {
 			String message = "Nothing to search";
 			render(message);
 		}
+		// If a query is typed in
 		if (!text.equals("")) {
 			Search search = new Search(text);
 			search.searchQuestionTags();
 			search.searchQuestionContent();
 			search.searchAnswerContent();
+			search.searchComments();
 
-			ArrayList<Question> questionContentResults = new ArrayList<Question>();
-			ArrayList<Question> questionTagResults = new ArrayList<Question>();
-			ArrayList<Answer> answerContentResults = new ArrayList<Answer>();
+			ArrayList<Question> questionContentResults = search
+					.getQuestionContentResults();
+			ArrayList<Question> questionTagResults = search.getQuestionTagsResults();
+			ArrayList<Answer> answerContentResults = search
+					.getAnswerContentResults();
+			ArrayList<Comment> commentResults = search.getCommentResults();
 
-			// 3x Create ArrayLists with search results
-			for (int i = 0; i < search.getQuestionTagIndexes().size(); i++) {
-				int index = search.getQuestionTagIndexes().get(i);
-				questionTagResults.add(manager.getQuestions().get(index));
-			}
-
-			for (int i = 0; i < search.getQuestionContentIndexes().size(); i++) {
-				int index = search.getQuestionContentIndexes().get(i);
-				questionContentResults.add(manager.getQuestions().get(index));
-			}
-
-			for (int i = 0; i < search.getAnswerContentIndexes().size(); i++) {
-				int index = search.getAnswerContentIndexes().get(i);
-				answerContentResults.add(manager.getAnswers().get(index));
-			}
-
-			if (questionTagResults.size() != 0
-					|| questionContentResults.size() != 0
-					|| answerContentResults.size() != 0) {
-				render(questionTagResults, answerContentResults,
-						questionContentResults);
-			} else {
+			// If query has no results
+			if (questionTagResults.size() == 0
+					&& questionContentResults.size() == 0
+					&& answerContentResults.size() == 0
+					&& commentResults.size() == 0) {
 				String message = "No Results";
 				render(message);
+			}
+			// If we have a match
+			else {
+				render(questionTagResults, answerContentResults,
+						questionContentResults, commentResults);
 			}
 		}
 	}

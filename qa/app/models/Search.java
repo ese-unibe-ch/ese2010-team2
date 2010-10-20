@@ -2,57 +2,58 @@ package models;
 
 import java.util.ArrayList;
 
-import annotations.Unused;
-
 public class Search {
-	private String text;
-	/** Number of search results in comment search */
-	private int n;
+	private String query;
 	private DbManager manager;
-	/** Stores the indexes of the Questions, with tag search result */
-	private ArrayList<Integer> questionTagIndexes;
-	/** Stores the indexes of the Questions, with content search result */
-	private ArrayList<Integer> questionContentIndexes;
-	/**
-	 * Stores the indexes of the comments, and at index=0 the index of the
-	 * related question
-	 */
-	private ArrayList<ArrayList<Integer>> questionCommentIndexes;
-	/** Stores the indexes of the Answers, with content search result */
-	private ArrayList<Integer> answerContentIndexes;
-	/**
-	 * Stores the indexes of the comments, and at index=0 the index of the
-	 * related answer
-	 */
-	private ArrayList<ArrayList<Integer>> answerCommentIndexes;
 
-	public Search(String text) {
-		this.text = text;
-		n = 50;
+	/**
+	 * Determines the number of questions, answer and comments in DbMangers
+	 * ArrayLists
+	 */
+	private int numberOfQuestions;
+	private int numberOfAnswers;
+	private int numberOfComments;
+
+	/** Store the results of the search */
+	private ArrayList<Question> questionTagResults;
+	private ArrayList<Question> questionContentResults;
+	private ArrayList<Answer> answerContentResults;
+	private ArrayList<Comment> commentResults;
+
+	public Search(String query) {
+		this.query = query;
+		this.query = this.query.toLowerCase();
 		this.manager = DbManager.getInstance();
-		questionTagIndexes = new ArrayList<Integer>();
-		questionContentIndexes = new ArrayList<Integer>();
-		questionCommentIndexes = new ArrayList<ArrayList<Integer>>();
-		answerContentIndexes = new ArrayList<Integer>();
-		answerCommentIndexes = new ArrayList<ArrayList<Integer>>();
 
-		// Fill in ArrayLists with ArrayLists, create 2D ArrayLists
-		for (int i = 0; i < n; i++) {
-			questionCommentIndexes.add(new ArrayList<Integer>());
-		}
-		for (int i = 0; i < n; i++) {
-			answerCommentIndexes.add(new ArrayList<Integer>());
-		}
+		questionTagResults = new ArrayList<Question>();
+		questionContentResults = new ArrayList<Question>();
+		answerContentResults = new ArrayList<Answer>();
+		commentResults = new ArrayList<Comment>();
+
+		numberOfQuestions = manager.getQuestions().size();
+		numberOfAnswers = manager.getAnswers().size();
+		numberOfComments = manager.getComments().size();
 	}
 
+	/** Search through all question tags for search query matches */
 	public void searchQuestionTags() {
+		// Prevents that if a search query matches two different tags the
+		// question will be added twice.
 		boolean addQuestionOnlyOnce = true;
-		for (int i = 0; i < manager.getQuestions().size(); i++) {
-			for (int j = 0; j < manager.getQuestions().get(i).getTags().size(); j++) {
-				if (manager.getQuestions().get(i).getTags().get(j)
-						.contains(text)) {
+
+		for (int i = 0; i < numberOfQuestions; i++) {
+
+			Question curQuestion = manager.getQuestions().get(i);
+			int numberOfTags = curQuestion.getTags().size();
+
+			for (int j = 0; j < numberOfTags; j++) {
+
+				String curTag = curQuestion.getTagByIndex(j);
+				curTag = curTag.toLowerCase();
+
+				if (curTag.contains(query)) {
 					if (addQuestionOnlyOnce) {
-						questionTagIndexes.add(i);
+						questionTagResults.add(curQuestion);
 						addQuestionOnlyOnce = false;
 					}
 				}
@@ -61,80 +62,62 @@ public class Search {
 		addQuestionOnlyOnce = true;
 	}
 
+	/** Search through all question contents for search query matches */
 	public void searchQuestionContent() {
-		for (int i = 0; i < manager.getQuestions().size(); i++) {
-			if (manager.getQuestions().get(i).getContent().contains(text)) {
-				questionContentIndexes.add(i);
+		for (int i = 0; i < numberOfQuestions; i++) {
+
+			Question curQuestion = manager.getQuestions().get(i);
+			String curContent = curQuestion.getContent();
+			curContent = curContent.toLowerCase();
+
+			if (curContent.contains(query)) {
+				questionContentResults.add(curQuestion);
 			}
 		}
 	}
 
-	@Unused
-	// TODO Will be done by next week
-	public void searchQuestionComments() {
-		int index = 0;
-		boolean addQuestionIndex = true;
-		boolean incrementIndex = false;
-		for (int i = 0; i < manager.getQuestions().size(); i++) {
-			for (int j = 0; j < manager.getQuestions().get(i).getTags().size(); j++) {
-				if (manager.getQuestions().get(i).getTags().get(j)
-						.contains(text)) {
-					if (addQuestionIndex) {
-						questionCommentIndexes.get(index).add(i);
-						addQuestionIndex = false;
-					} else {
-						questionCommentIndexes.get(index).add(j);
-					}
-					incrementIndex = true;
-				}
-			}
-			addQuestionIndex = true;
-			if (incrementIndex) {
-				index++;
-				incrementIndex = false;
+	/** Search through all comments for matches */
+	public void searchComments() {
+		for (int i = 0; i < numberOfComments; i++) {
+
+			Comment curComment = manager.getComments().get(i);
+			String curContent = curComment.getContent();
+			curContent = curContent.toLowerCase();
+
+			if (curContent.contains(query)) {
+				commentResults.add(curComment);
 			}
 		}
 	}
 
+	/** Search through all answer contents for matches */
 	public void searchAnswerContent() {
-		for (int i = 0; i < manager.getAnswers().size(); i++) {
-			if (manager.getAnswers().get(i).getContent().contains(text)) {
-				answerContentIndexes.add(i);
+		for (int i = 0; i < numberOfAnswers; i++) {
+
+			Answer curAnswer = manager.getAnswers().get(i);
+			String curContent = curAnswer.getContent();
+			curContent = curContent.toLowerCase();
+
+			if (curContent.contains(query)) {
+				answerContentResults.add(curAnswer);
 			}
 		}
 	}
 
-	@Unused
-	// TODO Will be done by next week
-	public void searchAnswersComments() {
+	/** Getters */
+	public ArrayList<Question> getQuestionTagsResults() {
+		return questionTagResults;
 	}
 
-	/** Getters and Setters */
-	public ArrayList<Integer> getQuestionTagIndexes() {
-		return questionTagIndexes;
+	public ArrayList<Question> getQuestionContentResults() {
+		return questionContentResults;
 	}
 
-	public ArrayList<Integer> getQuestionContentIndexes() {
-		return questionContentIndexes;
+	public ArrayList<Answer> getAnswerContentResults() {
+		return answerContentResults;
 	}
 
-	public ArrayList<ArrayList<Integer>> getQuestionCommentIndexes() {
-		return questionCommentIndexes;
-	}
-
-	public ArrayList<Integer> getAnswerContentIndexes() {
-		return answerContentIndexes;
-	}
-
-	public ArrayList<ArrayList<Integer>> getAnswerCommentIndexes() {
-		return answerCommentIndexes;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
+	public ArrayList<Comment> getCommentResults() {
+		return commentResults;
 	}
 }

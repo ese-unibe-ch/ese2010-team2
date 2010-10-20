@@ -4,82 +4,73 @@
 <form action="@{Application.Search()}" method="GET">
 	<br>
 	<input type="text" name="text" value="${text}"><input type="submit" value="Search" /><br>
-	<p style="font-size:8pt">Order: QuestionTags-->QuestionContent-->AnswerContent</p>
+	<p style="font-size:8pt">Order: QuestionTags-->QuestionContent-->AnswerContent-->Comments</p>
 	<br>
 	<br>
 </form>
 <h3 style="color:#c00">${message}</h3>
 
 #{list items:questionTagResults, as:'question'}
-	<fieldset>
-    <a href="@{Application.showAnswers(question.getId())}"/><h3>${question.getContent()}<h3></a>
-   	<p style="font-size:8pt">by ${question.getOwner()}<p>
-   	<br />
-	#{if user}
-		#{if question.ownerIs(session.uid)}
-		<p style="font-size:8pt">You can't rate your own post!</p>
-   		#{/if}
-   		#{else}
-   		<form id="vote" action="@{Admin.voteQuestion(question.getId())}" method="GET">
-   		<p style="font-size:8pt">Score: ${question.getScore()} Vote: <input id="up" type="submit" value ="1" name="vote" /> <input id="up" type="submit" value ="-1" name="vote" /></p>
-   		</form>
-   		#{/else}
-   	#{/if}
-   	<legend class="question" align="bottom">${question.getTimestamp()}</legend>
-   	<h6 style="color:#c00">Tags:
+<fieldset>
+	<p><a href="@{Application.showAnswers(question.getId())}" />${question.getHtml().raw()}</a></p>
+	<p style="font-size:8pt">
+		by ${question.getOwner()}
+		#{avatar user:question.getOwner() /}
+	</p>
+	<p style="font-size:8pt">Score: ${question.getScore()}</p>
+	<legend class="question" align="bottom">Tag / ${question.getTimestamp()}</legend>
+	<h6>Tags:
 	#{ifnot question.getTags()}
 		none
 	#{/ifnot}
 	#{list items:question.getTags(), as:'tag'}
 		#${tag} 
-	#{/list}</h6>
-    </fieldset>
+	#{/list}
+	</h6>
+</fieldset>
 #{/list}
 
 #{list items:questionContentResults, as:'question'}
-	<fieldset>
-    <a href="@{Application.showAnswers(question.getId())}"/><h3 style="color:#c00">${question.getContent()}</h3></a>
-   	<p style="font-size:8pt">by ${question.getOwner()}</p>
-   	<br />
-	#{if user}
-		#{if question.ownerIs(session.uid)}
-		<p style="font-size:8pt">You can't rate your own post!</p>
-   		#{/if}
-   		#{else}
-   		<form id="vote" action="@{Admin.voteQuestion(question.getId())}" method="GET">
-   		<p style="font-size:8pt">Score: ${question.getScore()} Vote: <input id="up" type="submit" value ="1" name="vote" /> <input id="up" type="submit" value ="-1" name="vote" /></p>
-   		</form>
-   		#{/else}
-   	#{/if}
-   	<legend class="question" align="bottom">${question.getTimestamp()}</legend>
-    </fieldset>
+<fieldset>
+	<p><a href="@{Application.showAnswers(question.getId())}" />${question.getHtml().raw()}</a></p>
+	<p style="font-size:8pt">
+		by ${question.getOwner()}
+		#{avatar user:question.getOwner() /}
+	</p>
+	<p style="font-size:8pt">Score: ${question.getScore()}</p>
+	<legend class="question" align="bottom">Question / ${question.getTimestamp()}</legend>
+	<h6>Tags:
+	#{ifnot question.getTags()}
+		none
+	#{/ifnot}
+	#{list items:question.getTags(), as:'tag'}
+		#${tag} 
+	#{/list}
+	</h6>
+</fieldset>
 #{/list}
 
 #{list items:answerContentResults, as:'answer'}
-	<fieldset>
-	    #{if answer.isBestAnswer()}
-	    <span class="bestanswer">Best answer according to OP</span>
-	    #{/if}
-	   
-	    <p style="color:#c00">${answer.getContent()}<p>
-	   
-	    <p style="font-size:8pt">by ${answer.getOwner()}</p>
-	   	
-	    #{ifnot answer.ownerIs(session.uid)}
-	    <form id="vote" action="@{Admin.voteAnswer(question.getId(),answer.getId())}" method="GET">
-	    <p style="font-size:8pt">Score: ${answer.getScore()} Vote: <input id="aid" type="submit" value ="1" name="vote" /> <input id="aid" type="submit" value ="-1" name="vote" /></p>
-	    </form>
-	    #{/ifnot}
-		
-	   	<legend class="question" align="bottom">${answer.getTimestamp()}</legend>
-   		
-   		<!--List of comments-->
-		#{list items:answer.getComments(), as:'comment'}
-			<p style="font-size:11pt">${comment.getContent()}</p>
-			<p style="font-size:8pt">by ${comment.getOwner()}</p>
-			<p style="font-size:8pt">at ${comment.getTimestamp()}</p>
-		#{/list}
-		<br>
-		<a href="@{Application.showAnswers(answer.getQuestionId())}"/>--> Link to related Question</a>
-    </fieldset>
+<fieldset>
+	#{if answer.isBestAnswer()}
+	<span class="bestanswer">Best answer according to OP</span>
+	#{/if}
+	<p><a href="@{Application.showAnswers(question.getId())}" />${answer.getHtml().raw()}</a><p>
+	<p style="font-size:8pt">
+		by ${answer.getOwner()}
+		#{avatar user:answer.getOwner() /}
+	</p>
+	<p style="font-size:8pt">Score: ${answer.getScore()}</p>
+	<legend class="question" align="bottom">Answer / ${answer.getTimestamp()}</legend>
+</fieldset>
+#{/list}
+
+#{list items:commentResults, as:'comment'}
+<fieldset>
+	<p style="font-size:11pt">${comment.getContent()}</p>
+	<p style="font-size:8pt">by ${comment.getOwner()}</p>
+	<br>
+	<a href="@{Application.showAnswers(comment.getCommentedVotable().getId())}"/><h6>-->Link to Commented Question/Answer</h4></a>
+	<legend class="question" align="bottom">Comment / ${comment.getTimestamp()}</legend>
+</fieldset>
 #{/list}
