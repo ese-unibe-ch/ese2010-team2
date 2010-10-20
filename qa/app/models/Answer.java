@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * The Class Answer delivers all functionality of the answers that other
@@ -34,6 +35,7 @@ public class Answer extends Post {
 		this.owner = user;
 		isBestAnswer = false;
 		currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
+		question.setLastChangedDate(new Date());
 		user.addActivity("Answered question <" + question.getContent()
 				+ "> by writing: <" + content + ">");
 		manager.addAnswer(this);

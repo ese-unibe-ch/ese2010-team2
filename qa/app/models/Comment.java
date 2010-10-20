@@ -2,6 +2,7 @@ package models;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Comment {
 
@@ -22,6 +23,9 @@ public class Comment {
 		this.commentedVotable = commentedVotable;
 		this.content = content;
 		this.timestamp = new Timestamp(calendar.getTime().getTime());
+		commentedVotable.setLastChanged(new Date());
+		owner.addActivity("Commented post <" + commentedVotable.getContent()
+				+ "> by writing: <" + content + ">");
 		manager.addComment(this);
 	}
 

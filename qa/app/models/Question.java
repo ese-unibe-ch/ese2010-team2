@@ -21,6 +21,8 @@ public class Question extends Post {
 	/** The tags of this question. */
 	private ArrayList<String> tags;
 
+	private Date lastChangedDate;
+
 	/**
 	 * Instantiates a new question.
 	 * 
@@ -37,6 +39,7 @@ public class Question extends Post {
 		tags = new ArrayList<String>();
 		manager.addQuestion(this);
 		questionOwner.addActivity("Asked question <" + content + ">");
+		this.setLastChangedDate(new Date());
 	}
 
 	/**
@@ -122,8 +125,7 @@ public class Question extends Post {
 		tags = tags.toLowerCase();
 		for (String newTag : tags.split(delimiter)) {
 			this.tags.add(newTag);
-			if (!manager.getTagList().contains(
-					newTag.toLowerCase()))
+			if (!manager.getTagList().contains(newTag.toLowerCase()))
 				manager.addTag(newTag.toLowerCase());
 		}
 	}
@@ -136,10 +138,9 @@ public class Question extends Post {
 		String existingTags = new String();
 		for (String newTag : tags.split(delimiter)) {
 			for (String existingTag : manager.getTagList()) {
-				if (models.algorithms.Levenshtein.getLevenshteinDistance(
-						newTag.toLowerCase(), existingTag) <= minDistance
-						&& !manager.getTagList().contains(
-								newTag)) {
+				if (models.algorithms.Levenshtein.getLevenshteinDistance(newTag
+						.toLowerCase(), existingTag) <= minDistance
+						&& !manager.getTagList().contains(newTag)) {
 					existingTags = existingTags + "#" + existingTag + " ";
 				}
 			}
@@ -164,8 +165,24 @@ public class Question extends Post {
 	 * @return - a sorted list of comments
 	 */
 	public ArrayList<Comment> getComments() {
-		return manager
-				.getAllCommentsByQuestionIdSortedByDate(this.getId());
+		return manager.getAllCommentsByQuestionIdSortedByDate(this.getId());
+	}
+
+	/**
+	 * Gets the date of the last change (means adding of answer, comment, vote)
+	 * 
+	 * @param date
+	 *            - the date when the answer has been changed.
+	 */
+	public Date getLastChangedDate(){
+		return this.lastChangedDate;
+	}
+
+	/*
+	 * Setter methods
+	 */
+	public void setLastChangedDate(Date date) {
+		this.lastChangedDate = date;
 	}
 
 }

@@ -80,7 +80,7 @@ public class BootStrap extends Job {
 		
 		// add comment
 		new Comment(manager.getUserByName("user-4"), q2, "ask bob dylan, dude!");
-		new Comment(manager.getUserByName("User-1"), a11, "thank you");
+		new Comment(manager.getUserByName("user-1"), a11, "thank you");
 
 		// an answer for every second question from the first user
 		int i = 0;

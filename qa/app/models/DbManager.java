@@ -193,6 +193,17 @@ public class DbManager {
 
 		return sortedQuestions;
 	}
+	
+	/**
+	 * Gets all question sorted by the date of their latest change (means adding of answers, comments, votes)
+	 */
+	public ArrayList<Question> getQuestionsSortedByLastChangedDate(){
+		ArrayList<Question> sortedQuestions= this.getQuestions();
+		
+		Collections.sort(sortedQuestions, new ChangedDateComparator());
+		
+		return sortedQuestions;
+	}
 
 	/**
 	 * Gets all comments to a certain question sorted by date.
@@ -286,7 +297,8 @@ public class DbManager {
 	 *         'count'.
 	 */
 	public ArrayList<Question> getRecentQuestionsByNumber(int count) {
-		ArrayList allQuestions = getQuestionsSortedByDate();
+		//The list of which the newest questions are picked out.
+		ArrayList allQuestions = getQuestionsSortedByLastChangedDate();
 		ArrayList recentQuestions = new ArrayList<String>();
 		int size = allQuestions.size();
 

@@ -19,8 +19,7 @@ public abstract class Post {
 	protected User owner;
 	protected int score = 0;
 
-	protected static DbManager manager = DbManager
-			.getInstance();
+	protected static DbManager manager = DbManager.getInstance();
 	protected Calendar calendar = Calendar.getInstance();
 	protected java.sql.Timestamp currentTimestamp;
 
@@ -34,6 +33,7 @@ public abstract class Post {
 	public void vote(String newVote) {
 		int vote = Integer.parseInt(newVote);
 		score = score + vote;
+		this.setLastChanged(new Date());
 	}
 
 	/**
@@ -114,5 +114,21 @@ public abstract class Post {
 		cal.setTime(date);
 
 		this.currentTimestamp = new java.sql.Timestamp(cal.getTime().getTime());
+	}
+
+	/**
+	 * Invokes the method setLastChangedDate of the question the post relates to
+	 * (also itself) to set the date of the last change.
+	 * 
+	 * @param date
+	 *            - the date when the question was last changed.
+	 */
+	public void setLastChanged(Date date) {
+		if (this instanceof Question) {
+			manager.getQuestionById(this.id).setLastChangedDate(date);
+		} else if (this instanceof Answer) {
+			int questionId = manager.getAnswerById(id).getQuestionId();
+			manager.getQuestionById(questionId).setLastChangedDate(date);
+		}
 	}
 }
