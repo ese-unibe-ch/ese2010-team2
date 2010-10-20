@@ -7,7 +7,7 @@ import models.Answer;
 import models.Comment;
 import models.Question;
 import models.User;
-import models.UserQuestionAnswerManager;
+import models.DbManager;
 import play.mvc.Controller;
 import play.mvc.With;
 
@@ -18,7 +18,7 @@ import play.mvc.With;
 @With(Secure.class)
 public class Admin extends Controller {
 
-	private static UserQuestionAnswerManager manager = UserQuestionAnswerManager
+	private static DbManager manager = DbManager
 			.getInstance();
 
 	private static Calendar calendar = Calendar.getInstance();

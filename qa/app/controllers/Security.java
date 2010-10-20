@@ -1,11 +1,11 @@
 package controllers;
 
 import models.User;
-import models.UserQuestionAnswerManager;
+import models.DbManager;
 
 public class Security extends Secure.Security {
 
-	private static UserQuestionAnswerManager manager = UserQuestionAnswerManager
+	private static DbManager manager = DbManager
 			.getInstance();
 
 	static boolean authenticate(String username, String password) {

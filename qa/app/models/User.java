@@ -29,7 +29,7 @@ public class User {
 	public ArrayList<String> activity = new ArrayList<String>();
 
 	/** The application-manager. */
-	private static UserQuestionAnswerManager manager = UserQuestionAnswerManager
+	private static DbManager manager = DbManager
 			.getInstance();
 
 	/**
@@ -90,9 +90,9 @@ public class User {
 	 */
 	private void computeScore() {
 		int userScore = 0;
-		ArrayList<Votable> usersVotables = manager.getVotablesByUserId(this
+		ArrayList<Post> usersVotables = manager.getVotablesByUserId(this
 				.getId());
-		for (Votable currentVotable : usersVotables) {
+		for (Post currentVotable : usersVotables) {
 			userScore += currentVotable.getScore();
 		}
 		this.setScore(userScore);

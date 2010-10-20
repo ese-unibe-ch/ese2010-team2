@@ -14,8 +14,8 @@ public class DateComparator implements Comparator {
 	 * java.util.Comparator#compare(Object, Object)
 	 */
 	public final int compare(Object aGiven, Object bGiven) {
-		Votable a = (Votable) aGiven;
-		Votable b = (Votable) bGiven;
+		Post a = (Post) aGiven;
+		Post b = (Post) bGiven;
 
 		Timestamp valueA = a.getDate();
 		Timestamp valueB = b.getDate();

@@ -14,7 +14,7 @@ import models.Answer;
 import models.Question;
 import models.Search;
 import models.User;
-import models.UserQuestionAnswerManager;
+import models.DbManager;
 import play.Play;
 import play.mvc.Controller;
 import annotations.Unused;
@@ -23,7 +23,7 @@ public class Application extends Controller {
 
 	static Calendar calendar = Calendar.getInstance();
 
-	private static UserQuestionAnswerManager manager = UserQuestionAnswerManager
+	private static DbManager manager = DbManager
 			.getInstance();
 
 	public static void index() {

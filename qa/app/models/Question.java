@@ -9,7 +9,7 @@ import annotations.Testing;
  * The Class Question delivers all functionality of the questions that other
  * votables don't have (those would be located in the class @see Votable.java.
  */
-public class Question extends Votable {
+public class Question extends Post {
 
 	/** All users that already voted for the question. */
 	private ArrayList<User> userVotedForQuestion = new ArrayList<User>();

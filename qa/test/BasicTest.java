@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import models.Answer;
 import models.Question;
 import models.User;
-import models.UserQuestionAnswerManager;
-import models.Votable;
+import models.DbManager;
+import models.Post;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -13,12 +13,12 @@ import org.junit.Test;
 import play.test.UnitTest;
 
 public class BasicTest extends UnitTest {
-	private static UserQuestionAnswerManager manager;
+	private static DbManager manager;
 	private User admin;
 
 	@Before
 	public void setUp() {
-		manager = UserQuestionAnswerManager.getInstance();
+		manager = DbManager.getInstance();
 		admin = new User("admin", "admin@admin.ch", "admin");
 	}
 
@@ -179,7 +179,7 @@ public class BasicTest extends UnitTest {
 		Question question = new Question("something", user1);
 		Answer answer1 = new Answer("something", user2, question);
 		Answer answer2 = new Answer("something", user1, question);
-		ArrayList<Votable> list = manager.getVotablesByUserId(user1.getId());
+		ArrayList<Post> list = manager.getVotablesByUserId(user1.getId());
 		assertEquals(2, list.size());
 		assertTrue(list.contains(question));
 		assertTrue(list.contains(answer2));

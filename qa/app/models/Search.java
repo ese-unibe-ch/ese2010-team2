@@ -8,7 +8,7 @@ public class Search {
 	private String text;
 	/** Number of search results in comment search */
 	private int n;
-	private UserQuestionAnswerManager manager;
+	private DbManager manager;
 	/** Stores the indexes of the Questions, with tag search result */
 	private ArrayList<Integer> questionTagIndexes;
 	/** Stores the indexes of the Questions, with content search result */
@@ -29,7 +29,7 @@ public class Search {
 	public Search(String text) {
 		this.text = text;
 		n = 50;
-		this.manager = UserQuestionAnswerManager.getInstance();
+		this.manager = DbManager.getInstance();
 		questionTagIndexes = new ArrayList<Integer>();
 		questionContentIndexes = new ArrayList<Integer>();
 		questionCommentIndexes = new ArrayList<ArrayList<Integer>>();

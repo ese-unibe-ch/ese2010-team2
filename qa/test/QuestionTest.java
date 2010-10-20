@@ -1,7 +1,7 @@
 import models.Answer;
 import models.Question;
 import models.User;
-import models.UserQuestionAnswerManager;
+import models.DbManager;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,7 +14,7 @@ public class QuestionTest extends UnitTest {
 	private Question question;
 	private Answer a1, a2;
 	private User u;
-	private static UserQuestionAnswerManager manager;
+	private static DbManager manager;
 
 	@Before
 	public void setUp() {
@@ -22,7 +22,7 @@ public class QuestionTest extends UnitTest {
 		question = new Question("what", u);
 		a1 = new Answer("hah", u, question);
 		a2 = new Answer("hah", u, question);
-		manager = UserQuestionAnswerManager.getInstance();
+		manager = DbManager.getInstance();
 	}
 
 	@Ignore
@@ -60,7 +60,7 @@ public class QuestionTest extends UnitTest {
 	public void shouldAddTags() {
 		question.addTags("hello world planet earth");
 		assertEquals(4, question.getTags().size());
-		assertEquals(4, UserQuestionAnswerManager.tags.size());
+		assertEquals(4, DbManager.tags.size());
 		assertTrue(question.getTags().contains("hello"));
 		assertTrue(question.getTags().contains("world"));
 		assertTrue(question.getTags().contains("planet"));

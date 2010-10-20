@@ -6,7 +6,7 @@ import java.util.Calendar;
 public class Comment {
 
 	private User owner;
-	private Votable commentedVotable;
+	private Post commentedVotable;
 	private String content;
 	private Timestamp timestamp;
 	private int id;
@@ -16,10 +16,10 @@ public class Comment {
 	private static int comment_id;
 
 	/** The application-manager. */
-	private static UserQuestionAnswerManager manager = UserQuestionAnswerManager
+	private static DbManager manager = DbManager
 			.getInstance();
 
-	public Comment(User owner, Votable commentedVotable, String content) {
+	public Comment(User owner, Post commentedVotable, String content) {
 		this.owner = owner;
 		this.commentedVotable = commentedVotable;
 		this.content = content;
@@ -37,11 +37,11 @@ public class Comment {
 		return owner;
 	}
 
-	public void setCommentedVotable(Votable commentedVotable) {
+	public void setCommentedVotable(Post commentedVotable) {
 		this.commentedVotable = commentedVotable;
 	}
 
-	public Votable getCommentedVotable() {
+	public Post getCommentedVotable() {
 		return commentedVotable;
 	}
 

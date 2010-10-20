@@ -9,7 +9,7 @@ import annotations.Testing;
  * votables don't have as well (those would be located in the class
  * Votable.java).
  */
-public class Answer extends Votable {
+public class Answer extends Post {
 
 	/** All users having voted for answer. */
 	private ArrayList<User> userVotedForAnswer = new ArrayList<User>();

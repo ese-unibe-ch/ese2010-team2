@@ -1,7 +1,7 @@
 import models.Answer;
 import models.Question;
 import models.User;
-import models.UserQuestionAnswerManager;
+import models.DbManager;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -10,12 +10,12 @@ import org.junit.Test;
 import play.test.UnitTest;
 
 public class UserQuestionAnswerManagerTest extends UnitTest {
-	private static UserQuestionAnswerManager manager;
+	private static DbManager manager;
 	private User admin;
 
 	@Before
 	public void setUp() {
-		manager = UserQuestionAnswerManager.getInstance();
+		manager = DbManager.getInstance();
 		admin = new User("admin", "admin@admin.ch", "admin");
 	}
 
