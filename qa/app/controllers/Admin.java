@@ -1,14 +1,13 @@
 package controllers;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import models.Answer;
 import models.Comment;
+import models.DbManager;
 import models.Question;
 import models.User;
-import models.DbManager;
 import play.mvc.Controller;
 import play.mvc.With;
 

@@ -100,6 +100,10 @@ public abstract class Post {
 	/*
 	 * Setter methods
 	 */
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public void setId(String id) {
 		this.id = Integer.parseInt(id);
 	}
