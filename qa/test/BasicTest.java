@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 import models.Answer;
-import models.Question;
-import models.User;
 import models.DbManager;
 import models.Post;
+import models.Question;
+import models.User;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -25,16 +25,16 @@ public class BasicTest extends UnitTest {
 	@Test
 	public void shouldCreateIds() {
 
-		User a = new User("a", "a@a.ch", "a", 0);
+		User a = new User("a", "a@a.ch", "a");
 		User b = new User("b", "b@b.ch", "b");
 		User c = new User("c", "c@c.ch", "c");
 
-		// 5 Testuser, 1x Admin= 6 User
-		assertEquals(0, a.getId());
-		assertEquals(1, b.getId());
-		assertEquals(2, c.getId());
+		// admin has Id 0
+		assertEquals(1, a.getId());
+		assertEquals(2, b.getId());
+		assertEquals(3, c.getId());
 
-		Question question = new Question("content of question", admin, 0);
+		Question question = new Question("content of question", admin);
 		Question question1 = new Question("content of question1", admin);
 		Question question2 = new Question("content of question2", admin);
 
@@ -43,7 +43,7 @@ public class BasicTest extends UnitTest {
 		assertEquals(2, question2.getId());
 
 		Answer answer = new Answer("content of answer", admin, manager
-				.getQuestions().get(0), 0);
+				.getQuestions().get(0));
 		Answer answer1 = new Answer("content of answer1", admin, manager
 				.getQuestions().get(1));
 		Answer answer2 = new Answer("content of answer2", admin, manager
@@ -210,5 +210,6 @@ public class BasicTest extends UnitTest {
 		manager.getUsers().clear();
 		manager.getQuestions().clear();
 		manager.getAnswers().clear();
+		manager.resetAllIdCounts();
 	}
 }

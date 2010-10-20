@@ -16,10 +16,10 @@ public abstract class Post {
 
 	protected int id;
 	protected String content;
-
 	protected User owner;
 	protected int score = 0;
-	protected static DbManager userQuestionAnswerManager = DbManager
+
+	protected static DbManager manager = DbManager
 			.getInstance();
 	protected Calendar calendar = Calendar.getInstance();
 	protected java.sql.Timestamp currentTimestamp;
@@ -36,14 +36,10 @@ public abstract class Post {
 		score = score + vote;
 	}
 
-	public String toString() {
-		return content + "\n by " + owner;
-	}
-	
 	/**
-	 * TODO do not create a new instance for every call, how?
 	 * @return parsed markdown string, so either plain text or HTML.
 	 */
+	// TODO do not create a new instance for every call, how?
 	public String getHtml() {
 		return new MarkdownProcessor().markdown(content);
 	}
@@ -70,9 +66,11 @@ public abstract class Post {
 		return owner.getId() == uid;
 	}
 
-	/*
-	 * Getter methods
-	 */
+	public String toString() {
+		return content + "\n by " + owner;
+	}
+
+	/** Getter methods */
 	public int getId() {
 		return id;
 	}
@@ -97,15 +95,13 @@ public abstract class Post {
 		return owner;
 	}
 
-	/*
-	 * Setter methods
-	 */
+	/** Setter methods */
 	public void setContent(String content) {
 		this.content = content;
 	}
 
-	public void setId(String id) {
-		this.id = Integer.parseInt(id);
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public void setTimeStamp(String timeStamp) throws ParseException {

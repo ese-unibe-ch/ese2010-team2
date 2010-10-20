@@ -13,8 +13,6 @@ public class Comment {
 
 	private Calendar calendar = Calendar.getInstance();
 
-	private static int comment_id;
-
 	/** The application-manager. */
 	private static DbManager manager = DbManager
 			.getInstance();
@@ -24,49 +22,48 @@ public class Comment {
 		this.commentedVotable = commentedVotable;
 		this.content = content;
 		this.timestamp = new Timestamp(calendar.getTime().getTime());
-		this.id = comment_id;
-		comment_id++;
-		manager.getComments().add(this);
+		manager.addComment(this);
 	}
 
-	public void setOwner(User owner) {
-		this.owner = owner;
-	}
-
+	/** Getters */
 	public User getOwner() {
 		return owner;
-	}
-
-	public void setCommentedVotable(Post commentedVotable) {
-		this.commentedVotable = commentedVotable;
 	}
 
 	public Post getCommentedVotable() {
 		return commentedVotable;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
-	}
-
 	public String getContent() {
 		return content;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
 	}
 
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public int getId() {
 		return id;
 	}
 
+	/** Setters */
+	public void setOwner(User owner) {
+		this.owner = owner;
+	}
+
+	public void setCommentedVotable(Post commentedVotable) {
+		this.commentedVotable = commentedVotable;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 }

@@ -170,5 +170,6 @@ public class DbManagerTest extends UnitTest {
 		manager.getQuestions().clear();
 		manager.getAnswers().clear();
 		manager.getTagList().clear();
+		manager.resetAllIdCounts();
 	}
 }

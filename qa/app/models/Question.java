@@ -3,8 +3,6 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 
-import annotations.Testing;
-
 /**
  * The Class Question delivers all functionality of the questions that other
  * votables don't have (those would be located in the class @see Votable.java.
@@ -13,9 +11,6 @@ public class Question extends Post {
 
 	/** All users that already voted for the question. */
 	private ArrayList<User> userVotedForQuestion = new ArrayList<User>();
-
-	/** The question id. */
-	private static int question_id = 0;
 
 	/** The best answer to this question. */
 	private Answer bestAnswer;
@@ -38,26 +33,10 @@ public class Question extends Post {
 		this.owner = questionOwner;
 		this.content = content;
 		currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
-		this.id = question_id;
 		this.score = 0;
 		tags = new ArrayList<String>();
-		userQuestionAnswerManager.getQuestions().add(this);
+		manager.addQuestion(this);
 		questionOwner.addActivity("Asked question <" + content + ">");
-		question_id++;
-	}
-
-	@Testing
-	public Question(String content, User questionOwner, int questionId) {
-		this.owner = questionOwner;
-		this.content = content;
-		currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
-		this.id = questionId;
-		this.question_id = questionId;
-		this.score = 0;
-		tags = new ArrayList<String>();
-		userQuestionAnswerManager.getQuestions().add(this);
-		questionOwner.addActivity("Asked question <" + content + ">");
-		question_id++;
 	}
 
 	/**
@@ -143,9 +122,9 @@ public class Question extends Post {
 		tags = tags.toLowerCase();
 		for (String newTag : tags.split(delimiter)) {
 			this.tags.add(newTag);
-			if (!userQuestionAnswerManager.getTagList().contains(
+			if (!manager.getTagList().contains(
 					newTag.toLowerCase()))
-				userQuestionAnswerManager.addTag(newTag.toLowerCase());
+				manager.addTag(newTag.toLowerCase());
 		}
 	}
 
@@ -156,10 +135,10 @@ public class Question extends Post {
 		tags = tags.toLowerCase();
 		String existingTags = new String();
 		for (String newTag : tags.split(delimiter)) {
-			for (String existingTag : userQuestionAnswerManager.getTagList()) {
+			for (String existingTag : manager.getTagList()) {
 				if (models.algorithms.Levenshtein.getLevenshteinDistance(
 						newTag.toLowerCase(), existingTag) <= minDistance
-						&& !userQuestionAnswerManager.getTagList().contains(
+						&& !manager.getTagList().contains(
 								newTag)) {
 					existingTags = existingTags + "#" + existingTag + " ";
 				}
@@ -185,7 +164,7 @@ public class Question extends Post {
 	 * @return - a sorted list of comments
 	 */
 	public ArrayList<Comment> getComments() {
-		return userQuestionAnswerManager
+		return manager
 				.getAllCommentsByQuestionIdSortedByDate(this.getId());
 	}
 

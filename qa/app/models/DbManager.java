@@ -10,19 +10,26 @@ import java.util.Collections;
 public class DbManager {
 
 	/** All questions stored. */
-	public static ArrayList<Question> questions;
+	private static ArrayList<Question> questions;
 
 	/** All answers stored. */
-	public static ArrayList<Answer> answers;
+	private static ArrayList<Answer> answers;
 
 	/** All comments stored. */
-	public static ArrayList<Comment> comments;
+	private static ArrayList<Comment> comments;
 
 	/** All registered users. */
-	public static ArrayList<User> users;
+	private static ArrayList<User> users;
 
 	/** All tags that have been used so far. */
-	public static ArrayList<String> tags;
+	private static ArrayList<String> tags;
+
+	/** 4 Counters for the Id's */
+	private int userCounterIdCounter;
+	private int questionIdCounter;
+	private int answerIdCounter;
+	private int commentIdCounter;
+
 
 	private static final DbManager INSTANCE = new DbManager();
 
@@ -44,6 +51,10 @@ public class DbManager {
 		comments = new ArrayList<Comment>();
 		users = new ArrayList<User>();
 		tags = new ArrayList<String>();
+		this.userCounterIdCounter = 0;
+		this.questionIdCounter = 0;
+		this.answerIdCounter = 0;
+		this.commentIdCounter = 0;
 	}
 
 	/**
@@ -286,6 +297,64 @@ public class DbManager {
 		return recentQuestions;
 	}
 
+	/**
+	 * Ads a new created user to user ArrayList, sets the id in the user and
+	 * increments the userIdCounter.
+	 * 
+	 * @param user
+	 */
+	public void addUser(User user) {
+		user.setId(userCounterIdCounter);
+		users.add(user);
+		userCounterIdCounter++;
+	}
+
+	/**
+	 * Ads a new created question to question ArrayList, sets the id in the
+	 * question and increments the questionIdCounter.
+	 * 
+	 * @param question
+	 */
+	public void addQuestion(Question question) {
+		question.setId(questionIdCounter);
+		questions.add(question);
+		questionIdCounter++;
+	}
+
+	/**
+	 * Ads a new created answer to answer ArrayList, sets the id in the answer
+	 * and increments the answerIdCounter.
+	 * 
+	 * @param answer
+	 */
+	public void addAnswer(Answer answer) {
+		answer.setId(answerIdCounter);
+		answers.add(answer);
+		answerIdCounter++;
+	}
+
+	/**
+	 * Ads a new created comment to comment ArrayList, sets the id in the
+	 * comment and increments the commentIdCounter.
+	 * 
+	 * @param comment
+	 */
+	public void addComment(Comment comment) {
+		comment.setId(commentIdCounter);
+		comments.add(comment);
+		commentIdCounter++;
+	}
+
+	/**
+	 * Resets all counters to 0
+	 */
+	public void resetAllIdCounts() {
+		this.userCounterIdCounter = 0;
+		this.questionIdCounter = 0;
+		this.answerIdCounter = 0;
+		this.commentIdCounter = 0;
+	}
+
 	/*
 	 * Getter methods
 	 */
@@ -305,8 +374,8 @@ public class DbManager {
 		return comments;
 	}
 
-	public ArrayList<String> getTagList() {
-		return this.tags;
+	public static ArrayList<String> getTagList() {
+		return tags;
 	}
 
 	/*
