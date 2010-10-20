@@ -1,9 +1,11 @@
 package jobs;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
 import models.Answer;
+import models.Comment;
 import models.DbManager;
 import models.Question;
 import models.User;
@@ -35,15 +37,15 @@ public class BootStrap extends Job {
 		User user = new User("admin", "admin@admin.ch", "admin");
 
 		int users = 5;
-		int questionsPerUser = 5;
+		int questionsPerUser = 3;
 
 		// create some users
 		for (int i = 1; i <= users; i++) {
 			User u = new User("user-" + i, "user-" + i + "@ese.ch", "user-" + i);
-			// // 5 questions per user
-			// for (int j = 1; j <= questionsPerUser; j++) {
-			// Question q = new Question("question " + j, u);
-			// }
+			// 5 questions per user
+			for (int j = 1; j <= questionsPerUser; j++) {
+				Question q = new Question("question " + j, u);
+			}
 		}
 
 		ArrayList<Question> questions = manager.getQuestions();
@@ -53,8 +55,7 @@ public class BootStrap extends Job {
 				.getUserByName("user-1"));
 		q1.addTags("fish size");
 		q1.vote("1");
-		new Answer("as big as the fisherman isn't yet", manager
-				.getUserByName("user-2"), q1);
+		Answer a11= new Answer("see www.smallfish.com", manager.getUserByName("user-2"), q1);
 
 		Question q2 = new Question(
 				"How many roads must a man walk down before you can call him a man?",
@@ -64,6 +65,22 @@ public class BootStrap extends Job {
 				.getUserByName("user-3"), q2);
 		q1.vote("1");
 		q1.vote("1");
+		
+		// add avatars
+		File avatar1= new File("qa/public/images/avatars/casper.jpg");
+		manager.getUserByName("user-1").setAvatar(avatar1);
+		File avatar2= new File("qa/public/images/avatars/office.jpg");
+		manager.getUserByName("user-2").setAvatar(avatar2);
+		File avatar3= new File("qa/public/images/avatars/policeman.jpg");
+		manager.getUserByName("user-3").setAvatar(avatar3);
+		File avatar4= new File("qa/public/images/avatars/robinHood.jpg");
+		manager.getUserByName("user-4").setAvatar(avatar4);
+		File avatar5= new File("qa/public/images/avatars/soldier.jpg");
+		manager.getUserByName("user-5").setAvatar(avatar5);
+		
+		// add comment
+		new Comment(manager.getUserByName("user-4"), q2, "ask bob dylan, dude!");
+		new Comment(manager.getUserByName("User-1"), a11, "thank you");
 
 		// an answer for every second question from the first user
 		int i = 0;
