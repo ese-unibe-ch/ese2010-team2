@@ -3,8 +3,6 @@ package models;
 import java.io.File;
 import java.util.ArrayList;
 
-import annotations.Testing;
-
 /**
  * The Class User provides all functionality that users have.
  */
@@ -14,7 +12,6 @@ public class User {
 	private String email;
 	private String password;
 	private int id;
-	private static int user_id = 0;
 
 	/** The reputation. */
 	private int score;
@@ -46,23 +43,8 @@ public class User {
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.id = user_id;
 		this.score = 0;
-		manager.getUsers().add(this);
-		user_id++;
-		activity.add(name + " is generated");
-	}
-
-	@Testing
-	public User(String name, String email, String password, int userId) {
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.id = userId;
-		this.user_id = userId;
-		this.score = 0;
-		manager.getUsers().add(this);
-		user_id++;
+		manager.addUser(this);
 		activity.add(name + " is generated");
 	}
 
@@ -241,5 +223,10 @@ public class User {
 	 */
 	public boolean hasAvatar() {
 		return avatar != null;
+	}
+
+	public void setId(int userId) {
+		this.id = userId;
+
 	}
 }

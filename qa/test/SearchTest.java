@@ -1,10 +1,10 @@
 import models.Answer;
+import models.DbManager;
 import models.Question;
 import models.Search;
 import models.User;
-import models.DbManager;
 
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,7 +22,7 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void shouldSearchQuestionTags() {
-		Question question1 = new Question("question1", admin, 0);
+		Question question1 = new Question("question1", admin);
 		question1.addTags("test");
 
 		Search search = new Search("test");
@@ -39,7 +39,7 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void shouldSearchQuestionContent() {
-		Question question1 = new Question("question1", admin, 0);
+		Question question1 = new Question("question1", admin);
 		Search search = new Search("question1");
 		search.searchQuestionContent();
 		assertEquals(0, (int) search.getQuestionContentIndexes().get(0));
@@ -52,8 +52,8 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void shouldSearchAnswerContent() {
-		Question question1 = new Question("question1", admin, 0);
-		Answer answer1 = new Answer("answer1", admin, question1, 0);
+		Question question1 = new Question("question1", admin);
+		Answer answer1 = new Answer("answer1", admin, question1);
 
 		Search search = new Search("answer1");
 		search.searchAnswerContent();
@@ -67,10 +67,11 @@ public class SearchTest extends UnitTest {
 
 	}
 
-	@AfterClass
-	public static void tearDown() {
+	@After
+	public void tearDown() {
 		manager.getUsers().clear();
 		manager.getQuestions().clear();
 		manager.getAnswers().clear();
+		manager.resetAllIdCounts();
 	}
 }
