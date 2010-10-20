@@ -45,14 +45,19 @@ public abstract class Post {
 	}
 
 	/**
-	 * Checks if the user with the id #uid is the owner of the votable.
+	 * Checks if the user with the id #uid is the owner of the votable. 
 	 * 
 	 * @param uid
 	 *            numeric user id as string
-	 * @return true, if successful
+	 * @return true, if successful and false if either the uid isn't the owner of the post or if the uid can't be parsed to an integer value.
 	 */
 	public boolean ownerIs(String uid) {
-		return owner.getId() == Integer.parseInt(uid);
+		
+		try {
+			return owner.getId() == Integer.parseInt(uid);
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 
 	/**
