@@ -100,6 +100,10 @@ public abstract class Votable {
 	/*
 	 * Setter methods
 	 */
+	public void setContent(String newContent) {
+		this.content = newContent;
+	}
+	
 	public void setId(String id) {
 		this.id = Integer.parseInt(id);
 	}
@@ -114,5 +118,9 @@ public abstract class Votable {
 		cal.setTime(date);
 
 		this.currentTimestamp = new java.sql.Timestamp(cal.getTime().getTime());
+	}
+	
+	public void setId2(int id) {
+		this.id = id;
 	}
 }
