@@ -9,6 +9,7 @@ import models.Comment;
 import models.DbManager;
 import models.Question;
 import models.User;
+import models.UserGroups;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,6 +36,7 @@ public class BootStrap extends Job {
 		log.info("fill Model with test-data");
 
 		User user = new User("admin", "admin@admin.ch", "admin");
+		user.setGroup(UserGroups.admin);
 
 		int users = 5;
 		int questionsPerUser = 3;

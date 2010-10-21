@@ -16,18 +16,20 @@ public class User {
 	/** The reputation. */
 	private int score;
 
+	/** The group the user belongs to. */
+	private UserGroups userGroup;
+
 	/** The fields describing a user's personality. */
 	private String phone, street, town, birthdate, background, hobbies, moto,
 			quote;
-	
+
 	private File avatar;
 
 	/** The activity-log. */
 	public ArrayList<String> activity = new ArrayList<String>();
 
 	/** The application-manager. */
-	private static DbManager manager = DbManager
-			.getInstance();
+	private static DbManager manager = DbManager.getInstance();
 
 	/**
 	 * Instantiates a new user.
@@ -45,7 +47,9 @@ public class User {
 		this.password = password;
 		this.score = 0;
 		manager.addUser(this);
+		this.userGroup = UserGroups.user;
 		activity.add(name + " is generated");
+
 	}
 
 	/**
@@ -135,6 +139,10 @@ public class User {
 		this.computeScore();
 		return score;
 	}
+	
+	public UserGroups getGroup(){
+		return this.userGroup;
+	}
 
 	/*
 	 * Setter methods
@@ -195,7 +203,8 @@ public class User {
 	}
 
 	/**
-	 * @param avatar File instance representing new avatar
+	 * @param avatar
+	 *            File instance representing new avatar
 	 */
 	public void setAvatar(File avatar) {
 		this.avatar = avatar;
@@ -207,16 +216,16 @@ public class User {
 	public String getAvatarFileName() {
 		return avatar.getName();
 	}
-	
+
 	/**
 	 * 
 	 * @return File instance representing avatar image
 	 * @see File
-	 */	
+	 */
 	public File getAvatar() {
 		return avatar;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -225,8 +234,36 @@ public class User {
 		return avatar != null;
 	}
 
+	/**
+	 * Checks whether the user belongs to the administrators.
+	 * 
+	 * @return - true if the user is an admin and false otherwise.
+	 */
+	public boolean isAdmin() {
+		return this.userGroup.equals(UserGroups.admin);
+	}
+
+	/**
+	 * Checks whether the user belongs to the administrators.
+	 * 
+	 * @return - true if the user is a moderator and false otherwise.
+	 */
+	public boolean isModerator() {
+		return this.userGroup.equals(UserGroups.moderator);
+	}
+
 	public void setId(int userId) {
 		this.id = userId;
+	}
 
+	/**
+	 * Sets the user group the user belongs to
+	 * 
+	 * @param group
+	 *            - The group the user belongs to. The group is an entry of the
+	 *            enum {@link #UserGroup.java}
+	 */
+	public void setGroup(UserGroups group) {
+		this.userGroup = group;
 	}
 }

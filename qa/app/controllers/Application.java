@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.NoSuchElementException;
 
 import models.Answer;
 import models.Comment;
@@ -14,6 +15,7 @@ import models.DbManager;
 import models.Question;
 import models.Search;
 import models.User;
+import models.UserGroups;
 
 import org.apache.commons.io.IOUtils;
 
@@ -25,8 +27,7 @@ public class Application extends Controller {
 
 	static Calendar calendar = Calendar.getInstance();
 
-	private static DbManager manager = DbManager
-			.getInstance();
+	private static DbManager manager = DbManager.getInstance();
 
 	public static void index() {
 		String user = session.get("username");
@@ -218,12 +219,12 @@ public class Application extends Controller {
 			Secure.logout();
 		}
 	}
-	
+
 	/**
 	 * Update or set user's avatar.
 	 * 
-	 * Copy image file from play tmp directory to our avatar directory,
-	 * delete old avatar if exists, update filename.
+	 * Copy image file from play tmp directory to our avatar directory, delete
+	 * old avatar if exists, update filename.
 	 * 
 	 * @param title
 	 * @param avatar
@@ -231,23 +232,25 @@ public class Application extends Controller {
 	 */
 	public static void setAvatar(File avatar) throws Exception {
 
-		if ( avatar != null ) {
+		if (avatar != null) {
 			User user = manager.getUserByName(session.get("username"));
-			File avatarDir = new File(Play.applicationPath.getAbsolutePath() + "/public/images/avatars");
-			
-			if ( !avatarDir.exists() ) {
+			File avatarDir = new File(Play.applicationPath.getAbsolutePath()
+					+ "/public/images/avatars");
+
+			if (!avatarDir.exists()) {
 				avatarDir.mkdir();
 			} else {
-				if ( user.hasAvatar() ) {
+				if (user.hasAvatar()) {
 					File old = user.getAvatar();
-					if ( !old.delete() ) 
+					if (!old.delete())
 						throw new IOException("Could not delete old avatar.");
 				}
 			}
-			
-			File newAvatar = new File(avatarDir.getPath() + "/" + avatar.getName());
+
+			File newAvatar = new File(avatarDir.getPath() + "/"
+					+ avatar.getName());
 			user.setAvatar(newAvatar);
-			
+
 			try {
 				newAvatar.createNewFile();
 				FileInputStream input = new FileInputStream(avatar);
@@ -259,7 +262,7 @@ public class Application extends Controller {
 				e.printStackTrace();
 			}
 		}
-		
+
 		redirect("/showUserProfile");
 	}
 
@@ -284,7 +287,8 @@ public class Application extends Controller {
 
 			ArrayList<Question> questionContentResults = search
 					.getQuestionContentResults();
-			ArrayList<Question> questionTagResults = search.getQuestionTagsResults();
+			ArrayList<Question> questionTagResults = search
+					.getQuestionTagsResults();
 			ArrayList<Answer> answerContentResults = search
 					.getAnswerContentResults();
 			ArrayList<Comment> commentResults = search.getCommentResults();
@@ -303,5 +307,23 @@ public class Application extends Controller {
 						questionContentResults, commentResults);
 			}
 		}
+	}
+	//TODO: Übergabe der Werte aus radio check boxes & speichern dieser.
+	public static void editUserGroup(String uname, String group) {
+		UserGroups ugroup;
+		if (group.equals("admin"))
+			ugroup = UserGroups.admin;
+		else {
+			if (group.equals("moderator"))
+				ugroup = UserGroups.moderator;
+			else {
+				if (group.equals("user"))
+					ugroup = UserGroups.user;
+				else
+					throw new NoSuchElementException();
+			}
+		}
+
+		manager.getUserByName(uname).setGroup(ugroup);
 	}
 }
