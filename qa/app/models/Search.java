@@ -2,6 +2,10 @@ package models;
 
 import java.util.ArrayList;
 
+/**
+ * This class implents the feature of fulltext and tag search for Question,
+ * Answer, Comments
+ */
 public class Search {
 	private String query;
 	private DbManager manager;
