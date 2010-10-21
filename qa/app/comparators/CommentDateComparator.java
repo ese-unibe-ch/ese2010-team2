@@ -1,7 +1,9 @@
-package models;
+package comparators;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
+
+import models.Comment;
 
 /**
  * The Class CommentDateComparator implements Comparator and only overrides the

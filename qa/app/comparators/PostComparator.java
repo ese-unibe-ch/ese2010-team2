@@ -1,7 +1,9 @@
-package models;
+package comparators;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
+
+import models.Post;
 
 /**
  * The Class VotableComparator implements the Comparator-class and adapts it for

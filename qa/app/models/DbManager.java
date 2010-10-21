@@ -3,6 +3,11 @@ package models;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import comparators.ChangedDateComparator;
+import comparators.CommentDateComparator;
+import comparators.DateComparator;
+import comparators.PostComparator;
+
 /**
  * The Class UserQuestionAnswerManager delivers functionality to coordinate the
  * different entities of the application.

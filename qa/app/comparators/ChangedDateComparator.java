@@ -1,8 +1,9 @@
-package models;
+package comparators;
 
-import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.Date;
+
+import models.Question;
 
 /**
  * The Class DateComparator implements Comparator and only overrides the method
