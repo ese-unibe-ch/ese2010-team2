@@ -1,0 +1,27 @@
+<fieldset>
+	<table border="0" >
+		<td width="80px" align="center" bgcolor="#999999">
+			#{avatar user:_question.getOwner() /}
+			<br/>
+			<h6>${_question.getOwner()}</h6>
+			<h6>reputation:${_score}</h6>
+		</td>
+		<td width="750px">
+			<a href="@{Application.showAnswers(_question.getId())}" />
+	   	 		${_question.getHtml().raw()}
+  		  	</a>
+	    	#{if _user}
+				#{if _question.ownerIs(session.uid)}
+					<p style="font-size:8pt">You can't rate your own post!</p>
+ 		  		#{/if}
+		   		#{else}
+  			 		<form id="vote" action="@{Admin.voteQuestion(_question.getId())}" method="GET">
+   						<p style="font-size:8pt">Score: ${_question.getScore()} Vote: <input id="up" type="submit" value ="1" name="vote" /> <input id="up" type="submit" value ="-1" name="vote" /></p>
+   					</form>
+		   		#{/else}
+		   	#{/if}
+		</td>
+	</table>
+
+<legend class="question" align="bottom">${_question.getTimestamp()}</legend>
+</fieldset>
