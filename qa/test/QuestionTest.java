@@ -15,6 +15,7 @@ public class QuestionTest extends UnitTest {
 	private Answer a1, a2;
 	private User u;
 	private static DbManager manager;
+	private User admin;
 
 	@Before
 	public void setUp() {
@@ -23,6 +24,7 @@ public class QuestionTest extends UnitTest {
 		a1 = new Answer("hah", u, question);
 		a2 = new Answer("hah", u, question);
 		manager = DbManager.getInstance();
+		admin = new User("admin", "admin@admin.ch", "admin");
 	}
 
 	@Ignore
@@ -72,6 +74,26 @@ public class QuestionTest extends UnitTest {
 		assertTrue(question.getTags().contains("planet"));
 		assertTrue(question.getTags().contains("earth"));
 
+	}
+
+	@Test
+	public void shouldCheckUserAlreadyVotedQuestion() {
+		Question question = new Question("content of question", admin);
+		assertFalse(question.checkUserVotedForQuestion(admin));
+		question.userVotedForQuestion(admin);
+		assertTrue(question.checkUserVotedForQuestion(admin));
+	}
+
+	@Test
+	public void shouldVoteQuestion() {
+		Question question = new Question("content of question", admin);
+		assertEquals(0, question.getScore());
+		// Vote Up
+		question.vote("1");
+		assertEquals(1, question.getScore());
+		// Vote down
+		question.vote("-1");
+		assertEquals(0, question.getScore());
 	}
 
 	@AfterClass
