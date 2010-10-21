@@ -119,18 +119,24 @@ public class DbManager {
 			if (!q.getOwner().equals(deleteUser))
 				updatedQuestions.add(q);
 		}
+		DbManager.questions.clear();
+		DbManager.questions.addAll(updatedQuestions);
 
 		// Delete all answers a user added
 		for (Answer a : DbManager.answers) {
 			if (!a.getOwner().equals(deleteUser))
 				updatedAnswers.add(a);
 		}
+		DbManager.answers.clear();
+		DbManager.answers.addAll(updatedAnswers);
 
 		// Delete all comments a user added
 		for (Comment c : DbManager.comments) {
 			if (!c.getOwner().equals(deleteUser))
 				updatedComments.add(c);
 		}
+		DbManager.comments.clear();
+		DbManager.comments.addAll(updatedComments);
 	}
 
 	/**

@@ -1,11 +1,14 @@
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 import models.Answer;
+import models.Comment;
 import models.DbManager;
 import models.Post;
 import models.Question;
 import models.User;
 
+import org.hibernate.hql.ast.tree.ExpectedTypeAwareNode;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -283,6 +286,29 @@ public class DbManagerTest extends UnitTest {
 		assertTrue(list.contains(answer2));
 		assertFalse(list.contains(answer1));
 	}
+	
+	@Test
+	public void shouldRemoveUser(){
+		User user1= new User("user1", "user@1", "password");
+		Question question1= new Question("Question to be deleted", user1);
+		Question question2= new Question("question not to be deleted", admin);
+		Answer answer1= new Answer("answer to be deleted", user1, question1);
+		Comment comm1= new Comment(user1, answer1, "comment to be deleted");
+		assertTrue(manager.getQuestions().contains(question1));
+		assertTrue(manager.getAnswers().contains(answer1));
+		assertTrue(manager.getComments().contains(comm1));
+		manager.deleteUser("user1");
+		assertFalse(manager.getQuestions().contains(question1));
+		assertFalse(manager.getAnswers().contains(answer1));
+		assertFalse(manager.getComments().contains(comm1));
+		assertTrue(manager.getQuestions().contains(question2));
+	}
+	
+    @Test(expected=NoSuchElementException.class)
+    public void shouldntFindUserToDelete() {
+    	manager.deleteUser("userDoesNotExist");
+    }
+
 
 	@After
 	public void tearDown() {
