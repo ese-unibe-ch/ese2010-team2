@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.NoSuchElementException;
 
 import comparators.ChangedDateComparator;
 import comparators.CommentDateComparator;
@@ -34,7 +35,6 @@ public class DbManager {
 	private int questionIdCounter;
 	private int answerIdCounter;
 	private int commentIdCounter;
-
 
 	private static final DbManager INSTANCE = new DbManager();
 
@@ -96,6 +96,41 @@ public class DbManager {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Deletes a user and all entries he or she wrote.
+	 * 
+	 * @param - The username of the user to be deleted as a string object.
+	 */
+	public void deleteUser(String username){
+		if(!DbManager.users.contains(this.getUserByName(username)))
+			throw new NoSuchElementException();
+		
+		User deleteUser= getUserByName(username);
+		
+		ArrayList<Question> updatedQuestions= new ArrayList<Question>();
+		ArrayList<Answer> updatedAnswers= new ArrayList<Answer>();
+		ArrayList<Comment> updatedComments = new ArrayList<Comment>();
+		users.remove(deleteUser);
+		
+		// Delete all questions a user added
+		for (Question q : DbManager.questions) {
+			if (!q.getOwner().equals(deleteUser))
+				updatedQuestions.add(q);
+		}
+
+		// Delete all answers a user added
+		for (Answer a : DbManager.answers) {
+			if (!a.getOwner().equals(deleteUser))
+				updatedAnswers.add(a);
+		}
+
+		// Delete all comments a user added
+		for (Comment c : DbManager.comments) {
+			if (!c.getOwner().equals(deleteUser))
+				updatedComments.add(c);
+		}
 	}
 
 	/**
@@ -198,15 +233,16 @@ public class DbManager {
 
 		return sortedQuestions;
 	}
-	
+
 	/**
-	 * Gets all question sorted by the date of their latest change (means adding of answers, comments, votes)
+	 * Gets all question sorted by the date of their latest change (means adding
+	 * of answers, comments, votes)
 	 */
-	public ArrayList<Question> getQuestionsSortedByLastChangedDate(){
-		ArrayList<Question> sortedQuestions= this.getQuestions();
-		
+	public ArrayList<Question> getQuestionsSortedByLastChangedDate() {
+		ArrayList<Question> sortedQuestions = this.getQuestions();
+
 		Collections.sort(sortedQuestions, new ChangedDateComparator());
-		
+
 		return sortedQuestions;
 	}
 
@@ -302,7 +338,7 @@ public class DbManager {
 	 *         'count'.
 	 */
 	public ArrayList<Question> getRecentQuestionsByNumber(int count) {
-		//The list of which the newest questions are picked out.
+		// The list of which the newest questions are picked out.
 		ArrayList allQuestions = getQuestionsSortedByLastChangedDate();
 		ArrayList recentQuestions = new ArrayList<String>();
 		int size = allQuestions.size();

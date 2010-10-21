@@ -1,4 +1,3 @@
-
 package models;
 
 import java.util.ArrayList;
@@ -131,6 +130,16 @@ public class Question extends Post {
 		}
 	}
 
+	/**
+	 * Checks whether some tags from the parameter 'tags' are similar to some
+	 * that have already been entered previously using the Levenshtein-distance.
+	 * 
+	 * @param tags
+	 *            - the String of tags - separated by spaces - that are to be
+	 *            checked.
+	 * @return - A string containing all tags that already exist, separated by a
+	 *         space and each starting with a '#'.
+	 */
 	public static String checkTags(String tags) {
 		String delimiter = "[ ]+";
 		// The minimum Levenshtein distance two strings need to have.
@@ -155,6 +164,7 @@ public class Question extends Post {
 	public String getTagByIndex(int i) {
 		return tags.get(i);
 	}
+
 	public Answer getBestAnswer() {
 		return bestAnswer;
 	}
@@ -178,7 +188,7 @@ public class Question extends Post {
 	 * @param date
 	 *            - the date when the answer has been changed.
 	 */
-	public Date getLastChangedDate(){
+	public Date getLastChangedDate() {
 		return this.lastChangedDate;
 	}
 
