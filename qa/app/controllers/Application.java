@@ -140,10 +140,11 @@ public class Application extends Controller {
 		render(message, currentUser);
 	}
 	
-	/** shows User */
+	/** shows a specific User */
 	public static void showUser(String userName) {
 		User profileOwner = manager.getUserByName(userName);
-		render(profileOwner);
+		ArrayList<Integer> reputations = manager.getReputations(profileOwner, 30);
+		render(profileOwner, reputations);
 	}
 	/**
 	 * Saves changes in user Profile
