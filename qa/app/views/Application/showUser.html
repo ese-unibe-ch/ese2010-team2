@@ -1,3 +1,21 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Home' /}
-${profileOwner.getName()}
+<h2>${profileOwner.getName()}</h2>
+#{avatar user:profileOwner /}
+<fieldset>
+About me<hr/>
+Birthdate: ${profileOwner.getBirthdate()}<br>
+Moto: ${profileOwner.getMoto()}<br>
+Background: ${profileOwner.getBackground()}<br>
+Hobbies: ${profileOwner.getHobbies()}<br>
+Quote: ${profileOwner.getQuote()}<br>
+</fieldset>
+<fieldset>
+Contact Information<hr/>
+Town: ${profileOwner.getTown()}<br>
+Street: ${profileOwner.getStreet()}<br>
+Phone: ${profileOwner.getPhone()}<br>
+E-Mail: ${profileOwner.getEmail()}<br>
+
+</fieldset>
+
