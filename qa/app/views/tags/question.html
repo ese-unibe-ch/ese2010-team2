@@ -3,7 +3,7 @@
 		<td width="80px" align="center" bgcolor="#999999">
 			#{avatar user:_question.getOwner() /}
 			<br/>
-			<h6>${_question.getOwner()}</h6>
+			<a href="@{Application.showUser(_question.getOwner())}"><h6>${_question.getOwner()}</h6></a>
 			<h6>reputation:${_score}</h6>
 		</td>
 		<td width="750px">

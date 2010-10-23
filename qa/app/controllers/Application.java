@@ -139,7 +139,12 @@ public class Application extends Controller {
 		currentUser.add(manager.getUserByName(session.get("username")));
 		render(message, currentUser);
 	}
-
+	
+	/** shows User */
+	public static void showUser(String userName) {
+		User profileOwner = manager.getUserByName(userName);
+		render(profileOwner);
+	}
 	/**
 	 * Saves changes in user Profile
 	 * 
