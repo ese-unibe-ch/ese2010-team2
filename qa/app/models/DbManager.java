@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 import comparators.ChangedDateComparator;
@@ -29,6 +30,8 @@ public class DbManager {
 
 	/** All tags that have been used so far. */
 	private static ArrayList<String> tags;
+	
+	private static ArrayList[] reputations;
 
 	/** 4 Counters for the Id's */
 	private int userCounterIdCounter;
@@ -60,6 +63,10 @@ public class DbManager {
 		this.questionIdCounter = 0;
 		this.answerIdCounter = 0;
 		this.commentIdCounter = 0;
+		reputations = new ArrayList[3];
+		reputations[0] = new ArrayList<User>();
+		reputations[1] = new ArrayList<Date>();
+		reputations[2] = new ArrayList<Integer>();
 	}
 
 	/**
@@ -412,6 +419,39 @@ public class DbManager {
 		this.questionIdCounter = 0;
 		this.answerIdCounter = 0;
 		this.commentIdCounter = 0;
+	}
+	
+	/**
+	 * Saves a reputation from a specific user and day
+	 */
+	public void addReputation(User user, Date time, int reputation) {
+		reputations[0].add(user);
+		reputations[1].add(time);
+		reputations[2].add(reputation);
+	}
+	
+	public int getReputationsByUserAndDate(User user, Date date) {
+		int result = 0;
+		User currentUser;
+		Date currentDate;
+		for (int i = 0; i < reputations[0].size(); i++) {
+			currentUser = (User) reputations[0].get(i);
+			currentDate = (Date) reputations[1].get(i);
+			if (user.equals(currentUser ) && date.equals(currentDate)) {
+				result = (Integer) reputations[2].get(i);
+			}
+		}
+		return result;
+	}
+	
+	public ArrayList<Integer> getReputations(User user, int days) {
+		ArrayList<Integer> currentReputations = new ArrayList<Integer>();
+		Date currentDay = new Date();
+		for (; days > 0; days--) {
+			currentReputations.add(this.getReputationsByUserAndDate(user, currentDay));
+			currentDay.setTime(currentDay.getTime() - 86400000);
+		}
+		return currentReputations;
 	}
 
 	/*
