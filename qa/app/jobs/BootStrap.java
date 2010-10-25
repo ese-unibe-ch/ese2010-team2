@@ -2,6 +2,7 @@ package jobs;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 import models.Answer;
@@ -83,7 +84,15 @@ public class BootStrap extends Job {
 		// add comment
 		new Comment(manager.getUserByName("user-4"), q2, "ask bob dylan, dude!");
 		new Comment(manager.getUserByName("user-1"), a11, "thank you");
-
+		
+		//add Reputation for admin over 30 days
+		int[] reputations = {0,3,7,10,13,17,20,23,26,30,33,36,40,43,46,50,53,56,59,63,66,69,73,76,79,83,86,89,92,96};
+		Date currentDate = new Date();
+		for(int i = 0; i < 30; i++) {
+			currentDate = new Date(currentDate.getTime() - 86400000);
+			manager.addReputation(user, currentDate, reputations[i]);
+		}
+		
 		// an answer for every second question from the first user
 		int i = 0;
 		for (Question q : questions) {
