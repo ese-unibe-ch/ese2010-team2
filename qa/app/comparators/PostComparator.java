@@ -1,7 +1,7 @@
 package comparators;
 
-import java.sql.Timestamp;
 import java.util.Comparator;
+import java.util.Date;
 
 import models.Post;
 
@@ -9,17 +9,14 @@ import models.Post;
  * The Class VotableComparator implements the Comparator-class and adapts it for
  * votables.
  */
-public class PostComparator implements Comparator {
+public class PostComparator implements Comparator<Post> {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
-	public final int compare(Object aGiven, Object bGiven) {
-		Post a = (Post) aGiven;
-		Post b = (Post) bGiven;
-
+	public final int compare(Post a, Post b) {
 		int valueA = a.getScore();
 		int valueB = b.getScore();
 
@@ -31,7 +28,6 @@ public class PostComparator implements Comparator {
 			return -1;
 		}
 		return (Integer) null;
-
 	}
 
 	/**
@@ -45,12 +41,10 @@ public class PostComparator implements Comparator {
 	 *         the first object is less than, equal to, or greater than the date
 	 *         of the second.
 	 */
-	public final int compareByDate(Object aGiven, Object bGiven) {
-		Post a = (Post) aGiven;
-		Post b = (Post) bGiven;
+	public final int compareByDate(Post a, Post b) {
 
-		Timestamp valueA = a.getDate();
-		Timestamp valueB = b.getDate();
+		Date valueA = a.getDate();
+		Date valueB = b.getDate();
 
 		return valueA.compareTo(valueB);
 	}

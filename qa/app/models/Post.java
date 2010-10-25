@@ -21,7 +21,8 @@ public abstract class Post {
 
 	protected static DbManager manager = DbManager.getInstance();
 	protected Calendar calendar = Calendar.getInstance();
-	protected java.sql.Timestamp currentTimestamp;
+	protected Date date;
+	protected static MarkdownProcessor markdownProcessor = new MarkdownProcessor();
 
 	/**
 	 * Vote for a votable.
@@ -39,9 +40,8 @@ public abstract class Post {
 	/**
 	 * @return parsed markdown string, so either plain text or HTML.
 	 */
-	// TODO do not create a new instance for every call, how?
 	public String getHtml() {
-		return new MarkdownProcessor().markdown(content);
+		return markdownProcessor.markdown(content);
 	}
 
 	/**
@@ -84,12 +84,8 @@ public abstract class Post {
 		return score;
 	}
 
-	public String getTimestamp() {
-		return currentTimestamp.toString();
-	}
-
-	public java.sql.Timestamp getDate() {
-		return currentTimestamp;
+	public Date getDate() {
+		return date;
 	}
 
 	public String getContent() {
@@ -109,16 +105,11 @@ public abstract class Post {
 		this.id = id;
 	}
 
-	public void setTimeStamp(String timeStamp) throws ParseException {
+	public void setDate(String timeStamp) throws ParseException {
 		DateFormat formatter;
-		Date date;
-
 		formatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss.SSS");
-		date = (Date) formatter.parse(timeStamp);
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
 
-		this.currentTimestamp = new java.sql.Timestamp(cal.getTime().getTime());
+		this.date = formatter.parse(timeStamp); 
 	}
 
 	/**

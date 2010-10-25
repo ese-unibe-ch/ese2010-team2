@@ -11,6 +11,6 @@
    	<form id="vote" action="@{Admin.voteQuestion(question.getId())}" method="GET">
    		<p style="font-size:8pt">Score: ${question.getScore()} Vote: <input id="up" type="submit" value ="1" name="vote" /> <input id="up" type="submit" value ="-1" name="vote" /></p>
    	</form>
-   	<legend class="question" align="bottom">${question.getTimestamp()}</legend>
+   	<legend class="question" align="bottom">${question.getDate()}</legend>
     </fieldset>
 #{/list}

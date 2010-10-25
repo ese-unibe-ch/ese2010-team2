@@ -18,7 +18,7 @@
 		#{avatar user:question.getOwner() /}
 	</p>
 	<p style="font-size:8pt">Score: ${question.getScore()}</p>
-	<legend class="question" align="bottom">Tag / ${question.getTimestamp()}</legend>
+	<legend class="question" align="bottom">Tag / ${question.getDate()}</legend>
 	<h6>Tags:
 	#{ifnot question.getTags()}
 		none
@@ -38,7 +38,7 @@
 		#{avatar user:question.getOwner() /}
 	</p>
 	<p style="font-size:8pt">Score: ${question.getScore()}</p>
-	<legend class="question" align="bottom">Question / ${question.getTimestamp()}</legend>
+	<legend class="question" align="bottom">Question / ${question.getDate()}</legend>
 	<h6>Tags:
 	#{ifnot question.getTags()}
 		none
@@ -61,7 +61,7 @@
 		#{avatar user:answer.getOwner() /}
 	</p>
 	<p style="font-size:8pt">Score: ${answer.getScore()}</p>
-	<legend class="question" align="bottom">Answer / ${answer.getTimestamp()}</legend>
+	<legend class="question" align="bottom">Answer / ${answer.getDate()}</legend>
 </fieldset>
 #{/list}
 

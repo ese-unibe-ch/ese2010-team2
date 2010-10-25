@@ -8,7 +8,7 @@
 		by ${question.getOwner()}
 		#{avatar user:question.getOwner() /}
 	</p>
-	<legend class="question" align="bottom">${question.getTimestamp()}</legend>
+	<legend class="question" align="bottom">${question.getDate()}</legend>
 	<h6>Tags:
 	#{ifnot question.getTags()}
 		none
@@ -58,7 +58,7 @@
 	    Select as best answer.</a>
 	    #{/if}
 		
-	   	<legend class="question" align="bottom">${answer.getTimestamp()}</legend>
+	   	<legend class="question" align="bottom">${answer.getDate()}</legend>
    	
    		<h6><p align="right">
    		<a href="@{Admin.showEditAnswerForm(answer.getId(),question.getId())}">edit answer</a> | 

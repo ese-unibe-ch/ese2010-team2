@@ -9,16 +9,14 @@ import models.Question;
  * The Class DateComparator implements Comparator and only overrides the method
  * compare().
  */
-public class ChangedDateComparator implements Comparator {
+public class ChangedDateComparator implements Comparator<Question> {
 
 	/**
 	 * Compares two objects of the type votable. @see
 	 * java.util.Comparator#compare(Object, Object)
 	 */
-	public final int compare(Object aGiven, Object bGiven) {
-		Question a = (Question) aGiven;
-		Question b = (Question) bGiven;
-
+	public final int compare(Question a, Question b) {
+		
 		Date valueA = a.getLastChangedDate();
 		Date valueB = b.getLastChangedDate();
 

@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.NoSuchElementException;
+import java.util.Date;
 
 import models.Answer;
 import models.Comment;
@@ -94,10 +94,11 @@ public class Application extends Controller {
 	@Unused
 	public static void showRecentQuestionsByDate() {
 		// "recent" shall mean 5 days
-		final Timestamp period = new java.sql.Timestamp(0, 0, 5, 0, 0, 0, 0);
-		Timestamp oldest = new Timestamp(calendar.getTime().getTime()
-				- period.getTime());
-
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DAY_OF_MONTH, -5);
+		Date oldest = cal.getTime();
+		
 		ArrayList<Question> recentQuestionsByDate = new ArrayList<Question>();
 
 		for (Question q : manager.getQuestions()) {

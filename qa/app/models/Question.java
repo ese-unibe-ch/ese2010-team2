@@ -34,12 +34,14 @@ public class Question extends Post {
 	public Question(String content, User questionOwner) {
 		this.owner = questionOwner;
 		this.content = content;
-		currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
 		this.score = 0;
+		
+		date = new Date();
+		lastChangedDate = new Date();
 		tags = new ArrayList<String>();
-		manager.addQuestion(this);
+		
+		manager.addQuestion(this);		
 		questionOwner.addActivity("Asked question <" + content + ">");
-		this.setLastChangedDate(new Date());
 	}
 
 	/**
@@ -185,15 +187,15 @@ public class Question extends Post {
 	/**
 	 * Gets the date of the last change (means adding of answer, comment, vote)
 	 * 
-	 * @param date
-	 *            - the date when the answer has been changed.
 	 */
 	public Date getLastChangedDate() {
 		return this.lastChangedDate;
 	}
 
-	/*
+	/**
 	 * Setter methods
+	 * @param date
+	 *            - the date when the answer has been changed.
 	 */
 	public void setLastChangedDate(Date date) {
 		this.lastChangedDate = date;

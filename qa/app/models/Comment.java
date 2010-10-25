@@ -9,7 +9,7 @@ public class Comment {
 	private User owner;
 	private Post commentedVotable;
 	private String content;
-	private Timestamp timestamp;
+	private Date timestamp;
 	private int id;
 
 	private Calendar calendar = Calendar.getInstance();
@@ -22,7 +22,7 @@ public class Comment {
 		this.owner = owner;
 		this.commentedVotable = commentedVotable;
 		this.content = content;
-		this.timestamp = new Timestamp(calendar.getTime().getTime());
+		this.timestamp = new Date();
 		commentedVotable.setLastChanged(new Date());
 		owner.addActivity("Commented post <" + commentedVotable.getContent()
 				+ "> by writing: <" + content + ">");
@@ -42,7 +42,7 @@ public class Comment {
 		return content;
 	}
 
-	public Timestamp getTimestamp() {
+	public Date getTimestamp() {
 		return timestamp;
 	}
 
@@ -63,7 +63,7 @@ public class Comment {
 		this.content = content;
 	}
 
-	public void setTimestamp(Timestamp timestamp) {
+	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
 
