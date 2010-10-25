@@ -26,7 +26,7 @@
 	#{list items:question.getComments(), as:'comment'}
 		<p style="font-size:11pt">${comment.getContent()}</p>
 		<p style="font-size:8pt">by ${comment.getOwner()}</p>
-		<p style="font-size:8pt">at ${comment.getTimestamp()}</p>
+		<p style="font-size:8pt">at ${comment.getDate()}</p>
 	#{/list}
 </fieldset>
 <!--Link zu add answer - auskommentiert!-->
@@ -69,7 +69,7 @@
 		#{list items:answer.getComments(), as:'comment'}
 			<p style="font-size:11pt">${comment.getContent()}</p>
 			<p style="font-size:8pt">by ${comment.getOwner()}</p>
-			<p style="font-size:8pt">at ${comment.getTimestamp()}</p>
+			<p style="font-size:8pt">at ${comment.getDate()}</p>
 		#{/list}
     </fieldset>
 #{/list}

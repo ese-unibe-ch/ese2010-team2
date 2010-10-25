@@ -1,14 +1,14 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
 import comparators.ChangedDateComparator;
-import comparators.CommentDateComparator;
 import comparators.DateComparator;
-import comparators.PostComparator;
+import comparators.ScoreComparator;
 
 /**
  * The Class UserQuestionAnswerManager delivers functionality to coordinate the
@@ -214,8 +214,8 @@ public class DbManager {
 	public ArrayList<Question> getQuestionsSortedByScore() {
 		ArrayList<Question> sortedQuestions = questions;
 
-		Collections.sort(sortedQuestions, new PostComparator());
-
+		Collections.sort(sortedQuestions, Collections.reverseOrder(new ScoreComparator()));
+		
 		return sortedQuestions;
 	}
 
@@ -229,7 +229,7 @@ public class DbManager {
 	public ArrayList<Answer> getAnswersSortedByScore(int id) {
 		ArrayList<Answer> sortedAnswers = this.getAllAnswersByQuestionId(id);
 
-		Collections.sort(sortedAnswers, new PostComparator());
+		Collections.sort(sortedAnswers, Collections.reverseOrder(new ScoreComparator()));
 
 		return sortedAnswers;
 	}
@@ -275,7 +275,7 @@ public class DbManager {
 			if (currentComment.getCommentedVotable().equals(currentQuestion))
 				sortedComments.add(currentComment);
 		}
-		Collections.sort(sortedComments, new CommentDateComparator());
+		Collections.sort(sortedComments, new DateComparator());
 		return sortedComments;
 	}
 
@@ -294,7 +294,7 @@ public class DbManager {
 			if (currentComment.getCommentedVotable().equals(currentAnswer))
 				sortedComments.add(currentComment);
 		}
-		Collections.sort(sortedComments, new CommentDateComparator());
+		Collections.sort(sortedComments, new DateComparator());
 		return sortedComments;
 	}
 

@@ -6,15 +6,10 @@ import java.util.Date;
 import models.Post;
 
 /**
- * The Class DateComparator implements Comparator and only overrides the method
- * compare().
+ * Compares two posts by their date.
  */
 public class DateComparator implements Comparator<Post> {
 
-	/**
-	 * Compares two objects of the type votable. @see
-	 * java.util.Comparator#compare(Object, Object)
-	 */
 	public final int compare(Post a, Post b) {
 
 		Date valueA = a.getDate();
@@ -22,5 +17,4 @@ public class DateComparator implements Comparator<Post> {
 
 		return valueA.compareTo(valueB);
 	}
-
 }

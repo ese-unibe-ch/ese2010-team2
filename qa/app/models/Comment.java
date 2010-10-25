@@ -4,50 +4,28 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Comment {
+public class Comment extends Post {
 
-	private User owner;
-	private Post commentedVotable;
-	private String content;
-	private Date timestamp;
-	private int id;
-
-	private Calendar calendar = Calendar.getInstance();
+	private Post commentedPost;
 
 	/** The application-manager. */
 	private static DbManager manager = DbManager
 			.getInstance();
 
-	public Comment(User owner, Post commentedVotable, String content) {
+	public Comment(User owner, Post commentedPost, String content) {
 		this.owner = owner;
-		this.commentedVotable = commentedVotable;
+		this.commentedPost = commentedPost;
 		this.content = content;
-		this.timestamp = new Date();
-		commentedVotable.setLastChanged(new Date());
-		owner.addActivity("Commented post <" + commentedVotable.getContent()
+		this.date = new Date();
+		commentedPost.setLastChanged(new Date());
+		owner.addActivity("Commented post <" + commentedPost.getContent()
 				+ "> by writing: <" + content + ">");
 		manager.addComment(this);
 	}
 
 	/** Getters */
-	public User getOwner() {
-		return owner;
-	}
-
 	public Post getCommentedVotable() {
-		return commentedVotable;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public Date getTimestamp() {
-		return timestamp;
-	}
-
-	public int getId() {
-		return id;
+		return commentedPost;
 	}
 
 	/** Setters */
@@ -55,19 +33,8 @@ public class Comment {
 		this.owner = owner;
 	}
 
-	public void setCommentedVotable(Post commentedVotable) {
-		this.commentedVotable = commentedVotable;
+	public void setCommentedVotable(Post commentedPost) {
+		this.commentedPost = commentedPost;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 }
