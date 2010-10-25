@@ -4,27 +4,27 @@
 <form action="@{Application.Search()}" method="GET">
 	<br>
 	<input type="text" name="text" value="${text}"><input type="submit" value="Search" /><br>
-	<p style="font-size:8pt">Order: QuestionTags-->QuestionContent-->AnswerContent-->Comments</p>
+	<p>Order: QuestionTags-->QuestionContent-->AnswerContent-->Comments</p>
 	<br>
 	<br>
 </form>
-<h3 style="color:#c00">${message}</h3>
+<h3>${message}</h3>
 
 #{list items:questionTagResults, as:'question'}
 <fieldset>
 	<p><a href="@{Application.showAnswers(question.getId())}" />${question.getHtml().raw()}</a></p>
-	<p style="font-size:8pt">
+	<p>
 		by ${question.getOwner()}
 		#{avatar user:question.getOwner() /}
 	</p>
-	<p style="font-size:8pt">Score: ${question.getScore()}</p>
+	<p>Score: ${question.getScore()}</p>
 	<legend class="question" align="bottom">Tag / ${question.getDate()}</legend>
 	<h6>Tags:
 	#{ifnot question.getTags()}
 		none
 	#{/ifnot}
 	#{list items:question.getTags(), as:'tag'}
-		#${tag} 
+		#${tag}
 	#{/list}
 	</h6>
 </fieldset>
@@ -33,18 +33,18 @@
 #{list items:questionContentResults, as:'question'}
 <fieldset>
 	<p><a href="@{Application.showAnswers(question.getId())}" />${question.getHtml().raw()}</a></p>
-	<p style="font-size:8pt">
+	<p>
 		by ${question.getOwner()}
 		#{avatar user:question.getOwner() /}
 	</p>
-	<p style="font-size:8pt">Score: ${question.getScore()}</p>
+	<p>Score: ${question.getScore()}</p>
 	<legend class="question" align="bottom">Question / ${question.getDate()}</legend>
 	<h6>Tags:
 	#{ifnot question.getTags()}
 		none
 	#{/ifnot}
 	#{list items:question.getTags(), as:'tag'}
-		#${tag} 
+		#${tag}
 	#{/list}
 	</h6>
 </fieldset>
@@ -56,19 +56,19 @@
 	<span class="bestanswer">Best answer according to OP</span>
 	#{/if}
 	<p><a href="@{Application.showAnswers(question.getId())}" />${answer.getHtml().raw()}</a><p>
-	<p style="font-size:8pt">
+	<p>
 		by ${answer.getOwner()}
 		#{avatar user:answer.getOwner() /}
 	</p>
-	<p style="font-size:8pt">Score: ${answer.getScore()}</p>
+	<p>Score: ${answer.getScore()}</p>
 	<legend class="question" align="bottom">Answer / ${answer.getDate()}</legend>
 </fieldset>
 #{/list}
 
 #{list items:commentResults, as:'comment'}
 <fieldset>
-	<p style="font-size:11pt">${comment.getContent()}</p>
-	<p style="font-size:8pt">by ${comment.getOwner()}</p>
+	<p>${comment.getContent()}</p>
+	<p>by ${comment.getOwner()}</p>
 	<br>
 	<a href="@{Application.showAnswers(comment.getCommentedVotable().getId())}"/><h6>-->Link to Commented Question/Answer</h4></a>
 	<legend class="question" align="bottom">Comment / ${comment.getDate()}</legend>

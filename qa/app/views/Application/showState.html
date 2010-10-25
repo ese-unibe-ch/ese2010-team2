@@ -2,23 +2,25 @@
 #{set title:'ESE KB - Home' /}
 
 <a href="/">back</a>
-<fieldset>
-	<table width="100%">
-		<tr>
-			<th>
-				<h3>Total number of users:<h3>
-				<h3>Total number of questions:<h3>
-				<h3>Total number of answers:<h3>
-				<h3>Total number of comments:<h3>
-				<h3>Total number of tags:<h3>
-			</th>
-			<th>
-				<h3>${userCount}<h3>
-				<h3>${questionCount}<h3>
-				<h3>${answerCount}<h3>
-				<h3>${commentCount}<h3>
-				<h3>${tagCount}<h3>
-			</th>
-		</tr>
-	</table>
-</fieldset>
+<table>
+	<tr>
+		<td>Total number of users:</td>
+		<td>${userCount}</td>
+	</tr>
+	<tr>
+		<td>Total number of questions:</td>
+		<td>${questionCount}</td>
+	</tr>
+	<tr>
+		<td>Total number of answers:</td>
+		<td>${answerCount}</td>
+	</tr>
+	<tr>
+		<td>Total number of comments:</td>
+		<td>${commentCount}</td>
+	</tr>
+	<tr>
+		<td>Total number of tags:</td>
+		<td>${tagCount}</td>
+	</tr>
+</table>

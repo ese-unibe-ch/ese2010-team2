@@ -4,24 +4,24 @@
 <a href="/">back</a>
 <fieldset>
 	<p>${question.getHtml().raw()}</p>
-	<p style="font-size:8pt">
+	<p>
 		by ${question.getOwner()}
 		#{avatar user:question.getOwner() /}
 	</p>
-	<legend class="question" align="bottom">${question.getDate()}</legend>
+	<legend>${question.getDate()}</legend>
 	<h6>Tags:
 	#{ifnot question.getTags()}
 		none
 	#{/ifnot}
 	#{list items:question.getTags(), as:'tag'}
-		#${tag} 
+		#${tag}
 	#{/list}</h6>
-	
-	<h6><p align="right">
+
+	<h6><p>
 	<a href="@{Admin.showEditQuestionForm(question.getId())}">edit question</a> |
 	<a href="@{Admin.showQuestionCommentForm(question.getId())}">write comment</a>
 	</p></h6>
-	
+
 	<!--List of comments--!>
 	#{list items:question.getComments(), as:'comment'}
 		<p style="font-size:11pt">${comment.getContent()}</p>
@@ -39,32 +39,32 @@
 	    #{if answer.isBestAnswer()}
 	    <span class="bestanswer">Best answer according to OP</span>
 	    #{/if}
-	   
+
 	    <p>${answer.getHtml().raw()}<p>
-	   
-	    <p style="font-size:8pt">
+
+	    <p>
 	    	by ${answer.getOwner()}
 	    	#{avatar user:answer.getOwner() /}
 	    </p>
-	   	
+
 	    #{ifnot answer.ownerIs(session.uid)}
 	    <form id="vote" action="@{Admin.voteAnswer(question.getId(),answer.getId())}" method="GET">
-	    <p style="font-size:8pt">Score: ${answer.getScore()} Vote: <input id="aid" type="submit" value ="1" name="vote" /> <input id="aid" type="submit" value ="-1" name="vote" /></p>
+	    <p>Score: ${answer.getScore()} Vote: <input id="aid" type="submit" value ="1" name="vote" /> <input id="aid" type="submit" value ="-1" name="vote" /></p>
 	    </form>
 	    #{/ifnot}
-	   	
+
 	    #{if question.ownerIs(session.uid) && question.bestAnswerChangeable() && !answer.isBestAnswer()}
 	    <a href="/question/${question.getId()}/setbestanswer/${answer.getId()}">
 	    Select as best answer.</a>
 	    #{/if}
-		
+
 	   	<legend class="question" align="bottom">${answer.getDate()}</legend>
-   	
+
    		<h6><p align="right">
-   		<a href="@{Admin.showEditAnswerForm(answer.getId(),question.getId())}">edit answer</a> | 
+   		<a href="@{Admin.showEditAnswerForm(answer.getId(),question.getId())}">edit answer</a> |
    		<a href="@{Admin.showAnswerCommentForm(answer.getId(),question.getId())}">write comment</a>
    		</p></h6>
-   		
+
    		<!--List of comments--!>
 		#{list items:answer.getComments(), as:'comment'}
 			<p style="font-size:11pt">${comment.getContent()}</p>
