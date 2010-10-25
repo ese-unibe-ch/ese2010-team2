@@ -34,7 +34,11 @@ GET                /question/{qid}/addQuestionComment               Admin.addCom
 GET                /question/{qid}/addAnswerComment                 Admin.addCommentToAnswer
 GET                /question/{qid}/edit_comment                     Admin.showEditCommentForm
 GET                /question/{qid}/vote                        		Admin.voteQuestion
+GET                /question/{qid}/vote/up                      	Admin.voteQuestionUp
+GET                /question/{qid}/vote/down                   		Admin.voteQuestionDown
 GET                /question/{qid}/answers/{aid}/vote               Admin.voteAnswer
+GET                /question/{qid}/answer/{aid}/vote/up            Admin.voteAnswerUp
+GET                /question/{qid}/answer/{aid}/vote/down          Admin.voteAnswer
 GET			       /recent											Application.showRecentQuestionsByNumber
 GET				   /users/{uname}/log								Admin.showUserLog
 GET				   /editUserProfile									Application.editUserProfile

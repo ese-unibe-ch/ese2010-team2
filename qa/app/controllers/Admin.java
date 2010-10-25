@@ -131,38 +131,55 @@ public class Admin extends Controller {
 		}
 	}
 
-	public static void voteQuestion(String qid, String vote) {
-		int id = Integer.parseInt(qid);
+	public static void voteQuestionUp(int qid) {
+		voteQuestion(qid, 1);
+	}
+	
+	public static void voteQuestionDown(int qid) {
+		voteQuestion(qid, -1);
+	}
+	
+	
+	public static void voteQuestion(int qid, int vote) {
+		//int id = Integer.parseInt(qid);
 		User user = manager.getUserByName(session.get("username"));
-		if (manager.getQuestionById(id).getOwner().equals(
+		if (manager.getQuestionById(qid).getOwner().equals(
 				session.get("username"))) {
 			String message = "You cannot vote your own question!";
 			render(message, qid);
-		} else if (manager.getQuestionById(id).checkUserVotedForQuestion(user)) {
+		} else if (manager.getQuestionById(qid).checkUserVotedForQuestion(user)) {
 			String message = "You already voted this question";
 			render(message, qid);
 		} else {
-			manager.getQuestionById(id).vote(vote);
-			manager.getQuestionById(id).userVotedForQuestion(user);
+			manager.getQuestionById(qid).vote(vote);
+			manager.getQuestionById(qid).userVotedForQuestion(user);
 			redirect("/");
 		}
 	}
 
-	public static void voteAnswer(String qid, String aid, String vote) {
-		int id = Integer.parseInt(aid);
+	public static void voteAnswerUp(int qid, int aid) {
+		voteAnswer(qid, aid, 1);
+	}
+	
+	public static void voteAnswerDown(int qid, int aid) {
+		voteAnswer(qid, aid, -1);
+	}
+	
+	public static void voteAnswer(int qid, int aid, int vote) {
+		//int id = Integer.parseInt(aid);
 		User user = manager.getUserByName(session.get("username"));
 		@SuppressWarnings("unused")
-		Answer answer = manager.getAnswerById(id);
-		if (manager.getAnswerById(id).getOwner()
+		Answer answer = manager.getAnswerById(aid);
+		if (manager.getAnswerById(aid).getOwner()
 				.equals(session.get("username"))) {
 			String message = "You cannot vote your own answer!";
 			render(message, qid);
-		} else if (manager.getAnswerById(id).checkUserVotedForAnswer(user)) {
+		} else if (manager.getAnswerById(aid).checkUserVotedForAnswer(user)) {
 			String message = "You already voted this question";
 			render(message, qid);
 		} else {
-			manager.getAnswerById(id).vote(vote);
-			manager.getAnswerById(id).userVotedForAnswer(user);
+			manager.getAnswerById(aid).vote(vote);
+			manager.getAnswerById(aid).userVotedForAnswer(user);
 			redirect("/question/" + qid + "/answers/");
 		}
 	}

@@ -34,10 +34,10 @@ public class AnswerTest extends UnitTest {
 		Answer answer = new Answer("content of answer", admin, question);
 		assertEquals(0, answer.getScore());
 		// Vote Up
-		answer.vote("1");
+		answer.vote(1);
 		assertEquals(1, answer.getScore());
 		// Vote down
-		answer.vote("-1");
+		answer.vote(-1);
 		assertEquals(0, answer.getScore());
 	}
 

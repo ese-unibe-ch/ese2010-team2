@@ -126,6 +126,11 @@ public class Application extends Controller {
 		render(recentQuestionsByNumber);
 	}
 
+	/**
+	 * 
+	 * @param qid
+	 * @param aid
+	 */
 	public static void setBestAnswer(int qid, int aid) {
 		Question q = manager.getQuestionById(qid);
 		Answer a = manager.getAnswerById(aid);

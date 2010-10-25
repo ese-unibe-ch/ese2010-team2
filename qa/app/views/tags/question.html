@@ -1,17 +1,23 @@
 <div class="question">
 	#{userbox user:_question.getOwner() /}
 
-	Posted on ${_question.getDate()}
+	<span class="date">Posted on ${_question.getDate()}</span>
+
 	<div class="question_text">
 		<a href="@{Application.showAnswers(_question.getId())}" />
 			${_question.getHtml().raw()}
 		</a>
 	</div>
 
-	#{votebox post:_question /}
+	#{votebox post:_question, mode:'question' /}
 
 	#{tagbox post:_question /}
 
+	#{if _question.ownerIs(session.uid)}
 	<a href="@{Admin.showEditQuestionForm(_question.getId())}">edit question</a> |
+	#{/if}
+
+	#{if session.uid}
 	<a href="@{Admin.showQuestionCommentForm(_question.getId())}">write comment</a>
+	#{/if}
 </div>

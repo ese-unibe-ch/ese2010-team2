@@ -1,16 +1,12 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - recent questions' /}
+
 <a href="/">back</a>
-<h2> Recent questions</h2>
+
+<h2>Recent questions</h2>
+
 <h3>${message}</h3>
+
 #{list items:recentQuestionsByNumber, as:'question'}
-	<fieldset>
-    <a href="@{Application.showAnswers(question.getId())}"/><h3>${question.getHtml().raw()}<h3></a>
-   	<p>by ${question.getOwner()}<p>
-   	<br />
-   	<form id="vote" action="@{Admin.voteQuestion(question.getId())}" method="GET">
-   		<p>Score: ${question.getScore()} Vote: <input id="up" type="submit" value ="1" name="vote" /> <input id="up" type="submit" value ="-1" name="vote" /></p>
-   	</form>
-   	<legend class="question" align="bottom">${question.getDate()}</legend>
-    </fieldset>
+	#{question question:question /}
 #{/list}

@@ -1,16 +1,19 @@
-#{if _user}
+#{secure.check ''}
 <div class="votebox">
     #{if _post.ownerIs(session.uid)}
-        <p>You can't rate your own post!</p>
+        You can't rate your own post!
     #{/if}
     #{else}
-        <form id="vote" action="@{Admin.voteQuestion(_question.getId())}" method="GET">
-            <p>
-                Score: ${_post.getScore()}
-                Vote: <input id="up" type="submit" value ="1" name="vote" />
-                <input id="up" type="submit" value ="-1" name="vote" />
-            </p>
-        </form>
+        Score: ${_post.getScore()} |
+        Vote:
+        #{if _mode == 'answer'}
+        <a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/up"><span class="vote_button">up</span></a>
+        <a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/down"><span class="vote_button">down</span></a>
+        #{/if}
+        #{else}
+        <a href="/question/${_post.getId()}/vote/up"><span class="vote_button">up</span></a>
+        <a href="/question/${_post.getId()}/vote/down"><span class="vote_button">down</span></a>
+        #{/else}
     #{/else}
 </div>
-#{/if}
+#{/secure.check}

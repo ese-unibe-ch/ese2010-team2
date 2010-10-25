@@ -2,29 +2,34 @@
 	<div class="answer">
 		#{userbox user:_answer.getOwner() /}
 
-		Posted on ${_answer.getDate()}
-		<div class="answer_text">
-		${_answer.getHtml().raw()}
-		</div>
-
-		#{votebox post:_answer /}
+		<span class="date">Posted on ${_answer.getDate()}</span>
 
 		#{if _answer.isBestAnswer()}
 		<span class="bestanswer">Best answer according to OP</span>
 		#{/if}
 
-
 		#{if _question.ownerIs(session.uid) && _question.bestAnswerChangeable() && !_answer.isBestAnswer()}
 		<a href="/question/${_question.getId()}/setbestanswer/${_answer.getId()}">
-		Select as best answer.</a>
+		<span class="bestanswer_select">Select as best answer</span>
+		</a>
 		#{/if}
 
+		<div class="answer_text">
+		${_answer.getHtml().raw()}
+		</div>
+
+		#{votebox post:_answer, mode:'answer', question:_question /}
+
+		#{if _answer.ownerIs(session.uid)}
 		<a href="@{Admin.showEditAnswerForm(_answer.getId(), _question.getId())}">edit answer</a> |
+		#{/if}
+		#{if session.uid}
+		<a href="@{Admin.showQuestionCommentForm(_answer.getId())}">write comment</a>
+		#{/if}
 	</div>
 
 	<div class="comments">
 		<h3>Comments to this answer</h3>
-		<a href="@{Admin.showQuestionCommentForm(_answer.getId())}">write comment</a>
 
 		#{list items:_answer.getComments(), as:'comment'}
 		<div class="comment">

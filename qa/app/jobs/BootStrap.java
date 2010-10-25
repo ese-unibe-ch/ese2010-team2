@@ -56,7 +56,7 @@ public class BootStrap extends Job {
 		Question q1 = new Question("How small is the fish?", manager
 				.getUserByName("user-1"));
 		q1.addTags("fish size");
-		q1.vote("1");
+		q1.vote(1);
 		Answer a11= new Answer("see www.smallfish.com", manager.getUserByName("user-2"), q1);
 
 		Question q2 = new Question(
@@ -65,8 +65,8 @@ public class BootStrap extends Job {
 		q2.addTags("man road");
 		new Answer("The answer my friend is blowin in the wind", manager
 				.getUserByName("user-3"), q2);
-		q1.vote("1");
-		q1.vote("1");
+		q1.vote(1);
+		q1.vote(1);
 		
 		// add avatars
 		File avatar1= new File("qa/public/images/avatars/casper.jpg");
@@ -92,7 +92,7 @@ public class BootStrap extends Job {
 				User u = manager.getUsers().get(0);
 				Answer a = new Answer("answer " + i, u, q);
 			} else {
-				q.vote("-1");
+				q.vote(-1);
 			}
 		}
 		

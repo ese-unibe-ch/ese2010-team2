@@ -104,10 +104,10 @@ public class DbManagerTest extends UnitTest {
 		Question question3 = new Question("content3", admin);
 		Question question4 = new Question("content4", admin);
 
-		question1.vote("2");
-		question2.vote("3");
-		question3.vote("4");
-		question4.vote("5");
+		question1.vote(2);
+		question2.vote(3);
+		question3.vote(4);
+		question4.vote(5);
 
 		assertEquals(question4, manager.getQuestionsSortedByScore().get(0));
 		assertEquals(question3, manager.getQuestionsSortedByScore().get(1));
@@ -125,10 +125,10 @@ public class DbManagerTest extends UnitTest {
 		Answer answer3 = new Answer("content3", admin, question1);
 		Answer answer4 = new Answer("content4", admin, question1);
 
-		answer1.vote("2");
-		answer2.vote("3");
-		answer3.vote("4");
-		answer4.vote("5");
+		answer1.vote(2);
+		answer2.vote(3);
+		answer3.vote(4);
+		answer4.vote(5);
 
 		assertEquals(answer4, manager
 				.getAnswersSortedByScore(question1.getId()).get(0));

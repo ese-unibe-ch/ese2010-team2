@@ -21,3 +21,20 @@
 
 #search {
 }
+
+#subtitle {
+	font-size: small;
+	color: #D460CF;
+}
+
+#statusbox {
+	margin: 1em 1em 0 1em;
+	text-align: right;
+}
+
+#toolbox {
+	border-top: thin dotted #000;
+	margin: .5em 1em 1em 1em;
+	text-align: right;
+	padding-top: .5em;
+}

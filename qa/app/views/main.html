@@ -24,6 +24,29 @@
         		<span id="subtitle">A knowledge base by minerva for ewernli.</span>
         	</div>
 
+
+            <div id="statusbox">
+                #{if session.uid}
+                    Logged in as: ${session.get("username")} |
+                    Current reputation: ${score} |
+                    <a href="@{Secure.logout()}">logout</a>
+                #{/if}
+                #{else}
+                    <a href="@{Application.showRegister()}">register</a> |
+                    <a href="@{Secure.login()}">login</a>
+                #{/else}
+            </div>
+
+            #{if session.uid}
+            <div id="toolbox">
+                <a href="@{Admin.showQuestionForm()}">add new Question</a> |
+                <a href="@{Application.showRecentQuestionsByNumber()}">newest questions</a> |
+                <a href="@{Admin.showUserLog(session.get("username"))}">show my activities</a>  |
+                <a href="@{Application.showUserProfile()}">edit user profile</a> |
+                <a href="@{Application.showState()}">statistics</a>
+            </div>
+            #{/if}
+
             <div id="content">
             #{doLayout /}
             </div>

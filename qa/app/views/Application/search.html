@@ -10,61 +10,22 @@
 </form>
 <h3>${message}</h3>
 
+<h2>Questions with matching tags</h2>
 #{list items:questionTagResults, as:'question'}
-<fieldset>
-	<p><a href="@{Application.showAnswers(question.getId())}" />${question.getHtml().raw()}</a></p>
-	<p>
-		by ${question.getOwner()}
-		#{avatar user:question.getOwner() /}
-	</p>
-	<p>Score: ${question.getScore()}</p>
-	<legend class="question" align="bottom">Tag / ${question.getDate()}</legend>
-	<h6>Tags:
-	#{ifnot question.getTags()}
-		none
-	#{/ifnot}
-	#{list items:question.getTags(), as:'tag'}
-		#${tag}
-	#{/list}
-	</h6>
-</fieldset>
+	#{question question:question /}
 #{/list}
 
+<h2>Questions with matching content</h2>
 #{list items:questionContentResults, as:'question'}
-<fieldset>
-	<p><a href="@{Application.showAnswers(question.getId())}" />${question.getHtml().raw()}</a></p>
-	<p>
-		by ${question.getOwner()}
-		#{avatar user:question.getOwner() /}
-	</p>
-	<p>Score: ${question.getScore()}</p>
-	<legend class="question" align="bottom">Question / ${question.getDate()}</legend>
-	<h6>Tags:
-	#{ifnot question.getTags()}
-		none
-	#{/ifnot}
-	#{list items:question.getTags(), as:'tag'}
-		#${tag}
-	#{/list}
-	</h6>
-</fieldset>
+	#{question question:question /}
 #{/list}
 
+<h2>Answers with matching content</h2>
 #{list items:answerContentResults, as:'answer'}
-<fieldset>
-	#{if answer.isBestAnswer()}
-	<span class="bestanswer">Best answer according to OP</span>
-	#{/if}
-	<p><a href="@{Application.showAnswers(question.getId())}" />${answer.getHtml().raw()}</a><p>
-	<p>
-		by ${answer.getOwner()}
-		#{avatar user:answer.getOwner() /}
-	</p>
-	<p>Score: ${answer.getScore()}</p>
-	<legend class="question" align="bottom">Answer / ${answer.getDate()}</legend>
-</fieldset>
+	#{answer answer:answer /}
 #{/list}
 
+<h2>Comments with matching content</h2>
 #{list items:commentResults, as:'comment'}
 <fieldset>
 	<p>${comment.getContent()}</p>

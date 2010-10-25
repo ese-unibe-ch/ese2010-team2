@@ -30,12 +30,12 @@ public abstract class Post {
 	/**
 	 * Vote for a votable.
 	 * 
-	 * @param newVote
+	 * @param vote2
 	 *            - The vote you want to add. This is an String-object
 	 *            containing an integer number.
 	 */
-	public void vote(String newVote) {
-		int vote = Integer.parseInt(newVote);
+	public void vote(int vote) {
+		//int vote = Integer.parseInt(vote2);
 		score = score + vote;
 		this.setLastChanged(new Date());
 	}

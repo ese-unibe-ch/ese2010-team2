@@ -80,7 +80,7 @@ div.comment {
 
 div.question_text {
 	width: 80%;
-	margin: .5em 0 .5em 0;
+	margin: .2em 0 .2em 0;
 	border-top: thin solid #78E700;
 	border-bottom: thin solid #78E700;
 }
@@ -98,15 +98,40 @@ p.comment_text {
 	padding: .5em;
 }
 
-#subtitle {
-	font-size: small;
-	color: #D460CF;
-}
-
 /**
  * spans
  */
 
 span.bestanswer {
-	color: red;
+	color: #FFF;
+	padding: .1em .4em .1em .4em;
+	background: red;
+	margin-left: 2em;
+	font-weight: bold;
+}
+
+span.bestanswer_select {
+	color: #000;
+	padding: .1em .4em .1em .4em;
+	margin-left: 2em;
+	background: #78E700;
+	font-weight: bold;
+}
+
+span.vote_button {
+	padding: .1em .4em .1em .4em;
+	background: red;
+	color: #FFF;
+	font-size: small;
+}
+
+span.date {
+	font-size: small;
+}
+
+span.tag {
+	padding: .1em .4em .1em .4em;
+	background: red;
+	color: #FFF;
+	font-size: small;
 }

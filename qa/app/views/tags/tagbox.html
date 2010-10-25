@@ -1,7 +1,7 @@
 Tags:
 #{ifnot _post.getTags()}
-    none
+    none |
 #{/ifnot}
 #{list items:_post.getTags(), as:'tag'}
-    #${tag}
+    <span class="tag">#${tag}</span>
 #{/list}
