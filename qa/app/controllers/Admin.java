@@ -56,6 +56,11 @@ public class Admin extends Controller {
 		manager.getAnswerById(answerId).setContent(newContent);
 		redirect("/question/" + qid + "/answers/");
 	}
+	
+	public static void AccessDeniedForm(){
+		String message = "you're not allowed to edit this post!";
+		render(message);
+	}
 
 	public static void showQuestionCommentForm(String qid) {
 		render(qid);

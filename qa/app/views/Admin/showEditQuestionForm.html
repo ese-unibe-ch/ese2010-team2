@@ -5,10 +5,11 @@
 <form action="@{Admin.editQuestion(question.getId())}" method="GET">
  <table>
 		<tr>
-			<td><textarea id="newContent" name="newContent">${question.getContent()}</textarea></td>
+			<h1>
+			question :</h1><td><textarea id="newContent" name="newContent">${question.getContent()}</textarea></td>
 		</tr>
-		<tr>
-			<td></td>
+		<tr><h1>
+			tag :</h1><td><textarea id="newContent" name="newContent">${question.getContent()}</textarea></td>
 			<td><input type="submit" value="Save!" /></td>
 		</tr>
 	</table>

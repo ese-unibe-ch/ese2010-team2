@@ -21,6 +21,7 @@ GET                /question/{id}/answers/                          Application.
 GET                /showState                                       Application.showState
 GET                /users                                           Admin.showUsers
 GET                /register                                        Application.register
+GET                /AccessDeniedForm                                Admin.AccessDeniedForm
 GET                /question/{qid}/editQuestion                     Admin.editQuestion
 GET                /question/{qid}/editAnswer/{answerId}            Admin.editAnswer
 GET                /question/{qid}/setbestanswer/{aid}              Application.setBestAnswer
@@ -31,7 +32,7 @@ GET                /question/{qid}/edit_answer/{answerId}           Admin.showEd
 GET                /question/{qid}/comment_answer                   Admin.showAnswerCommentForm
 GET                /question/{qid}/answer/addAnswer             	Admin.addAnswer
 GET                /question/{qid}/addQuestionComment               Admin.addCommentToQuestion
-GET                /question/{qid}/addAnswerComment                 Admin.addCommentToAnswer
+GET                /question/{qid}/addAnswerComment/{answerId}      Admin.addCommentToAnswer
 GET                /question/{qid}/edit_comment                     Admin.showEditCommentForm
 GET                /question/{qid}/vote                        		Admin.voteQuestion
 GET                /question/{qid}/answers/{aid}/vote               Admin.voteAnswer
