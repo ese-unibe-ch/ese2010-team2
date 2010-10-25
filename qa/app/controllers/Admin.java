@@ -39,7 +39,7 @@ public class Admin extends Controller {
 	 * @param newContent
 	 */
 	public static void editQuestion(int qid, String newContent) {
-		manager.getQuestionById(qid).setContent(newContent);
+		manager.getQuestionById(qid).setContent(newContent, session.get("Username"));
 		redirect("/question/" + qid + "/answers/");
 	}
 
@@ -54,8 +54,8 @@ public class Admin extends Controller {
 	 * @param answerId
 	 * @param newContent
 	 */
-	public static void editAnswer(int answerId, int qid, String newContent) {
-		manager.getAnswerById(answerId).setContent(newContent);
+	public static void editAnswer(int answerId, int qid, String newContent, User user) {
+		manager.getAnswerById(answerId).setContent(newContent, session.get("username"));
 		redirect("/question/" + qid + "/answers/");
 	}
 

@@ -39,6 +39,7 @@ public class Question extends Post {
 		date = new Date();
 		lastChangedDate = new Date();
 		tags = new ArrayList<String>();
+		oldVersions= new ArrayList<Post>();
 		
 		manager.addQuestion(this);		
 		questionOwner.addActivity("Asked question <" + content + ">");

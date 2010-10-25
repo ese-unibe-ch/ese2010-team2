@@ -3,6 +3,7 @@ package models;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -18,7 +19,9 @@ public abstract class Post {
 	protected String content;
 	protected User owner;
 	protected int score = 0;
-
+	protected ArrayList<Post> oldVersions;
+	protected String editedBy= new String();
+ 
 	protected static DbManager manager = DbManager.getInstance();
 	protected Calendar calendar = Calendar.getInstance();
 	protected Date date;
@@ -95,9 +98,15 @@ public abstract class Post {
 	public User getOwner() {
 		return owner;
 	}
+	
+	public ArrayList<Post> getOldVersions(){
+		return this.oldVersions;
+	}
 
 	/** Setter methods */
-	public void setContent(String content) {
+	public void setContent(String content, String uname) {
+		this.oldVersions.add(this);
+		this.editedBy.concat(" " + uname);
 		this.content = content;
 	}
 

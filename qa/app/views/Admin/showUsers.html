@@ -17,7 +17,7 @@
 		<td>${user.getEmail()}</td>
 		<td>${user.getPassword()}</td>
 		<td>
-			<form action="@{Application.editUserGroup(user.getName())}" method="GET">
+			<form action="@{Application.editUserGroup(user,group)}" method="GET">
 				#{if user.getGroup().name()=="admin"}
 					<input type="radio" name="group" value="admin" checked >Admin</input>
 					<input type="radio" name="group" value="moderator">Moderator</input>
