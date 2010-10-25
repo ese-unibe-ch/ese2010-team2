@@ -1,33 +1,10 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Home' /}
-#{if user}
-<p align="right">
-<p align="right">
-<font color = "#c00">You are logged in as: ${session.get("username")}</font> |
-<a href="@{Secure.logout()}">logout</a>
-</p>
-<p align="right">
-<a href="@{Admin.showQuestionForm()}">add new Question</a> |
-<a href="@{Application.showRecentQuestionsByNumber()}">newest questions</a> |
-<a href="@{Admin.showUserLog(session.get("username"))}">show my activities</a>  |
-<a href="@{Application.showUserProfile()}">edit user profile</a> | 
-<a href="@{Application.showState()}">statistics</a>
-</p>
-</p>
-#{/if}
-#{else}
-<p align="right">
-<a href="@{Application.showRegister()}">register</a> |
-<a href="@{Secure.login()}">login</a>
-</p>
-#{/else}
 
-<h2> Questions in the ESE KB</h2>
-#{if user}
-	Your current Reputation: ${score}
-#{/if}
-<h3>${message}</h3>
+<h2>Questions</h2>
+
+${message}
 
 #{list items:questions, as:'question'}
-	#{question question:question,user:user,score:score/}
+	#{question question:question /}
 #{/list}

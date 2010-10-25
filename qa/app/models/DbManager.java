@@ -1,12 +1,14 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
+import java.util.NoSuchElementException;
 
 import comparators.ChangedDateComparator;
-import comparators.CommentDateComparator;
 import comparators.DateComparator;
-import comparators.PostComparator;
+import comparators.ScoreComparator;
 
 /**
  * The Class UserQuestionAnswerManager delivers functionality to coordinate the
@@ -28,13 +30,14 @@ public class DbManager {
 
 	/** All tags that have been used so far. */
 	private static ArrayList<String> tags;
+	
+	private static ArrayList[] reputations;
 
 	/** 4 Counters for the Id's */
 	private int userCounterIdCounter;
 	private int questionIdCounter;
 	private int answerIdCounter;
 	private int commentIdCounter;
-
 
 	private static final DbManager INSTANCE = new DbManager();
 
@@ -60,6 +63,10 @@ public class DbManager {
 		this.questionIdCounter = 0;
 		this.answerIdCounter = 0;
 		this.commentIdCounter = 0;
+		reputations = new ArrayList[3];
+		reputations[0] = new ArrayList<User>();
+		reputations[1] = new ArrayList<Date>();
+		reputations[2] = new ArrayList<Integer>();
 	}
 
 	/**
@@ -96,6 +103,47 @@ public class DbManager {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Deletes a user and all entries he or she wrote.
+	 * 
+	 * @param - The username of the user to be deleted as a string object.
+	 */
+	public void deleteUser(String username){
+		if(!DbManager.users.contains(this.getUserByName(username)))
+			throw new NoSuchElementException();
+		
+		User deleteUser= getUserByName(username);
+		
+		ArrayList<Question> updatedQuestions= new ArrayList<Question>();
+		ArrayList<Answer> updatedAnswers= new ArrayList<Answer>();
+		ArrayList<Comment> updatedComments = new ArrayList<Comment>();
+		users.remove(deleteUser);
+		
+		// Delete all questions a user added
+		for (Question q : DbManager.questions) {
+			if (!q.getOwner().equals(deleteUser))
+				updatedQuestions.add(q);
+		}
+		DbManager.questions.clear();
+		DbManager.questions.addAll(updatedQuestions);
+
+		// Delete all answers a user added
+		for (Answer a : DbManager.answers) {
+			if (!a.getOwner().equals(deleteUser))
+				updatedAnswers.add(a);
+		}
+		DbManager.answers.clear();
+		DbManager.answers.addAll(updatedAnswers);
+
+		// Delete all comments a user added
+		for (Comment c : DbManager.comments) {
+			if (!c.getOwner().equals(deleteUser))
+				updatedComments.add(c);
+		}
+		DbManager.comments.clear();
+		DbManager.comments.addAll(updatedComments);
 	}
 
 	/**
@@ -166,8 +214,8 @@ public class DbManager {
 	public ArrayList<Question> getQuestionsSortedByScore() {
 		ArrayList<Question> sortedQuestions = questions;
 
-		Collections.sort(sortedQuestions, new PostComparator());
-
+		Collections.sort(sortedQuestions, Collections.reverseOrder(new ScoreComparator()));
+		
 		return sortedQuestions;
 	}
 
@@ -181,7 +229,7 @@ public class DbManager {
 	public ArrayList<Answer> getAnswersSortedByScore(int id) {
 		ArrayList<Answer> sortedAnswers = this.getAllAnswersByQuestionId(id);
 
-		Collections.sort(sortedAnswers, new PostComparator());
+		Collections.sort(sortedAnswers, Collections.reverseOrder(new ScoreComparator()));
 
 		return sortedAnswers;
 	}
@@ -198,15 +246,16 @@ public class DbManager {
 
 		return sortedQuestions;
 	}
-	
+
 	/**
-	 * Gets all question sorted by the date of their latest change (means adding of answers, comments, votes)
+	 * Gets all question sorted by the date of their latest change (means adding
+	 * of answers, comments, votes)
 	 */
-	public ArrayList<Question> getQuestionsSortedByLastChangedDate(){
-		ArrayList<Question> sortedQuestions= this.getQuestions();
-		
+	public ArrayList<Question> getQuestionsSortedByLastChangedDate() {
+		ArrayList<Question> sortedQuestions = this.getQuestions();
+
 		Collections.sort(sortedQuestions, new ChangedDateComparator());
-		
+
 		return sortedQuestions;
 	}
 
@@ -226,7 +275,7 @@ public class DbManager {
 			if (currentComment.getCommentedVotable().equals(currentQuestion))
 				sortedComments.add(currentComment);
 		}
-		Collections.sort(sortedComments, new CommentDateComparator());
+		Collections.sort(sortedComments, new DateComparator());
 		return sortedComments;
 	}
 
@@ -245,7 +294,7 @@ public class DbManager {
 			if (currentComment.getCommentedVotable().equals(currentAnswer))
 				sortedComments.add(currentComment);
 		}
-		Collections.sort(sortedComments, new CommentDateComparator());
+		Collections.sort(sortedComments, new DateComparator());
 		return sortedComments;
 	}
 
@@ -302,7 +351,7 @@ public class DbManager {
 	 *         'count'.
 	 */
 	public ArrayList<Question> getRecentQuestionsByNumber(int count) {
-		//The list of which the newest questions are picked out.
+		// The list of which the newest questions are picked out.
 		ArrayList allQuestions = getQuestionsSortedByLastChangedDate();
 		ArrayList recentQuestions = new ArrayList<String>();
 		int size = allQuestions.size();
@@ -370,6 +419,43 @@ public class DbManager {
 		this.questionIdCounter = 0;
 		this.answerIdCounter = 0;
 		this.commentIdCounter = 0;
+	}
+	
+	/**
+	 * Saves a reputation from a specific user and day
+	 */
+	public void addReputation(User user, Date time, int reputation) {
+		reputations[0].add(user);
+		reputations[1].add(time);
+		reputations[2].add(reputation);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public int getReputationByUserAndDate(User user, Date date) {
+		int result = 0;
+		User currentUser;
+		Date currentDate;
+		for (int i = 0; i < reputations[0].size(); i++) {
+			currentUser = (User) reputations[0].get(i);
+			currentDate = (Date) reputations[1].get(i);
+			if (user.equals(currentUser ) && ((date.getYear() == currentDate.getYear()) && 
+												(date.getMonth() == currentDate.getMonth()) &&
+												(date.getDate() == currentDate.getDate()))) 
+			{
+				result = (Integer) reputations[2].get(i);
+			}
+		}
+		return result;
+	}
+	
+	public ArrayList<Integer> getReputations(User user, int days) {
+		ArrayList<Integer> currentReputations = new ArrayList<Integer>();
+		Date currentDay = new Date();
+		for (int i = 0; i < days; i++) {
+			currentDay.setTime(currentDay.getTime() - 86400000);
+			currentReputations.add(this.getReputationByUserAndDate(user, currentDay));
+		}
+		return currentReputations;
 	}
 
 	/*

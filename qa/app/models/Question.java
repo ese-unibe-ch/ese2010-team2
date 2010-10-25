@@ -1,4 +1,3 @@
-
 package models;
 
 import java.util.ArrayList;
@@ -35,12 +34,15 @@ public class Question extends Post {
 	public Question(String content, User questionOwner) {
 		this.owner = questionOwner;
 		this.content = content;
-		currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
 		this.score = 0;
+		
+		date = new Date();
+		lastChangedDate = new Date();
 		tags = new ArrayList<String>();
-		manager.addQuestion(this);
+		oldVersions= new ArrayList<Post>();
+		
+		manager.addQuestion(this);		
 		questionOwner.addActivity("Asked question <" + content + ">");
-		this.setLastChangedDate(new Date());
 	}
 
 	/**
@@ -131,10 +133,21 @@ public class Question extends Post {
 		}
 	}
 
+	/**
+	 * Checks whether some tags from the parameter 'tags' are similar to some
+	 * that have already been entered previously using the Levenshtein-distance.
+	 * 
+	 * @param tags
+	 *            - the String of tags - separated by spaces - that are to be
+	 *            checked.
+	 * @return - A string containing all tags that already exist, separated by a
+	 *         space and each starting with a '#'.
+	 */
 	public static String checkTags(String tags) {
 		String delimiter = "[ ]+";
 		// The minimum Levenshtein distance two strings need to have.
 		int minDistance = 2;
+		String storeTags=""+tags;
 		tags = tags.toLowerCase();
 		String existingTags = new String();
 		for (String newTag : tags.split(delimiter)) {
@@ -146,6 +159,7 @@ public class Question extends Post {
 				}
 			}
 		}
+		tags=storeTags;
 		return existingTags;
 	}
 
@@ -155,6 +169,7 @@ public class Question extends Post {
 	public String getTagByIndex(int i) {
 		return tags.get(i);
 	}
+
 	public Answer getBestAnswer() {
 		return bestAnswer;
 	}
@@ -175,15 +190,15 @@ public class Question extends Post {
 	/**
 	 * Gets the date of the last change (means adding of answer, comment, vote)
 	 * 
-	 * @param date
-	 *            - the date when the answer has been changed.
 	 */
-	public Date getLastChangedDate(){
+	public Date getLastChangedDate() {
 		return this.lastChangedDate;
 	}
 
-	/*
+	/**
 	 * Setter methods
+	 * @param date
+	 *            - the date when the answer has been changed.
 	 */
 	public void setLastChangedDate(Date date) {
 		this.lastChangedDate = date;

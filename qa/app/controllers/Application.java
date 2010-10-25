@@ -4,16 +4,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.NoSuchElementException;
+import java.util.Date;
 
 import models.Answer;
 import models.Comment;
 import models.DbManager;
+import models.Post;
 import models.Question;
 import models.Search;
 import models.User;
+import models.UserGroups;
 
 import org.apache.commons.io.IOUtils;
 
@@ -25,8 +28,7 @@ public class Application extends Controller {
 
 	static Calendar calendar = Calendar.getInstance();
 
-	private static DbManager manager = DbManager
-			.getInstance();
+	private static DbManager manager = DbManager.getInstance();
 
 	public static void index() {
 		String user = session.get("username");
@@ -93,10 +95,11 @@ public class Application extends Controller {
 	@Unused
 	public static void showRecentQuestionsByDate() {
 		// "recent" shall mean 5 days
-		final Timestamp period = new java.sql.Timestamp(0, 0, 5, 0, 0, 0, 0);
-		Timestamp oldest = new Timestamp(calendar.getTime().getTime()
-				- period.getTime());
-
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DAY_OF_MONTH, -5);
+		Date oldest = cal.getTime();
+		
 		ArrayList<Question> recentQuestionsByDate = new ArrayList<Question>();
 
 		for (Question q : manager.getQuestions()) {
@@ -123,6 +126,11 @@ public class Application extends Controller {
 		render(recentQuestionsByNumber);
 	}
 
+	/**
+	 * 
+	 * @param qid
+	 * @param aid
+	 */
 	public static void setBestAnswer(int qid, int aid) {
 		Question q = manager.getQuestionById(qid);
 		Answer a = manager.getAnswerById(aid);
@@ -138,7 +146,13 @@ public class Application extends Controller {
 		currentUser.add(manager.getUserByName(session.get("username")));
 		render(message, currentUser);
 	}
-
+	
+	/** shows a specific User */
+	public static void showUser(String userName) {
+		User profileOwner = manager.getUserByName(userName);
+		ArrayList<Integer> reputations = manager.getReputations(profileOwner, 30);
+		render(profileOwner, reputations);
+	}
 	/**
 	 * Saves changes in user Profile
 	 * 
@@ -218,12 +232,12 @@ public class Application extends Controller {
 			Secure.logout();
 		}
 	}
-	
+
 	/**
 	 * Update or set user's avatar.
 	 * 
-	 * Copy image file from play tmp directory to our avatar directory,
-	 * delete old avatar if exists, update filename.
+	 * Copy image file from play tmp directory to our avatar directory, delete
+	 * old avatar if exists, update filename.
 	 * 
 	 * @param title
 	 * @param avatar
@@ -231,23 +245,25 @@ public class Application extends Controller {
 	 */
 	public static void setAvatar(File avatar) throws Exception {
 
-		if ( avatar != null ) {
+		if (avatar != null) {
 			User user = manager.getUserByName(session.get("username"));
-			File avatarDir = new File(Play.applicationPath.getAbsolutePath() + "/public/images/avatars");
-			
-			if ( !avatarDir.exists() ) {
+			File avatarDir = new File(Play.applicationPath.getAbsolutePath()
+					+ "/public/images/avatars");
+
+			if (!avatarDir.exists()) {
 				avatarDir.mkdir();
 			} else {
-				if ( user.hasAvatar() ) {
+				if (user.hasAvatar()) {
 					File old = user.getAvatar();
-					if ( !old.delete() ) 
+					if (!old.delete())
 						throw new IOException("Could not delete old avatar.");
 				}
 			}
-			
-			File newAvatar = new File(avatarDir.getPath() + "/" + avatar.getName());
+
+			File newAvatar = new File(avatarDir.getPath() + "/"
+					+ avatar.getName());
 			user.setAvatar(newAvatar);
-			
+
 			try {
 				newAvatar.createNewFile();
 				FileInputStream input = new FileInputStream(avatar);
@@ -259,7 +275,7 @@ public class Application extends Controller {
 				e.printStackTrace();
 			}
 		}
-		
+
 		redirect("/showUserProfile");
 	}
 
@@ -284,7 +300,8 @@ public class Application extends Controller {
 
 			ArrayList<Question> questionContentResults = search
 					.getQuestionContentResults();
-			ArrayList<Question> questionTagResults = search.getQuestionTagsResults();
+			ArrayList<Question> questionTagResults = search
+					.getQuestionTagsResults();
 			ArrayList<Answer> answerContentResults = search
 					.getAnswerContentResults();
 			ArrayList<Comment> commentResults = search.getCommentResults();
@@ -303,5 +320,30 @@ public class Application extends Controller {
 						questionContentResults, commentResults);
 			}
 		}
+	}
+	//TODO: Übergabe der Werte aus radio check boxes & speichern dieser.
+	public static void editUserGroup(User user, String group) {
+		UserGroups ugroup;
+		if (group.equals("admin"))
+			ugroup = UserGroups.admin;
+		else {
+			if (group.equals("moderator"))
+				ugroup = UserGroups.moderator;
+			else {
+				if (group.equals("user"))
+					ugroup = UserGroups.user;
+				else
+					throw new NoSuchElementException();
+			}
+		}
+
+		user.setGroup(ugroup);
+//		manager.getUsers().get
+//		.setGroup(ugroup);
+	}
+	
+	public static void showVersionHistory(Post post){
+		ArrayList<Post> history= post.getOldVersions();
+		render(post, history);
 	}
 }

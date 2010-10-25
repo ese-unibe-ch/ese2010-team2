@@ -18,27 +18,28 @@ import play.mvc.With;
 @With(Secure.class)
 public class Admin extends Controller {
 
-	private static DbManager manager = DbManager
-			.getInstance();
+	private static DbManager manager = DbManager.getInstance();
 
 	private static Calendar calendar = Calendar.getInstance();
 
-	public static void showQuestionForm() {
-		render();
+	public static void showQuestionForm(String newQuestion, String tags,
+			String message) {
+		render(newQuestion, tags, message);
 	}
-	
+
 	public static void showEditQuestionForm(int qid) {
 		Question question = manager.getQuestionById(qid);
 		render(question, qid);
 	}
-	
+
 	/**
 	 * Sets the content of the question to the new value
+	 * 
 	 * @param qid
 	 * @param newContent
 	 */
-	public static void editQuestion(int qid, String newContent){
-		manager.getQuestionById(qid).setContent(newContent);
+	public static void editQuestion(int qid, String newContent) {
+		manager.getQuestionById(qid).setContent(newContent, session.get("Username"));
 		redirect("/question/" + qid + "/answers/");
 	}
 
@@ -46,14 +47,15 @@ public class Admin extends Controller {
 		Answer answer = manager.getAnswerById(answerId);
 		render(answer, answerId, qid);
 	}
-	
+
 	/**
 	 * Sets the content of the answer to the new value
+	 * 
 	 * @param answerId
 	 * @param newContent
 	 */
-	public static void editAnswer(int answerId, int qid, String newContent) {
-		manager.getAnswerById(answerId).setContent(newContent);
+	public static void editAnswer(int answerId, int qid, String newContent, User user) {
+		manager.getAnswerById(answerId).setContent(newContent, session.get("username"));
 		redirect("/question/" + qid + "/answers/");
 	}
 	
@@ -65,23 +67,28 @@ public class Admin extends Controller {
 	public static void showQuestionCommentForm(String qid) {
 		render(qid);
 	}
-	
+
 	public static void showAnswerCommentForm(int answerId, String qid) {
 		render(answerId, qid);
 	}
 
 	public static void addQuestion(String newQuestion, String tags) {
+		// Store the overgiven tags in another object to prevent information
+		// loss due to splitting the tag list.
+		 String copyTags = ""+tags;
+
+		
 		User user = manager.getUserByName(session.get("username"));
 		if (newQuestion.equals("") || newQuestion.equals(" ")) {
 			String message = "Your question is empty!";
-			render(message);
+			showQuestionForm(newQuestion, tags, message);
 		} else if (manager.checkQuestionDuplication(newQuestion)) {
 			String message = "Your question already exists!";
-			render(message);
-		} else if (!Question.checkTags(tags).isEmpty()) {
+			showQuestionForm(newQuestion, tags, message);
+		} else if (!Question.checkTags(copyTags).isEmpty()) {
 			String message = "The following tags already exist: "
-					+ Question.checkTags(tags) + ". Please review your tags.";
-			render(message);
+					+ Question.checkTags(copyTags) + ". Please review your tags.";
+			showQuestionForm(newQuestion, tags, message);
 		} else {
 			@SuppressWarnings("unused")
 			Question question = new Question(newQuestion, user);
@@ -98,13 +105,13 @@ public class Admin extends Controller {
 			render(message, qid);
 		} else {
 			@SuppressWarnings("unused")
-			Answer answer = new Answer(newAnswer, user,
-					manager.getQuestionById(intId));
+			Answer answer = new Answer(newAnswer, user, manager
+					.getQuestionById(intId));
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
 
-	public static void addCommentToQuestion(int qid ,String newComment) {
+	public static void addCommentToQuestion(int qid, String newComment) {
 		User user = manager.getUserByName(session.get("username"));
 		Question question = manager.getQuestionById(qid);
 		if (newComment.equals("") || newComment.equals(" ")) {
@@ -115,8 +122,9 @@ public class Admin extends Controller {
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
-	
-	public static void addCommentToAnswer(int answerId, int qid, String newComment) {
+
+	public static void addCommentToAnswer(int answerId, int qid,
+			String newComment) {
 		User user = manager.getUserByName(session.get("username"));
 		Answer answer = manager.getAnswerById(answerId);
 		if (newComment.equals("") || newComment.equals(" ")) {
@@ -128,38 +136,55 @@ public class Admin extends Controller {
 		}
 	}
 
-	public static void voteQuestion(String qid, String vote) {
-		int id = Integer.parseInt(qid);
+	public static void voteQuestionUp(int qid) {
+		voteQuestion(qid, 1);
+	}
+	
+	public static void voteQuestionDown(int qid) {
+		voteQuestion(qid, -1);
+	}
+	
+	
+	public static void voteQuestion(int qid, int vote) {
+		//int id = Integer.parseInt(qid);
 		User user = manager.getUserByName(session.get("username"));
-		if (manager.getQuestionById(id).getOwner()
-				.equals(session.get("username"))) {
+		if (manager.getQuestionById(qid).getOwner().equals(
+				session.get("username"))) {
 			String message = "You cannot vote your own question!";
 			render(message, qid);
-		} else if (manager.getQuestionById(id).checkUserVotedForQuestion(user)) {
+		} else if (manager.getQuestionById(qid).checkUserVotedForQuestion(user)) {
 			String message = "You already voted this question";
 			render(message, qid);
 		} else {
-			manager.getQuestionById(id).vote(vote);
-			manager.getQuestionById(id).userVotedForQuestion(user);
+			manager.getQuestionById(qid).vote(vote);
+			manager.getQuestionById(qid).userVotedForQuestion(user);
 			redirect("/");
 		}
 	}
 
-	public static void voteAnswer(String qid, String aid, String vote) {
-		int id = Integer.parseInt(aid);
+	public static void voteAnswerUp(int qid, int aid) {
+		voteAnswer(qid, aid, 1);
+	}
+	
+	public static void voteAnswerDown(int qid, int aid) {
+		voteAnswer(qid, aid, -1);
+	}
+	
+	public static void voteAnswer(int qid, int aid, int vote) {
+		//int id = Integer.parseInt(aid);
 		User user = manager.getUserByName(session.get("username"));
 		@SuppressWarnings("unused")
-		Answer answer = manager.getAnswerById(id);
-		if (manager.getAnswerById(id).getOwner()
+		Answer answer = manager.getAnswerById(aid);
+		if (manager.getAnswerById(aid).getOwner()
 				.equals(session.get("username"))) {
 			String message = "You cannot vote your own answer!";
 			render(message, qid);
-		} else if (manager.getAnswerById(id).checkUserVotedForAnswer(user)) {
+		} else if (manager.getAnswerById(aid).checkUserVotedForAnswer(user)) {
 			String message = "You already voted this question";
 			render(message, qid);
 		} else {
-			manager.getAnswerById(id).vote(vote);
-			manager.getAnswerById(id).userVotedForAnswer(user);
+			manager.getAnswerById(aid).vote(vote);
+			manager.getAnswerById(aid).userVotedForAnswer(user);
 			redirect("/question/" + qid + "/answers/");
 		}
 	}

@@ -4,24 +4,55 @@
     <head>
         <title>#{get 'title' /}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/main.css'}">
+        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/style.css'}">
+        <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/layout.css'}">
         #{get 'moreStyles' /}
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
         <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
         #{get 'moreScripts' /}
     </head>
     <body>
-    	<div class="main">
-    	<div align="right">
-        	<form action="@{Application.Search()}" method="GET">
-				<input size="15" type="text" name="text" value="${text}"><input type="submit" value="Search" />
-			</form>
-		</div>
-    		<div class="header">
+    	<div id="root">
+            <div id="search">
+                <form action="@{Application.Search()}" method="GET">
+                    <input size="15" type="text" name="text" value="${text}"><input type="submit" value="Search" />
+                </form>
+            </div>
+
+    		<div id="head">
         		<a href="@{Application.index()}"><h1>ESE KB</h1></a>
-        		<h4>knowledge base by eseTeam-2 for ewernli </h4>
-        	</div><!-- end header -->
-        #{doLayout /}
-    </div><!-- end main -->
+        		<span id="subtitle">A knowledge base by minerva for ewernli.</span>
+        	</div>
+
+
+            <div id="statusbox">
+                #{if session.uid}
+                    Logged in as: ${session.get("username")} |
+                    Current reputation: ${score} |
+                    <a href="@{Secure.logout()}">logout</a>
+                #{/if}
+                #{else}
+                    <a href="@{Application.showRegister()}">register</a> |
+                    <a href="@{Secure.login()}">login</a>
+                #{/else}
+            </div>
+
+            #{if session.uid}
+            <div id="toolbox">
+                <a href="@{Admin.showQuestionForm()}">add new Question</a> |
+                <a href="@{Application.showRecentQuestionsByNumber()}">newest questions</a> |
+                <a href="@{Admin.showUserLog(session.get("username"))}">show my activities</a>  |
+                <a href="@{Application.showUserProfile()}">edit user profile</a> |
+                <a href="@{Application.showState()}">statistics</a>
+            </div>
+            #{/if}
+
+            <div id="content">
+            #{doLayout /}
+            </div>
+
+            <div id="footer">
+            </div>
+        </div>
     </body>
 </html>

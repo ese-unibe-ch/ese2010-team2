@@ -3,6 +3,7 @@ package models;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -18,20 +19,23 @@ public abstract class Post {
 	protected String content;
 	protected User owner;
 	protected int score = 0;
-
+	protected ArrayList<Post> oldVersions;
+	protected String editedBy= new String();
+ 
 	protected static DbManager manager = DbManager.getInstance();
 	protected Calendar calendar = Calendar.getInstance();
-	protected java.sql.Timestamp currentTimestamp;
+	protected Date date;
+	protected static MarkdownProcessor markdownProcessor = new MarkdownProcessor();
 
 	/**
 	 * Vote for a votable.
 	 * 
-	 * @param newVote
+	 * @param vote2
 	 *            - The vote you want to add. This is an String-object
 	 *            containing an integer number.
 	 */
-	public void vote(String newVote) {
-		int vote = Integer.parseInt(newVote);
+	public void vote(int vote) {
+		//int vote = Integer.parseInt(vote2);
 		score = score + vote;
 		this.setLastChanged(new Date());
 	}
@@ -39,9 +43,8 @@ public abstract class Post {
 	/**
 	 * @return parsed markdown string, so either plain text or HTML.
 	 */
-	// TODO do not create a new instance for every call, how?
 	public String getHtml() {
-		return new MarkdownProcessor().markdown(content);
+		return markdownProcessor.markdown(content);
 	}
 
 	/**
@@ -84,12 +87,8 @@ public abstract class Post {
 		return score;
 	}
 
-	public String getTimestamp() {
-		return currentTimestamp.toString();
-	}
-
-	public java.sql.Timestamp getDate() {
-		return currentTimestamp;
+	public Date getDate() {
+		return date;
 	}
 
 	public String getContent() {
@@ -99,9 +98,15 @@ public abstract class Post {
 	public User getOwner() {
 		return owner;
 	}
+	
+	public ArrayList<Post> getOldVersions(){
+		return this.oldVersions;
+	}
 
 	/** Setter methods */
-	public void setContent(String content) {
+	public void setContent(String content, String uname) {
+		this.oldVersions.add(this);
+		this.editedBy.concat(" " + uname);
 		this.content = content;
 	}
 
@@ -109,16 +114,11 @@ public abstract class Post {
 		this.id = id;
 	}
 
-	public void setTimeStamp(String timeStamp) throws ParseException {
+	public void setDate(String timeStamp) throws ParseException {
 		DateFormat formatter;
-		Date date;
-
 		formatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss.SSS");
-		date = (Date) formatter.parse(timeStamp);
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
 
-		this.currentTimestamp = new java.sql.Timestamp(cal.getTime().getTime());
+		this.date = formatter.parse(timeStamp); 
 	}
 
 	/**

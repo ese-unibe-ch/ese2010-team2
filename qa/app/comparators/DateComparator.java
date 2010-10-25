@@ -1,28 +1,20 @@
 package comparators;
 
-import java.sql.Timestamp;
 import java.util.Comparator;
+import java.util.Date;
 
 import models.Post;
 
 /**
- * The Class DateComparator implements Comparator and only overrides the method
- * compare().
+ * Compares two posts by their date.
  */
-public class DateComparator implements Comparator {
+public class DateComparator implements Comparator<Post> {
 
-	/**
-	 * Compares two objects of the type votable. @see
-	 * java.util.Comparator#compare(Object, Object)
-	 */
-	public final int compare(Object aGiven, Object bGiven) {
-		Post a = (Post) aGiven;
-		Post b = (Post) bGiven;
+	public final int compare(Post a, Post b) {
 
-		Timestamp valueA = a.getDate();
-		Timestamp valueB = b.getDate();
+		Date valueA = a.getDate();
+		Date valueB = b.getDate();
 
 		return valueA.compareTo(valueB);
 	}
-
 }

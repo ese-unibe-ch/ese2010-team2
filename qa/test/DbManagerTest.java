@@ -1,11 +1,15 @@
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.NoSuchElementException;
 
 import models.Answer;
+import models.Comment;
 import models.DbManager;
 import models.Post;
 import models.Question;
 import models.User;
 
+import org.hibernate.hql.ast.tree.ExpectedTypeAwareNode;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -101,10 +105,10 @@ public class DbManagerTest extends UnitTest {
 		Question question3 = new Question("content3", admin);
 		Question question4 = new Question("content4", admin);
 
-		question1.vote("2");
-		question2.vote("3");
-		question3.vote("4");
-		question4.vote("5");
+		question1.vote(2);
+		question2.vote(3);
+		question3.vote(4);
+		question4.vote(5);
 
 		assertEquals(question4, manager.getQuestionsSortedByScore().get(0));
 		assertEquals(question3, manager.getQuestionsSortedByScore().get(1));
@@ -122,10 +126,10 @@ public class DbManagerTest extends UnitTest {
 		Answer answer3 = new Answer("content3", admin, question1);
 		Answer answer4 = new Answer("content4", admin, question1);
 
-		answer1.vote("2");
-		answer2.vote("3");
-		answer3.vote("4");
-		answer4.vote("5");
+		answer1.vote(2);
+		answer2.vote(3);
+		answer3.vote(4);
+		answer4.vote(5);
 
 		assertEquals(answer4, manager
 				.getAnswersSortedByScore(question1.getId()).get(0));
@@ -283,12 +287,72 @@ public class DbManagerTest extends UnitTest {
 		assertTrue(list.contains(answer2));
 		assertFalse(list.contains(answer1));
 	}
+	
+	@Test
+	public void shouldRemoveUser(){
+		User user1= new User("user1", "user@1", "password");
+		Question question1= new Question("Question to be deleted", user1);
+		Question question2= new Question("question not to be deleted", admin);
+		Answer answer1= new Answer("answer to be deleted", user1, question1);
+		Comment comm1= new Comment(user1, answer1, "comment to be deleted");
+		assertTrue(manager.getQuestions().contains(question1));
+		assertTrue(manager.getAnswers().contains(answer1));
+		assertTrue(manager.getComments().contains(comm1));
+		manager.deleteUser("user1");
+		assertFalse(manager.getQuestions().contains(question1));
+		assertFalse(manager.getAnswers().contains(answer1));
+		assertFalse(manager.getComments().contains(comm1));
+		assertTrue(manager.getQuestions().contains(question2));
+	}
+	
+	@Test
+	public void shouldSortCommentsByDate() {
+		Question question = new Question("some content", admin);
+		Comment firstComment = new Comment(admin, question, "first comment");
+		Comment secondComment = new Comment(admin, question, "second comment");
+		Comment thirdComment = new Comment(admin, question, "third comment");
+		ArrayList<Comment> comments = manager.getAllCommentsByQuestionIdSortedByDate(question.getId());
+		assertEquals(firstComment, comments.get(0));
+		assertEquals(secondComment, comments.get(1));
+		assertEquals(thirdComment, comments.get(2));
+	}
+	
+	@Test
+	public void shouldCorrectlyAddAndAccessReputation() {
+		User reputatedUser = new User("user", "user@ese.ch", "user");
+		manager.addReputation(reputatedUser, new Date(), 50);
+		assertEquals(50, manager.getReputationByUserAndDate(reputatedUser, new Date()));
+	}
+	
+	@Test
+	public void shouldCorrectlyAccessReputationsOfTheLast5Days() {
+		User reputatedUser = new User("user", "user@ese.ch", "user");
+		int[] reputations = {50,40,30,20,10};
+		Date currentDate = new Date();
+		for(int i = 0; i < 5; i++) {
+			currentDate = new Date(currentDate.getTime() - 86400000);
+			manager.addReputation(reputatedUser, currentDate, reputations[i]);
+		}
+		ArrayList<Integer> reps = manager.getReputations(reputatedUser, 10);
+		assertEquals((Integer)50, reps.get(0));
+		assertEquals((Integer)40, reps.get(1));
+		assertEquals((Integer)30, reps.get(2));
+		assertEquals((Integer)20, reps.get(3));
+		assertEquals((Integer)10, reps.get(4));
+	}
+	
+    @Test(expected=NoSuchElementException.class)
+    public void shouldntFindUserToDelete() {
+    	manager.deleteUser("userDoesNotExist");
+    }
+
 
 	@After
 	public void tearDown() {
 		manager.getUsers().clear();
 		manager.getQuestions().clear();
 		manager.getAnswers().clear();
+		manager.getComments().clear();
 		manager.getTagList().clear();
 		manager.resetAllIdCounts();
 	}

@@ -2,6 +2,7 @@ package jobs;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 import models.Answer;
@@ -9,6 +10,7 @@ import models.Comment;
 import models.DbManager;
 import models.Question;
 import models.User;
+import models.UserGroups;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,6 +37,7 @@ public class BootStrap extends Job {
 		log.info("fill Model with test-data");
 
 		User user = new User("admin", "admin@admin.ch", "admin");
+		user.setGroup(UserGroups.admin);
 
 		int users = 5;
 		int questionsPerUser = 3;
@@ -54,7 +57,7 @@ public class BootStrap extends Job {
 		Question q1 = new Question("How small is the fish?", manager
 				.getUserByName("user-1"));
 		q1.addTags("fish size");
-		q1.vote("1");
+		q1.vote(1);
 		Answer a11= new Answer("see www.smallfish.com", manager.getUserByName("user-2"), q1);
 
 		Question q2 = new Question(
@@ -63,8 +66,8 @@ public class BootStrap extends Job {
 		q2.addTags("man road");
 		new Answer("The answer my friend is blowin in the wind", manager
 				.getUserByName("user-3"), q2);
-		q1.vote("1");
-		q1.vote("1");
+		q1.vote(1);
+		q1.vote(1);
 		
 		// add avatars
 		File avatar1= new File("qa/public/images/avatars/casper.jpg");
@@ -81,7 +84,15 @@ public class BootStrap extends Job {
 		// add comment
 		new Comment(manager.getUserByName("user-4"), q2, "ask bob dylan, dude!");
 		new Comment(manager.getUserByName("user-1"), a11, "thank you");
-
+		
+		//add Reputation for admin over 30 days
+		int[] reputations = {90,88,87,85,84,82,80,79,77,75,73,72,70,68,66,64,61,59,57,54,52,49,46,43,40,37,33,28,23,16};
+		Date currentDate = new Date();
+		for(int i = 0; i < 30; i++) {
+			currentDate = new Date(currentDate.getTime() - 86400000);
+			manager.addReputation(user, currentDate, reputations[i]);
+		}
+		
 		// an answer for every second question from the first user
 		int i = 0;
 		for (Question q : questions) {
@@ -90,9 +101,12 @@ public class BootStrap extends Job {
 				User u = manager.getUsers().get(0);
 				Answer a = new Answer("answer " + i, u, q);
 			} else {
-				q.vote("-1");
+				q.vote(-1);
 			}
 		}
+		
+		// set user-1 be moderator
+		manager.getUserByName("user-1").setGroup(UserGroups.moderator);
 
 	}
 

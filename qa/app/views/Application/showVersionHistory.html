@@ -1,0 +1,14 @@
+#{extends 'main.html' /}
+#{set title:'ESE KB - version history' /}	
+<a href="/">home</a>
+
+<h2>Newest version:</h2>
+
+${post.getContent()}
+
+<h2>History:</h2>
+
+#{list items:history, as:'p'}
+	${p.getContent()}
+#{/list}
+	

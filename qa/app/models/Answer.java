@@ -34,7 +34,8 @@ public class Answer extends Post {
 		this.content = content;
 		this.owner = user;
 		isBestAnswer = false;
-		currentTimestamp = new java.sql.Timestamp(calendar.getTime().getTime());
+		date = new Date();
+		oldVersions= new ArrayList<Post>();
 		question.setLastChangedDate(new Date());
 		user.addActivity("Answered question <" + question.getContent()
 				+ "> by writing: <" + content + ">");
@@ -75,6 +76,10 @@ public class Answer extends Post {
 	 */
 	public int getQuestionId() {
 		return questionId;
+	}
+	
+	public Question getQuestion() {
+		return manager.getQuestionById(questionId);
 	}
 
 	/**

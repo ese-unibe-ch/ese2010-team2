@@ -89,10 +89,10 @@ public class QuestionTest extends UnitTest {
 		Question question = new Question("content of question", admin);
 		assertEquals(0, question.getScore());
 		// Vote Up
-		question.vote("1");
+		question.vote(1);
 		assertEquals(1, question.getScore());
 		// Vote down
-		question.vote("-1");
+		question.vote(-1);
 		assertEquals(0, question.getScore());
 	}
 
