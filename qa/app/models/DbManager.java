@@ -430,14 +430,18 @@ public class DbManager {
 		reputations[2].add(reputation);
 	}
 	
-	public int getReputationsByUserAndDate(User user, Date date) {
+	@SuppressWarnings("deprecation")
+	public int getReputationByUserAndDate(User user, Date date) {
 		int result = 0;
 		User currentUser;
 		Date currentDate;
 		for (int i = 0; i < reputations[0].size(); i++) {
 			currentUser = (User) reputations[0].get(i);
 			currentDate = (Date) reputations[1].get(i);
-			if (user.equals(currentUser ) && date.equals(currentDate)) {
+			if (user.equals(currentUser ) && ((date.getYear() == currentDate.getYear()) && 
+												(date.getMonth() == currentDate.getMonth()) &&
+												(date.getDate() == currentDate.getDate()))) 
+			{
 				result = (Integer) reputations[2].get(i);
 			}
 		}
@@ -447,9 +451,9 @@ public class DbManager {
 	public ArrayList<Integer> getReputations(User user, int days) {
 		ArrayList<Integer> currentReputations = new ArrayList<Integer>();
 		Date currentDay = new Date();
-		for (; days > 0; days--) {
-			currentReputations.add(this.getReputationsByUserAndDate(user, currentDay));
+		for (int i = 0; i < days; i++) {
 			currentDay.setTime(currentDay.getTime() - 86400000);
+			currentReputations.add(this.getReputationByUserAndDate(user, currentDay));
 		}
 		return currentReputations;
 	}
