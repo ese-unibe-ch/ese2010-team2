@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.NoSuchElementException;
 
 import models.Answer;
@@ -314,6 +315,30 @@ public class DbManagerTest extends UnitTest {
 		assertEquals(firstComment, comments.get(0));
 		assertEquals(secondComment, comments.get(1));
 		assertEquals(thirdComment, comments.get(2));
+	}
+	
+	@Test
+	public void shouldCorrectlyAddAndAccessReputation() {
+		User reputatedUser = new User("user", "user@ese.ch", "user");
+		manager.addReputation(reputatedUser, new Date(), 50);
+		assertEquals(50, manager.getReputationByUserAndDate(reputatedUser, new Date()));
+	}
+	
+	@Test
+	public void shouldCorrectlyAccessReputationsOfTheLast5Days() {
+		User reputatedUser = new User("user", "user@ese.ch", "user");
+		int[] reputations = {50,40,30,20,10};
+		Date currentDate = new Date();
+		for(int i = 0; i < 5; i++) {
+			currentDate = new Date(currentDate.getTime() - 86400000);
+			manager.addReputation(reputatedUser, currentDate, reputations[i]);
+		}
+		ArrayList<Integer> reps = manager.getReputations(reputatedUser, 10);
+		assertEquals((Integer)50, reps.get(0));
+		assertEquals((Integer)40, reps.get(1));
+		assertEquals((Integer)30, reps.get(2));
+		assertEquals((Integer)20, reps.get(3));
+		assertEquals((Integer)10, reps.get(4));
 	}
 	
     @Test(expected=NoSuchElementException.class)
