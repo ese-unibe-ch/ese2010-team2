@@ -77,6 +77,10 @@ public class Answer extends Post {
 	public int getQuestionId() {
 		return questionId;
 	}
+	
+	public Question getQuestion() {
+		return manager.getQuestionById(questionId);
+	}
 
 	/**
 	 * Checks if this is the best Answer to the question. The best answer is

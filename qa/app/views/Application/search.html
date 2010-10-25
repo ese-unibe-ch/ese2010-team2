@@ -22,7 +22,7 @@
 
 <h2>Answers with matching content</h2>
 #{list items:answerContentResults, as:'answer'}
-	#{answer answer:answer /}
+	#{answer answer:answer, question:answer.getQuestion() /}
 #{/list}
 
 <h2>Comments with matching content</h2>
