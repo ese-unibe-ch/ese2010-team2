@@ -12,6 +12,7 @@ import java.util.Date;
 import models.Answer;
 import models.Comment;
 import models.DbManager;
+import models.Post;
 import models.Question;
 import models.Search;
 import models.User;
@@ -316,7 +317,7 @@ public class Application extends Controller {
 		}
 	}
 	//TODO: Übergabe der Werte aus radio check boxes & speichern dieser.
-	public static void editUserGroup(String uname, String group) {
+	public static void editUserGroup(User user, String group) {
 		UserGroups ugroup;
 		if (group.equals("admin"))
 			ugroup = UserGroups.admin;
@@ -331,6 +332,13 @@ public class Application extends Controller {
 			}
 		}
 
-		manager.getUserByName(uname).setGroup(ugroup);
+		user.setGroup(ugroup);
+//		manager.getUsers().get
+//		.setGroup(ugroup);
+	}
+	
+	public static void showVersionHistory(Post post){
+		ArrayList<Post> history= post.getOldVersions();
+		render(post, history);
 	}
 }

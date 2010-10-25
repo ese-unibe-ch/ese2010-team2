@@ -35,6 +35,7 @@ public class Answer extends Post {
 		this.owner = user;
 		isBestAnswer = false;
 		date = new Date();
+		oldVersions= new ArrayList<Post>();
 		question.setLastChangedDate(new Date());
 		user.addActivity("Answered question <" + question.getContent()
 				+ "> by writing: <" + content + ">");

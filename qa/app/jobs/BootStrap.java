@@ -95,6 +95,9 @@ public class BootStrap extends Job {
 				q.vote("-1");
 			}
 		}
+		
+		// set user-1 be moderator
+		manager.getUserByName("user-1").setGroup(UserGroups.moderator);
 
 	}
 
