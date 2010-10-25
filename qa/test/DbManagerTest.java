@@ -304,6 +304,18 @@ public class DbManagerTest extends UnitTest {
 		assertTrue(manager.getQuestions().contains(question2));
 	}
 	
+	@Test
+	public void shouldSortCommentsByDate() {
+		Question question = new Question("some content", admin);
+		Comment firstComment = new Comment(admin, question, "first comment");
+		Comment secondComment = new Comment(admin, question, "second comment");
+		Comment thirdComment = new Comment(admin, question, "third comment");
+		ArrayList<Comment> comments = manager.getAllCommentsByQuestionIdSortedByDate(question.getId());
+		assertEquals(firstComment, comments.get(0));
+		assertEquals(secondComment, comments.get(1));
+		assertEquals(thirdComment, comments.get(2));
+	}
+	
     @Test(expected=NoSuchElementException.class)
     public void shouldntFindUserToDelete() {
     	manager.deleteUser("userDoesNotExist");
@@ -315,6 +327,7 @@ public class DbManagerTest extends UnitTest {
 		manager.getUsers().clear();
 		manager.getQuestions().clear();
 		manager.getAnswers().clear();
+		manager.getComments().clear();
 		manager.getTagList().clear();
 		manager.resetAllIdCounts();
 	}
