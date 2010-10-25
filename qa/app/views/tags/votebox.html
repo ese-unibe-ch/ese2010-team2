@@ -1,0 +1,16 @@
+#{if _user}
+<div class="votebox">
+    #{if _post.ownerIs(session.uid)}
+        <p>You can't rate your own post!</p>
+    #{/if}
+    #{else}
+        <form id="vote" action="@{Admin.voteQuestion(_question.getId())}" method="GET">
+            <p>
+                Score: ${_post.getScore()}
+                Vote: <input id="up" type="submit" value ="1" name="vote" />
+                <input id="up" type="submit" value ="-1" name="vote" />
+            </p>
+        </form>
+    #{/else}
+</div>
+#{/if}

@@ -1,27 +1,17 @@
-<fieldset>
-	<table>
-		<td>
-			#{avatar user:_question.getOwner() /}
-			<br/>
-			<a href="@{Application.showUser(_question.getOwner())}"><h6>${_question.getOwner()}</h6></a>
-			<h6>reputation:${_score}</h6>
-		</td>
-		<td>
-			<a href="@{Application.showAnswers(_question.getId())}" />
-	   	 		${_question.getHtml().raw()}
-  		  	</a>
-	    	#{if _user}
-				#{if _question.ownerIs(session.uid)}
-					<p>You can't rate your own post!</p>
- 		  		#{/if}
-		   		#{else}
-  			 		<form id="vote" action="@{Admin.voteQuestion(_question.getId())}" method="GET">
-   						<p>Score: ${_question.getScore()} Vote: <input id="up" type="submit" value ="1" name="vote" /> <input id="up" type="submit" value ="-1" name="vote" /></p>
-   					</form>
-		   		#{/else}
-		   	#{/if}
-		</td>
-	</table>
+<div class="question">
+	#{userbox user:_question.getOwner() /}
 
-<legend class="question" align="bottom">${_question.getDate()}</legend>
-</fieldset>
+	Posted on ${_question.getDate()}
+	<div class="question_text">
+		<a href="@{Application.showAnswers(_question.getId())}" />
+			${_question.getHtml().raw()}
+		</a>
+	</div>
+
+	#{votebox post:_question /}
+
+	#{tagbox post:_question /}
+
+	<a href="@{Admin.showEditQuestionForm(_question.getId())}">edit question</a> |
+	<a href="@{Admin.showQuestionCommentForm(_question.getId())}">write comment</a>
+</div>

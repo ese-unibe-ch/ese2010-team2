@@ -4,6 +4,9 @@
 #{if user}
 <p align="right">
 	You are logged in as: ${session.get("username")}
+	#{if user}
+	Your current Reputation: ${score}
+	#{/if}
 	<a href="@{Secure.logout()}">logout</a>
 </p>
 <p align="right">
@@ -21,12 +24,10 @@
 </p>
 #{/else}
 
-<h2> Questions in the ESE KB</h2>
-#{if user}
-	Your current Reputation: ${score}
-#{/if}
-<h3>${message}</h3>
+<h2>Questions</h2>
+
+${message}
 
 #{list items:questions, as:'question'}
-	#{question question:question,user:user,score:score/}
+	#{question question:question /}
 #{/list}

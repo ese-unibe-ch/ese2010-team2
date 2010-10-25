@@ -1,0 +1,23 @@
+#root {
+	width: 700px;
+	margin: 0 auto;
+	padding: 1em;
+}
+
+#head {
+	border-radius: 7px;
+	background:#AA00A2;
+	padding: 1em;
+	border: .8em solid #D460CF;
+}
+
+#menu {
+	width: 70%;
+	float: left;
+}
+
+#content {
+}
+
+#search {
+}
