@@ -146,6 +146,7 @@ public class Question extends Post {
 		String delimiter = "[ ]+";
 		// The minimum Levenshtein distance two strings need to have.
 		int minDistance = 2;
+		String storeTags=""+tags;
 		tags = tags.toLowerCase();
 		String existingTags = new String();
 		for (String newTag : tags.split(delimiter)) {
@@ -157,6 +158,7 @@ public class Question extends Post {
 				}
 			}
 		}
+		tags=storeTags;
 		return existingTags;
 	}
 

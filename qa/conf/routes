@@ -15,7 +15,7 @@ GET     /public/                                staticDir:public
 
 # Catch all
 GET                /showQuestionForm                                Admin.showQuestionForm
-GET                /addQuestion                                     Admin.addQuestion
+GET                /addQuestion   		                            Admin.addQuestion
 GET                /showRegister                                    Application.showRegister
 GET                /question/{id}/answers/                          Application.showAnswers
 GET                /showState                                       Application.showState
