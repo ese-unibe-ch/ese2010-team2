@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="generator" content="HTML Tidy, see www.w3.org">
+
+        <title>#{get 'title' /}</title>
+        <meta http-equiv="Content-Type" content=
+        "text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" media="screen" href=
+        "@{'/public/stylesheets/main.css'}">
+        <link rel="shortcut icon" type="image/png" href=
+        "@{'/public/images/favicon.png'}">
+    </head>
+
+    <body>
+        #{get 'moreStyles' /}  
+<script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type=
+"text/javascript" charset="utf-8">
+        
+</script>
+        #{get 'moreScripts' /}   
+
+        <div class="main">
+            <div align="right">
+                <form action="@{Application.Search()}" method=
+                "GET">
+                    <input size="15" type="text" name="text" value=
+                    "${text}"><input type="submit" value="Search">
+                </form>
+            </div>
+
+            <div class="header">
+                <h1>ESE KB</h1>
+
+                <h4>knowledge base by eseTeam-2 for ewernli</h4>
+            </div>
+            <!-- end header -->
+            #{doLayout /}
+        </div>
+        <!-- end main -->
+    </body>
+</html>
+

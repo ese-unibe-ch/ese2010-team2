@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.NoSuchElementException;
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 import models.Answer;
 import models.Comment;
@@ -321,9 +321,11 @@ public class Application extends Controller {
 			}
 		}
 	}
-	//TODO: Übergabe der Werte aus radio check boxes & speichern dieser.
+
+	// TODO: Übergabe der Werte aus radio check boxes & speichern dieser.
 	public static void editUserGroup(User user, String group) {
 		UserGroups ugroup;
+		System.out.println("ajskldfjasöldfkj" + group.toString());
 		if (group.equals("admin"))
 			ugroup = UserGroups.admin;
 		else {

@@ -9,22 +9,28 @@
 	<br>
 </form>
 <h3>${message}</h3>
-
+#{if questionTagResults}
 <h2>Questions with matching tags</h2>
 #{list items:questionTagResults, as:'question'}
 	#{question question:question /}
 #{/list}
+#{/if}
 
+#{if questionContentResults}
 <h2>Questions with matching content</h2>
 #{list items:questionContentResults, as:'question'}
 	#{question question:question /}
 #{/list}
+#{/if}
 
+#{if answerContentResults}
 <h2>Answers with matching content</h2>
 #{list items:answerContentResults, as:'answer'}
 	#{answer answer:answer, question:answer.getQuestion() /}
 #{/list}
+#{/if}
 
+#{if commentResults}
 <h2>Comments with matching content</h2>
 #{list items:commentResults, as:'comment'}
 <fieldset>
@@ -35,3 +41,4 @@
 	<legend class="question" align="bottom">Comment / ${comment.getDate()}</legend>
 </fieldset>
 #{/list}
+#{/if}
