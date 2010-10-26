@@ -31,27 +31,29 @@ public class Admin extends Controller {
 
 	public static void showEditQuestionForm(int qid) {
 		Question question = manager.getQuestionById(qid);
-		if(session.get(question.getOwner().getName()) == question.getOwner().getName()){
+		if (session.get(question.getOwner().getName()) == question.getOwner()
+				.getName()) {
 			render(question, qid);
-		}else{
+		} else {
 			String message = "you're not allowed to edit this post!";
 			render(question, qid, message);
 		}
 	}
-	
-	public static void showEditCommentForm(int aid, int qid, int cid){
+
+	public static void showEditCommentForm(int aid, int qid, int cid) {
 		Comment comment = manager.getCommentById(cid);
 		render(comment, aid, qid);
 	}
-	
+
 	/**
 	 * Sets the content of the comment to the new value
 	 * 
 	 * @param comment
 	 * @param newContent
 	 */
-	
-	public static void editComment(Comment comment, int qid, int cid, String newContent){
+
+	public static void editComment(Comment comment, int qid, int cid,
+			String newContent) {
 		comment.setContent(newContent, session.get("Username"));
 		redirect("/question/" + qid + "/answers/");
 	}
@@ -62,18 +64,21 @@ public class Admin extends Controller {
 	 * @param qid
 	 * @param newContent
 	 */
-	public static void editQuestion(int qid, String newContentQuestion, String newContentTag) {
+	public static void editQuestion(int qid, String newContentQuestion,
+			String newContentTag) {
 		manager.getQuestionById(qid).getTags().clear();
-		manager.getQuestionById(qid).setContent(newContentQuestion, session.get("Username"));
+		manager.getQuestionById(qid).setContent(newContentQuestion,
+				session.get("Username"));
 		manager.getQuestionById(qid).getTags().add(newContentTag);
 		redirect("/question/" + qid + "/answers/");
 	}
 
 	public static void showEditAnswerForm(int answerId, int qid) {
 		Answer answer = manager.getAnswerById(answerId);
-		if(session.get(answer.getOwner().getName()) == answer.getOwner().getName()){
+		if (session.get(answer.getOwner().getName()) == answer.getOwner()
+				.getName()) {
 			render(answer, answerId, qid);
-		}else{
+		} else {
 			String message = "you're not allowed to edit this post!";
 			render(answer, answerId, qid, message);
 		}
@@ -85,8 +90,10 @@ public class Admin extends Controller {
 	 * @param answerId
 	 * @param newContent
 	 */
-	public static void editAnswer(int answerId, int qid, String newContent, User user) {
-		manager.getAnswerById(answerId).setContent(newContent, session.get("username"));
+	public static void editAnswer(int answerId, int qid, String newContent,
+			User user) {
+		manager.getAnswerById(answerId).setContent(newContent,
+				session.get("username"));
 		redirect("/question/" + qid + "/answers/");
 	}
 
@@ -101,9 +108,8 @@ public class Admin extends Controller {
 	public static void addQuestion(String newQuestion, String tags) {
 		// Store the overgiven tags in another object to prevent information
 		// loss due to splitting the tag list.
-		 String copyTags = ""+tags;
+		String copyTags = "" + tags;
 
-		
 		User user = manager.getUserByName(session.get("username"));
 		if (newQuestion.equals("") || newQuestion.equals(" ")) {
 			String message = "Your question is empty!";
@@ -113,7 +119,8 @@ public class Admin extends Controller {
 			showQuestionForm(newQuestion, tags, message);
 		} else if (!Question.checkTags(copyTags).isEmpty()) {
 			String message = "The following tags already exist: "
-					+ Question.checkTags(copyTags) + ". Please review your tags.";
+					+ Question.checkTags(copyTags)
+					+ ". Please review your tags.";
 			showQuestionForm(newQuestion, tags, message);
 		} else {
 			@SuppressWarnings("unused")
@@ -131,8 +138,8 @@ public class Admin extends Controller {
 			render(message, qid);
 		} else {
 			@SuppressWarnings("unused")
-			Answer answer = new Answer(newAnswer, user, manager
-					.getQuestionById(intId));
+			Answer answer = new Answer(newAnswer, user,
+					manager.getQuestionById(intId));
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
@@ -165,17 +172,16 @@ public class Admin extends Controller {
 	public static void voteQuestionUp(int qid) {
 		voteQuestion(qid, 1);
 	}
-	
+
 	public static void voteQuestionDown(int qid) {
 		voteQuestion(qid, -1);
 	}
-	
-	
+
 	public static void voteQuestion(int qid, int vote) {
-		//int id = Integer.parseInt(qid);
+		// int id = Integer.parseInt(qid);
 		User user = manager.getUserByName(session.get("username"));
-		if (manager.getQuestionById(qid).getOwner().equals(
-				session.get("username"))) {
+		if (manager.getQuestionById(qid).getOwner()
+				.equals(session.get("username"))) {
 			String message = "You cannot vote your own question!";
 			render(message, qid);
 		} else if (manager.getQuestionById(qid).checkUserVotedForQuestion(user)) {
@@ -191,13 +197,13 @@ public class Admin extends Controller {
 	public static void voteAnswerUp(int qid, int aid) {
 		voteAnswer(qid, aid, 1);
 	}
-	
+
 	public static void voteAnswerDown(int qid, int aid) {
 		voteAnswer(qid, aid, -1);
 	}
-	
+
 	public static void voteAnswer(int qid, int aid, int vote) {
-		//int id = Integer.parseInt(aid);
+		// int id = Integer.parseInt(aid);
 		User user = manager.getUserByName(session.get("username"));
 		@SuppressWarnings("unused")
 		Answer answer = manager.getAnswerById(aid);
@@ -267,6 +273,18 @@ public class Admin extends Controller {
 		render(users);
 		// manager.getUsers().get
 		// .setGroup(ugroup);
+	}
+
+	public static void showUser(String uname) {
+		User user = manager.getUserByName(session.get("username"));
+		if (manager.getUserByName(session.get("username")).isAdmin()) {
+			manager.deleteUser(uname);
+			redirect("/");
+		} else {
+			String message = "You're not authorised!";
+			render(message);
+		}
+		render(user);
 	}
 
 }
