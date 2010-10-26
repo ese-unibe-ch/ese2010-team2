@@ -138,8 +138,8 @@ public class Admin extends Controller {
 			render(message, qid);
 		} else {
 			@SuppressWarnings("unused")
-			Answer answer = new Answer(newAnswer, user,
-					manager.getQuestionById(intId));
+			Answer answer = new Answer(newAnswer, user, manager
+					.getQuestionById(intId));
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
@@ -180,8 +180,8 @@ public class Admin extends Controller {
 	public static void voteQuestion(int qid, int vote) {
 		// int id = Integer.parseInt(qid);
 		User user = manager.getUserByName(session.get("username"));
-		if (manager.getQuestionById(qid).getOwner()
-				.equals(session.get("username"))) {
+		if (manager.getQuestionById(qid).getOwner().equals(
+				session.get("username"))) {
 			String message = "You cannot vote your own question!";
 			render(message, qid);
 		} else if (manager.getQuestionById(qid).checkUserVotedForQuestion(user)) {
@@ -207,8 +207,8 @@ public class Admin extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		@SuppressWarnings("unused")
 		Answer answer = manager.getAnswerById(aid);
-		if (manager.getAnswerById(aid).getOwner()
-				.equals(session.get("username"))) {
+		if (manager.getAnswerById(aid).getOwner().equals(
+				session.get("username"))) {
 			String message = "You cannot vote your own answer!";
 			render(message, qid);
 		} else if (manager.getAnswerById(aid).checkUserVotedForAnswer(user)) {
@@ -252,9 +252,7 @@ public class Admin extends Controller {
 		ArrayList<User> users = manager.getUsers();
 		User user = manager.getUserByName(uname);
 		UserGroups ugroup;
-		if (group == null) {
-
-		} else {
+		if (manager.getUserByName(session.get("username")).isAdmin()) {
 			if (group.equals("admin"))
 				ugroup = UserGroups.admin;
 			else {
@@ -269,10 +267,11 @@ public class Admin extends Controller {
 			}
 			user.setGroup(ugroup);
 
-		}
-		render(users);
-		// manager.getUsers().get
-		// .setGroup(ugroup);
+			render(users);
+			// manager.getUsers().get
+			// .setGroup(ugroup);
+		} else
+			redirect("/");
 	}
 
 	public static void showUser(String uname) {
@@ -286,14 +285,14 @@ public class Admin extends Controller {
 		}
 		render(user);
 	}
-	
-	public static void showAdminPage(){
-		String uname= session.get("username");
-		if(!manager.getUserByName(uname).isAdmin())
+
+	public static void showAdminPage() {
+		String uname = session.get("username");
+		if (!manager.getUserByName(uname).isAdmin())
 			redirect("/");
-		else 
+		else
 			render(uname);
-	
+
 	}
 
 }
