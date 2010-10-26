@@ -244,8 +244,9 @@ public class Admin extends Controller {
 	}
 
 	// TODO: Übergabe der Werte aus radio check boxes & speichern dieser.
-	public static void editUserGroup(User user, String group) {
+	public static void editUserGroup(String uname, String group) {
 		ArrayList<User> users = manager.getUsers();
+		User user = manager.getUserByName(uname);
 		UserGroups ugroup;
 		if (group == null) {
 

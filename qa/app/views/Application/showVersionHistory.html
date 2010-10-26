@@ -7,8 +7,8 @@
 ${post.getContent()}
 
 <h2>History:</h2>
-
-#{list items:history, as:'p'}
-	${p.getContent()}
+<p style="color:#c00">Size: ${history.size()} </p>
+#{list items:history, as:'oldPost'}
+	${oldPost.getContent()} 
+	<br/>
 #{/list}
-	

@@ -204,4 +204,9 @@ public class Question extends Post {
 		this.lastChangedDate = date;
 	}
 
+	public void setContent(String content, String uname) {
+		this.oldVersions.add(0, new Question(this.content, this.owner));
+		super.setContent(content, uname);
+	}
+
 }

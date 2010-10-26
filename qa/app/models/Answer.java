@@ -35,7 +35,7 @@ public class Answer extends Post {
 		this.owner = user;
 		isBestAnswer = false;
 		date = new Date();
-		oldVersions= new ArrayList<Post>();
+		oldVersions = new ArrayList<Post>();
 		question.setLastChangedDate(new Date());
 		user.addActivity("Answered question <" + question.getContent()
 				+ "> by writing: <" + content + ">");
@@ -77,7 +77,7 @@ public class Answer extends Post {
 	public int getQuestionId() {
 		return questionId;
 	}
-	
+
 	public Question getQuestion() {
 		return manager.getQuestionById(questionId);
 	}
@@ -123,7 +123,12 @@ public class Answer extends Post {
 	 * @return - a sorted list of comments
 	 */
 	public ArrayList<Comment> getComments() {
-		return manager
-				.getAllCommentsByAnswerIdSortedByDate(this.getId());
+		return manager.getAllCommentsByAnswerIdSortedByDate(this.getId());
+	}
+
+	public void setContent(String content, String uname) {
+		this.oldVersions.add(0, new Answer(this.content, this.owner, manager
+				.getQuestionById(questionId)));
+		super.setContent(content, uname);
 	}
 }

@@ -2,17 +2,25 @@
 #{set title:'ESE KB - Edit question' /}
 <a href="javascript:history.back()">back</a>
 #{if question.ownerIs(session.uid)}
-<h2>Edit question</h2>
-<form action="@{Admin.editQuestion(question.getId())}" method="GET">
- <table>
+<fieldset>
+ <legend>Edit question:</legend>
+	<form action="@{Admin.editQuestion(question.getId())}" method="GET">
+	<table>
 		<tr>
-			<td><h6>question :</h6><textarea id="newContentQuestion" name="newContentQuestion">${question.getContent()}</textarea></td>
+			<td>Question:</td>
+			<td><textarea id="newContentQuestion" name="newContentQuestion" cols="70" rows="5">${question.getContent()}</textarea></td>
 		</tr>
-		<tr><td><h6>tags :</h6><textarea id="newContentTag" name="newContentTag">${question.getTags().toString().replace("[", "").replace("]", "").replace(",", "")}</textarea></td>
-		<td><input type="submit" value="Save!" /></td>
+		<tr>
+			<td>Tags:</td>
+			<td><textarea id="newContentTag" name="newContentTag" type="text" size="61" maxlength="200" value="${tags}">${question.getTags().toString().replace("[", "").replace("]", "").replace(",", "")}</textarea></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" value="Save!" /></td>
 		</tr>
 	</table>
-</form>
+	</form>
+</fieldset>
 #{/if}
 #{else}<h4>${message}</h4>
 #{/else}
