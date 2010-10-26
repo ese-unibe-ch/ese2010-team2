@@ -98,6 +98,13 @@ p.comment_text {
 	padding: .5em;
 }
 
+p.show { display: block }
+
+p.hide { display: none; }
+
+.adminbutton {display:none;}
+
+
 /**
  * spans
  */
