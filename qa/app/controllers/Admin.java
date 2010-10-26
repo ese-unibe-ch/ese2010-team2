@@ -12,6 +12,7 @@ import models.User;
 import models.UserGroups;
 import play.mvc.Controller;
 import play.mvc.With;
+import play.mvc.results.Error;
 
 /**
  * The Class Admin controls access on the database such as adding Answers or
@@ -243,7 +244,6 @@ public class Admin extends Controller {
 		render(userLog);
 	}
 
-	// TODO: Übergabe der Werte aus radio check boxes & speichern dieser.
 	public static void editUserGroup(String uname, String group) {
 		ArrayList<User> users = manager.getUsers();
 		User user = manager.getUserByName(uname);
@@ -269,6 +269,14 @@ public class Admin extends Controller {
 		render(users);
 		// manager.getUsers().get
 		// .setGroup(ugroup);
+	}
+	
+	public static void showAdminPage(){
+		String uname=session.get("username");
+		if(!manager.getUserByName(uname).isAdmin())
+			throw new Error("Forbidden");
+		else
+			render(uname);
 	}
 
 }
