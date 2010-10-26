@@ -47,6 +47,6 @@ GET				   /editUserProfile									Application.editUserProfile
 GET				   /showUserProfile									Application.showUserProfile
 GET                /showUser                                        Application.showUser
 GET				   /search											Application.search
-GET				   /editUserGroup									Application.editUserGroup
+GET				   /editUserGroup									Admin.editUserGroup
 
 POST				/setAvatar										Application.setAvatar

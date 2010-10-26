@@ -2,12 +2,14 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.NoSuchElementException;
 
 import models.Answer;
 import models.Comment;
 import models.DbManager;
 import models.Question;
 import models.User;
+import models.UserGroups;
 import play.mvc.Controller;
 import play.mvc.With;
 
@@ -237,6 +239,33 @@ public class Admin extends Controller {
 			render(message);
 		}
 		render(userLog);
+	}
+
+	// TODO: Übergabe der Werte aus radio check boxes & speichern dieser.
+	public static void editUserGroup(User user, String group) {
+		ArrayList<User> users = manager.getUsers();
+		UserGroups ugroup;
+		if (group == null) {
+
+		} else {
+			if (group.equals("admin"))
+				ugroup = UserGroups.admin;
+			else {
+				if (group.equals("moderator"))
+					ugroup = UserGroups.moderator;
+				else {
+					if (group.equals("user"))
+						ugroup = UserGroups.user;
+					else
+						throw new NoSuchElementException();
+				}
+			}
+			user.setGroup(ugroup);
+
+		}
+		render(users);
+		// manager.getUsers().get
+		// .setGroup(ugroup);
 	}
 
 }

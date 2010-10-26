@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.NoSuchElementException;
 
 import models.Answer;
 import models.Comment;
@@ -16,7 +15,6 @@ import models.Post;
 import models.Question;
 import models.Search;
 import models.User;
-import models.UserGroups;
 
 import org.apache.commons.io.IOUtils;
 
@@ -323,26 +321,16 @@ public class Application extends Controller {
 	}
 
 	// TODO: Übergabe der Werte aus radio check boxes & speichern dieser.
-	public static void editUserGroup(User user, String group) {
-		UserGroups ugroup;
-		System.out.println("ajskldfjasöldfkj" + group.toString());
-		if (group.equals("admin"))
-			ugroup = UserGroups.admin;
-		else {
-			if (group.equals("moderator"))
-				ugroup = UserGroups.moderator;
-			else {
-				if (group.equals("user"))
-					ugroup = UserGroups.user;
-				else
-					throw new NoSuchElementException();
-			}
-		}
-
-		user.setGroup(ugroup);
-//		manager.getUsers().get
-//		.setGroup(ugroup);
-	}
+	/*
+	 * public static void editUserGroup(User user, String group) { UserGroups
+	 * ugroup; if (group == null) { String message = "Group is null";
+	 * render(message); } else { if (group.equals("admin")) ugroup =
+	 * UserGroups.admin; else { if (group.equals("moderator")) ugroup =
+	 * UserGroups.moderator; else { if (group.equals("user")) ugroup =
+	 * UserGroups.user; else throw new NoSuchElementException(); } }
+	 * user.setGroup(ugroup); } // manager.getUsers().get // .setGroup(ugroup);
+	 * }
+	 */
 	
 	public static void showVersionHistory(Post post){
 		ArrayList<Post> history= post.getOldVersions();
