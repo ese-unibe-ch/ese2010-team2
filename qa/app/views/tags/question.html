@@ -12,12 +12,13 @@
 	#{votebox post:_question, mode:'question' /}
 
 	#{tagbox post:_question /}
-
-	#{if _question.ownerIs(session.uid)}
+	
+	#{if session.uid}
 	<a href="@{Admin.showEditQuestionForm(_question.getId())}">edit question</a> |
 	#{/if}
-
+	
 	#{if session.uid}
 	<a href="@{Admin.showQuestionCommentForm(_question.getId())}">write comment</a>
 	#{/if}
+		
 </div>

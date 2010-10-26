@@ -2,95 +2,16 @@
 #{set title:'ESE KB Answers' /}
 
 <a href="/">back</a>
-<<<<<<< HEAD
-<fieldset>
-	<p>${question.getHtml().raw()}</p>
-	<p style="font-size:8pt">
-		by ${question.getOwner()}
-		#{avatar user:question.getOwner() /}
-	</p>
-	<legend class="question" align="bottom">${question.getTimestamp()}</legend>
-	<h6>Tags:
-	#{ifnot question.getTags()}
-		none
-	#{/ifnot}
-	#{list items:question.getTags(), as:'tag'}
-		#${tag} 
-	#{/list}</h6>
-	
-	<h6><p align="right">
-		#{if question.ownerIs(session.uid) || session.get("username")=="admin"}
-			<a href="@{Admin.showEditQuestionForm(question.getId())}">edit question</a> | #{/if}
-		#{else}
-			<a href="@{Admin.AccessDeniedForm()}">edit question</a> | 
-		#{/else}
-		<a href="@{Admin.showQuestionCommentForm(question.getId())}">write comment</a>
-	</p></h6>
-	
-=======
 
 <h2>Question #${question.getId()}</h2>
 #{question question:question /}
->>>>>>> eccc4b767ca48142be7d167451ee2f7e3afc0657
-	<!--List of comments--!>
-	#{list items:question.getComments(), as:'comment'}
-		<p style="font-size:11pt">${comment.getContent()}</p>
-		<p style="font-size:8pt">by ${comment.getOwner()}</p>
-		<p style="font-size:8pt">at ${comment.getDate()}</p>
-	#{/list}
-</fieldset>
-<!--Link zu add answer - auskommentiert!-->
-<!--<a href="/question/${question.getId()}/addAnswer"/>Post your Answer</a>-->
+
 
 <h2>Answers</h2>
 
 <!--List of all answers-->
 #{list items:answers, as:'answer'}
-<<<<<<< HEAD
-	<fieldset>
-	    #{if answer.isBestAnswer()}
-	    <span class="bestanswer">Best answer according to OP</span>
-	    #{/if}
-	   
-	    <p>${answer.getHtml().raw()}<p>
-	   
-	    <p style="font-size:8pt">
-	    	by ${answer.getOwner()}
-	    	#{avatar user:answer.getOwner() /}
-	    </p>
-	   	
-	    #{ifnot answer.ownerIs(session.uid)}
-	    <form id="vote" action="@{Admin.voteAnswer(question.getId(),answer.getId())}" method="GET">
-	    <p style="font-size:8pt">Score: ${answer.getScore()} Vote: <input id="aid" type="submit" value ="1" name="vote" /> <input id="aid" type="submit" value ="-1" name="vote" /></p>
-	    </form>
-	    #{/ifnot}
-	   	
-	    #{if question.ownerIs(session.uid) && question.bestAnswerChangeable() && !answer.isBestAnswer()}
-	    <a href="/question/${question.getId()}/setbestanswer/${answer.getId()}">
-	    Select as best answer.</a>
-	    #{/if}
-		
-	   	<legend class="question" align="bottom">${answer.getTimestamp()}</legend>
-   	
-   		<h6><p align="right">
-   			#{if answer.ownerIs(session.uid) || session.get("username")=="admin"}
-   				<a href="@{Admin.showEditAnswerForm(answer.getId(),question.getId())}">edit answer</a> | #{/if}
-			#{else}
-				<a href="@{Admin.AccessDeniedForm()}">edit answer</a> | 
-			#{/else}
-   			<a href="@{Admin.showAnswerCommentForm(answer.getId(),question.getId())}">write comment</a>
-   		</p></h6>
-   		
-   		<!--List of comments--!>
-		#{list items:answer.getComments(), as:'comment'}
-			<p style="font-size:11pt">${comment.getContent()}</p>
-			<p style="font-size:8pt">by ${comment.getOwner()}</p>
-			<p style="font-size:8pt">at ${comment.getTimestamp()}</p>
-		#{/list}
-    </fieldset>
-=======
-	#{answer answer:answer, question:question /}
->>>>>>> eccc4b767ca48142be7d167451ee2f7e3afc0657
+#{answer answer:answer, question:question /}
 #{/list}
 
 <!--Answer form-->
@@ -100,7 +21,7 @@
 	<table>
 		<tr>
 			<td>Enter your Answer:</td>
-			<td><textarea id="newAnswer" name="newAnswer" cols="90" rows="5"></textarea></td>
+			<td><textarea id="newAnswer" name="newAnswer" cols="50" rows="5"></textarea></td>
 		</tr>
 		<tr>
 			<td></td>

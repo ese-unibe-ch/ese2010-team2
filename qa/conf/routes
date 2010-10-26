@@ -21,12 +21,13 @@ GET                /question/{id}/answers/                          Application.
 GET                /showState                                       Application.showState
 GET                /users                                           Admin.showUsers
 GET                /register                                        Application.register
-GET                /AccessDeniedForm                                Admin.AccessDeniedForm
 GET                /question/{qid}/editQuestion                     Admin.editQuestion
 GET                /question/{qid}/editAnswer/{answerId}            Admin.editAnswer
 GET                /question/{qid}/setbestanswer/{aid}              Application.setBestAnswer
 GET                /question/{qid}/addAnswer	                   	Admin.showAnswerForm
 GET                /question/{qid}/edit_question                    Admin.showEditQuestionForm
+GET                /question/{qid}/edit_comment                     Admin.showEditCommentForm
+GET                /question/{qid}/editComment/{cid}                Admin.editComment
 GET                /question/{qid}/comment_question                 Admin.showQuestionCommentForm
 GET                /question/{qid}/edit_answer/{answerId}           Admin.showEditAnswerForm
 GET                /question/{qid}/comment_answer                   Admin.showAnswerCommentForm
@@ -38,8 +39,8 @@ GET                /question/{qid}/vote                        		Admin.voteQuest
 GET                /question/{qid}/vote/up                      	Admin.voteQuestionUp
 GET                /question/{qid}/vote/down                   		Admin.voteQuestionDown
 GET                /question/{qid}/answers/{aid}/vote               Admin.voteAnswer
-GET                /question/{qid}/answer/{aid}/vote/up            Admin.voteAnswerUp
-GET                /question/{qid}/answer/{aid}/vote/down          Admin.voteAnswer
+GET                /question/{qid}/answer/{aid}/vote/up             Admin.voteAnswerUp
+GET                /question/{qid}/answer/{aid}/vote/down           Admin.voteAnswer
 GET			       /recent											Application.showRecentQuestionsByNumber
 GET				   /users/{uname}/log								Admin.showUserLog
 GET				   /editUserProfile									Application.editUserProfile

@@ -29,7 +29,29 @@ public class Admin extends Controller {
 
 	public static void showEditQuestionForm(int qid) {
 		Question question = manager.getQuestionById(qid);
-		render(question, qid);
+		if(session.get(question.getOwner().getName()) == question.getOwner().getName()){
+			render(question, qid);
+		}else{
+			String message = "you're not allowed to edit this post!";
+			render(question, qid, message);
+		}
+	}
+	
+	public static void showEditCommentForm(int aid, int qid, int cid){
+		Comment comment = manager.getCommentById(cid);
+		render(comment, aid, qid);
+	}
+	
+	/**
+	 * Sets the content of the comment to the new value
+	 * 
+	 * @param comment
+	 * @param newContent
+	 */
+	
+	public static void editComment(Comment comment, int qid, int cid, String newContent){
+		comment.setContent(newContent, session.get("Username"));
+		redirect("/question/" + qid + "/answers/");
 	}
 
 	/**
@@ -38,14 +60,21 @@ public class Admin extends Controller {
 	 * @param qid
 	 * @param newContent
 	 */
-	public static void editQuestion(int qid, String newContent) {
-		manager.getQuestionById(qid).setContent(newContent, session.get("Username"));
+	public static void editQuestion(int qid, String newContentQuestion, String newContentTag) {
+		manager.getQuestionById(qid).getTags().clear();
+		manager.getQuestionById(qid).setContent(newContentQuestion, session.get("Username"));
+		manager.getQuestionById(qid).getTags().add(newContentTag);
 		redirect("/question/" + qid + "/answers/");
 	}
 
 	public static void showEditAnswerForm(int answerId, int qid) {
 		Answer answer = manager.getAnswerById(answerId);
-		render(answer, answerId, qid);
+		if(session.get(answer.getOwner().getName()) == answer.getOwner().getName()){
+			render(answer, answerId, qid);
+		}else{
+			String message = "you're not allowed to edit this post!";
+			render(answer, answerId, qid, message);
+		}
 	}
 
 	/**
@@ -57,11 +86,6 @@ public class Admin extends Controller {
 	public static void editAnswer(int answerId, int qid, String newContent, User user) {
 		manager.getAnswerById(answerId).setContent(newContent, session.get("username"));
 		redirect("/question/" + qid + "/answers/");
-	}
-	
-	public static void AccessDeniedForm(){
-		String message = "you're not allowed to edit this post!";
-		render(message);
 	}
 
 	public static void showQuestionCommentForm(String qid) {

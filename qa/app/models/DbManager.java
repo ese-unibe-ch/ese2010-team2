@@ -205,6 +205,21 @@ public class DbManager {
 				return answer;
 		return null;
 	}
+	
+	/**
+	 * Get the comment with a certain id.
+	 * 
+	 * @param id
+	 *        - the id of the comment you are looking for
+	 * @return
+	 *        - the comment with the id #id
+	 */
+	public Comment getCommentById(int id){
+		for (Comment comment : comments)
+			if (comment.getId() == id)
+				return comment;
+		return null;
+	}
 
 	/**
 	 * Gets all questions sorted by score.

@@ -1,6 +1,7 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Edit answer' /}
 <a href="javascript:history.back()">back</a>
+#{if answer.ownerIs(session.uid)}
 <h2>Edit answer:</h2>
 <form action="@{Admin.editAnswer(answer.getId(), qid)}" method="GET">
  <table>
@@ -13,3 +14,6 @@
 		</tr>
 	</table>
 </form>
+#{/if}
+#{else}<h4>${message}</h4>
+#{/else}
