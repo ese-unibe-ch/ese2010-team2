@@ -48,5 +48,6 @@ GET				   /showUserProfile									Application.showUserProfile
 GET                /showUser                                        Application.showUser
 GET				   /search											Application.search
 GET				   /editUserGroup									Admin.editUserGroup
+GET				   /{type}/{id}/showVersionHistory					Application.showVersionHistory
 
 POST				/setAvatar										Application.setAvatar

@@ -332,8 +332,17 @@ public class Application extends Controller {
 	 * }
 	 */
 	
-	public static void showVersionHistory(Post post){
+	public static void showVersionHistory(String type, String id) {
+		Post post;
+		int intId = Integer.parseInt(id);
+		if (type.equals("questions") || type.equals("question"))
+			post=manager.getQuestionById(intId);
+		else {
+			// if(type.equals("answers"))
+				post=manager.getAnswerById(intId);
+		}
 		ArrayList<Post> history= post.getOldVersions();
 		render(post, history);
 	}
+
 }

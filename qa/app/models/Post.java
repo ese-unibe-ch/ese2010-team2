@@ -105,8 +105,7 @@ public abstract class Post {
 
 	/** Setter methods */
 	public void setContent(String content, String uname) {
-		this.oldVersions.add(this);
-		this.editedBy.concat(" " + uname);
+		this.editedBy.concat(uname+";");
 		this.content = content;
 	}
 
