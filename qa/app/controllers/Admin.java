@@ -286,5 +286,14 @@ public class Admin extends Controller {
 		}
 		render(user);
 	}
+	
+	public static void showAdminPage(){
+		String uname= session.get("username");
+		if(!manager.getUserByName(uname).isAdmin())
+			redirect("/");
+		else 
+			render(uname);
+	
+	}
 
 }

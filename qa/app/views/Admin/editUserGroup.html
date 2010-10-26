@@ -4,11 +4,11 @@
 <h4>${message}</h4>
 <table>
 <tr>
-	<td>username</td>
-	<td>email</td>
-	<td>password</td>
-	<td>user group</td>
-	<td>edit</td>
+	<td><h5>username</h5></td>
+	<td><h5>email</h5></td>
+	<td><h5>password</h5></td>
+	<td><h5>user group</h5></td>
+	<td><h5>edit</h5></td>
 </tr>
 #{list items:users, as:'user'}
     <tr>
@@ -18,20 +18,20 @@
 		<td>
 			<form action="@{Admin.editUserGroup(uname, group)}" method="GET">
 				#{if user.getGroup().name()=="admin"}
-					<input type="radio" name="group" value="admin" checked >Admin</input>
-					<input type="radio" name="group" value="moderator">Moderator</input>
-					<input type="radio" name="group" value="user">User</input>
+					<input type="radio" name="group" value="admin" checked >Admin</input><br/>
+					<input type="radio" name="group" value="moderator">Moderator</input><br/>
+					<input type="radio" name="group" value="user">User</input><br/>
 				#{/if}
 				#{else}
 					#{if user.getGroup().name()=="moderator"}
-						<input type="radio" name="group" value="admin">Admin</input>
-						<input type="radio" name="group" value="moderator" checked >Moderator</input>
-						<input type="radio" name="group" value="user">User</input>
+						<input type="radio" name="group" value="admin">Admin</input><br/>
+						<input type="radio" name="group" value="moderator" checked >Moderator</input><br/>
+						<input type="radio" name="group" value="user">User</input><br/>
 					#{/if}
 					#{else}
-						<input type="radio" name="group" value="admin">Admin</input>
-						<input type="radio" name="group" value="moderator">Moderator</input>
-						<input type="radio" name="group" value="user" checked>User</input>
+						<input type="radio" name="group" value="admin">Admin</input><br/>
+						<input type="radio" name="group" value="moderator">Moderator</input><br/>
+						<input type="radio" name="group" value="user" checked>User</input><br/>
 					#{/else}
 				#{/else}
 				<input type="hidden" name="uname" value="${user.getName()}"></input>
