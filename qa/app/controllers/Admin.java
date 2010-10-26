@@ -39,9 +39,24 @@ public class Admin extends Controller {
 		}
 	}
 	
-	public static void showEditCommentForm(int aid, int qid, int cid){
-		Comment comment = manager.getCommentById(cid);
-		render(comment, aid, qid);
+	/**
+	 * Sets the content of the question to the new value
+	 * 
+	 * @param qid
+	 * @param newContent
+	 */
+	public static void editQuestion(int qid, String newContentQuestion, String newContentTag) {
+		manager.getQuestionById(qid).setContent(newContentQuestion, session.get("Username"));
+		manager.getQuestionById(qid).getTags().clear();
+		manager.getQuestionById(qid).addTags(newContentTag);
+		redirect("/question/" + qid + "/answers/");
+	}
+	
+	public static void showEditAnswerCommentForm(int aid, int qid, int cid){
+		Comment comment = manager.getComments().get(cid);
+		String AnswerContent = manager.getComments().get(cid).getContent();
+		String message = "you're not allowed to edit this post!";
+		render(comment, aid, qid, cid, message, AnswerContent);
 	}
 	
 	/**
@@ -51,21 +66,8 @@ public class Admin extends Controller {
 	 * @param newContent
 	 */
 	
-	public static void editComment(Comment comment, int qid, int cid, String newContent){
-		comment.setContent(newContent, session.get("Username"));
-		redirect("/question/" + qid + "/answers/");
-	}
-
-	/**
-	 * Sets the content of the question to the new value
-	 * 
-	 * @param qid
-	 * @param newContent
-	 */
-	public static void editQuestion(int qid, String newContentQuestion, String newContentTag) {
-		manager.getQuestionById(qid).getTags().clear();
-		manager.getQuestionById(qid).setContent(newContentQuestion, session.get("Username"));
-		manager.getQuestionById(qid).getTags().add(newContentTag);
+	public static void editComment(int aid, int qid, int cid, String newContent){
+		manager.getComments().get(cid).setContent(newContent, session.get("username"));
 		redirect("/question/" + qid + "/answers/");
 	}
 
