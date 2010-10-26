@@ -69,9 +69,10 @@ div.best_answer {
 
 div.comments {
 	width: 60%;
-	margin: 0 1em 1em 1em;
-	padding: 0 0 0 1em;
+	margin: 0 1em 1em 3em;
+	padding: 0 1em 0 1em;
 	font-size: small;
+	border-left: medium solid #CCC;
 }
 
 div.comment {
@@ -93,9 +94,11 @@ div.answer_text {
 }
 
 p.comment_text {
-	border-top: thin dotted #999;
+	border-radius: 7px;
+	border: thin solid #CCC;
 	margin: 0;
 	padding: .5em;
+	background: #EEB;
 }
 
 p.show { display: block }
