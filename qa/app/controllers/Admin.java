@@ -251,27 +251,26 @@ public class Admin extends Controller {
 		ArrayList<User> users = manager.getUsers();
 		User user = manager.getUserByName(uname);
 		UserGroups ugroup;
-		if (group == null) {
-			System.out.println("Group is null");
-		}
-		System.out.println("***************UserGroup" + group);
 
 		if (manager.getUserByName(session.get("username")).isAdmin()) {
-			if (group.equals("admin")) {
-				ugroup = UserGroups.admin;
-				user.setGroup(ugroup);
+			if (uname == null && group == null)
+				render(users);
+			else {
+				if (group.equals("admin")) {
+					ugroup = UserGroups.admin;
+					user.setGroup(ugroup);
+				}
+				if (group.equals("moderator")) {
+					ugroup = UserGroups.moderator;
+					user.setGroup(ugroup);
+				}
+				if (group.equals("user")) {
+					ugroup = UserGroups.user;
+					user.setGroup(ugroup);
+				}
+				String message = "Settings changed.";
+				render(users, message);
 			}
-			if (group.equals("moderator")) {
-				ugroup = UserGroups.moderator;
-				user.setGroup(ugroup);
-			}
-			if (group.equals("user")) {
-				ugroup = UserGroups.user;
-				user.setGroup(ugroup);
-			}
-
-			render(users);
-
 		} else {
 			redirect("/");
 		}
