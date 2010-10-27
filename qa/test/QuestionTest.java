@@ -5,7 +5,6 @@ import models.User;
 
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import play.test.UnitTest;
@@ -25,12 +24,6 @@ public class QuestionTest extends UnitTest {
 		a2 = new Answer("hah", u, question);
 		manager = DbManager.getInstance();
 		admin = new User("admin", "admin@admin.ch", "admin");
-	}
-
-	@Ignore
-	public void shouldNotChangeBestAnswerAfter30Minutes() {
-		// TODO find out how to test this
-		assertTrue(false);
 	}
 
 	@Test
