@@ -178,6 +178,14 @@ public class Question extends Post {
 		return this.tags;
 	}
 
+	public String getTagsString() {
+		StringBuffer result = new StringBuffer();
+		for (String tag : tags) {
+			result.append(tag + " ");
+		}
+		return result.toString();
+	}
+
 	/**
 	 * Gets all Comments which belongs to this question
 	 * 

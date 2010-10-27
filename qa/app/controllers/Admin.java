@@ -30,7 +30,7 @@ public class Admin extends Controller {
 
 	public static void showEditQuestionForm(int qid) {
 		Question question = manager.getQuestionById(qid);
-		if (session.get(question.getOwner().getName()) == question.getOwner()
+		if (session.get("username") == question.getOwner()
 				.getName()) {
 			render(question, qid);
 		} else {
@@ -68,7 +68,7 @@ public class Admin extends Controller {
 		manager.getQuestionById(qid).getTags().clear();
 		manager.getQuestionById(qid).setContent(newContentQuestion,
 				session.get("Username"));
-		manager.getQuestionById(qid).getTags().add(newContentTag);
+		manager.getQuestionById(qid).addTags(newContentTag);
 		redirect("/question/" + qid + "/answers/");
 	}
 
