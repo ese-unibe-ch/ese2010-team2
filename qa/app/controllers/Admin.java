@@ -2,7 +2,6 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.NoSuchElementException;
 
 import models.Answer;
 import models.Comment;
@@ -252,26 +251,30 @@ public class Admin extends Controller {
 		ArrayList<User> users = manager.getUsers();
 		User user = manager.getUserByName(uname);
 		UserGroups ugroup;
+		if (group == null) {
+			System.out.println("Group is null");
+		}
+		System.out.println("***************UserGroup" + group);
+
 		if (manager.getUserByName(session.get("username")).isAdmin()) {
-			if (group.equals("admin"))
+			if (group.equals("admin")) {
 				ugroup = UserGroups.admin;
-			else {
-				if (group.equals("moderator"))
-					ugroup = UserGroups.moderator;
-				else {
-					if (group.equals("user"))
-						ugroup = UserGroups.user;
-					else
-						throw new NoSuchElementException();
-				}
+				user.setGroup(ugroup);
 			}
-			user.setGroup(ugroup);
+			if (group.equals("moderator")) {
+				ugroup = UserGroups.moderator;
+				user.setGroup(ugroup);
+			}
+			if (group.equals("user")) {
+				ugroup = UserGroups.user;
+				user.setGroup(ugroup);
+			}
 
 			render(users);
-			// manager.getUsers().get
-			// .setGroup(ugroup);
-		} else
+
+		} else {
 			redirect("/");
+		}
 	}
 
 	public static void showUser(String uname) {
