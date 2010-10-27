@@ -97,7 +97,7 @@ public class Application extends Controller {
 		cal.setTime(new Date());
 		cal.add(Calendar.DAY_OF_MONTH, -5);
 		Date oldest = cal.getTime();
-		
+
 		ArrayList<Question> recentQuestionsByDate = new ArrayList<Question>();
 
 		for (Question q : manager.getQuestions()) {
@@ -144,13 +144,15 @@ public class Application extends Controller {
 		currentUser.add(manager.getUserByName(session.get("username")));
 		render(message, currentUser);
 	}
-	
+
 	/** shows a specific User */
 	public static void showUser(String userName) {
 		User profileOwner = manager.getUserByName(userName);
-		ArrayList<Integer> reputations = manager.getReputations(profileOwner, 30);
+		ArrayList<Integer> reputations = manager.getReputations(profileOwner,
+				30);
 		render(profileOwner, reputations);
 	}
+
 	/**
 	 * Saves changes in user Profile
 	 * 
@@ -331,18 +333,18 @@ public class Application extends Controller {
 	 * user.setGroup(ugroup); } // manager.getUsers().get // .setGroup(ugroup);
 	 * }
 	 */
-	
+
 	public static void showVersionHistory(String type, String id) {
 		Post post;
 		int intId = Integer.parseInt(id);
-		if (type.equals("questions") || type.equals("question"))
-			post=manager.getQuestionById(intId);
-		else {
-			// if(type.equals("answers"))
-				post=manager.getAnswerById(intId);
+		if (type.equals("questions") || type.equals("question")) {
+			post = manager.getQuestionById(intId);
+			type = "question";
+		} else {
+			post = manager.getAnswerById(intId);
 		}
-		ArrayList<Post> history= post.getOldVersions();
-		render(post, history);
+		ArrayList<Post> history = post.getOldVersions();
+		render(type, post, history);
 	}
 
 }

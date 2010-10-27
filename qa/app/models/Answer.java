@@ -107,4 +107,8 @@ public class Answer extends Post {
 		manager.getUserByName(uname).addActivity(
 				"Edited Answer " + this.id + " by writing: <" + content + ">.");
 	}
+	
+	public void restoreOldVersion(Answer a, String uname){
+		setContent(a.getContent(),uname);
+	}
 }

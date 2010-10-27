@@ -50,5 +50,7 @@ GET				   /search											Application.search
 GET				   /editUserGroup									Admin.editUserGroup
 GET				   /{type}/{id}/showVersionHistory					Application.showVersionHistory
 GET				   /admin											Admin.showAdminPage
+GET				   /restoreAnswer									Admin.restoreAnswer
+GET				   /restoreQuestion									Admin.restoreQuestion
 
 POST				/setAvatar										Application.setAvatar

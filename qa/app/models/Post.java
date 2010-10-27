@@ -20,7 +20,7 @@ public abstract class Post {
 	protected User owner;
 	protected int score = 0;
 	protected ArrayList<Post> oldVersions;
-	protected String editedBy= new String();
+	protected ArrayList<User> editedBy= new ArrayList<User>();
  
 	protected static DbManager manager = DbManager.getInstance();
 	protected Calendar calendar = Calendar.getInstance();
@@ -106,8 +106,8 @@ public abstract class Post {
 	}
 
 	/** Setter methods */
-	public void setContent(String content, String uname) {
-		this.editedBy.concat(uname+";");
+	protected void setContent(String content, String uname) {
+		this.editedBy.add(manager.getUserByName(uname));
 		this.content = content;
 	}
 

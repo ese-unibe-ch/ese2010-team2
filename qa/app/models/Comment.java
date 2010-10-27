@@ -38,5 +38,10 @@ public class Comment extends Post {
 	public void setCommentedVotable(Post commentedPost) {
 		this.commentedPost = commentedPost;
 	}
+	
+	public void setContent(String content, String uname) {
+		this.editedBy.add(manager.getUserByName(uname));
+		this.content = content;
+	}
 
 }

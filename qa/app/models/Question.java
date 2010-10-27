@@ -194,5 +194,9 @@ public class Question extends Post {
 		manager.getUserByName(uname).addActivity(
 				"Edited Question " + this.id + " by writing: <" + content + ">.");
 	}
+	
+	public void restoreOldVersion(Question q, String uname){
+		setContent(q.getContent(),uname);
+	}
 
 }

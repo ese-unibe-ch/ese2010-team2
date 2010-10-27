@@ -10,5 +10,11 @@ ${post.getContent()}
 <p style="color:#c00">Size: ${history.size()} </p>
 #{list items:history, as:'oldPost'}
 	${oldPost.getContent()} 
+	#{if type=="question"}
+		<a href="@{Admin.restoreQuestion(post.getId(), oldPost.getId())}">restore</a>
+	#{/if}
+	#{else} 
+		<a href="@{Admin.restoreAnswer(post.getId(), oldPost.getId())}">restore</a>	
+	#{/else}
 	<br/>
 #{/list}

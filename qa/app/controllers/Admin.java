@@ -31,8 +31,7 @@ public class Admin extends Controller {
 
 	public static void showEditQuestionForm(int qid) {
 		Post question = manager.getQuestionById(qid);
-		if (session.get("username") == question.getOwner()
-				.getName()) {
+		if (session.get("username") == question.getOwner().getName()) {
 			render(question, qid);
 		} else {
 			String message = "you're not allowed to edit this post!";
@@ -297,6 +296,23 @@ public class Admin extends Controller {
 		else
 			render(uname);
 
+	}
+
+	public static void restoreQuestion(int actualId, Question oldPost) {
+		String uname = session.get("username");
+		Question actualQuestion = manager.getQuestionById(actualId);
+//		Question oldQuestion = manager.getQuestionById(oldId);
+		actualQuestion.restoreOldVersion(oldPost, uname);
+		redirect("/question/" + actualQuestion.getId() + "/showVersionHistory");
+	}
+	
+	public static void restoreAnswer(int actualId, Answer oldPost) {
+		String uname = session.get("username");
+		Answer actualAnswer = manager.getAnswerById(actualId);
+//		Answer oldAnswer = manager.getAnswerById(oldId);
+		Answer oldAnswer=oldPost;
+		actualAnswer.restoreOldVersion(oldAnswer, uname);
+		redirect("/answer/" + actualAnswer.getId() + "/showVersionHistory");
 	}
 
 }
