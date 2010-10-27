@@ -8,6 +8,7 @@ import java.util.Random;
 import models.Answer;
 import models.Comment;
 import models.DbManager;
+import models.Post;
 import models.Question;
 import models.User;
 import models.UserGroups;
@@ -47,7 +48,7 @@ public class BootStrap extends Job {
 			User u = new User("user-" + i, "user-" + i + "@ese.ch", "user-" + i);
 			// 5 questions per user
 			for (int j = 1; j <= questionsPerUser; j++) {
-				Question q = new Question(true, "question " + j, u);
+				Post q = new Question(true, "question " + j, u);
 			}
 		}
 

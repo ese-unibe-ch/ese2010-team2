@@ -81,7 +81,7 @@ public class Application extends Controller {
 	public static void showAnswers(String id) {
 		int intId = Integer.parseInt(id);
 		ArrayList<Answer> answers = manager.getAnswersSortedByScore(intId);
-		Question question = manager.getQuestionById(intId);
+		Post question = manager.getQuestionById(intId);
 		if (answers.size() == 0) {
 			String message = "no answers";
 			render(message, question);

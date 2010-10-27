@@ -1,5 +1,6 @@
 import models.Answer;
 import models.DbManager;
+import models.Post;
 import models.Question;
 import models.User;
 
@@ -71,15 +72,15 @@ public class QuestionTest extends UnitTest {
 
 	@Test
 	public void shouldCheckUserAlreadyVotedQuestion() {
-		Question question = new Question(true, "content of question", admin);
-		assertFalse(question.checkUserVotedForQuestion(admin));
-		question.userVotedForQuestion(admin);
-		assertTrue(question.checkUserVotedForQuestion(admin));
+		Post question = new Question(true, "content of question", admin);
+		assertFalse(question.checkUserVotedForPost(admin));
+		question.userVotedForPost(admin);
+		assertTrue(question.checkUserVotedForPost(admin));
 	}
 
 	@Test
 	public void shouldVoteQuestion() {
-		Question question = new Question(true, "content of question", admin);
+		Post question = new Question(true, "content of question", admin);
 		assertEquals(0, question.getScore());
 		// Vote Up
 		question.vote(1);

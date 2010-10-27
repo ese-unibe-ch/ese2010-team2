@@ -6,6 +6,7 @@ import java.util.Calendar;
 import models.Answer;
 import models.Comment;
 import models.DbManager;
+import models.Post;
 import models.Question;
 import models.User;
 import models.UserGroups;
@@ -29,7 +30,7 @@ public class Admin extends Controller {
 	}
 
 	public static void showEditQuestionForm(int qid) {
-		Question question = manager.getQuestionById(qid);
+		Post question = manager.getQuestionById(qid);
 		if (session.get("username") == question.getOwner()
 				.getName()) {
 			render(question, qid);
@@ -67,7 +68,7 @@ public class Admin extends Controller {
 			String newContentTag) {
 		manager.getQuestionById(qid).getTags().clear();
 		manager.getQuestionById(qid).setContent(newContentQuestion,
-				session.get("Username"));
+				session.get("username"));
 		manager.getQuestionById(qid).addTags(newContentTag);
 		redirect("/question/" + qid + "/answers/");
 	}
@@ -145,7 +146,7 @@ public class Admin extends Controller {
 
 	public static void addCommentToQuestion(int qid, String newComment) {
 		User user = manager.getUserByName(session.get("username"));
-		Question question = manager.getQuestionById(qid);
+		Post question = manager.getQuestionById(qid);
 		if (newComment.equals("") || newComment.equals(" ")) {
 			String message = "Your comment is empty!";
 			render(message);
@@ -183,12 +184,12 @@ public class Admin extends Controller {
 				session.get("username"))) {
 			String message = "You cannot vote your own question!";
 			render(message, qid);
-		} else if (manager.getQuestionById(qid).checkUserVotedForQuestion(user)) {
+		} else if (manager.getQuestionById(qid).checkUserVotedForPost(user)) {
 			String message = "You already voted this question";
 			render(message, qid);
 		} else {
 			manager.getQuestionById(qid).vote(vote);
-			manager.getQuestionById(qid).userVotedForQuestion(user);
+			manager.getQuestionById(qid).userVotedForPost(user);
 			redirect("/");
 		}
 	}
@@ -210,12 +211,12 @@ public class Admin extends Controller {
 				session.get("username"))) {
 			String message = "You cannot vote your own answer!";
 			render(message, qid);
-		} else if (manager.getAnswerById(aid).checkUserVotedForAnswer(user)) {
+		} else if (manager.getAnswerById(aid).checkUserVotedForPost(user)) {
 			String message = "You already voted this question";
 			render(message, qid);
 		} else {
 			manager.getAnswerById(aid).vote(vote);
-			manager.getAnswerById(aid).userVotedForAnswer(user);
+			manager.getAnswerById(aid).userVotedForPost(user);
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
@@ -223,7 +224,7 @@ public class Admin extends Controller {
 	public static void showAnswerForm(String qid) {
 		int intId = Integer.parseInt(qid);
 		ArrayList<Answer> answers = manager.getAllAnswersByQuestionId(intId);
-		Question question = manager.getQuestionById(intId);
+		Post question = manager.getQuestionById(intId);
 		render(answers, question);
 	}
 

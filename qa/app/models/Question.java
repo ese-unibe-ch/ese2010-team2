@@ -9,9 +9,6 @@ import java.util.Date;
  */
 public class Question extends Post {
 
-	/** All users that already voted for the question. */
-	private ArrayList<User> userVotedForQuestion = new ArrayList<User>();
-
 	/** The best answer to this question. */
 	private Answer bestAnswer;
 
@@ -43,39 +40,11 @@ public class Question extends Post {
 		date = new Date();
 		lastChangedDate = new Date();
 		tags = new ArrayList<String>();
-		if(addQuestionToList){
-		oldVersions = new ArrayList<Post>();
-		manager.addQuestion(this);
-		questionOwner.addActivity("Asked question <" + content + ">");
+		if (addQuestionToList) {
+			oldVersions = new ArrayList<Post>();
+			manager.addQuestion(this);
+			questionOwner.addActivity("Asked question <" + content + ">");
 		}
-	}
-
-	/**
-	 * Checks if a certain user already voted for this question.
-	 * 
-	 * @param user
-	 *            - The user you want to check if he has alrady voted for this
-	 *            question.
-	 * @return - true if the user already voted for this question or false if he
-	 *         didn't.
-	 */
-	public boolean checkUserVotedForQuestion(User user) {
-		for (int i = 0; i < userVotedForQuestion.size(); i++) {
-			if (user.getName().equals(userVotedForQuestion.get(i).getName())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Adds a user to the list of all users who already voted for this question.
-	 * 
-	 * @param user
-	 *            - that voted for the question.
-	 */
-	public void userVotedForQuestion(User user) {
-		userVotedForQuestion.add(user);
 	}
 
 	/**
@@ -222,6 +191,8 @@ public class Question extends Post {
 	public void setContent(String content, String uname) {
 		this.oldVersions.add(0, new Question(false, this.content, this.owner));
 		super.setContent(content, uname);
+		manager.getUserByName(uname).addActivity(
+				"Edited Question " + this.id + " by writing: <" + content + ">.");
 	}
 
 }

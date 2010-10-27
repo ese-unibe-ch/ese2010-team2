@@ -25,6 +25,8 @@ public abstract class Post {
 	protected static DbManager manager = DbManager.getInstance();
 	protected Calendar calendar = Calendar.getInstance();
 	protected Date date;
+	/** All users that already voted for the question. */
+	private ArrayList<User> userVotedForPost = new ArrayList<User>();
 	protected static MarkdownProcessor markdownProcessor = new MarkdownProcessor();
 
 	/**
@@ -134,5 +136,33 @@ public abstract class Post {
 			int questionId = manager.getAnswerById(id).getQuestionId();
 			manager.getQuestionById(questionId).setLastChangedDate(date);
 		}
+	}
+
+	/**
+	 * Checks if a certain user already voted for this question.
+	 * 
+	 * @param user
+	 *            - The user you want to check if he has alrady voted for this
+	 *            question.
+	 * @return - true if the user already voted for this question or false if he
+	 *         didn't.
+	 */
+	public boolean checkUserVotedForPost(User user) {
+		for (int i = 0; i < userVotedForPost.size(); i++) {
+			if (user.getName().equals(userVotedForPost.get(i).getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Adds a user to the list of all users who already voted for this question.
+	 * 
+	 * @param user
+	 *            - that voted for the question.
+	 */
+	public void userVotedForPost(User user) {
+		userVotedForPost.add(user);
 	}
 }

@@ -23,9 +23,9 @@ public class AnswerTest extends UnitTest {
 	public void shouldCheckUserAlreadyVotedAnswer() {
 		Question question = new Question(true, "content of question", admin);
 		Answer answer = new Answer(true, "content of answer", admin, question);
-		assertFalse(answer.checkUserVotedForAnswer(admin));
-		answer.userVotedForAnswer(admin);
-		assertTrue(answer.checkUserVotedForAnswer(admin));
+		assertFalse(answer.checkUserVotedForPost(admin));
+		answer.userVotedForPost(admin);
+		assertTrue(answer.checkUserVotedForPost(admin));
 	}
 
 	@Test

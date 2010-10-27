@@ -1,6 +1,7 @@
 import models.Answer;
 import models.Comment;
 import models.DbManager;
+import models.Post;
 import models.Question;
 import models.Search;
 import models.User;
@@ -66,7 +67,7 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void shouldSearchQuestionContent() {
-		Question question1 = new Question(true, "question1", admin);
+		Post question1 = new Question(true, "question1", admin);
 		Search search = new Search("question1");
 		search.searchQuestionContent();
 		assertEquals("question1", search.getQuestionContentResults().get(0)
@@ -131,8 +132,8 @@ public class SearchTest extends UnitTest {
 	@Test
 	public void shouldAddQuestionOnlyOnceWhenMoreThanOneTagMatches() {
 		Question question1 = new Question(true, "question1", admin);
-		question1.addTags("test");
-		question1.addTags("test");
+		question1.addTags("testA");
+		question1.addTags("testB");
 
 		Search search = new Search("test");
 		search.searchQuestionTags();

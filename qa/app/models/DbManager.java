@@ -285,7 +285,7 @@ public class DbManager {
 	public ArrayList<Comment> getAllCommentsByQuestionIdSortedByDate(
 			int questionId) {
 		ArrayList<Comment> sortedComments = new ArrayList<Comment>();
-		Question currentQuestion = this.getQuestionById(questionId);
+		Post currentQuestion = this.getQuestionById(questionId);
 		for (Comment currentComment : this.getComments()) {
 			if (currentComment.getCommentedVotable().equals(currentQuestion))
 				sortedComments.add(currentComment);
@@ -333,7 +333,7 @@ public class DbManager {
 	 */
 	public ArrayList<Post> getVotablesByUserId(int userId) {
 		ArrayList<Post> usersVotables = new ArrayList<Post>();
-		for (Question currentQuestion : questions) {
+		for (Post currentQuestion : questions) {
 			if (currentQuestion.getOwner().getId() == userId) {
 				usersVotables.add(currentQuestion);
 			}
@@ -373,7 +373,7 @@ public class DbManager {
 
 		// Pick last '#count' questions out of the list sorted by date.
 		for (int i = size - 1; i >= size - count && i >= 0; i--) {
-			recentQuestions.add((Question) allQuestions.get(i));
+			recentQuestions.add((Post) allQuestions.get(i));
 		}
 		return recentQuestions;
 	}

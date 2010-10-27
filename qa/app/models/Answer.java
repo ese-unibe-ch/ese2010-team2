@@ -10,9 +10,6 @@ import java.util.Date;
  */
 public class Answer extends Post {
 
-	/** All users having voted for answer. */
-	private ArrayList<User> userVotedForAnswer = new ArrayList<User>();
-
 	/** The ID of the question the answer belongs to. */
 	private int questionId;
 
@@ -45,32 +42,6 @@ public class Answer extends Post {
 		}
 	}
 
-	/**
-	 * Check if the @user already voted for the answer.
-	 * 
-	 * @param user
-	 *            -The user you want to check if he already voted.
-	 * @return - true if the user already voted and false if the user hasn't
-	 *         voted so far.
-	 */
-	public boolean checkUserVotedForAnswer(User user) {
-		for (int i = 0; i < userVotedForAnswer.size(); i++) {
-			if (user.getName().equals(userVotedForAnswer.get(i).getName())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Adds a user to the list of users that have voted for the answer.
-	 * 
-	 * @param user
-	 *            - The user that has voted.
-	 */
-	public void userVotedForAnswer(User user) {
-		userVotedForAnswer.add(user);
-	}
 
 	/**
 	 * Gets the ID of the question the answer belongs to.
@@ -81,7 +52,7 @@ public class Answer extends Post {
 		return questionId;
 	}
 
-	public Question getQuestion() {
+	public Post getQuestion() {
 		return manager.getQuestionById(questionId);
 	}
 
@@ -133,6 +104,7 @@ public class Answer extends Post {
 		this.oldVersions.add(0, new Answer(false, this.content, this.owner, manager
 				.getQuestionById(questionId)));
 		super.setContent(content, uname);
-		manager.getUserByName(uname).addActivity("Edited Answer " + this.id +"by writing: <"+content+">.");
+		manager.getUserByName(uname).addActivity(
+				"Edited Answer " + this.id + " by writing: <" + content + ">.");
 	}
 }
