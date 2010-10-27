@@ -125,7 +125,7 @@ public class Admin extends Controller {
 			@SuppressWarnings("unused")
 			Question question = new Question(newQuestion, user);
 			question.addTags(tags);
-			redirect("/");
+			redirect("/question/" + question.getId() + "/answers/");
 		}
 	}
 
@@ -276,6 +276,7 @@ public class Admin extends Controller {
 		}
 	}
 
+	// TODO: renaming..!?
 	public static void showUser(String uname) {
 		User user = manager.getUserByName(session.get("username"));
 		if (manager.getUserByName(session.get("username")).isAdmin()) {

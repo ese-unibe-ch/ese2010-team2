@@ -244,7 +244,7 @@ public class User {
 	}
 
 	/**
-	 * Checks whether the user belongs to the administrators.
+	 * Checks whether the user belongs to the moderators.
 	 * 
 	 * @return - true if the user is a moderator and false otherwise.
 	 */
