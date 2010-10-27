@@ -1,51 +1,23 @@
-11:45:26,102 INFO  ~ Starting /Users/jonas/Desktop/ese-team2/qa
-11:45:26,107 INFO  ~ Module secure is available (/usr/play/modules/secure)
-11:45:26,108 INFO  ~ Module cobertura is available (/usr/play/modules/cobertura-2.0)
-11:45:27,380 WARN  ~ Actually play.tmp is set to null. Set it to play.tmp=none
-11:45:27,551 INFO  ~ 
-11:45:27,551 INFO  ~ Go to http://localhost:9000/@tests to run the tests
-11:45:27,551 INFO  ~ 
-11:45:27,551 WARN  ~ You're running Play! in DEV mode
-11:45:27,730 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
-Cobertura: Saved information on 25 classes.
-11:45:31,716 INFO  ~ Connected to jdbc:hsqldb:mem:playembed
-11:45:31,797 INFO  ~ Application 'qa' is now started !
-11:45:31,857 INFO  ~ fill Model with test-data
-0
-admin
-****************
-admin
-****************
-a
-****************
-b
-****************
-c
-****************
-0
-11:45:40,089 ERROR ~ 
-
-@6474k2154
-Internal Server Error (500) for request GET /
-
-Java exception (In /app/controllers/Application.java around line 26)
-NullPointerException occured : null
-
-play.exceptions.JavaExecutionException
-	at play.mvc.ActionInvoker.invoke(ActionInvoker.java:230)
-	at Invocation.HTTP Request(Play!)
-Caused by: java.lang.NullPointerException
-	at controllers.Application.index(Application.java:26)
-	at play.utils.Java.invokeStatic(Java.java:129)
-	at play.mvc.ActionInvoker.invoke(ActionInvoker.java:139)
-	... 1 more
-11:45:42,600 INFO  ~ Cobertura plugin: generating test coverage report
-Cobertura: Loaded information on 25 classes.
-Cobertura: Saved information on 25 classes.
+23:08:55,357 INFO  ~ Starting /home/alexander/ESE/ese2010-team2/qa
+23:08:55,361 INFO  ~ Module secure is available (/home/alexander/frameworks/play-1.0.3.2/modules/secure)
+23:08:55,361 INFO  ~ Module cobertura is available (/home/alexander/frameworks/play-1.0.3.2/modules/cobertura-2.0)
+23:08:55,989 WARN  ~ Actually play.tmp is set to null. Set it to play.tmp=none
+23:08:55,994 INFO  ~ 
+23:08:55,994 INFO  ~ Go to http://localhost:9000/@tests to run the tests
+23:08:55,994 INFO  ~ 
+23:08:55,994 WARN  ~ You're running Play! in DEV mode
+23:08:56,061 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
+Cobertura: Saved information on 23 classes.
+23:08:58,536 INFO  ~ Connected to jdbc:hsqldb:mem:playembed
+23:08:58,599 INFO  ~ Application 'qa' is now started !
+23:08:58,622 INFO  ~ fill Model with test-data
+23:09:03,455 INFO  ~ Cobertura plugin: generating test coverage report
+Cobertura: Loaded information on 23 classes.
+Cobertura: Saved information on 23 classes.
 Cobertura 1.9.2 - GNU GPL License (NO WARRANTY) - See COPYRIGHT file
-Cobertura: Loaded information on 25 classes.
-Report time: 493ms
+Cobertura: Loaded information on 23 classes.
+Report time: 365ms
 Cobertura 1.9.2 - GNU GPL License (NO WARRANTY) - See COPYRIGHT file
-Cobertura: Loaded information on 25 classes.
-Report time: 323ms
-11:45:45,421 INFO  ~ Test coverage report has been generated: file:/Users/jonas/Desktop/ese-team2/qa/test-result/code-coverage/index.html
+Cobertura: Loaded information on 23 classes.
+Report time: 228ms
+23:09:06,050 INFO  ~ Test coverage report has been generated: file:/home/alexander/ESE/ese2010-team2/qa/test-result/code-coverage/index.html

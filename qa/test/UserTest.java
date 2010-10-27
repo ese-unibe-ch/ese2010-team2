@@ -22,8 +22,8 @@ public class UserTest extends UnitTest {
 	@Test
 	public void shouldGetRightScore() {
 		User topScorer = new User("scorer", "user@champion", "password");
-		Question question = new Question("Good Question", topScorer);
-		Answer answer = new Answer("Good Answer", topScorer, question);
+		Question question = new Question(true, "Good Question", topScorer);
+		Answer answer = new Answer(true, "Good Answer", topScorer, question);
 		question.vote(1);
 		answer.vote(2);
 		assertEquals(3, topScorer.getScore());

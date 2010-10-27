@@ -21,8 +21,8 @@ public class AnswerTest extends UnitTest {
 
 	@Test
 	public void shouldCheckUserAlreadyVotedAnswer() {
-		Question question = new Question("content of question", admin);
-		Answer answer = new Answer("content of answer", admin, question);
+		Question question = new Question(true, "content of question", admin);
+		Answer answer = new Answer(true, "content of answer", admin, question);
 		assertFalse(answer.checkUserVotedForAnswer(admin));
 		answer.userVotedForAnswer(admin);
 		assertTrue(answer.checkUserVotedForAnswer(admin));
@@ -30,8 +30,8 @@ public class AnswerTest extends UnitTest {
 
 	@Test
 	public void shouldVoteAnswer() {
-		Question question = new Question("content of question", admin);
-		Answer answer = new Answer("content of answer", admin, question);
+		Question question = new Question(true, "content of question", admin);
+		Answer answer = new Answer(true, "content of answer", admin, question);
 		assertEquals(0, answer.getScore());
 		// Vote Up
 		answer.vote(1);

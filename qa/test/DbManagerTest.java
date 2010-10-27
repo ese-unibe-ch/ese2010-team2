@@ -28,8 +28,8 @@ public class DbManagerTest extends UnitTest {
 
 	@Test
 	public void souldGetRecentQuestions() {
-		Question newQuestion1 = new Question("question1", admin);
-		Question newQuestion2 = new Question("question2", admin);
+		Question newQuestion1 = new Question(true, "question1", admin);
+		Question newQuestion2 = new Question(true, "question2", admin);
 
 		assertEquals(1, manager.getRecentQuestionsByNumber(1).size());
 		assertEquals(2, manager.getRecentQuestionsByNumber(2).size());
@@ -43,12 +43,12 @@ public class DbManagerTest extends UnitTest {
 		User newUser = new User("user", "user@ese", "user");
 		assertEquals(1, manager.getUserLog("user").size());
 
-		Question newQuestion = new Question("question1", newUser);
+		Question newQuestion = new Question(true, "question1", newUser);
 		assertEquals(2, manager.getUserLog("user").size());
 		assertEquals("Asked question <question1>", manager.getUserLog("user")
 				.get(0));
 
-		Answer newAnswer = new Answer("answer1", newUser, newQuestion);
+		Answer newAnswer = new Answer(true, "answer1", newUser, newQuestion);
 		assertEquals(3, manager.getUserLog("user").size());
 		assertEquals("Answered question <question1> by writing: <answer1>",
 				manager.getUserLog("user").get(0));
@@ -62,7 +62,7 @@ public class DbManagerTest extends UnitTest {
 
 	@Test
 	public void shouldRemarkQuestionDuplication() {
-		Question question1 = new Question("question1<question1<question1",
+		Question question1 = new Question(true, "question1<question1<question1",
 				admin);
 		assertTrue(manager
 				.checkQuestionDuplication("question1<question1<question1"));
@@ -70,10 +70,10 @@ public class DbManagerTest extends UnitTest {
 
 	@Test
 	public void shouldGetAllAnswersToQuestion() {
-		Question question1 = new Question("content", admin);
-		Answer answer1 = new Answer("answer1", admin, question1);
-		Answer answer2 = new Answer("answer2", admin, question1);
-		Answer answer3 = new Answer("answer3", admin, question1);
+		Question question1 = new Question(true, "content", admin);
+		Answer answer1 = new Answer(true, "answer1", admin, question1);
+		Answer answer2 = new Answer(true, "answer2", admin, question1);
+		Answer answer3 = new Answer(true, "answer3", admin, question1);
 
 		assertEquals(3, manager.getAllAnswersByQuestionId(question1.getId())
 				.size());
@@ -87,23 +87,23 @@ public class DbManagerTest extends UnitTest {
 
 	@Test
 	public void shouldFindQuestionById() {
-		Question question1 = new Question("question1", admin);
+		Question question1 = new Question(true, "question1", admin);
 		assertEquals(question1, manager.getQuestionById(question1.getId()));
 	}
 
 	@Test
 	public void shouldFindAnswerById() {
-		Question q = new Question("content", admin);
-		Answer answer1 = new Answer("answer1", admin, q);
+		Question q = new Question(true, "content", admin);
+		Answer answer1 = new Answer(true, "answer1", admin, q);
 		assertEquals(answer1, manager.getAnswerById(answer1.getId()));
 	}
 
 	@Test
 	public void QuestionsShouldBeSortedByScore() {
-		Question question1 = new Question("content1", admin);
-		Question question2 = new Question("content2", admin);
-		Question question3 = new Question("content3", admin);
-		Question question4 = new Question("content4", admin);
+		Question question1 = new Question(true, "content1", admin);
+		Question question2 = new Question(true, "content2", admin);
+		Question question3 = new Question(true, "content3", admin);
+		Question question4 = new Question(true, "content4", admin);
 
 		question1.vote(2);
 		question2.vote(3);
@@ -119,12 +119,12 @@ public class DbManagerTest extends UnitTest {
 
 	@Test
 	public void answersShouldBeSortedByScore() {
-		Question question1 = new Question("content1", admin);
+		Question question1 = new Question(true, "content1", admin);
 
-		Answer answer1 = new Answer("content1", admin, question1);
-		Answer answer2 = new Answer("content2", admin, question1);
-		Answer answer3 = new Answer("content3", admin, question1);
-		Answer answer4 = new Answer("content4", admin, question1);
+		Answer answer1 = new Answer(true, "content1", admin, question1);
+		Answer answer2 = new Answer(true, "content2", admin, question1);
+		Answer answer3 = new Answer(true, "content3", admin, question1);
+		Answer answer4 = new Answer(true, "content4", admin, question1);
 
 		answer1.vote(2);
 		answer2.vote(3);
@@ -143,10 +143,10 @@ public class DbManagerTest extends UnitTest {
 
 	@Test
 	public void shouldGetVotablesByUser() {
-		Question question1 = new Question("question1", admin);
-		Question question2 = new Question("question2", admin);
-		Answer answer1 = new Answer("answer1", admin, question1);
-		Answer answer2 = new Answer("answer2", admin, question2);
+		Question question1 = new Question(true, "question1", admin);
+		Question question2 = new Question(true, "question2", admin);
+		Answer answer1 = new Answer(true, "answer1", admin, question1);
+		Answer answer2 = new Answer(true, "answer2", admin, question2);
 
 		assertTrue(manager.getVotablesByUserId(admin.getId()).contains(
 				question1));
@@ -163,7 +163,7 @@ public class DbManagerTest extends UnitTest {
 		manager.getTagList().clear();
 		assertEquals(0, manager.getTagList().size());
 
-		Question question1 = new Question("question1", admin);
+		Question question1 = new Question(true, "question1", admin);
 		question1.addTags("Hello hello world Earth earth World");
 		assertTrue(manager.getTagList().contains("hello"));
 		assertTrue(manager.getTagList().contains("world"));
@@ -183,19 +183,19 @@ public class DbManagerTest extends UnitTest {
 		assertEquals(2, b.getId());
 		assertEquals(3, c.getId());
 
-		Question question = new Question("content of question", admin);
-		Question question1 = new Question("content of question1", admin);
-		Question question2 = new Question("content of question2", admin);
+		Question question = new Question(true, "content of question", admin);
+		Question question1 = new Question(true, "content of question1", admin);
+		Question question2 = new Question(true, "content of question2", admin);
 
 		assertEquals(0, question.getId());
 		assertEquals(1, question1.getId());
 		assertEquals(2, question2.getId());
 
-		Answer answer = new Answer("content of answer", admin, manager
+		Answer answer = new Answer(true, "content of answer", admin, manager
 				.getQuestions().get(0));
-		Answer answer1 = new Answer("content of answer1", admin, manager
+		Answer answer1 = new Answer(true, "content of answer1", admin, manager
 				.getQuestions().get(1));
-		Answer answer2 = new Answer("content of answer2", admin, manager
+		Answer answer2 = new Answer(true, "content of answer2", admin, manager
 				.getQuestions().get(2));
 
 		assertEquals(0, answer.getId());
@@ -214,7 +214,7 @@ public class DbManagerTest extends UnitTest {
 	@Test
 	public void shouldCreateQuestion() {
 		@SuppressWarnings("unused")
-		Question question = new Question("content of question", admin);
+		Question question = new Question(true, "content of question", admin);
 
 		assertEquals("content of question", manager.getQuestions().get(0)
 				.getContent());
@@ -225,8 +225,8 @@ public class DbManagerTest extends UnitTest {
 	@Test
 	public void shouldCreateAnswer() {
 		@SuppressWarnings("unused")
-		Question question = new Question("content of question", admin);
-		Answer answer = new Answer("content of answer", admin, question);
+		Question question = new Question(true, "content of question", admin);
+		Answer answer = new Answer(true, "content of answer", admin, question);
 
 		assertEquals("content of answer", manager.getAnswers().get(0)
 				.getContent());
@@ -245,7 +245,7 @@ public class DbManagerTest extends UnitTest {
 	@Test
 	public void shouldCheckQuestionDuplication() {
 		@SuppressWarnings("unused")
-		Question question = new Question("content of question", admin);
+		Question question = new Question(true, "content of question", admin);
 		assertTrue(manager.checkQuestionDuplication("content of question"));
 		assertFalse(manager
 				.checkQuestionDuplication("content of not registered question"));
@@ -259,7 +259,7 @@ public class DbManagerTest extends UnitTest {
 
 	@Test
 	public void shouldGetQuestionById() {
-		Question question = new Question("content of question", admin);
+		Question question = new Question(true, "content of question", admin);
 		assertEquals(question.getContent(),
 				manager.getQuestionById(question.getId()).getContent());
 		assertNull(manager.getQuestionById(-1));
@@ -267,8 +267,8 @@ public class DbManagerTest extends UnitTest {
 
 	@Test
 	public void shouldGetAnswerById() {
-		Question question = new Question("content of question", admin);
-		Answer answer = new Answer("content of answer", admin, question);
+		Question question = new Question(true, "content of question", admin);
+		Answer answer = new Answer(true, "content of answer", admin, question);
 		assertEquals(answer.getContent(), manager.getAnswerById(answer.getId())
 				.getContent());
 		assertNull(manager.getAnswerById(-1));
@@ -278,9 +278,9 @@ public class DbManagerTest extends UnitTest {
 	public void shouldGetUsersVotablesById() {
 		User user1 = new User("user1", "user@1", "password");
 		User user2 = new User("user2", "user@2", "password");
-		Question question = new Question("something", user1);
-		Answer answer1 = new Answer("something", user2, question);
-		Answer answer2 = new Answer("something", user1, question);
+		Question question = new Question(true, "something", user1);
+		Answer answer1 = new Answer(true, "something", user2, question);
+		Answer answer2 = new Answer(true, "something", user1, question);
 		ArrayList<Post> list = manager.getVotablesByUserId(user1.getId());
 		assertEquals(2, list.size());
 		assertTrue(list.contains(question));
@@ -291,9 +291,9 @@ public class DbManagerTest extends UnitTest {
 	@Test
 	public void shouldRemoveUser(){
 		User user1= new User("user1", "user@1", "password");
-		Question question1= new Question("Question to be deleted", user1);
-		Question question2= new Question("question not to be deleted", admin);
-		Answer answer1= new Answer("answer to be deleted", user1, question1);
+		Question question1= new Question(true, "Question to be deleted", user1);
+		Question question2= new Question(true, "question not to be deleted", admin);
+		Answer answer1= new Answer(true, "answer to be deleted", user1, question1);
 		Comment comm1= new Comment(user1, answer1, "comment to be deleted");
 		assertTrue(manager.getQuestions().contains(question1));
 		assertTrue(manager.getAnswers().contains(answer1));
@@ -307,7 +307,7 @@ public class DbManagerTest extends UnitTest {
 	
 	@Test
 	public void shouldSortCommentsByDate() {
-		Question question = new Question("some content", admin);
+		Question question = new Question(true, "some content", admin);
 		Comment firstComment = new Comment(admin, question, "first comment");
 		Comment secondComment = new Comment(admin, question, "second comment");
 		Comment thirdComment = new Comment(admin, question, "third comment");

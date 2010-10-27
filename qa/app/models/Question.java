@@ -30,19 +30,24 @@ public class Question extends Post {
 	 *            - The content of the question.
 	 * @param questionOwner
 	 *            - The user who asked the question.
+	 * @param addQuestionToList
+	 *            - true if the new Question shall be added to the Answer list
+	 *            and false otherwise.
 	 */
-	public Question(String content, User questionOwner) {
+	public Question(Boolean addQuestionToList, String content,
+			User questionOwner) {
 		this.owner = questionOwner;
 		this.content = content;
 		this.score = 0;
-		
+
 		date = new Date();
 		lastChangedDate = new Date();
 		tags = new ArrayList<String>();
-		oldVersions= new ArrayList<Post>();
-		
-		manager.addQuestion(this);		
+		if(addQuestionToList){
+		oldVersions = new ArrayList<Post>();
+		manager.addQuestion(this);
 		questionOwner.addActivity("Asked question <" + content + ">");
+		}
 	}
 
 	/**
@@ -127,7 +132,8 @@ public class Question extends Post {
 		String delimiter = "[ ]+";
 		tags = tags.toLowerCase();
 		for (String newTag : tags.split(delimiter)) {
-			this.tags.add(newTag);
+			if (!this.tags.contains(newTag))
+				this.tags.add(newTag);
 			if (!manager.getTagList().contains(newTag.toLowerCase()))
 				manager.addTag(newTag.toLowerCase());
 		}
@@ -147,7 +153,7 @@ public class Question extends Post {
 		String delimiter = "[ ]+";
 		// The minimum Levenshtein distance two strings need to have.
 		int minDistance = 2;
-		String storeTags=""+tags;
+		String storeTags = "" + tags;
 		tags = tags.toLowerCase();
 		String existingTags = new String();
 		for (String newTag : tags.split(delimiter)) {
@@ -159,7 +165,7 @@ public class Question extends Post {
 				}
 			}
 		}
-		tags=storeTags;
+		tags = storeTags;
 		return existingTags;
 	}
 
@@ -205,6 +211,7 @@ public class Question extends Post {
 
 	/**
 	 * Setter methods
+	 * 
 	 * @param date
 	 *            - the date when the answer has been changed.
 	 */
@@ -213,7 +220,7 @@ public class Question extends Post {
 	}
 
 	public void setContent(String content, String uname) {
-		this.oldVersions.add(0, new Question(this.content, this.owner));
+		this.oldVersions.add(0, new Question(false, this.content, this.owner));
 		super.setContent(content, uname);
 	}
 

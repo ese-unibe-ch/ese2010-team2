@@ -19,16 +19,16 @@ public class QuestionTest extends UnitTest {
 	@Before
 	public void setUp() {
 		u = new User("haha", "hah@ha.com", "");
-		question = new Question("what", u);
-		a1 = new Answer("hah", u, question);
-		a2 = new Answer("hah", u, question);
+		question = new Question(true, "what", u);
+		a1 = new Answer(true, "hah", u, question);
+		a2 = new Answer(true, "hah", u, question);
 		manager = DbManager.getInstance();
 		admin = new User("admin", "admin@admin.ch", "admin");
 	}
 
 	@Test
 	public void shouldNotAllowToSetArbitrayAnswerAsBestAnswer() {
-		Answer a3 = new Answer("haha", u, new Question("", u));
+		Answer a3 = new Answer(true, "haha", u, new Question(true, "", u));
 		question.setBestAnswer(a3);
 		assertFalse(question.hasBestAnswer());
 	}
@@ -71,7 +71,7 @@ public class QuestionTest extends UnitTest {
 
 	@Test
 	public void shouldCheckUserAlreadyVotedQuestion() {
-		Question question = new Question("content of question", admin);
+		Question question = new Question(true, "content of question", admin);
 		assertFalse(question.checkUserVotedForQuestion(admin));
 		question.userVotedForQuestion(admin);
 		assertTrue(question.checkUserVotedForQuestion(admin));
@@ -79,7 +79,7 @@ public class QuestionTest extends UnitTest {
 
 	@Test
 	public void shouldVoteQuestion() {
-		Question question = new Question("content of question", admin);
+		Question question = new Question(true, "content of question", admin);
 		assertEquals(0, question.getScore());
 		// Vote Up
 		question.vote(1);

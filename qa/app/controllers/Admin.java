@@ -123,7 +123,7 @@ public class Admin extends Controller {
 			showQuestionForm(newQuestion, tags, message);
 		} else {
 			@SuppressWarnings("unused")
-			Question question = new Question(newQuestion, user);
+			Question question = new Question(true, newQuestion, user);
 			question.addTags(tags);
 			redirect("/question/" + question.getId() + "/answers/");
 		}
@@ -137,7 +137,7 @@ public class Admin extends Controller {
 			render(message, qid);
 		} else {
 			@SuppressWarnings("unused")
-			Answer answer = new Answer(newAnswer, user, manager
+			Answer answer = new Answer(true, newAnswer, user, manager
 					.getQuestionById(intId));
 			redirect("/question/" + qid + "/answers/");
 		}

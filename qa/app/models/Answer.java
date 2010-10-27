@@ -29,17 +29,20 @@ public class Answer extends Post {
 	 * @param question
 	 *            - the question the answer belongs to.
 	 */
-	public Answer(String content, User user, Question question) {
+	public Answer(Boolean addAnswerToList, String content, User user,
+			Question question) {
 		this.questionId = question.getId();
 		this.content = content;
 		this.owner = user;
 		isBestAnswer = false;
 		date = new Date();
-		oldVersions = new ArrayList<Post>();
 		question.setLastChangedDate(new Date());
-		user.addActivity("Answered question <" + question.getContent()
-				+ "> by writing: <" + content + ">");
-		manager.addAnswer(this);
+		if (addAnswerToList) {
+			oldVersions = new ArrayList<Post>();
+			user.addActivity("Answered question <" + question.getContent()
+					+ "> by writing: <" + content + ">");
+			manager.addAnswer(this);
+		}
 	}
 
 	/**
@@ -127,8 +130,9 @@ public class Answer extends Post {
 	}
 
 	public void setContent(String content, String uname) {
-		this.oldVersions.add(0, new Answer(this.content, this.owner, manager
+		this.oldVersions.add(0, new Answer(false, this.content, this.owner, manager
 				.getQuestionById(questionId)));
 		super.setContent(content, uname);
+		manager.getUserByName(uname).addActivity("Edited Answer " + this.id +"by writing: <"+content+">.");
 	}
 }
