@@ -11,10 +11,10 @@ ${post.getContent()}
 #{list items:history, as:'oldPost'}
 	${oldPost.getContent()} 
 	#{if type=="question"}
-		<a href="@{Admin.restoreQuestion(post.getId(), oldPost.getId())}">restore</a>
+		<a href="@{Admin.restoreQuestion(post.getId(), oldPost.getContent())}">restore</a>
 	#{/if}
 	#{else} 
-		<a href="@{Admin.restoreAnswer(post.getId(), oldPost.getId())}">restore</a>	
+		<a href="@{Admin.restoreAnswer(post.getId(), oldPost.getContent())}">restore</a>	
 	#{/else}
 	<br/>
 #{/list}

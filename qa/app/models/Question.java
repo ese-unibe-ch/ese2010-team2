@@ -189,14 +189,41 @@ public class Question extends Post {
 	}
 
 	public void setContent(String content, String uname) {
-		this.oldVersions.add(0, new Question(false, this.content, this.owner));
+		// this.oldVersions.add(0, new Question(false, this.content,
+		// this.owner));
 		super.setContent(content, uname);
-		manager.getUserByName(uname).addActivity(
-				"Edited Question " + this.id + " by writing: <" + content + ">.");
+		// manager.getUserByName(uname).addActivity(
+		// "Edited Question " + this.id + " by writing: <" + content + ">.");
 	}
-	
-	public void restoreOldVersion(Question q, String uname){
-		setContent(q.getContent(),uname);
+
+	/**
+	 * Edits a question and adds the actual contents and tags to the list of
+	 * older versions.
+	 * 
+	 * @param content
+	 *            - the new content of the question
+	 * @param tags
+	 *            - the new tags
+	 * @param uname
+	 *            - the name of the user who adds the new version.
+	 */
+	public void addVersion(String content, String tags, String uname) {
+		Question question = new Question(false, this.content, this.owner);
+		question.getTags().addAll(this.tags);
+		this.oldVersions.add(0, question);
+		this.editedBy.add(manager.getUserByName(uname));
+		super.setContent(content, uname);
+		this.getTags().clear();
+		this.addTags(""+tags);
+		manager.getUserByName(uname).addActivity(
+				"Edited Question " + this.id + " by writing: <" + content
+						+ ">.");
+		this.setLastChanged(getDate());
+	}
+
+	public void restoreOldVersion(String oldContent, String oldTags,
+			String uname) {
+		addVersion(oldContent, oldTags, uname);
 	}
 
 }

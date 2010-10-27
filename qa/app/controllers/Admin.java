@@ -65,10 +65,11 @@ public class Admin extends Controller {
 	 */
 	public static void editQuestion(int qid, String newContentQuestion,
 			String newContentTag) {
-		manager.getQuestionById(qid).getTags().clear();
-		manager.getQuestionById(qid).setContent(newContentQuestion,
-				session.get("username"));
-		manager.getQuestionById(qid).addTags(newContentTag);
+		manager.getQuestionById(qid).addVersion(newContentQuestion, newContentTag, session.get("username"));
+//		manager.getQuestionById(qid).getTags().clear();
+//		manager.getQuestionById(qid).setContent(newContentQuestion,
+//				session.get("username"));
+//		manager.getQuestionById(qid).addTags(newContentTag);
 		redirect("/question/" + qid + "/answers/");
 	}
 
@@ -91,8 +92,10 @@ public class Admin extends Controller {
 	 */
 	public static void editAnswer(int answerId, int qid, String newContent,
 			User user) {
-		manager.getAnswerById(answerId).setContent(newContent,
-				session.get("username"));
+//		manager.getAnswerById(answerId).setContent(newContent,
+//				session.get("username"));
+		
+		manager.getAnswerById(answerId).addVersion(newContent, session.get("username"));
 		redirect("/question/" + qid + "/answers/");
 	}
 
@@ -298,20 +301,17 @@ public class Admin extends Controller {
 
 	}
 
-	public static void restoreQuestion(int actualId, Question oldPost) {
+	public static void restoreQuestion(int actualId, String oldContent, String oldTags) {
 		String uname = session.get("username");
 		Question actualQuestion = manager.getQuestionById(actualId);
-//		Question oldQuestion = manager.getQuestionById(oldId);
-		actualQuestion.restoreOldVersion(oldPost, uname);
+		actualQuestion.restoreOldVersion(oldContent, oldTags, uname);
 		redirect("/question/" + actualQuestion.getId() + "/showVersionHistory");
 	}
 	
-	public static void restoreAnswer(int actualId, Answer oldPost) {
+	public static void restoreAnswer(int actualId, String oldContent) {
 		String uname = session.get("username");
 		Answer actualAnswer = manager.getAnswerById(actualId);
-//		Answer oldAnswer = manager.getAnswerById(oldId);
-		Answer oldAnswer=oldPost;
-		actualAnswer.restoreOldVersion(oldAnswer, uname);
+		actualAnswer.restoreOldVersion(oldContent, uname);
 		redirect("/answer/" + actualAnswer.getId() + "/showVersionHistory");
 	}
 
