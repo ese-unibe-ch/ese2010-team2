@@ -65,11 +65,12 @@ public class Admin extends Controller {
 	 */
 	public static void editQuestion(int qid, String newContentQuestion,
 			String newContentTag) {
-		manager.getQuestionById(qid).addVersion(newContentQuestion, newContentTag, session.get("username"));
-//		manager.getQuestionById(qid).getTags().clear();
-//		manager.getQuestionById(qid).setContent(newContentQuestion,
-//				session.get("username"));
-//		manager.getQuestionById(qid).addTags(newContentTag);
+		manager.getQuestionById(qid).addVersion(newContentQuestion,
+				newContentTag, session.get("username"));
+		// manager.getQuestionById(qid).getTags().clear();
+		// manager.getQuestionById(qid).setContent(newContentQuestion,
+		// session.get("username"));
+		// manager.getQuestionById(qid).addTags(newContentTag);
 		redirect("/question/" + qid + "/answers/");
 	}
 
@@ -92,10 +93,11 @@ public class Admin extends Controller {
 	 */
 	public static void editAnswer(int answerId, int qid, String newContent,
 			User user) {
-//		manager.getAnswerById(answerId).setContent(newContent,
-//				session.get("username"));
-		
-		manager.getAnswerById(answerId).addVersion(newContent, session.get("username"));
+		// manager.getAnswerById(answerId).setContent(newContent,
+		// session.get("username"));
+
+		manager.getAnswerById(answerId).addVersion(newContent,
+				session.get("username"));
 		redirect("/question/" + qid + "/answers/");
 	}
 
@@ -301,18 +303,22 @@ public class Admin extends Controller {
 
 	}
 
-	public static void restoreQuestion(int actualId, String oldContent, String oldTags) {
+	public static void restoreQuestion(int actualId, String oldContent,
+			String oldTags) {
 		String uname = session.get("username");
+		// unschön, aber es erfüllt den zweck:
+		String tags = oldTags.replace("[", "").replace("]", "")
+				.replace(",", "");
 		Question actualQuestion = manager.getQuestionById(actualId);
-		actualQuestion.restoreOldVersion(oldContent, oldTags, uname);
-		redirect("/question/" + actualQuestion.getId() + "/showVersionHistory");
+		actualQuestion.addVersion(oldContent, tags, uname);
+		redirect("/question/" + actualQuestion.getId() + "/history");
 	}
-	
+
 	public static void restoreAnswer(int actualId, String oldContent) {
 		String uname = session.get("username");
 		Answer actualAnswer = manager.getAnswerById(actualId);
 		actualAnswer.restoreOldVersion(oldContent, uname);
-		redirect("/answer/" + actualAnswer.getId() + "/showVersionHistory");
+		redirect("/answer/" + actualAnswer.getId() + "/history");
 	}
 
 }
