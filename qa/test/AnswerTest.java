@@ -40,6 +40,17 @@ public class AnswerTest extends UnitTest {
 		answer.vote(-1);
 		assertEquals(0, answer.getScore());
 	}
+	
+	@Test
+	public void shouldAddVersionAndRestore(){
+		Question q= new Question("content", admin);
+		Answer a= new Answer("content of", admin, q);
+		a.addVersion("content of answer", "admin");
+		assertEquals(1, a.getOldVersions().size());
+		a.restoreOldVersion("content of", "admin");
+		assertEquals(2,a.getOldVersions().size());
+		assertEquals("content of", a.getContent());
+	}
 
 	@AfterClass
 	public static void tearDown() {

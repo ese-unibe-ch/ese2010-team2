@@ -20,7 +20,7 @@ public abstract class Post {
 	protected String content;
 	protected User owner;
 	protected int score = 0;
-	protected ArrayList<Post> oldVersions;
+	protected ArrayList<Post> oldVersions= new ArrayList<Post>();
 	protected ArrayList<User> editedBy= new ArrayList<User>();
  
 	protected static DbManager manager = DbManager.getInstance();

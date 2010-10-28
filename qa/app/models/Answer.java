@@ -42,6 +42,19 @@ public class Answer extends Post {
 		}
 	}
 
+	/**
+	 * Instantiates a new answer and adds it to the answer list.
+	 * 
+	 * @param content
+	 *            - The content of the answer
+	 * @param user
+	 *            - The user who is answering
+	 * @param question
+	 *            - the question the answer belongs to.
+	 */
+	public Answer(String content, User user, Question question) {
+		new Answer(true, content, user, question);
+	}
 
 	/**
 	 * Gets the ID of the question the answer belongs to.
@@ -101,25 +114,26 @@ public class Answer extends Post {
 	}
 
 	public void setContent(String content, String uname) {
-//		this.oldVersions.add(0, new Answer(false, this.content, this.owner, manager
-//				.getQuestionById(questionId)));
+		// this.oldVersions.add(0, new Answer(false, this.content, this.owner,
+		// manager
+		// .getQuestionById(questionId)));
 		super.setContent(content, uname);
-//		manager.getUserByName(uname).addActivity(
-//				"Edited Answer " + this.id + " by writing: <" + content + ">.");
+		// manager.getUserByName(uname).addActivity(
+		// "Edited Answer " + this.id + " by writing: <" + content + ">.");
 	}
-	
-	public void addVersion(String content, String uname){
-		Answer answer = new Answer(false, this.content, this.owner, manager.getQuestionById(this.questionId));
+
+	public void addVersion(String content, String uname) {
+		Answer answer = new Answer(false, this.content, this.owner, manager
+				.getQuestionById(this.questionId));
 		this.oldVersions.add(0, answer);
 		this.editedBy.add(manager.getUserByName(uname));
 		super.setContent(content, uname);
 		manager.getUserByName(uname).addActivity(
-				"Edited Answer" + this.id + " by writing: <" + content
-						+ ">.");
+				"Edited Answer" + this.id + " by writing: <" + content + ">.");
 		this.setLastChanged(getDate());
 	}
-	
-	public void restoreOldVersion(String oldContent, String uname){
-		addVersion(oldContent,uname);
+
+	public void restoreOldVersion(String oldContent, String uname) {
+		addVersion(oldContent, uname);
 	}
 }

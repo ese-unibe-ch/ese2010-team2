@@ -90,6 +90,19 @@ public class QuestionTest extends UnitTest {
 		assertEquals(0, question.getScore());
 	}
 
+	@Test
+	public void shouldAddVersionAndRestore(){
+		Question q= new Question("question", admin);
+		q.addVersion("hallo velo", "hallo velo", "admin");
+		assertEquals(1, q.getOldVersions().size());
+		q.restoreOldVersion("question", "hallo velo", "admin");
+		assertEquals(2, q.getOldVersions().size());
+		assertEquals("question", q.getContent());
+		assertTrue(q.getTags().contains("hallo"));
+		assertTrue(q.getTags().contains("velo"));
+		assertEquals(2,q.getTags().size());
+	}
+
 	@AfterClass
 	public static void tearDown() {
 		manager.getUsers().clear();

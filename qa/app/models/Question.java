@@ -3,6 +3,8 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 
+import annotations.Unused;
+
 /**
  * The Class Question delivers all functionality of the questions that other
  * votables don't have (those would be located in the class @see Votable.java.
@@ -45,6 +47,18 @@ public class Question extends Post {
 			manager.addQuestion(this);
 			questionOwner.addActivity("Asked question <" + content + ">");
 		}
+	}
+
+	/**
+	 * Instantiates a new question and adds it to the question list.
+	 * 
+	 * @param content
+	 *            - The content of the question
+	 * @param questionOwner
+	 *            - The user who asked the question.
+	 */
+	public Question(String content, User questionOwner) {
+		new Question(true, content, questionOwner);
 	}
 
 	/**
@@ -106,6 +120,16 @@ public class Question extends Post {
 			if (!manager.getTagList().contains(newTag.toLowerCase()))
 				manager.addTag(newTag.toLowerCase());
 		}
+	}
+
+	@Unused
+	public void addTags(ArrayList<String> tags) {
+		this.tags.addAll(tags);
+	}
+	
+	public void setTags(String tags){
+		this.tags=new ArrayList<String>();
+		this.addTags(tags);
 	}
 
 	/**
@@ -209,12 +233,11 @@ public class Question extends Post {
 	 */
 	public void addVersion(String content, String tags, String uname) {
 		Question question = new Question(false, this.content, this.owner);
-		question.getTags().addAll(this.tags);
+		question.addTags(tags);
 		this.oldVersions.add(0, question);
 		this.editedBy.add(manager.getUserByName(uname));
 		super.setContent(content, uname);
-		this.getTags().clear();
-		this.addTags(""+tags);
+		this.setTags(""+tags);
 		manager.getUserByName(uname).addActivity(
 				"Edited Question " + this.id + " by writing: <" + content
 						+ ">.");
