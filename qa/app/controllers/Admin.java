@@ -142,8 +142,8 @@ public class Admin extends Controller {
 			render(message, qid);
 		} else {
 			@SuppressWarnings("unused")
-			Answer answer = new Answer(true, newAnswer, user, manager
-					.getQuestionById(intId));
+			Answer answer = new Answer(true, newAnswer, user,
+					manager.getQuestionById(intId));
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
@@ -184,8 +184,8 @@ public class Admin extends Controller {
 	public static void voteQuestion(int qid, int vote) {
 		// int id = Integer.parseInt(qid);
 		User user = manager.getUserByName(session.get("username"));
-		if (manager.getQuestionById(qid).getOwner().equals(
-				session.get("username"))) {
+		if (manager.getQuestionById(qid).getOwner()
+				.equals(session.get("username"))) {
 			String message = "You cannot vote your own question!";
 			render(message, qid);
 		} else if (manager.getQuestionById(qid).checkUserVotedForPost(user)) {
@@ -211,8 +211,8 @@ public class Admin extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		@SuppressWarnings("unused")
 		Answer answer = manager.getAnswerById(aid);
-		if (manager.getAnswerById(aid).getOwner().equals(
-				session.get("username"))) {
+		if (manager.getAnswerById(aid).getOwner()
+				.equals(session.get("username"))) {
 			String message = "You cannot vote your own answer!";
 			render(message, qid);
 		} else if (manager.getAnswerById(aid).checkUserVotedForPost(user)) {
@@ -279,19 +279,6 @@ public class Admin extends Controller {
 		} else {
 			redirect("/");
 		}
-	}
-
-	// TODO: renaming..!?
-	public static void showUser(String uname) {
-		User user = manager.getUserByName(session.get("username"));
-		if (manager.getUserByName(session.get("username")).isAdmin()) {
-			manager.deleteUser(uname);
-			redirect("/");
-		} else {
-			String message = "You're not authorised!";
-			render(message);
-		}
-		render(user);
 	}
 
 	public static void showAdminPage() {
