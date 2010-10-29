@@ -18,7 +18,7 @@ public class Question extends Post {
 	private Date bestAnswerSetTime;
 
 	/** The tags of this question. */
-	private ArrayList<String> tags;
+	private ArrayList<String> tags= new ArrayList<String>();
 
 	private Date lastChangedDate;
 
@@ -41,7 +41,6 @@ public class Question extends Post {
 
 		date = new Date();
 		lastChangedDate = new Date();
-		tags = new ArrayList<String>();
 		if (addQuestionToList) {
 			oldVersions = new ArrayList<Post>();
 			manager.addQuestion(this);
@@ -233,7 +232,7 @@ public class Question extends Post {
 	 */
 	public void addVersion(String content, String tags, String uname) {
 		Question question = new Question(false, this.content, this.owner);
-		question.addTags(tags);
+		question.addTags(this.getTags());
 		this.oldVersions.add(0, question);
 		this.editedBy.add(manager.getUserByName(uname));
 		super.setContent(content, uname);

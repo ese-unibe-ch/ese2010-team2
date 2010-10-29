@@ -3,18 +3,29 @@
 <a href="/">home</a>
 
 <h2>Newest version:</h2>
+#{if type=="question"}
+	#{question question:post /}
+#{/if}
+#{else}
+	#{answer answer:post /}
+#{/else}
 
 ${post.getContent()}
 
 <h2>History:</h2>
 <p style="color:#c00">Size: ${history.size()} </p>
 #{list items:history, as:'oldPost'}
-	${oldPost.getContent()} 
+	<!-- ${oldPost.getContent()} --> 
 	#{if type=="question"}
-		<a href="@{Admin.restoreQuestion(post.getId(), oldPost.getContent(), oldPost.getTags())}">restore</a>
+		<hr />
+		#{question question:oldPost /}
+		<p style align="right">
+		<a href="@{Admin.restoreQuestion(post.getId(), oldPost.getContent(), oldPost.getTags())}">restore</a></p>
 	#{/if}
-	#{else} 
-		<a href="@{Admin.restoreAnswer(post.getId(), oldPost.getContent())}">restore</a>	
+	#{else}
+		<p style align="right">
+		<a href="@{Admin.restoreAnswer(post.getId(), oldPost.getContent())}">restore</a></p>
+		#{answer answer:oldPost /} 
 	#{/else}
 	<br/>
 #{/list}
