@@ -7,7 +7,8 @@ body {
 
 a {
 	color:#000;
-	text-decoration:none;
+	text-decoration: none;
+	font-weight: bold;
 }
 
 img {
@@ -19,16 +20,7 @@ img {
 	font-family: Georgia, serif;
 	margin: .2em 0 .2em 0;
 	border-bottom: thin solid #D460CF;
-	text-align:right;
-}
-
-h2 {
-}
-
-h3 {
-}
-
-h4 {
+	text-align: right;
 }
 
 td {
@@ -92,6 +84,25 @@ div.answer_text {
 	border-top: thin solid #FFF100;
 	border-bottom: thin solid #FFF100;
 }
+
+div.short_post {
+	border-radius: 7px;
+	background: #9BF33D;
+	border: medium solid #78E700;
+	margin: .5em 0 .5em 0;
+	padding: .2em .5em .2em .5em;
+}
+
+div.short_post_text {
+	width: 70%;
+}
+div.short_post_info {
+	width: 30%;
+	font-size: smaller;
+	float: right;
+	text-align: right;
+}
+
 
 p.comment_text {
 	border-radius: 7px;

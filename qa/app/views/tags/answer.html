@@ -10,7 +10,7 @@
 
 		#{if _question.ownerIs(session.uid) && _question.bestAnswerChangeable() && !_answer.isBestAnswer()}
 		<a href="/question/${_question.getId()}/setbestanswer/${_answer.getId()}">
-		<span class="bestanswer_select">Select as best answer</span>
+			<span class="bestanswer_select">Select as best answer</span>
 		</a>
 		#{/if}
 
@@ -20,7 +20,7 @@
 
 		#{votebox post:_answer, mode:'answer', question:_question /}
 
-		
+
 		#{if _answer.ownerIs(session.uid) && session.uid}
 		<a href="@{Admin.showEditAnswerForm(_answer.getId(), _question.getId())}">edit answer</a> |
 		#{/if}

@@ -4,15 +4,13 @@
 	<span class="date">Posted ${_question.getTimePassedSincePosting()}</span>
 
 	<div class="question_text">
-		<a href="@{Application.showAnswers(_question.getId())}" />
-			${_question.getHtml().raw()}
-		</a>
+		${_question.getHtml().raw()}
 	</div>
 
 	#{votebox post:_question, mode:'question' /}
 
 	#{tagbox post:_question /}
-	
+
 	#{if session.uid && _question.ownerIs(session.uid)}
 	<a href="@{Admin.showEditQuestionForm(_question.getId())}">edit question</a> |
 	#{/if}
