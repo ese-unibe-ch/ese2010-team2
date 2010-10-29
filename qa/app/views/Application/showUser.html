@@ -1,7 +1,13 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Home' /}
+
 <h2>${profileOwner.getName()}</h2>
 #{avatar user:profileOwner /}
+
+<fieldset>
+<a href="@{Application.showUserProfile()}">edit Profile</a>
+</fieldset>
+
 <fieldset>
 About me<hr/>
 Birthdate: ${profileOwner.getBirthdate()}<br>
@@ -10,6 +16,7 @@ Background: ${profileOwner.getBackground()}<br>
 Hobbies: ${profileOwner.getHobbies()}<br>
 Quote: ${profileOwner.getQuote()}<br>
 </fieldset>
+
 <fieldset>
 Contact Information<hr/>
 Town: ${profileOwner.getTown()}<br>
@@ -17,6 +24,7 @@ Street: ${profileOwner.getStreet()}<br>
 Phone: ${profileOwner.getPhone()}<br>
 E-Mail: ${profileOwner.getEmail()}<br>
 </fieldset>
+
 Current Reputation: ${profileOwner.getScore()}<br>
 <img src="http://chart.apis.google.com/chart
 	?chxt=y

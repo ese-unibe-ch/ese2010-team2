@@ -227,7 +227,7 @@ public class Application extends Controller {
 		}
 
 		if (name.equals("")) {
-			redirect("/");
+			redirect("/showUser/" + session.get("username"));
 		} else {
 			Secure.logout();
 		}

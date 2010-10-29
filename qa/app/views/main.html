@@ -42,7 +42,7 @@
                 <a href="@{Admin.showQuestionForm()}">add new Question</a> |
                 <a href="@{Application.showRecentQuestionsByNumber()}">newest questions</a> |
                 <a href="@{Admin.showUserLog(session.get("username"))}">show my activities</a>  |
-                <a href="@{Application.showUserProfile()}">edit user profile</a> |
+                <a href="@{Application.showUser(session.get("username"))}">my profile</a> |
                 <a href="@{Application.showState()}">statistics</a>
             </div>
             #{/if}
