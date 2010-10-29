@@ -1,0 +1,14 @@
+<div class="short_post">
+    <div class="short_post_info">
+        Posted ${_post.getTimePassedSincePosting()}
+        <br />
+        by ${_post.getOwner()}
+        <br />
+    </div>
+
+    <div class="short_post_text">
+        <a href="/question/${_post.getQuestionId()}/answers/">
+        ${_post.getHtml().raw()}
+        </a>
+    </div>
+</div>

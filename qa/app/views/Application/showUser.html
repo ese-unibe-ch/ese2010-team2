@@ -66,11 +66,21 @@ Current Reputation: ${profileOwner.getScore()}<br>
 	width="700" height="225" 
 	alt="Reputation over Time" />
 	
+	#{if userQuestions}
 	<fieldset>
 	My questions<hr/>
+	#{list items:userQuestions, as:'question'}
+	#{short_post post:question /}
+	#{/list}
 	</fieldset>
+	#{/if}
 	
+	#{if userAnswers}
 	<fieldset>
 	My answers<hr/>
+	#{list items:userAnswers, as:'answer'}
+	#{short_answer post:answer /}
+	#{/list}
 	</fieldset>
+	#{/if}
 

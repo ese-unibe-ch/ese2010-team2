@@ -150,7 +150,9 @@ public class Application extends Controller {
 		User profileOwner = manager.getUserByName(userName);
 		ArrayList<Integer> reputations = manager.getReputations(profileOwner,
 				30);
-		render(profileOwner, reputations);
+		ArrayList<Question> userQuestions = manager.getQuestionsByUserIdSortedByDate(profileOwner.getId());
+		ArrayList<Answer> userAnswers = manager.getAnswersByUserIdSortedByDate(profileOwner.getId());
+		render(profileOwner, reputations, userQuestions, userAnswers);
 	}
 
 	/**
