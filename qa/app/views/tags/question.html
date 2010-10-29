@@ -1,7 +1,7 @@
 <div class="question">
 	#{userbox user:_question.getOwner() /}
 
-	<span class="date">Posted on ${_question.getDate()}</span>
+	<span class="date">Posted ${_question.getTimePassedSincePosting()}</span>
 
 	<div class="question_text">
 		<a href="@{Application.showAnswers(_question.getId())}" />
@@ -12,13 +12,28 @@
 	#{votebox post:_question, mode:'question' /}
 
 	#{tagbox post:_question /}
-	
+
 	#{if session.uid}
 	<a href="@{Admin.showEditQuestionForm(_question.getId())}">edit question</a> |
 	#{/if}
-	
+
 	#{if session.uid}
 	<a href="@{Admin.showQuestionCommentForm(_question.getId())}">write comment</a>
 	#{/if}
-		
+
+</div>
+<div class="comments">
+	<h3>Comments to this answer</h3>
+
+	#{list items:_question.getComments(), as:'comment'}
+	<div class="comment">
+		Posted <strong>${comment.getTimePassedSincePosting()}</strong> by <strong>${comment.getOwner()}</strong>
+		<p class="comment_text">${comment.getContent()}</p>
+	</div>
+
+		#{if session.uid}
+		<a href="@{Admin.showEditCommentForm(0, _question.getId(), comment.getId())}">edit comment</a>
+		#{/if}
+
+	#{/list}
 </div>

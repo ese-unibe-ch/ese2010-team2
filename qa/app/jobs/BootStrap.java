@@ -2,6 +2,7 @@ package jobs;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -34,7 +35,8 @@ public class BootStrap extends Job {
 	// post.rateDown(user);
 
 	public void doJob() {
-
+		Calendar cal = Calendar.getInstance();
+		
 		log.info("fill Model with test-data");
 
 		User user = new User("admin", "admin@admin.ch", "admin");
@@ -49,6 +51,9 @@ public class BootStrap extends Job {
 			// 5 questions per user
 			for (int j = 1; j <= questionsPerUser; j++) {
 				Post q = new Question(true, "question " + j, u);
+				cal.add(Calendar.DAY_OF_MONTH, -random.nextInt(380));
+				q.setDate(cal.getTime());
+				cal.setTime(new Date());
 			}
 		}
 
@@ -101,6 +106,9 @@ public class BootStrap extends Job {
 			if (i++ % 2 == 0) {
 				User u = manager.getUsers().get(0);
 				Answer a = new Answer(true, "answer " + i, u, q);
+				cal.add(Calendar.DAY_OF_MONTH, -random.nextInt(380));
+				a.setDate(cal.getTime());
+				cal.setTime(new Date());
 			} else {
 				q.vote(-1);
 			}

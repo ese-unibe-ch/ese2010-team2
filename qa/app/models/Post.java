@@ -93,6 +93,59 @@ public abstract class Post {
 	public Date getDate() {
 		return date;
 	}
+	
+	/**
+	 * Gives an approximative measure of the amount of time passed since
+	 * this post has been created. 
+	 * 
+	 * The measure is given using the largest time unit where the amount 
+	 * is >= 1. I.e. if it was posted 9 months and 3 weeks ago, the measure will 
+	 * be "about 9 months ago". 1 week, 5 days => "about 1 week ago".   
+	 * 
+	 * @return String representing the time difference
+	 */
+	public String getTimePassedSincePosting() {
+		final long SECONDS_IN_A_DAY = 60*60*24;
+		long posted = date.getTime();
+		long now = new Date().getTime();
+		long diff = now - posted;
+		diff /= 1000; // convert to seconds
+		
+		StringBuffer s = new StringBuffer();
+		
+		s.append("about ");
+		
+		if ( diff < 60 ) {
+			s.append(diff + " seconds ");
+		} else if ( diff > 60 && diff < 60 * 60 ) {
+			long minutes = diff / 60;
+			s.append(minutes);
+			s.append(minutes > 1 ? " minutes " : " minute ");
+		} else if ( diff >= 60 * 60 && diff < SECONDS_IN_A_DAY ) {
+			long hours = diff / (60*60);
+			s.append(hours);
+			s.append(hours > 1 ? " hours " : " hour ");
+		} else if ( diff >= SECONDS_IN_A_DAY && diff < SECONDS_IN_A_DAY * 7 ) {
+			long days = diff / SECONDS_IN_A_DAY;
+			s.append(days);
+			s.append(days > 1 ? " days " : " day ");
+		} else if ( diff >= SECONDS_IN_A_DAY * 7 && diff < SECONDS_IN_A_DAY * 30 ) {
+			long weeks = diff / (SECONDS_IN_A_DAY * 7);
+			s.append(weeks);
+			s.append(weeks > 1 ? " weeks " : " week ");
+		} else if ( diff >= SECONDS_IN_A_DAY * 30 && diff < SECONDS_IN_A_DAY * 365 ) {
+			long months = diff / (SECONDS_IN_A_DAY * 30);
+			s.append(months);
+			s.append(months > 1 ? " months " : " month ");
+		} else {
+			long years = diff / (SECONDS_IN_A_DAY * 365);
+			s.append(years);
+			s.append(years > 1 ? " years " : " year ");
+		}
+		
+		s.append("ago");
+		return s.toString();
+	}
 
 	public String getContent() {
 		return content;
@@ -116,11 +169,8 @@ public abstract class Post {
 		this.id = id;
 	}
 
-	public void setDate(String timeStamp) throws ParseException {
-		DateFormat formatter;
-		formatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss.SSS");
-
-		this.date = formatter.parse(timeStamp); 
+	public void setDate(Date date) {
+		this.date = date; 
 	}
 
 	/**
