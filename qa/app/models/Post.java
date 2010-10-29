@@ -105,6 +105,10 @@ public abstract class Post {
 	public ArrayList<Post> getOldVersions(){
 		return this.oldVersions;
 	}
+	
+	public ArrayList<User> getEditors(){
+		return this.editedBy;
+	}
 
 	/** Setter methods */
 	protected void setContent(String content, String uname) {
