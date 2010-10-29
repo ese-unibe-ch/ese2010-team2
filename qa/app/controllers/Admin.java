@@ -31,17 +31,15 @@ public class Admin extends Controller {
 
 	public static void showEditQuestionForm(int qid) {
 		Post question = manager.getQuestionById(qid);
-		if (session.get("username") == question.getOwner().getName()) {
-			render(question, qid);
-		} else {
-			String message = "you're not allowed to edit this post!";
-			render(question, qid, message);
-		}
+		String message = "you're not allowed to edit this post!";
+		render(question, qid, message);
 	}
 
-	public static void showEditCommentForm(int aid, int qid, int cid) {
-		Comment comment = manager.getCommentById(cid);
-		render(comment, aid, qid);
+	public static void showEditAnswerCommentForm(int aid, int qid, int cid){
+		Comment comment = manager.getComments().get(cid);
+		String CommentContent = manager.getComments().get(cid).getContent();
+		String message = "you're not allowed to edit this post!";
+		render(comment, aid, qid, cid, message, CommentContent);
 	}
 
 	/**
@@ -51,8 +49,7 @@ public class Admin extends Controller {
 	 * @param newContent
 	 */
 
-	public static void editComment(Comment comment, int qid, int cid,
-			String newContent) {
+	public static void editComment(Comment comment, int qid, int cid, String newContent) {
 		comment.setContent(newContent, session.get("Username"));
 		redirect("/question/" + qid + "/answers/");
 	}
@@ -61,28 +58,19 @@ public class Admin extends Controller {
 	 * Sets the content of the question to the new value
 	 * 
 	 * @param qid
-	 * @param newContent
+	 * @param newContentQuestion
+	 * @param newContentTag
 	 */
-	public static void editQuestion(int qid, String newContentQuestion,
-			String newContentTag) {
+	public static void editQuestion(int qid, String newContentQuestion, String newContentTag) {
 		manager.getQuestionById(qid).addVersion(newContentQuestion,
 				newContentTag, session.get("username"));
-		// manager.getQuestionById(qid).getTags().clear();
-		// manager.getQuestionById(qid).setContent(newContentQuestion,
-		// session.get("username"));
-		// manager.getQuestionById(qid).addTags(newContentTag);
 		redirect("/question/" + qid + "/answers/");
 	}
 
 	public static void showEditAnswerForm(int answerId, int qid) {
 		Answer answer = manager.getAnswerById(answerId);
-		if (session.get(answer.getOwner().getName()) == answer.getOwner()
-				.getName()) {
-			render(answer, answerId, qid);
-		} else {
-			String message = "you're not allowed to edit this post!";
-			render(answer, answerId, qid, message);
-		}
+		String message = "you're not allowed to edit this post!";
+		render(answer, answerId, qid, message);
 	}
 
 	/**
@@ -91,11 +79,7 @@ public class Admin extends Controller {
 	 * @param answerId
 	 * @param newContent
 	 */
-	public static void editAnswer(int answerId, int qid, String newContent,
-			User user) {
-		// manager.getAnswerById(answerId).setContent(newContent,
-		// session.get("username"));
-
+	public static void editAnswer(int answerId, int qid, String newContent, User user) {
 		manager.getAnswerById(answerId).addVersion(newContent,
 				session.get("username"));
 		redirect("/question/" + qid + "/answers/");

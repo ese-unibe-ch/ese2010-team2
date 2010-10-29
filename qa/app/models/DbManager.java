@@ -215,9 +215,9 @@ public class DbManager {
 	 *        - the comment with the id #id
 	 */
 	public Comment getCommentById(int id){
-		for (Comment comment : comments)
-			if (comment.getId() == id)
-				return comment;
+		for (Comment c_comment : comments)
+			if (c_comment.getId() == id)
+				return c_comment;
 		return null;
 	}
 

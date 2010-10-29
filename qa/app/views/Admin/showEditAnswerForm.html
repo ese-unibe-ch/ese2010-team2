@@ -1,19 +1,21 @@
 #{extends 'main.html' /}
-#{set title:'ESE KB - Edit answer' /}
+#{set title:'ESE KB - Edit question' /}
 <a href="javascript:history.back()">back</a>
 #{if answer.ownerIs(session.uid)}
-<h2>Edit answer:</h2>
-<form action="@{Admin.editAnswer(answer.getId(), qid)}" method="GET">
- <table>
+<fieldset>
+ <legend>Edit answer:</legend>
+	<form action="@{Admin.editAnswer(answer.getId(), qid)}" method="GET">
+	<table>
 		<tr>
-			<td><textarea id="newContent" name="newContent">${answer.getContent()}</textarea></td>
+			<td>Answer:</td>
+				<td><textarea id="newContent" name="newContent" cols="70" rows="5">${answer.getContent()}</textarea></td>
 		</tr>
-		<tr>
 			<td></td>
 			<td><input type="submit" value="Save!" /></td>
 		</tr>
 	</table>
-</form>
+	</form>
+</fieldset>
 #{/if}
 #{else}<h4>${message}</h4>
 #{/else}
