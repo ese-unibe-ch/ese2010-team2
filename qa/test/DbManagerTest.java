@@ -140,7 +140,47 @@ public class DbManagerTest extends UnitTest {
 		assertEquals(answer1, manager
 				.getAnswersSortedByScore(question1.getId()).get(3));
 	}
-
+	
+	@Test
+	public void shouldGetQuestionsSortedByDate() {
+		Question firstQuestion = new Question(true, "", admin);
+		Question secondQuestion = new Question(true, "", admin);
+		ArrayList<Question> list = manager.getQuestionsSortedByDate();
+		assertTrue(list.indexOf(firstQuestion) < list.indexOf(secondQuestion));
+	}
+	
+	@Test
+	public void shouldGetAnswersSortedByDate() {
+		Question question = new Question(true,"",admin);
+		Answer firstAnswer = new Answer(true, "", admin, question);
+		Answer secondAnswer = new Answer(true, "", admin, question);
+		ArrayList<Answer> list = manager.getAnswersSortedByDate();
+		assertTrue(list.indexOf(firstAnswer) < list.indexOf(secondAnswer));
+	}
+	
+	@Test
+	public void shouldGetQuestionsByUserSortedByDate() {
+		User user = new User("", "", "");
+		Question firstQuestion = new Question(true, "", user);
+		Question secondQuestion = new Question(true, "", user);
+		ArrayList<Question> list = manager.getQuestionsByUserIdSortedByDate(user.getId());
+		assertEquals(2,list.size());
+		assertEquals(firstQuestion,list.get(0));
+		assertEquals(secondQuestion,list.get(1));
+	}
+	
+	@Test
+	public void shouldGetAnswersByUserSortedByDate() {
+		User user = new User("", "", "");
+		Question question = new Question(true,"",admin);
+		Answer firstAnswer = new Answer(true, "", user, question);
+		Answer secondAnswer = new Answer(true, "", user, question);
+		ArrayList<Answer> list = manager.getAnswersByUserIdSortedByDate(user.getId());
+		assertEquals(2,list.size());
+		assertEquals(firstAnswer,list.get(0));
+		assertEquals(secondAnswer,list.get(1));
+	}
+	
 	@Test
 	public void shouldGetVotablesByUser() {
 		Question question1 = new Question(true, "question1", admin);
