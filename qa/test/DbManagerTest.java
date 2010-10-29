@@ -345,6 +345,17 @@ public class DbManagerTest extends UnitTest {
     public void shouldntFindUserToDelete() {
     	manager.deleteUser("userDoesNotExist");
     }
+    
+    @Test
+    public void shouldAnonymizeEditedByList(){
+    	User u1= new User("u1","u@u","u");
+    	User u2= new User("u2","u@u","u");
+    	Question q= new Question("question", u1);
+    	q.addVersion("question edited", "", "u2");
+    	manager.deleteUser("u2");
+    	assertFalse(!q.getEditors().contains(u2));
+    	
+    }
 
 
 	@After

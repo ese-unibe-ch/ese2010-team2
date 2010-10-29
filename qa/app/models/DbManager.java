@@ -30,7 +30,7 @@ public class DbManager {
 
 	/** All tags that have been used so far. */
 	private static ArrayList<String> tags;
-	
+
 	private static ArrayList[] reputations;
 
 	/** 4 Counters for the Id's */
@@ -67,6 +67,7 @@ public class DbManager {
 		reputations[0] = new ArrayList<User>();
 		reputations[1] = new ArrayList<Date>();
 		reputations[2] = new ArrayList<Integer>();
+		User anonymousUser= new User("anonymous", "a@nonymous", "anonymous");
 	}
 
 	/**
@@ -110,22 +111,35 @@ public class DbManager {
 	 * 
 	 * @param - The username of the user to be deleted as a string object.
 	 */
-	public void deleteUser(String username){
-		if(!DbManager.users.contains(this.getUserByName(username)))
+	public void deleteUser(String username) {
+		if (!DbManager.users.contains(this.getUserByName(username)))
 			throw new NoSuchElementException();
-		
-		User deleteUser= getUserByName(username);
-		
-		ArrayList<Question> updatedQuestions= new ArrayList<Question>();
-		ArrayList<Answer> updatedAnswers= new ArrayList<Answer>();
+
+		User deleteUser = getUserByName(username);
+
+		ArrayList<Question> updatedQuestions = new ArrayList<Question>();
+		ArrayList<Answer> updatedAnswers = new ArrayList<Answer>();
 		ArrayList<Comment> updatedComments = new ArrayList<Comment>();
 		users.remove(deleteUser);
-		
+
 		// Delete all questions a user added
 		for (Question q : DbManager.questions) {
 			if (!q.getOwner().equals(deleteUser))
 				updatedQuestions.add(q);
 		}
+
+		// Anonymize all questions a user edited
+		for (Post p : updatedQuestions) {
+			p.editedBy.clear();
+			p.editedBy.addAll(anonymize(username, p.editedBy));
+		}
+
+		// Anonymize all answers a user edited
+		for (Post p : updatedAnswers) {
+			p.editedBy.clear();
+			p.editedBy.addAll(anonymize(username,p.editedBy));
+		}
+
 		DbManager.questions.clear();
 		DbManager.questions.addAll(updatedQuestions);
 
@@ -144,6 +158,28 @@ public class DbManager {
 		}
 		DbManager.comments.clear();
 		DbManager.comments.addAll(updatedComments);
+	}
+
+	/**
+	 * Anonymizes the edited by-list by removing the deleted user and adding an
+	 * anonymous user.
+	 * 
+	 * @param uname
+	 *            - The username of the user to be deleted
+	 * @param list
+	 *            - The list to be anonymized
+	 * @return - The anonymized list
+	 */
+	private ArrayList<User> anonymize(String uname, ArrayList<User> list) {
+		ArrayList<User> updatedEditedBy = new ArrayList<User>();
+		for (User u : list) {
+			if (!u.getName().equals(uname)) {
+				updatedEditedBy.add(u);
+			}
+		}
+		if (list.contains(getUserByName(uname)))
+			updatedEditedBy.add(getUserByName("anonymous"));
+		return updatedEditedBy;
 	}
 
 	/**
@@ -205,14 +241,13 @@ public class DbManager {
 				return answer;
 		return null;
 	}
-	
+
 	/**
 	 * Get the comment with a certain id.
 	 * 
 	 * @param id
-	 *        - the id of the comment you are looking for
-	 * @return
-	 *        - the comment with the id #id
+	 *            - the id of the comment you are looking for
+	 * @return - the comment with the id #id
 	 */
 	public Comment getCommentById(int id){
 		for (Comment c_comment : comments)
@@ -229,8 +264,9 @@ public class DbManager {
 	public ArrayList<Question> getQuestionsSortedByScore() {
 		ArrayList<Question> sortedQuestions = questions;
 
-		Collections.sort(sortedQuestions, Collections.reverseOrder(new ScoreComparator()));
-		
+		Collections.sort(sortedQuestions, Collections
+				.reverseOrder(new ScoreComparator()));
+
 		return sortedQuestions;
 	}
 
@@ -244,7 +280,8 @@ public class DbManager {
 	public ArrayList<Answer> getAnswersSortedByScore(int id) {
 		ArrayList<Answer> sortedAnswers = this.getAllAnswersByQuestionId(id);
 
-		Collections.sort(sortedAnswers, Collections.reverseOrder(new ScoreComparator()));
+		Collections.sort(sortedAnswers, Collections
+				.reverseOrder(new ScoreComparator()));
 
 		return sortedAnswers;
 	}
@@ -435,7 +472,7 @@ public class DbManager {
 		this.answerIdCounter = 0;
 		this.commentIdCounter = 0;
 	}
-	
+
 	/**
 	 * Saves a reputation from a specific user and day
 	 */
@@ -444,7 +481,7 @@ public class DbManager {
 		reputations[1].add(time);
 		reputations[2].add(reputation);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public int getReputationByUserAndDate(User user, Date date) {
 		int result = 0;
@@ -453,22 +490,23 @@ public class DbManager {
 		for (int i = 0; i < reputations[0].size(); i++) {
 			currentUser = (User) reputations[0].get(i);
 			currentDate = (Date) reputations[1].get(i);
-			if (user.equals(currentUser ) && ((date.getYear() == currentDate.getYear()) && 
-												(date.getMonth() == currentDate.getMonth()) &&
-												(date.getDate() == currentDate.getDate()))) 
-			{
+			if (user.equals(currentUser)
+					&& ((date.getYear() == currentDate.getYear())
+							&& (date.getMonth() == currentDate.getMonth()) && (date
+							.getDate() == currentDate.getDate()))) {
 				result = (Integer) reputations[2].get(i);
 			}
 		}
 		return result;
 	}
-	
+
 	public ArrayList<Integer> getReputations(User user, int days) {
 		ArrayList<Integer> currentReputations = new ArrayList<Integer>();
 		Date currentDay = new Date();
 		for (int i = 0; i < days; i++) {
 			currentDay.setTime(currentDay.getTime() - 86400000);
-			currentReputations.add(this.getReputationByUserAndDate(user, currentDay));
+			currentReputations.add(this.getReputationByUserAndDate(user,
+					currentDay));
 		}
 		return currentReputations;
 	}

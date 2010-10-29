@@ -1,23 +1,23 @@
-02:03:18,288 INFO  ~ Starting /home/alexander/ESE/ese2010-team2/qa
-02:03:18,291 INFO  ~ Module secure is available (/home/alexander/frameworks/play-1.0.3.2/modules/secure)
-02:03:18,291 INFO  ~ Module cobertura is available (/home/alexander/frameworks/play-1.0.3.2/modules/cobertura-2.0)
-02:03:18,825 WARN  ~ Actually play.tmp is set to null. Set it to play.tmp=none
-02:03:18,828 INFO  ~ 
-02:03:18,829 INFO  ~ Go to http://localhost:9000/@tests to run the tests
-02:03:18,829 INFO  ~ 
-02:03:18,829 WARN  ~ You're running Play! in DEV mode
-02:03:18,894 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
+14:11:38,104 INFO  ~ Starting /home/alexander/ESE/ese2010-team2/qa
+14:11:38,107 INFO  ~ Module secure is available (/home/alexander/frameworks/play-1.0.3.2/modules/secure)
+14:11:38,107 INFO  ~ Module cobertura is available (/home/alexander/frameworks/play-1.0.3.2/modules/cobertura-2.0)
+14:11:38,657 WARN  ~ Actually play.tmp is set to null. Set it to play.tmp=none
+14:11:38,661 INFO  ~ 
+14:11:38,661 INFO  ~ Go to http://localhost:9000/@tests to run the tests
+14:11:38,661 INFO  ~ 
+14:11:38,661 WARN  ~ You're running Play! in DEV mode
+14:11:38,726 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
 Cobertura: Saved information on 23 classes.
-02:03:21,166 INFO  ~ Connected to jdbc:hsqldb:mem:playembed
-02:03:21,225 INFO  ~ Application 'qa' is now started !
-02:03:21,244 INFO  ~ fill Model with test-data
-02:03:25,791 INFO  ~ Cobertura plugin: generating test coverage report
+14:11:43,274 INFO  ~ Connected to jdbc:hsqldb:mem:playembed
+14:11:43,332 INFO  ~ Application 'qa' is now started !
+14:11:43,351 INFO  ~ fill Model with test-data
+14:11:48,525 INFO  ~ Cobertura plugin: generating test coverage report
 Cobertura: Loaded information on 23 classes.
 Cobertura: Saved information on 23 classes.
 Cobertura 1.9.2 - GNU GPL License (NO WARRANTY) - See COPYRIGHT file
 Cobertura: Loaded information on 23 classes.
-Report time: 334ms
+Report time: 417ms
 Cobertura 1.9.2 - GNU GPL License (NO WARRANTY) - See COPYRIGHT file
 Cobertura: Loaded information on 23 classes.
-Report time: 205ms
-02:03:28,332 INFO  ~ Test coverage report has been generated: file:/home/alexander/ESE/ese2010-team2/qa/test-result/code-coverage/index.html
+Report time: 225ms
+14:11:51,170 INFO  ~ Test coverage report has been generated: file:/home/alexander/ESE/ese2010-team2/qa/test-result/code-coverage/index.html
