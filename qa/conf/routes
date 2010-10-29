@@ -21,7 +21,7 @@ GET                /question/{id}/answers/                          	  Applicati
 GET                /showState                                       	  Application.showState
 GET                /users                                           	  Admin.showUsers
 GET                /register                                        	  Application.register
-GET                /edit_AnswerComment			  				  		  Admin.showEditAnswerCommentForm
+GET                /question/{qid}/edit_Comment			  				  Admin.showEditCommentForm
 GET                /question/{qid}/answer/{aid}/edit_AnswerComment/{cid}  Admin.editComment
 GET                /question/{qid}/editQuestion                     	  Admin.editQuestion
 GET                /question/{qid}/editAnswer/{answerId}            	  Admin.editAnswer

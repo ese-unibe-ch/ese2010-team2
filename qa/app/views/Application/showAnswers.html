@@ -5,6 +5,21 @@
 
 <h2>Question #${question.getId()}</h2>
 #{question question:question /}
+#{if question.getComments().size()!=0}
+<div class="comments">
+		<h3>Comments to this question</h3>
+
+		#{list items:question.getComments(), as:'comment'}
+		<div class="comment">
+			Posted on <strong>${comment.getDate()}</strong> by <strong>${comment.getOwner()}</strong>
+			<p class="comment_text">${comment.getContent()}</p>
+		</div>
+			#{if session.uid && comment.ownerIs(session.uid)}
+			<a href="@{Admin.showEditCommentForm(question.getId(), comment.getId())}">edit comment</a>
+			#{/if}
+		#{/list}
+</div>
+#{/if}
 
 
 <h2>Answers</h2>

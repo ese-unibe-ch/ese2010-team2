@@ -67,7 +67,7 @@ public class DbManager {
 		reputations[0] = new ArrayList<User>();
 		reputations[1] = new ArrayList<Date>();
 		reputations[2] = new ArrayList<Integer>();
-		User anonymousUser= new User("anonymous", "a@nonymous", "anonymous");
+		//User anonymousUser= new User("anonymous", "a@nonymous", "anonymous");
 	}
 
 	/**

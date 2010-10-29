@@ -13,7 +13,7 @@
 
 	#{tagbox post:_question /}
 	
-	#{if session.uid}
+	#{if session.uid && _question.ownerIs(session.uid)}
 	<a href="@{Admin.showEditQuestionForm(_question.getId())}">edit question</a> |
 	#{/if}
 	

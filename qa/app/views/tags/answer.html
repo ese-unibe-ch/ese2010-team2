@@ -20,7 +20,8 @@
 
 		#{votebox post:_answer, mode:'answer', question:_question /}
 
-		#{if session.uid}
+		
+		#{if _answer.ownerIs(session.uid) && session.uid}
 		<a href="@{Admin.showEditAnswerForm(_answer.getId(), _question.getId())}">edit answer</a> |
 		#{/if}
 		
@@ -28,6 +29,7 @@
 		<a href="@{Admin.showAnswerCommentForm(_answer.getId(), _question.getId())}">write comment</a>
 		#{/if}
 </div>
+	#{if _answer.getComments().size()>0}
 	<div class="comments">
 		<h3>Comments to this answer</h3>
 
@@ -36,10 +38,11 @@
 			Posted on <strong>${comment.getDate()}</strong> by <strong>${comment.getOwner()}</strong>
 			<p class="comment_text">${comment.getContent()}</p>
 		</div>
-			#{if session.uid}
-			<a href="@{Admin.showEditAnswerCommentForm(_answer.getId(), _question.getId(), comment.getId())}">edit comment</a>
+			#{if session.uid && comment.ownerIs(session.uid)}
+			<a href="@{Admin.showEditCommentForm(_question.getId(), comment.getId())}">edit comment</a>
 			#{/if}
 		#{/list}
 		
 	</div>
+	#{/if}
 

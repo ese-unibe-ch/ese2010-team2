@@ -2,12 +2,12 @@
 #{set title:'ESE KB - Edit question' /}
 <a href="javascript:history.back()">back</a>
 <fieldset>
- <legend>Edit answer:</legend>
-	<form action="@{Admin.editAnswer(answer.getId(), qid)}" method="GET">
+ <legend>Edit comment:</legend>
+	<form action="@{Admin.editComment(c_comment, qid, cid)}" method="GET">
 	<table>
 		<tr>
-			<td>Answer:</td>
-				<td><textarea id="newContent" name="newContent" cols="70" rows="5">${answer.getContent()}</textarea></td>
+			<td>Comment:</td>
+				<td><textarea id="newContent" name="newContent" cols="70" rows="5">${CommentContent}</textarea></td>
 		</tr>
 			<td></td>
 			<td><input type="submit" value="Save!" /></td>
