@@ -24,22 +24,21 @@ public class Admin extends Controller {
 
 	private static Calendar calendar = Calendar.getInstance();
 
-	public static void showQuestionForm(String newQuestion, String tags,
-			String message) {
-		render(newQuestion, tags, message);
-	}
-
 	public static void showEditQuestionForm(int qid) {
 		Post question = manager.getQuestionById(qid);
-		String message = "you're not allowed to edit this post!";
-		render(question, qid, message);
+		render(question, qid);
 	}
 
-	public static void showEditAnswerCommentForm(int aid, int qid, int cid){
-		Comment comment = manager.getComments().get(cid);
-		String CommentContent = manager.getComments().get(cid).getContent();
-		String message = "you're not allowed to edit this post!";
-		render(comment, aid, qid, cid, message, CommentContent);
+
+	public static void showEditAnswerForm(int answerId, int qid) {
+		Answer answer = manager.getAnswerById(answerId);
+		render(answer, answerId, qid);
+	}
+	
+	public static void showEditCommentForm(int qid, int cid){
+		Comment c_comment = manager.getCommentById(cid);
+		String CommentContent = manager.getCommentById(cid).getContent();
+		render(c_comment, qid, cid, CommentContent);
 	}
 
 	/**
@@ -67,12 +66,6 @@ public class Admin extends Controller {
 		redirect("/question/" + qid + "/answers/");
 	}
 
-	public static void showEditAnswerForm(int answerId, int qid) {
-		Answer answer = manager.getAnswerById(answerId);
-		String message = "you're not allowed to edit this post!";
-		render(answer, answerId, qid, message);
-	}
-
 	/**
 	 * Sets the content of the answer to the new value
 	 * 
@@ -83,6 +76,11 @@ public class Admin extends Controller {
 		manager.getAnswerById(answerId).addVersion(newContent,
 				session.get("username"));
 		redirect("/question/" + qid + "/answers/");
+	}
+	
+	public static void showQuestionForm(String newQuestion, String tags,
+			String message) {
+		render(newQuestion, tags, message);
 	}
 
 	public static void showQuestionCommentForm(String qid) {

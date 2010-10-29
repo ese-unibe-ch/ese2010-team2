@@ -1,7 +1,6 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Edit question' /}
 <a href="javascript:history.back()">back</a>
-#{if question.ownerIs(session.uid)}
 <fieldset>
  <legend>Edit question:</legend>
 	<form action="@{Admin.editQuestion(question.getId())}" method="GET">
@@ -21,6 +20,3 @@
 	</table>
 	</form>
 </fieldset>
-#{/if}
-#{else}<h4>${message}</h4>
-#{/else}

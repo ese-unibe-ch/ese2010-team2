@@ -12,8 +12,8 @@
 	#{votebox post:_question, mode:'question' /}
 
 	#{tagbox post:_question /}
-
-	#{if session.uid}
+	
+	#{if session.uid && _question.ownerIs(session.uid)}
 	<a href="@{Admin.showEditQuestionForm(_question.getId())}">edit question</a> |
 	#{/if}
 
@@ -22,6 +22,7 @@
 	#{/if}
 
 </div>
+#{if _question.getComments().size > 0}
 <div class="comments">
 	<h3>Comments to this answer</h3>
 
@@ -31,9 +32,10 @@
 		<p class="comment_text">${comment.getContent()}</p>
 	</div>
 
-		#{if session.uid}
-		<a href="@{Admin.showEditCommentForm(0, _question.getId(), comment.getId())}">edit comment</a>
-		#{/if}
+	#{if session.uid && comment.ownerIs(session.uid)}
+	<a href="@{Admin.showEditCommentForm(0, _question.getId(), comment.getId())}">edit comment</a>
+	#{/if}
 
 	#{/list}
 </div>
+#{/if}
