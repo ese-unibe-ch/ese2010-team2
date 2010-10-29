@@ -285,6 +285,36 @@ public class DbManager {
 
 		return sortedAnswers;
 	}
+	
+	/**
+	 * Gets all answers sorted by date.
+	 * 
+	 * @return - all answers sorted by date.
+	 */
+	public ArrayList<Answer> getAnswersSortedByDate() {
+		ArrayList<Answer> sortedAnswers = this.getAnswers();
+
+		Collections.sort(sortedAnswers, new DateComparator());
+
+		return sortedAnswers;
+	}
+	
+	/**
+	 * Gets all answers from a specific user sorted by Date
+	 * 
+	 * @param userId - the users id
+	 * 
+	 * @return - sorted Answers
+	 */
+	public ArrayList<Answer> getAnswersByUserIdSortedByDate(int userId) {
+		ArrayList<Answer> usersAnswers = new ArrayList<Answer>();
+		ArrayList<Answer> sortedAnswers = this.getAnswersSortedByDate();
+		for (Answer currentAnswer : sortedAnswers) {
+			if (currentAnswer.ownerIs(userId))
+				usersAnswers.add(currentAnswer);
+		}
+		return usersAnswers;
+	}
 
 	/**
 	 * Gets all questions sorted by date.
@@ -309,6 +339,23 @@ public class DbManager {
 		Collections.sort(sortedQuestions, new ChangedDateComparator());
 
 		return sortedQuestions;
+	}
+	
+	/**
+	 * Gets all questions from a specific user sorted by Date
+	 * 
+	 * @param userId - the id of the user, the questions are from
+	 * 
+	 * @return - sorted Questions
+	 */
+	public ArrayList<Question> getQuestionsByUserIdSortedByDate(int userId) {
+		ArrayList<Question> usersQuestions = new ArrayList<Question>();
+		ArrayList<Question> sortedQuestions = this.getQuestionsSortedByDate();
+		for (Question currentQuestion : sortedQuestions) {
+			if (currentQuestion.ownerIs(userId))
+				usersQuestions.add(currentQuestion);
+		}
+		return usersQuestions;
 	}
 
 	/**
