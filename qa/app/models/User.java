@@ -22,7 +22,7 @@ public class User {
 	private LinkedList<Integer> reputations = new LinkedList<Integer>();
 	
 	/** The last time reputations were updated */
-	private Date lastReputationsUpdate;
+	private Date lastReputationUpdate;
 
 	/** The group the user belongs to. */
 	private UserGroups userGroup;
@@ -58,7 +58,7 @@ public class User {
 		this.userGroup = UserGroups.user;
 		activity.add(name + " is generated");
 		this.reputations = new LinkedList<Integer>();
-		this.lastReputationsUpdate = new Date();
+		this.lastReputationUpdate = new Date();
 	}
 
 	/**
@@ -287,10 +287,18 @@ public class User {
 	
 	public void addReputation(int reputation) {
 		this.reputations.addFirst(reputation);
-		this.lastReputationsUpdate = new Date();
+		this.lastReputationUpdate = new Date();
 	}
 	
 	public Date getLastTimeOfReputation() {
-		return this.lastReputationsUpdate;
+		return this.lastReputationUpdate;
+	}
+	
+	public void updateReputation() {
+		Date now = new Date();
+		int counter = (int)((now.getTime() - this.lastReputationUpdate.getTime())/(1000*60*60*24));
+		for (int i = 0; i < counter; i++) {
+			this.addReputation(this.getScore());
+		}
 	}
 }
