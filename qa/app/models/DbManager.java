@@ -371,7 +371,7 @@ public class DbManager {
 		ArrayList<Comment> sortedComments = new ArrayList<Comment>();
 		Post currentQuestion = this.getQuestionById(questionId);
 		for (Comment currentComment : this.getComments()) {
-			if (currentComment.getCommentedVotable().equals(currentQuestion))
+			if (currentComment.getCommentedPost().equals(currentQuestion))
 				sortedComments.add(currentComment);
 		}
 		Collections.sort(sortedComments, new DateComparator());
@@ -390,7 +390,7 @@ public class DbManager {
 		ArrayList<Comment> sortedComments = new ArrayList<Comment>();
 		Answer currentAnswer = this.getAnswerById(answerId);
 		for (Comment currentComment : this.getComments()) {
-			if (currentComment.getCommentedVotable().equals(currentAnswer))
+			if (currentComment.getCommentedPost().equals(currentAnswer))
 				sortedComments.add(currentComment);
 		}
 		Collections.sort(sortedComments, new DateComparator());

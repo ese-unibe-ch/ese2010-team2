@@ -26,7 +26,7 @@ public class Comment extends Post {
 	}
 
 	/** Getters */
-	public Post getCommentedVotable() {
+	public Post getCommentedPost() {
 		return commentedPost;
 	}
 
@@ -35,7 +35,7 @@ public class Comment extends Post {
 		this.owner = owner;
 	}
 
-	public void setCommentedVotable(Post commentedPost) {
+	public void setCommentedPost(Post commentedPost) {
 		this.commentedPost = commentedPost;
 	}
 	

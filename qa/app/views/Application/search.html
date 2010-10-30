@@ -9,7 +9,24 @@
 	<br>
 </form>
 <h3>${message}</h3>
-#{if questionTagResults}
+#{if results}
+<h2>Testing</h2>
+#{list items:results, as:'searchresult'}
+	<p>************************</p>
+	<p>Content: ${searchresult.getQuestion().getContent()}</p>
+	<p>Total Score: ${searchresult.getTotalScore()}</p>
+	<p>Total Radius Count: ${searchresult.getTotalRadiusCount()}</p>
+	<p>Has a best Answer?: ${searchresult.getHasABestAnswer()}</p>
+	
+#{/list}
+#{/if}
+
+
+
+
+
+<!-- Old Code -->
+<!--#{if questionTagResults}
 <h2>Questions with matching tags</h2>
 #{list items:questionTagResults, as:'question'}
 	#{question question:question /}
@@ -37,8 +54,8 @@
 	<p>${comment.getContent()}</p>
 	<p>by ${comment.getOwner()}</p>
 	<br>
-	<a href="@{Application.showAnswers(comment.getCommentedVotable().getId())}"/><h6>-->Link to Commented Question/Answer</h4></a>
+	<a href="@{Application.showAnswers(comment.getCommentedVotable().getId())}"/><h6>Link to Commented Question/Answer</h4></a>
 	<legend class="question" align="bottom">Comment / ${comment.getDate()}</legend>
 </fieldset>
 #{/list}
-#{/if}
+#{/if}-->
