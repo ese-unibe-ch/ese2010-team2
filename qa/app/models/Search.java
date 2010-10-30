@@ -23,7 +23,7 @@ public class Search {
 	private ArrayList<Question> questionContentResults;
 	private ArrayList<Answer> answerContentResults;
 	private ArrayList<Comment> commentResults;
-	private ArrayList<Question> mergedQuestions = new ArrayList<Question>();
+	private ArrayList<Question> mergedQuestions;
 
 	public Search(String query) {
 		this.query = query;
@@ -34,6 +34,7 @@ public class Search {
 		questionContentResults = new ArrayList<Question>();
 		answerContentResults = new ArrayList<Answer>();
 		commentResults = new ArrayList<Comment>();
+		mergedQuestions = new ArrayList<Question>();
 
 		numberOfQuestions = manager.getQuestions().size();
 		numberOfAnswers = manager.getAnswers().size();
@@ -89,6 +90,10 @@ public class Search {
 		}
 	}
 
+	/**
+	 * Merge the questions of the tag search with them of the content search. I
+	 * have left both method, because of advanced search.
+	 */
 	public void mergeQuestionTagWithQuestionContentList() {
 		for (int i = 0; i < mergedQuestions.size(); i++) {
 			Question curQuestion = mergedQuestions.get(i);
@@ -99,7 +104,7 @@ public class Search {
 				}
 			}
 		}
-		// Fill in the the not duplicated questions in mergeQuestion List
+		// fill in the the not duplicated questions in mergeQuestion List
 		for (int k = 0; k < questionContentResults.size(); k++) {
 			Question curQuestion = questionContentResults.get(k);
 			mergedQuestions.add(curQuestion);

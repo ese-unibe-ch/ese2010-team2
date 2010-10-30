@@ -5,14 +5,15 @@ import java.util.Comparator;
 import models.SearchResult;
 
 /**
- * Compares two posts by their date.
+ * Compares two SearchResults. First Order: The total count of the search query
+ * in the in the ambient text. Second Order: The Total Score.
  */
 public class SearchResultComparator implements Comparator<SearchResult> {
 
 	public final int compare(SearchResult a, SearchResult b) {
-		if (a.getTotalRadiusCount() < b.getTotalRadiusCount()) {
+		if (a.getTotalCount() < b.getTotalCount()) {
 			return 1;
-		} else if (a.getTotalRadiusCount() > b.getTotalRadiusCount()) {
+		} else if (a.getTotalCount() > b.getTotalCount()) {
 			return -1;
 		} else {
 			if (a.getTotalScore() < b.getTotalScore()) {

@@ -10,10 +10,15 @@ import models.SearchResult;
 
 import comparators.SearchResultComparator;
 
+/**
+ * This class sorts the search results in way they appear to the user as "smart"
+ * searched
+ */
 public class SearchResultSorter {
+	/** The sorted searchResults */
 	private ArrayList<SearchResult> searchResults;
 
-	private ArrayList<SearchResult> searchResultsSorted;
+	/** The original search query, will be used for sorting */
 	private String query;
 
 	public SearchResultSorter(ArrayList<SearchResult> searchResults,
@@ -21,111 +26,123 @@ public class SearchResultSorter {
 		this.searchResults = searchResults;
 		this.query = query;
 
-		// Initialize Sorting
-		countTags();
-		countContentHits();
+		// Initialize sorting
+		countTagMatches();
+		countContentMatches();
 		checkIfHasABestAnswer();
 		countTotalScore();
-		sortAfterTotalCount();
+		sort();
 	}
 
-
-	private void countTags() {
+	/**
+	 * Goes through all composits and counts the tags in a composite which match
+	 * the search query. Every tag that matches the query will count +2.
+	 */
+	private void countTagMatches() {
 		for (int i = 0; i < searchResults.size(); i++) {
 			int tagCount = 0;
-
 			Question curQuestion = searchResults.get(i).getQuestion();
 			int numberOfTags = curQuestion.getTags().size();
 
 			for (int j = 0; j < numberOfTags; j++) {
-
 				String curTag = curQuestion.getTagByIndex(j);
 				curTag = curTag.toLowerCase();
 
 				if (curTag.contains(query)) {
-					// Tags Count Double
 					tagCount = tagCount + 2;
 				}
 			}
-			searchResults.get(i).setRadiusTagCount(tagCount);
+			searchResults.get(i).setTagCount(tagCount);
 		}
 
 	}
 
-	private void countContentHits(){
+	/**
+	 * Goes through all composits and counts the search query matches in the
+	 * composits contents (Question-, Answer-, Comment-Content). Every match
+	 * counts +1.
+	 */
+	private void countContentMatches(){
 		for (int i = 0; i < searchResults.size(); i++) {
 			int contentCount = 0;
-
-			// Go trough questions
 			Question curQuestion = searchResults.get(i).getQuestion();
-			String[] result = curQuestion.getContent().split("\\s");
+			String[] splitedQuestionContent = curQuestion.getContent().split("\\s");
 
-			// Go trhough word by word count every match with search query
-			for (int x = 0; x < result.length; x++) {
-				if (result[x].contains(query)) {
+			// Go through question content word by word count every match.
+			for (int x = 0; x < splitedQuestionContent.length; x++) {
+				if (splitedQuestionContent[x].contains(query)) {
 					contentCount++;
 				}
-				// System.out.println(result[x]);
 			}
 			// If we have a sentence as query
 			if (curQuestion.getContent().contains(query) && contentCount == 0) {
 				contentCount++;
 			}
 
-			int contentCountBackup = contentCount;
-
-			// Go Through all Answers
+			// Go Through all answers belonging to question
 			for (int j = 0; j < searchResults.get(i).getAnswers().size(); j++) {
 				Answer curAnswer = searchResults.get(i).getAnswers().get(j);
-				String[] result1 = curAnswer.getContent().split("\\s");
-				// Go trhough word by word count every match with search query
-				for (int x = 0; x < result1.length; x++) {
-					if (result1[x].contains(query)) {
+				String[] splitedAnswerContent = curAnswer.getContent().split("\\s");
+
+				// Will be used in case query is a sentence
+				int contentCountCheck = contentCount;
+
+				// Go through answer content word by word count every match.
+				for (int x = 0; x < splitedAnswerContent.length; x++) {
+					if (splitedAnswerContent[x].contains(query)) {
 						contentCount++;
 					}
-					// System.out.println(result[x]);
 				}
+
 				// If we have a sentence as query
 				if (curAnswer.getContent().contains(query)
-						&& contentCount == contentCountBackup) {
+						&& contentCount == contentCountCheck) {
 					contentCount++;
 				}
 			}
 
-			int contentCountBackup2 = contentCount;
-			// Go through all Comments
+			// Go through all comments
 			for (int k = 0; k < searchResults.get(i).getComments().size(); k++) {
 				Comment curComment = searchResults.get(i).getComments().get(k);
-				String[] result2 = curComment.getContent().split("\\s");
+				String[] splitedCommentContent = curComment.getContent().split("\\s");
+
+				// Will be used in case query is a sentence
+				int contentCountCheck = contentCount;
+
 				// Go through word by word count every match with search query
-				for (int x = 0; x < result2.length; x++) {
-					if (result2[x].contains(query)) {
+				for (int x = 0; x < splitedCommentContent.length; x++) {
+					if (splitedCommentContent[x].contains(query)) {
 						contentCount++;
 					}
-					// System.out.println(result[x]);
 				}
+
 				// If we have a sentence as query
 				if (curComment.getContent().contains(query)
-						&& contentCountBackup2 == contentCount) {
+						&& contentCountCheck == contentCount) {
 					contentCount++;
 				}
 			}
-			searchResults.get(i).setRadiusContentCount(contentCount);
+			searchResults.get(i).setContentCount(contentCount);
 		}
 	}
 
+	/**
+	 * Checks if a composite has a answer which is selected as "best answer". A
+	 * best answer counts +5
+	 */
 	private void checkIfHasABestAnswer() {
 		for (int i = 0; i < searchResults.size(); i++) {
 			Question curQuestion = searchResults.get(i).getQuestion();
 			if (curQuestion.hasBestAnswer()) {
 				searchResults.get(i).setHasABestAnswer(true);
-				// If there is a best answer Score will be increment plus 5
-				searchResults.get(i).setTotalScore(
-						searchResults.get(i).getTotalScore() + 5);
+
+				int actualScore = searchResults.get(i).getTotalScore();
+				searchResults.get(i).setTotalScore(actualScore + 5);
 			}
 		}
 	}
 	
+	/** Counts all Scores (Question, Answer) in a composite */
 	private void countTotalScore() {
 		for (int i = 0; i < searchResults.size(); i++) {
 			int totalScore = 0;
@@ -141,11 +158,16 @@ public class SearchResultSorter {
 			searchResults.get(i).setTotalScore(totalScore);
 		}
 	}
-	
-	private void sortAfterTotalCount() {
+
+	/**
+	 * Sort the SearchResult composites after the rules in
+	 * SearchResultComparator.
+	 */
+	private void sort() {
 		Collections.sort(searchResults, new SearchResultComparator());
 	}
 
+	/** Getters */
 	public ArrayList<SearchResult> getSearchResults() {
 		return searchResults;
 	}

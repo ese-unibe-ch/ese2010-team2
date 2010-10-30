@@ -315,7 +315,7 @@ public class Application extends Controller {
 			}
 		}
 		/*
-		 * Old Code --> Do not delete will maybe usefull vor Advanced Search
+		 * Old Code --> Do not delete will maybe usefull for Advanced Search
 		 * 
 		 * search.searchQuestionTags(); search.searchQuestionContent();
 		 * search.searchAnswerContent(); search.searchComments();
