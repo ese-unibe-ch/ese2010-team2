@@ -360,20 +360,18 @@ public class DbManagerTest extends UnitTest {
 	@Test
 	public void shouldCorrectlyAddAndAccessReputation() {
 		User reputatedUser = new User("user", "user@ese.ch", "user");
-		manager.addReputation(reputatedUser, new Date(), 50);
+		manager.addReputation(reputatedUser, 50);
 		assertEquals(50, manager.getReputationByUserAndDate(reputatedUser, new Date()));
 	}
 	
 	@Test
 	public void shouldCorrectlyAccessReputationsOfTheLast5Days() {
 		User reputatedUser = new User("user", "user@ese.ch", "user");
-		int[] reputations = {50,40,30,20,10};
-		Date currentDate = new Date();
+		int[] reputations = {10,20,30,40,50};
 		for(int i = 0; i < 5; i++) {
-			currentDate = new Date(currentDate.getTime() - 86400000);
-			manager.addReputation(reputatedUser, currentDate, reputations[i]);
+			manager.addReputation(reputatedUser, reputations[i]);
 		}
-		ArrayList<Integer> reps = manager.getReputations(reputatedUser, 10);
+		ArrayList<Integer> reps = manager.getReputations(reputatedUser, 5);
 		assertEquals((Integer)50, reps.get(0));
 		assertEquals((Integer)40, reps.get(1));
 		assertEquals((Integer)30, reps.get(2));

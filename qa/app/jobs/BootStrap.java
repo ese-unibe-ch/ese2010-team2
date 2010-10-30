@@ -92,11 +92,10 @@ public class BootStrap extends Job {
 		new Comment(manager.getUserByName("user-1"), a11, "thank you");
 		
 		//add Reputation for admin over 30 days
-		int[] reputations = {90,88,87,85,84,82,80,79,77,75,73,72,70,68,66,64,61,59,57,54,52,49,46,43,40,37,33,28,23,16};
-		Date currentDate = new Date();
+		int[] reputations = {13,23,28,33,37,40,43,46,49,52,54,57,59,61,64,66,68,70,72,73,75,77,79,80,82,84,85,87,88,90};
+		
 		for(int i = 0; i < 30; i++) {
-			currentDate = new Date(currentDate.getTime() - 86400000);
-			manager.addReputation(user, currentDate, reputations[i]);
+			manager.addReputation(user, reputations[i]);
 		}
 		
 		// an answer for every second question from the first user
