@@ -31,8 +31,6 @@ public class DbManager {
 	/** All tags that have been used so far. */
 	private static ArrayList<String> tags;
 
-	private static ArrayList[] reputations;
-
 	/** 4 Counters for the Id's */
 	private int userCounterIdCounter;
 	private int questionIdCounter;
@@ -63,10 +61,6 @@ public class DbManager {
 		this.questionIdCounter = 0;
 		this.answerIdCounter = 0;
 		this.commentIdCounter = 0;
-		reputations = new ArrayList[3];
-		reputations[0] = new ArrayList<User>();
-		reputations[1] = new ArrayList<Date>();
-		reputations[2] = new ArrayList<Integer>();
 		//User anonymousUser= new User("anonymous", "a@nonymous", "anonymous");
 	}
 
@@ -523,39 +517,38 @@ public class DbManager {
 	/**
 	 * Saves a reputation from a specific user and day
 	 */
-	public void addReputation(User user, Date time, int reputation) {
-		reputations[0].add(user);
-		reputations[1].add(time);
-		reputations[2].add(reputation);
+	public void addReputation(User user, int reputation) {
+		user.addReputation(reputation);
 	}
 
 	@SuppressWarnings("deprecation")
 	public int getReputationByUserAndDate(User user, Date date) {
+		ArrayList<Integer> allReputations = user.getReputations();
 		int result = 0;
-		User currentUser;
-		Date currentDate;
-		for (int i = 0; i < reputations[0].size(); i++) {
-			currentUser = (User) reputations[0].get(i);
-			currentDate = (Date) reputations[1].get(i);
-			if (user.equals(currentUser)
-					&& ((date.getYear() == currentDate.getYear())
-							&& (date.getMonth() == currentDate.getMonth()) && (date
-							.getDate() == currentDate.getDate()))) {
-				result = (Integer) reputations[2].get(i);
-			}
+		int counter = 1;
+		Date currentDate = new Date();
+		while (	(counter <= allReputations.size()) &&
+				((date.getYear() != currentDate.getYear()) || 
+				(date.getMonth() != currentDate.getMonth()) ||
+				(date.getDate() != currentDate.getDate())))
+		{
+			currentDate = new Date(currentDate.getTime() - 86400000);
+			counter++;
 		}
+		if (counter <= allReputations.size())
+			result = allReputations.get(counter - 1);
 		return result;
 	}
 
 	public ArrayList<Integer> getReputations(User user, int days) {
-		ArrayList<Integer> currentReputations = new ArrayList<Integer>();
-		Date currentDay = new Date();
-		for (int i = 0; i < days; i++) {
-			currentDay.setTime(currentDay.getTime() - 86400000);
-			currentReputations.add(this.getReputationByUserAndDate(user,
-					currentDay));
+		ArrayList<Integer> reputations = user.getReputations();
+		while (reputations.size() < days) {
+			reputations.add(0);
 		}
-		return currentReputations;
+		while (reputations.size() > days) {
+			reputations.remove(reputations.size()-1);
+		}
+		return reputations;
 	}
 
 	/*

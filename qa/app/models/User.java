@@ -2,6 +2,8 @@ package models;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
 
 /**
  * The Class User provides all functionality that users have.
@@ -15,6 +17,12 @@ public class User {
 
 	/** The reputation. */
 	private int score;
+	
+	/** The reputation over the last 30 days */
+	private LinkedList<Integer> reputations = new LinkedList<Integer>();
+	
+	/** The last time reputations were updated */
+	private Date lastReputationsUpdate;
 
 	/** The group the user belongs to. */
 	private UserGroups userGroup;
@@ -49,7 +57,8 @@ public class User {
 		manager.addUser(this);
 		this.userGroup = UserGroups.user;
 		activity.add(name + " is generated");
-
+		this.reputations = new LinkedList<Integer>();
+		this.lastReputationsUpdate = new Date();
 	}
 
 	/**
@@ -265,5 +274,23 @@ public class User {
 	 */
 	public void setGroup(UserGroups group) {
 		this.userGroup = group;
+	}
+	
+	/**
+	 * returns the reputations as an ArrayList
+	 */
+	public ArrayList<Integer> getReputations() {
+		ArrayList<Integer> reputations = new ArrayList<Integer>();
+		reputations.addAll(this.reputations);
+		return reputations;
+	}
+	
+	public void addReputation(int reputation) {
+		this.reputations.addFirst(reputation);
+		this.lastReputationsUpdate = new Date();
+	}
+	
+	public Date getLastTimeOfReputation() {
+		return this.lastReputationsUpdate;
 	}
 }
