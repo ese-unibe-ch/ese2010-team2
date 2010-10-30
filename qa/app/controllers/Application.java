@@ -9,12 +9,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 import models.Answer;
-import models.Comment;
 import models.DbManager;
 import models.Post;
 import models.Question;
 import models.Search;
+import models.SearchResult;
 import models.User;
+import models.algorithms.SearchResultAssembler;
+import models.algorithms.SearchResultSorter;
 
 import org.apache.commons.io.IOUtils;
 
@@ -296,12 +298,18 @@ public class Application extends Controller {
 		// If a query is typed in
 		if (!text.equals("")) {
 			Search search = new Search(text);
-			search.searchQuestionTags();
-			search.searchQuestionContent();
-			search.searchAnswerContent();
-			search.searchComments();
+			SearchResultAssembler assembler = new SearchResultAssembler(
+					search.getAnswerContentResults(), search.getCommentResults(), search.getMergedQuestion(), search.getQuery());
+			SearchResultSorter sorter = new SearchResultSorter(assembler.getSearchResults(), search.getQuery());
+			ArrayList<SearchResult> results = sorter.getSearchResults();
+			render(results);
+			/*
+			 * search.searchQuestionTags(); search.searchQuestionContent();
+			 * search.searchAnswerContent(); search.searchComments();
+			 * search.mergeQuestionTagWithQuestionContentList();
+			 */
 
-			ArrayList<Question> questionContentResults = search
+			/*ArrayList<Question> questionContentResults = search
 					.getQuestionContentResults();
 			ArrayList<Question> questionTagResults = search
 					.getQuestionTagsResults();
@@ -316,12 +324,12 @@ public class Application extends Controller {
 					&& commentResults.size() == 0) {
 				String message = "No Results";
 				render(message);
-			}
+			}*/
 			// If we have a match
-			else {
-				render(questionTagResults, answerContentResults,
-						questionContentResults, commentResults);
-			}
+
+				//render(questionTagResults, answerContentResults,
+				//		questionContentResults, commentResults);
+
 		}
 	}
 

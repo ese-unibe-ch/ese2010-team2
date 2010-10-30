@@ -23,6 +23,7 @@ public class Search {
 	private ArrayList<Question> questionContentResults;
 	private ArrayList<Answer> answerContentResults;
 	private ArrayList<Comment> commentResults;
+	private ArrayList<Question> mergedQuestion = new ArrayList<Question>();
 
 	public Search(String query) {
 		this.query = query;
@@ -37,6 +38,13 @@ public class Search {
 		numberOfQuestions = manager.getQuestions().size();
 		numberOfAnswers = manager.getAnswers().size();
 		numberOfComments = manager.getComments().size();
+
+		// Do the search
+		searchQuestionTags();
+		searchQuestionContent();
+		searchAnswerContent();
+		searchComments();
+		mergeQuestionTagWithQuestionContentList();
 	}
 
 	/** Search through all question tags for search query matches */
@@ -58,6 +66,7 @@ public class Search {
 				if (curTag.contains(query)) {
 					if (addQuestionOnlyOnce) {
 						questionTagResults.add(curQuestion);
+						mergedQuestion.add(curQuestion);
 						addQuestionOnlyOnce = false;
 					}
 				}
@@ -78,6 +87,24 @@ public class Search {
 				questionContentResults.add(curQuestion);
 			}
 		}
+	}
+
+	public void mergeQuestionTagWithQuestionContentList() {
+		for (int i = 0; i < mergedQuestion.size(); i++) {
+			Question curQuestion = mergedQuestion.get(i);
+			for (int j = 0; j < questionContentResults.size(); j++) {
+				Question questionToCheck = questionContentResults.get(j);
+				if (curQuestion.getId() == questionToCheck.getId()) {
+					questionContentResults.remove(j);
+				}
+			}
+		}
+		// Fill in the the not duplicated questions in mergeQuestion List
+		for (int k = 0; k < questionContentResults.size(); k++) {
+			Question curQuestion = questionContentResults.get(k);
+			mergedQuestion.add(curQuestion);
+		}
+
 	}
 
 	/** Search through all comments for matches */
@@ -113,6 +140,10 @@ public class Search {
 		return questionTagResults;
 	}
 
+	public ArrayList<Question> getMergedQuestion() {
+		return mergedQuestion;
+	}
+
 	public ArrayList<Question> getQuestionContentResults() {
 		return questionContentResults;
 	}
@@ -124,4 +155,9 @@ public class Search {
 	public ArrayList<Comment> getCommentResults() {
 		return commentResults;
 	}
+
+	public String getQuery() {
+		return query;
+	}
+
 }
