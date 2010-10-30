@@ -31,8 +31,9 @@ public class SearchResultSorter {
 
 
 	private void countTags() {
-		int tagCount = 0;
 		for (int i = 0; i < searchResults.size(); i++) {
+			int tagCount = 0;
+
 			Question curQuestion = searchResults.get(i).getQuestion();
 			int numberOfTags = curQuestion.getTags().size();
 
@@ -42,7 +43,8 @@ public class SearchResultSorter {
 				curTag = curTag.toLowerCase();
 
 				if (curTag.contains(query)) {
-					tagCount++;
+					// Tags Count Double
+					tagCount = tagCount + 2;
 				}
 			}
 			searchResults.get(i).setRadiusTagCount(tagCount);
@@ -51,11 +53,13 @@ public class SearchResultSorter {
 	}
 
 	private void countContentHits(){
-		int contentCount = 0;
 		for (int i = 0; i < searchResults.size(); i++) {
+			int contentCount = 0;
+
 			// Go trough questions
 			Question curQuestion = searchResults.get(i).getQuestion();
 			String[] result = curQuestion.getContent().split("\\s");
+
 			// Go trhough word by word count every match with search query
 			for (int x = 0; x < result.length; x++) {
 				if (result[x].contains(query)) {
@@ -64,9 +68,11 @@ public class SearchResultSorter {
 				// System.out.println(result[x]);
 			}
 			// If we have a sentence as query
-			if (curQuestion.getContent().contains(query)) {
+			if (curQuestion.getContent().contains(query) && contentCount == 0) {
 				contentCount++;
 			}
+
+			int contentCountBackup = contentCount;
 
 			// Go Through all Answers
 			for (int j = 0; j < searchResults.get(i).getAnswers().size(); j++) {
@@ -80,16 +86,18 @@ public class SearchResultSorter {
 					// System.out.println(result[x]);
 				}
 				// If we have a sentence as query
-				if (curAnswer.getContent().contains(query)) {
+				if (curAnswer.getContent().contains(query)
+						&& contentCount == contentCountBackup) {
 					contentCount++;
 				}
 			}
 
-			// Go Through all Comments
+			int contentCountBackup2 = contentCount;
+			// Go through all Comments
 			for (int k = 0; k < searchResults.get(i).getComments().size(); k++) {
 				Comment curComment = searchResults.get(i).getComments().get(k);
 				String[] result2 = curComment.getContent().split("\\s");
-				// Go trhough word by word count every match with search query
+				// Go through word by word count every match with search query
 				for (int x = 0; x < result2.length; x++) {
 					if (result2[x].contains(query)) {
 						contentCount++;
@@ -97,7 +105,8 @@ public class SearchResultSorter {
 					// System.out.println(result[x]);
 				}
 				// If we have a sentence as query
-				if (curComment.getContent().contains(query)) {
+				if (curComment.getContent().contains(query)
+						&& contentCountBackup2 == contentCount) {
 					contentCount++;
 				}
 			}
@@ -110,13 +119,17 @@ public class SearchResultSorter {
 			Question curQuestion = searchResults.get(i).getQuestion();
 			if (curQuestion.hasBestAnswer()) {
 				searchResults.get(i).setHasABestAnswer(true);
+				// If there is a best answer Score will be increment plus 5
+				searchResults.get(i).setTotalScore(
+						searchResults.get(i).getTotalScore() + 5);
 			}
 		}
 	}
 	
 	private void countTotalScore() {
-		int totalScore = 0;
 		for (int i = 0; i < searchResults.size(); i++) {
+			int totalScore = 0;
+
 			Question curQuestion = searchResults.get(i).getQuestion();
 			totalScore = totalScore + curQuestion.getScore();
 
@@ -125,15 +138,12 @@ public class SearchResultSorter {
 				totalScore = totalScore + curAnswer.getScore();
 			}
 
+			searchResults.get(i).setTotalScore(totalScore);
 		}
 	}
 	
 	private void sortAfterTotalCount() {
 		Collections.sort(searchResults, new SearchResultComparator());
-	}
-
-	private void sortInBestAnswer() {
-		// TODO
 	}
 
 	public ArrayList<SearchResult> getSearchResults() {

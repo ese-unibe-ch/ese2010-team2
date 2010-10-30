@@ -23,7 +23,7 @@ public class Search {
 	private ArrayList<Question> questionContentResults;
 	private ArrayList<Answer> answerContentResults;
 	private ArrayList<Comment> commentResults;
-	private ArrayList<Question> mergedQuestion = new ArrayList<Question>();
+	private ArrayList<Question> mergedQuestions = new ArrayList<Question>();
 
 	public Search(String query) {
 		this.query = query;
@@ -66,7 +66,7 @@ public class Search {
 				if (curTag.contains(query)) {
 					if (addQuestionOnlyOnce) {
 						questionTagResults.add(curQuestion);
-						mergedQuestion.add(curQuestion);
+						mergedQuestions.add(curQuestion);
 						addQuestionOnlyOnce = false;
 					}
 				}
@@ -90,19 +90,19 @@ public class Search {
 	}
 
 	public void mergeQuestionTagWithQuestionContentList() {
-		for (int i = 0; i < mergedQuestion.size(); i++) {
-			Question curQuestion = mergedQuestion.get(i);
+		for (int i = 0; i < mergedQuestions.size(); i++) {
+			Question curQuestion = mergedQuestions.get(i);
 			for (int j = 0; j < questionContentResults.size(); j++) {
 				Question questionToCheck = questionContentResults.get(j);
 				if (curQuestion.getId() == questionToCheck.getId()) {
-					questionContentResults.remove(j);
+					mergedQuestions.remove(i);
 				}
 			}
 		}
 		// Fill in the the not duplicated questions in mergeQuestion List
 		for (int k = 0; k < questionContentResults.size(); k++) {
 			Question curQuestion = questionContentResults.get(k);
-			mergedQuestion.add(curQuestion);
+			mergedQuestions.add(curQuestion);
 		}
 
 	}
@@ -140,8 +140,8 @@ public class Search {
 		return questionTagResults;
 	}
 
-	public ArrayList<Question> getMergedQuestion() {
-		return mergedQuestion;
+	public ArrayList<Question> getMergedQuestions() {
+		return mergedQuestions;
 	}
 
 	public ArrayList<Question> getQuestionContentResults() {

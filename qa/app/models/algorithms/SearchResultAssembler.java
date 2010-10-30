@@ -52,8 +52,6 @@ public class SearchResultAssembler {
 			createSearchResultAndAvoidDuplication(curQuestion);
 
 			assert (answerContentResults.size() == 0);
-			System.out.println("This should be 0 "
-					+ answerContentResults.size());
 
 		}
 

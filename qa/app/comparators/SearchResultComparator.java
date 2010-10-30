@@ -10,15 +10,15 @@ import models.SearchResult;
 public class SearchResultComparator implements Comparator<SearchResult> {
 
 	public final int compare(SearchResult a, SearchResult b) {
-		if (a.getTotalRadiusCount() > b.getTotalRadiusCount()) {
+		if (a.getTotalRadiusCount() < b.getTotalRadiusCount()) {
 			return 1;
-		} else if (a.getTotalRadiusCount() < b.getTotalRadiusCount()) {
+		} else if (a.getTotalRadiusCount() > b.getTotalRadiusCount()) {
 			return -1;
 		} else {
-			if (a.getTotalScore() > b.getTotalScore()) {
+			if (a.getTotalScore() < b.getTotalScore()) {
 				return 1;
-			} else if (a.getTotalScore() < b.getTotalScore()) {
-				return 1;
+			} else if (a.getTotalScore() > b.getTotalScore()) {
+				return -1;
 			} else {
 				return 0;
 			}

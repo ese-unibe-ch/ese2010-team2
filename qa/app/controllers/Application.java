@@ -298,43 +298,41 @@ public class Application extends Controller {
 		// If a query is typed in
 		if (!text.equals("")) {
 			Search search = new Search(text);
+
 			SearchResultAssembler assembler = new SearchResultAssembler(
-					search.getAnswerContentResults(), search.getCommentResults(), search.getMergedQuestion(), search.getQuery());
+					search.getAnswerContentResults(), search.getCommentResults(), search.getMergedQuestions(), search.getQuery());
+
 			SearchResultSorter sorter = new SearchResultSorter(assembler.getSearchResults(), search.getQuery());
+
 			ArrayList<SearchResult> results = sorter.getSearchResults();
-			render(results);
-			/*
-			 * search.searchQuestionTags(); search.searchQuestionContent();
-			 * search.searchAnswerContent(); search.searchComments();
-			 * search.mergeQuestionTagWithQuestionContentList();
-			 */
-
-			/*ArrayList<Question> questionContentResults = search
-					.getQuestionContentResults();
-			ArrayList<Question> questionTagResults = search
-					.getQuestionTagsResults();
-			ArrayList<Answer> answerContentResults = search
-					.getAnswerContentResults();
-			ArrayList<Comment> commentResults = search.getCommentResults();
-
+			
 			// If query has no results
-			if (questionTagResults.size() == 0
-					&& questionContentResults.size() == 0
-					&& answerContentResults.size() == 0
-					&& commentResults.size() == 0) {
+			if (results.size() == 0) {
 				String message = "No Results";
 				render(message);
-			}*/
-			// If we have a match
-
-				//render(questionTagResults, answerContentResults,
-				//		questionContentResults, commentResults);
-
+			} else {
+				render(results);
+			}
 		}
+		/*
+		 * Old Code --> Do not delete will maybe usefull vor Advanced Search
+		 * 
+		 * search.searchQuestionTags(); search.searchQuestionContent();
+		 * search.searchAnswerContent(); search.searchComments();
+		 * search.mergeQuestionTagWithQuestionContentList();
+		 * 
+		 * 
+		 * ArrayList<Question> questionContentResults = search
+		 * .getQuestionContentResults(); ArrayList<Question> questionTagResults
+		 * = search .getQuestionTagsResults(); ArrayList<Answer>
+		 * answerContentResults = search .getAnswerContentResults();
+		 * ArrayList<Comment> commentResults = search.getCommentResults();
+		 */
 	}
 
-	// TODO: Übergabe der Werte aus radio check boxes & speichern dieser.
 	/*
+	 * 
+	 * // TODO: Übergabe der Werte aus radio check boxes & speichern dieser. /*
 	 * public static void editUserGroup(User user, String group) { UserGroups
 	 * ugroup; if (group == null) { String message = "Group is null";
 	 * render(message); } else { if (group.equals("admin")) ugroup =
