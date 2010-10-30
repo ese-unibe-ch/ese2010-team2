@@ -10,10 +10,10 @@
 	#{answer answer:post /}
 #{/else}
 
-${post.getContent()}
+<!--${post.getContent()}  -->
 
 <h2>History:</h2>
-<p style="color:#c00">Size: ${history.size()} </p>
+<p style="color:#c00">You have change this Post ${history.size()} times! </p>
 #{list items:history, as:'oldPost'}
 	<!-- ${oldPost.getContent()} --> 
 	#{if type=="question"}
