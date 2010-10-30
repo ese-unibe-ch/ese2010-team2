@@ -4,25 +4,27 @@
 <h2>${profileOwner.getName()}</h2>
 #{avatar user:profileOwner /}
 
+#{if session.get("username") == profileOwner.getName()}
+	<fieldset>
+		<a href="@{Application.showUserProfile()}">edit Profile</a>
+	</fieldset>
+#{/if}
+
 <fieldset>
-<a href="@{Application.showUserProfile()}">edit Profile</a>
+	About me<hr/>
+	Birthdate: ${profileOwner.getBirthdate()}<br>
+	Moto: ${profileOwner.getMoto()}<br>
+	Background: ${profileOwner.getBackground()}<br>
+	Hobbies: ${profileOwner.getHobbies()}<br>
+	Quote: ${profileOwner.getQuote()}<br>
 </fieldset>
 
 <fieldset>
-About me<hr/>
-Birthdate: ${profileOwner.getBirthdate()}<br>
-Moto: ${profileOwner.getMoto()}<br>
-Background: ${profileOwner.getBackground()}<br>
-Hobbies: ${profileOwner.getHobbies()}<br>
-Quote: ${profileOwner.getQuote()}<br>
-</fieldset>
-
-<fieldset>
-Contact Information<hr/>
-Town: ${profileOwner.getTown()}<br>
-Street: ${profileOwner.getStreet()}<br>
-Phone: ${profileOwner.getPhone()}<br>
-E-Mail: ${profileOwner.getEmail()}<br>
+	Contact Information<hr/>
+	Town: ${profileOwner.getTown()}<br>
+	Street: ${profileOwner.getStreet()}<br>
+	Phone: ${profileOwner.getPhone()}<br>
+	E-Mail: ${profileOwner.getEmail()}<br>
 </fieldset>
 
 Current Reputation: ${profileOwner.getScore()}<br>
@@ -67,20 +69,29 @@ Current Reputation: ${profileOwner.getScore()}<br>
 	alt="Reputation over Time" />
 	
 	#{if userQuestions}
-	<fieldset>
-	My questions<hr/>
-	#{list items:userQuestions, as:'question'}
-	#{short_post post:question /}
-	#{/list}
-	</fieldset>
+		<fieldset>
+			My questions<hr/>
+			#{list items:userQuestions, as:'question'}
+				#{short_post post:question /}
+			#{/list}
+		</fieldset>
 	#{/if}
 	
 	#{if userAnswers}
-	<fieldset>
-	My answers<hr/>
-	#{list items:userAnswers, as:'answer'}
-	#{short_answer post:answer /}
-	#{/list}
-	</fieldset>
+		<fieldset>
+			My answers<hr/>
+			#{list items:userAnswers, as:'answer'}
+				#{short_answer post:answer /}
+			#{/list}
+		</fieldset>
+	#{/if}
+	
+	#{if userLog}
+		<fieldset>
+			My activities<hr/>
+			#{list items:userLog, as:'log'}
+				${log} <br></br>
+			#{/list}
+		</fieldset>
 	#{/if}
 

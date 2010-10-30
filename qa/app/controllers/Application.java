@@ -152,7 +152,8 @@ public class Application extends Controller {
 				30);
 		ArrayList<Question> userQuestions = manager.getQuestionsByUserIdSortedByDate(profileOwner.getId());
 		ArrayList<Answer> userAnswers = manager.getAnswersByUserIdSortedByDate(profileOwner.getId());
-		render(profileOwner, reputations, userQuestions, userAnswers);
+		ArrayList<String> userLog = manager.getUserLog(userName);
+		render(profileOwner, reputations, userQuestions, userAnswers, userLog);
 	}
 
 	/**
