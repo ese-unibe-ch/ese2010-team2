@@ -11,15 +11,6 @@ import java.util.ArrayList;
 public class SearchResult {
 	private boolean hasABestAnswer;
 
-	/** Holds the value how many tags in the composite match the search query */
-	private int tagCount;
-
-	/**
-	 * Holds the value how many times the search query is in the composits
-	 * contents
-	 */
-	private int contentCount;
-
 	/** The value of the tagCount + contentCount */
 	private int totalCount;
 
@@ -38,8 +29,7 @@ public class SearchResult {
 	}
 
 	public int getTotalCount() {
-		int total = tagCount + contentCount;
-		return total;
+		return totalCount;
 	}
 
 	public ArrayList<Answer> getAnswers() {
@@ -48,13 +38,6 @@ public class SearchResult {
 
 	public ArrayList<Comment> getComments() {
 		return comments;
-	}
-	public int getContentCount() {
-		return contentCount;
-	}
-
-	public int getTagCount() {
-		return tagCount;
 	}
 
 	public boolean getHasABestAnswer() {
@@ -78,18 +61,14 @@ public class SearchResult {
 		this.question = question;
 	}
 
-	public void setTagCount(int tagCount) {
-		this.tagCount = tagCount;
-	}
-
-	public void setContentCount(int contentCount) {
-		this.contentCount = contentCount;
-	}
-
 	public void setHasABestAnswer(boolean hasABestAnswer) {
 		this.hasABestAnswer = hasABestAnswer;
 	}
 	public void setTotalScore(int totalScore) {
 		this.totalScore = totalScore;
+	}
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = this.totalCount + totalCount;
 	}
 }

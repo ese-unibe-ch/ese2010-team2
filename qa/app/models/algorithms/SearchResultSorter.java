@@ -52,7 +52,7 @@ public class SearchResultSorter {
 					tagCount = tagCount + 2;
 				}
 			}
-			searchResults.get(i).setTagCount(tagCount);
+			searchResults.get(i).setTotalCount(tagCount);
 		}
 
 	}
@@ -122,7 +122,7 @@ public class SearchResultSorter {
 					contentCount++;
 				}
 			}
-			searchResults.get(i).setContentCount(contentCount);
+			searchResults.get(i).setTotalCount(contentCount);
 		}
 	}
 
@@ -136,8 +136,7 @@ public class SearchResultSorter {
 			if (curQuestion.hasBestAnswer()) {
 				searchResults.get(i).setHasABestAnswer(true);
 
-				int actualScore = searchResults.get(i).getTotalScore();
-				searchResults.get(i).setTotalScore(actualScore + 5);
+				searchResults.get(i).setTotalCount(5);
 			}
 		}
 	}
