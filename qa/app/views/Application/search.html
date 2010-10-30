@@ -1,22 +1,22 @@
 #{extends 'main.html' /}
-#{set title:'ESE KB - Search' /}
+#{set title:'ESE KB - Smart Search' /}
 <a href="/">back</a>
 <form action="@{Application.Search()}" method="GET">
 	<br>
 	<input type="text" name="text" value="${text}"><input type="submit" value="Search" /><br>
-	<p>Order: QuestionTags-->QuestionContent-->AnswerContent-->Comments</p>
 	<br>
 	<br>
 </form>
 <h3>${message}</h3>
 #{if results}
-<h2>Testing</h2>
 #{list items:results, as:'searchresult'}
-	<p>************************</p>
-	<p>Content: ${searchresult.getQuestion().getContent()}</p>
-	<p>Total Score: ${searchresult.getTotalScore()}</p>
-	<p>Total Radius Count: ${searchresult.getTotalRadiusCount()}</p>
-	<p>Has a best Answer?: ${searchresult.getHasABestAnswer()}</p>
+	<p><a href="/question/${searchresult.getQuestion().getId()}/answers/">${searchresult.getQuestion().getContent()}</a></p>
+	<p>----------------------------------------</p>
+	
+	<!-- For testing only -->
+	<!--<p>Total Score: ${searchresult.getTotalScore()}</p>
+	<p>Total Radius Count: ${searchresult.getTotalCount()}</p>
+	<p>Has a best Answer?: ${searchresult.getHasABestAnswer()}</p>-->
 	
 #{/list}
 #{/if}
