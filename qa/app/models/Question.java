@@ -248,4 +248,8 @@ public class Question extends Post {
 		addVersion(oldContent, oldTags, uname);
 	}
 
+	public void notifyChange() {
+		this.getOwner().notifyChange("Your question was answered", this);
+	}
+
 }

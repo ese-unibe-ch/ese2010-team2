@@ -340,4 +340,8 @@ public class User {
 	public ArrayList<Notification> getAllNotifications() {
 		return this.notifications;
 	}
+
+	public void notifyChange(String message, Question changedQuestion) {
+		Notification change = new Notification(message, this, changedQuestion);	
+	}
 }

@@ -490,6 +490,7 @@ public class DbManager {
 		answer.setId(answerIdCounter);
 		answers.add(answer);
 		answerIdCounter++;
+		this.getQuestionById(answer.getQuestionId()).notifyChange();
 	}
 
 	/**
