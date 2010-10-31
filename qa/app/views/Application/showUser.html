@@ -85,13 +85,4 @@ Current Reputation: ${profileOwner.getScore()}<br>
 			#{/list}
 		</fieldset>
 	#{/if}
-	
-	#{if userLog}
-		<fieldset>
-			My activities<hr/>
-			#{list items:userLog, as:'log'}
-				${log} <br></br>
-			#{/list}
-		</fieldset>
-	#{/if}
 
