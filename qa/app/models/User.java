@@ -3,6 +3,7 @@ package models;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
 /**
@@ -15,14 +16,16 @@ public class User {
 	private String password;
 	private int id;
 
-	/** The reputation. */
+	/** The current reputation. */
 	private int score;
+	
+	private int lastScore;
 	
 	/** The reputation over the last 30 days */
 	private LinkedList<Integer> reputations = new LinkedList<Integer>();
 	
 	/** The last time reputations were updated */
-	private Date lastReputationUpdate;
+	private GregorianCalendar lastReputationUpdate;
 
 	/** The group the user belongs to. */
 	private UserGroups userGroup;
@@ -58,7 +61,7 @@ public class User {
 		this.userGroup = UserGroups.user;
 		activity.add(name + " is generated");
 		this.reputations = new LinkedList<Integer>();
-		this.lastReputationUpdate = new Date();
+		this.lastReputationUpdate = new GregorianCalendar();
 	}
 
 	/**
@@ -280,6 +283,7 @@ public class User {
 	 * returns the reputations as an ArrayList
 	 */
 	public ArrayList<Integer> getReputations() {
+		this.updateReputation();
 		ArrayList<Integer> reputations = new ArrayList<Integer>();
 		reputations.addAll(this.reputations);
 		return reputations;
@@ -287,18 +291,24 @@ public class User {
 	
 	public void addReputation(int reputation) {
 		this.reputations.addFirst(reputation);
-		this.lastReputationUpdate = new Date();
+		this.lastReputationUpdate = new GregorianCalendar();
 	}
 	
-	public Date getLastTimeOfReputation() {
+	public GregorianCalendar getLastTimeOfReputation() {
 		return this.lastReputationUpdate;
 	}
 	
+	public void setLastTimeOfReputation(GregorianCalendar date) {
+		this.lastReputationUpdate = date;
+	}
+	
 	public void updateReputation() {
-		Date now = new Date();
-		int counter = (int)((now.getTime() - this.lastReputationUpdate.getTime())/(1000*60*60*24));
+		GregorianCalendar now = new GregorianCalendar();
+		int counter = now.DAY_OF_YEAR - this.lastReputationUpdate.DAY_OF_YEAR;
 		for (int i = 0; i < counter; i++) {
-			this.addReputation(this.getScore());
+			this.addReputation(this.lastScore);
 		}
+		this.setLastTimeOfReputation(now);
+		this.lastScore = this.getScore();
 	}
 }
