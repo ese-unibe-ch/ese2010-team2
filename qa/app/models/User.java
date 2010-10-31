@@ -2,6 +2,7 @@ package models;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -289,9 +290,18 @@ public class User {
 		return reputations;
 	}
 	
+	public void updateReputation() {
+		GregorianCalendar now = new GregorianCalendar();
+		int counter = now.get(Calendar.DAY_OF_YEAR) - this.lastReputationUpdate.get(Calendar.DAY_OF_YEAR)-1;
+		for (int i = 0; i < counter; i++) {
+			this.addReputation(this.lastScore);
+		}
+		this.setLastTimeOfReputation(now);
+		this.lastScore = this.getScore();
+	}
+	
 	public void addReputation(int reputation) {
 		this.reputations.addFirst(reputation);
-		this.lastReputationUpdate = new GregorianCalendar();
 	}
 	
 	public GregorianCalendar getLastTimeOfReputation() {
@@ -302,13 +312,11 @@ public class User {
 		this.lastReputationUpdate = date;
 	}
 	
-	public void updateReputation() {
-		GregorianCalendar now = new GregorianCalendar();
-		int counter = now.DAY_OF_YEAR - this.lastReputationUpdate.DAY_OF_YEAR;
-		for (int i = 0; i < counter; i++) {
-			this.addReputation(this.lastScore);
-		}
-		this.setLastTimeOfReputation(now);
-		this.lastScore = this.getScore();
+	public void setLastReputation(int reputation) {
+		this.lastScore = reputation;
+	}
+	
+	public int getLastReputation() {
+		return this.lastScore;
 	}
 }

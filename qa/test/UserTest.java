@@ -1,3 +1,5 @@
+import java.util.GregorianCalendar;
+
 import models.Answer;
 import models.DbManager;
 import models.Question;
@@ -37,7 +39,22 @@ public class UserTest extends UnitTest {
 		assertEquals(3, logTester.getActivities().size());
 		assertEquals("Activity2", logTester.getActivities().get(0));
 	}
-
+	
+	@Test
+	public void shouldUpdateReputation() {
+		System.out.println("shouldUpdateReputation");
+		User reputatedUser = new User("reputatedUser", "rep.user@ese.ch", "1234");
+		GregorianCalendar twoDaysAgo = new GregorianCalendar();
+		twoDaysAgo.setTimeInMillis(twoDaysAgo.getTimeInMillis()-2*24*60*60*1000);
+		reputatedUser.setLastTimeOfReputation(twoDaysAgo);
+		reputatedUser.addReputation(3);
+		reputatedUser.setLastReputation(4);
+		assertEquals(2,reputatedUser.getReputations().size());
+		assertEquals(4,(int)reputatedUser.getReputations().get(0));
+		assertEquals(3,(int)reputatedUser.getReputations().get(1));
+		
+	}
+	
 	@AfterClass
 	public static void tearDown() {
 		manager.getUsers().clear();
