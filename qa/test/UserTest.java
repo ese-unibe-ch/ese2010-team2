@@ -42,7 +42,6 @@ public class UserTest extends UnitTest {
 	
 	@Test
 	public void shouldUpdateReputation() {
-		System.out.println("shouldUpdateReputation");
 		User reputatedUser = new User("reputatedUser", "rep.user@ese.ch", "1234");
 		GregorianCalendar twoDaysAgo = new GregorianCalendar();
 		twoDaysAgo.setTimeInMillis(twoDaysAgo.getTimeInMillis()-2*24*60*60*1000);
