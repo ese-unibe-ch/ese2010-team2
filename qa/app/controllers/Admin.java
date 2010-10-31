@@ -236,7 +236,8 @@ public class Admin extends Controller {
 	
 	public static void showNotifications() {
 		User user = manager.getUserByName(session.get("username"));
-		ArrayList<Notification> notifications = user.getAllNotifications();
+		ArrayList<Notification> notifications = (ArrayList<Notification>) user.getAllNotifications().clone();
+		user.clearAllNotifications();
 		render(notifications);
 	}
 
