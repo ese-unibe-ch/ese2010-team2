@@ -234,7 +234,6 @@ public class Question extends Post {
 		Question question = new Question(false, this.content, this.owner);
 		question.addTags(this.getTags());
 		this.oldVersions.add(0, question);
-		this.editedBy.add(manager.getUserByName(uname));
 		super.setContent(content, uname);
 		this.setTags(""+tags);
 		manager.getUserByName(uname).addActivity(

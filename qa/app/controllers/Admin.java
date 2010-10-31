@@ -276,7 +276,6 @@ public class Admin extends Controller {
 		render(notifications);
 	}
 
-	// TODO: Übergabe der Werte aus radio check boxes & speichern dieser.
 	public static void editUserGroup(String uname, String group) {
 		ArrayList<User> users = manager.getUsers();
 		User user = manager.getUserByName(uname);

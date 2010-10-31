@@ -21,7 +21,7 @@ public abstract class Post {
 	protected User owner;
 	protected int score = 0;
 	protected ArrayList<Post> oldVersions= new ArrayList<Post>();
-	protected ArrayList<User> editedBy= new ArrayList<User>();
+	public ArrayList<User> editedBy= new ArrayList<User>();
  
 	protected static DbManager manager = DbManager.getInstance();
 	protected Calendar calendar = Calendar.getInstance();
@@ -220,5 +220,12 @@ public abstract class Post {
 	 */
 	public void userVotedForPost(User user) {
 		userVotedForPost.add(user);
+	}
+	
+	public void removeEditor(String uname){
+		for(int i=0;i<editedBy.size();i++){
+			if(editedBy.get(i).getName().equals(uname))
+				editedBy.remove(i);
+		}
 	}
 }

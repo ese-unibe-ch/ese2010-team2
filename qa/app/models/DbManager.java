@@ -61,7 +61,6 @@ public class DbManager {
 		this.questionIdCounter = 0;
 		this.answerIdCounter = 0;
 		this.commentIdCounter = 0;
-		//User anonymousUser= new User("anonymous", "a@nonymous", "anonymous");
 	}
 
 	/**
@@ -123,17 +122,11 @@ public class DbManager {
 		}
 
 		// Anonymize all questions a user edited
-		for (Post p : updatedQuestions) {
+		for (Question p : updatedQuestions) {
+			ArrayList<User> updatedEditors = anonymize(username, p.getEditors());
 			p.editedBy.clear();
-			p.editedBy.addAll(anonymize(username, p.editedBy));
+			p.editedBy.addAll(updatedEditors);
 		}
-
-		// Anonymize all answers a user edited
-		for (Post p : updatedAnswers) {
-			p.editedBy.clear();
-			p.editedBy.addAll(anonymize(username,p.editedBy));
-		}
-
 		DbManager.questions.clear();
 		DbManager.questions.addAll(updatedQuestions);
 
@@ -142,6 +135,14 @@ public class DbManager {
 			if (!a.getOwner().equals(deleteUser))
 				updatedAnswers.add(a);
 		}
+
+		// Anonymize all answers a user edited
+		for (Post p : updatedAnswers) {
+			ArrayList<User> updatedEditors = anonymize(username, p.getEditors());
+			p.editedBy.clear();
+			p.editedBy.addAll(updatedEditors);
+		}
+
 		DbManager.answers.clear();
 		DbManager.answers.addAll(updatedAnswers);
 
@@ -165,11 +166,18 @@ public class DbManager {
 	 * @return - The anonymized list
 	 */
 	private ArrayList<User> anonymize(String uname, ArrayList<User> list) {
+		if(!checkUserNameIsOccupied("anonymous"))
+			new User("anonymous", "a@nonymous", "anonymous");
+		
 		ArrayList<User> updatedEditedBy = new ArrayList<User>();
 		for (User u : list) {
 			if (!u.getName().equals(uname)) {
 				updatedEditedBy.add(u);
 			}
+			 else{
+			 updatedEditedBy.add(getUserByName("anonymous"));
+			 }
+
 		}
 		if (list.contains(getUserByName(uname)))
 			updatedEditedBy.add(getUserByName("anonymous"));
@@ -243,7 +251,7 @@ public class DbManager {
 	 *            - the id of the comment you are looking for
 	 * @return - the comment with the id #id
 	 */
-	public Comment getCommentById(int id){
+	public Comment getCommentById(int id) {
 		for (Comment c_comment : comments)
 			if (c_comment.getId() == id)
 				return c_comment;
@@ -279,7 +287,7 @@ public class DbManager {
 
 		return sortedAnswers;
 	}
-	
+
 	/**
 	 * Gets all answers sorted by date.
 	 * 
@@ -292,11 +300,12 @@ public class DbManager {
 
 		return sortedAnswers;
 	}
-	
+
 	/**
 	 * Gets all answers from a specific user sorted by Date
 	 * 
-	 * @param userId - the users id
+	 * @param userId
+	 *            - the users id
 	 * 
 	 * @return - sorted Answers
 	 */
@@ -334,11 +343,12 @@ public class DbManager {
 
 		return sortedQuestions;
 	}
-	
+
 	/**
 	 * Gets all questions from a specific user sorted by Date
 	 * 
-	 * @param userId - the id of the user, the questions are from
+	 * @param userId
+	 *            - the id of the user, the questions are from
 	 * 
 	 * @return - sorted Questions
 	 */
@@ -528,11 +538,10 @@ public class DbManager {
 		int result = 0;
 		int counter = 1;
 		Date currentDate = new Date();
-		while (	(counter <= allReputations.size()) &&
-				((date.getYear() != currentDate.getYear()) || 
-				(date.getMonth() != currentDate.getMonth()) ||
-				(date.getDate() != currentDate.getDate())))
-		{
+		while ((counter <= allReputations.size())
+				&& ((date.getYear() != currentDate.getYear())
+						|| (date.getMonth() != currentDate.getMonth()) || (date
+						.getDate() != currentDate.getDate()))) {
 			currentDate = new Date(currentDate.getTime() - 86400000);
 			counter++;
 		}
@@ -547,13 +556,13 @@ public class DbManager {
 			reputations.add(0);
 		}
 		while (reputations.size() > days) {
-			reputations.remove(reputations.size()-1);
+			reputations.remove(reputations.size() - 1);
 		}
 		return reputations;
 	}
-	
+
 	public void updateReputation(User reputatedUser) {
-		reputatedUser.updateReputation();	
+		reputatedUser.updateReputation();
 	}
 
 	/*

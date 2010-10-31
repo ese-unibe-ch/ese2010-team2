@@ -388,11 +388,28 @@ public class DbManagerTest extends UnitTest {
     public void shouldAnonymizeEditedByList(){
     	User u1= new User("u1","u@u","u");
     	User u2= new User("u2","u@u","u");
-    	Question q= new Question("question", u1);
-    	q.addVersion("question edited", "", "u2");
-    	manager.deleteUser("u2");
-    	assertFalse(!q.getEditors().contains(u2));
     	
+    	Question question= new Question("question", admin);
+    	Question q=manager.getQuestionById(question.getId());
+    	q.addVersion("question edited", "edited", "u1");
+    	q.addVersion("ques", "edited ques", "u2");
+    	q.addVersion("quess", "", "admin");
+    	
+    	Answer answer= new Answer("answer", u1, q);
+    	Answer a=manager.getAnswerById(answer.getId());
+    	a.addVersion("djs", "u1");
+    	a.addVersion("version2","u2");
+    	
+    	manager.deleteUser("u2");
+    	
+    	assertTrue(q.getEditors().contains(manager.getUserByName("u1")));
+    	assertTrue(q.getEditors().contains(admin));
+    	assertFalse(q.getEditors().contains(manager.getUserByName("u2")));
+    	assertTrue(q.getEditors().contains(manager.getUserByName("anonymous")));
+    	
+    	assertTrue(a.getEditors().contains(manager.getUserByName("u1")));
+    	assertFalse(a.getEditors().contains(manager.getUserByName("u2")));
+    	assertTrue(a.getEditors().contains(manager.getUserByName("anonymous")));
     }
 
 
