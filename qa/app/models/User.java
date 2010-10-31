@@ -16,7 +16,7 @@ public class User {
 	private String email;
 	private String password;
 	private int id;
-
+	
 	/** The current reputation. */
 	private int score;
 	
@@ -46,6 +46,7 @@ public class User {
 	
 	/** A list of recent changes */
 	private ArrayList<Notification> notifications;
+	
 	/**
 	 * Instantiates a new user.
 	 * 
@@ -343,5 +344,9 @@ public class User {
 
 	public void notifyChange(String message, Question changedQuestion) {
 		Notification change = new Notification(message, this, changedQuestion);	
+	}
+	
+	public boolean isChanged() {
+		return !notifications.isEmpty();
 	}
 }

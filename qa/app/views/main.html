@@ -43,6 +43,10 @@
                 <a href="@{Admin.showUserLog(session.get("username"))}">show my activities</a>  |
                 <a href="@{Application.showUser(session.get("username"))}">my profile</a> |
                 <a href="@{Application.showState()}">statistics</a>
+                #{if isChanged}
+                	<br>
+                	<a href="@{Admin.showNotifications()}">something happend</a>
+                #{/if}
             </div>
             #{/if}
 

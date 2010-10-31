@@ -1,0 +1,7 @@
+<div class="notification">
+
+	<div class="notification_text">
+		${_post.getMessage()}:
+		<a href="@{Application.showAnswers(_post.getChangedQuestion().getId())}">${_post.getChangedQuestion().getContent()}</a>
+	</div>	
+</div>

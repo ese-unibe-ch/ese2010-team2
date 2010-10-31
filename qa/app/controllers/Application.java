@@ -31,16 +31,19 @@ public class Application extends Controller {
 	private static DbManager manager = DbManager.getInstance();
 
 	public static void index() {
-		String user = session.get("username");
+		String userName = session.get("username");
 		int score = 0;
-		if (user != null)
-			score = manager.getUserByName(user).getScore();
+		boolean isChanged = true;
+		if (userName != null) {
+			User user = manager.getUserByName(userName);
+			isChanged = user.isChanged();
+		}
 		if (manager.getQuestions().isEmpty()) {
 			String message = "no questions";
-			render(message, user, score);
+			render(message, userName, score);
 		} else {
 			ArrayList<Question> questions = manager.getQuestionsSortedByScore();
-			render(questions, user, score);
+			render(questions, userName, isChanged);
 		}
 	}
 

@@ -6,6 +6,7 @@ import java.util.Calendar;
 import models.Answer;
 import models.Comment;
 import models.DbManager;
+import models.Notification;
 import models.Post;
 import models.Question;
 import models.User;
@@ -231,6 +232,12 @@ public class Admin extends Controller {
 			render(message);
 		}
 		render(userLog);
+	}
+	
+	public static void showNotifications() {
+		User user = manager.getUserByName(session.get("username"));
+		ArrayList<Notification> notifications = user.getAllNotifications();
+		render(notifications);
 	}
 
 	// TODO: Übergabe der Werte aus radio check boxes & speichern dieser.
