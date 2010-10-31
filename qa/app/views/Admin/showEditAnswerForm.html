@@ -6,6 +6,7 @@
 	<form action="@{Admin.editAnswer(answer.getId(), qid)}" method="GET">
 	<table>
 		<tr>
+		<h4 style="color:#c00">${message}</h4>
 			<td>Answer:</td>
 				<td><textarea id="newContent" name="newContent" cols="70" rows="5">${answer.getContent()}</textarea></td>
 		</tr>

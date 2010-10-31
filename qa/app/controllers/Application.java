@@ -83,15 +83,20 @@ public class Application extends Controller {
 		}
 	}
 
-	public static void showAnswers(String id) {
+	public static void showAnswers(String id, String newAnswer,
+			String newMessage) {
 		int intId = Integer.parseInt(id);
 		ArrayList<Answer> answers = manager.getAnswersSortedByScore(intId);
 		Post question = manager.getQuestionById(intId);
 		if (answers.size() == 0) {
-			String message = "no answers";
-			render(message, question);
-		} else {
-			render(answers, question);
+			String message= new String();;
+			if (newMessage!=null)
+				message = newMessage;
+			render(message, question, newAnswer);
+		} 
+		else {
+			String message=newMessage;
+			render(answers, question, newAnswer, message);
 		}
 	}
 
@@ -140,7 +145,7 @@ public class Application extends Controller {
 
 		q.setBestAnswer(a);
 
-		showAnswers(Integer.toString(qid));
+		showAnswers(Integer.toString(qid), "", "");
 	}
 
 	/** renders the current user profile */
@@ -155,8 +160,10 @@ public class Application extends Controller {
 		User profileOwner = manager.getUserByName(userName);
 		ArrayList<Integer> reputations = manager.getReputations(profileOwner,
 				30);
-		ArrayList<Question> userQuestions = manager.getQuestionsByUserIdSortedByDate(profileOwner.getId());
-		ArrayList<Answer> userAnswers = manager.getAnswersByUserIdSortedByDate(profileOwner.getId());
+		ArrayList<Question> userQuestions = manager
+				.getQuestionsByUserIdSortedByDate(profileOwner.getId());
+		ArrayList<Answer> userAnswers = manager
+				.getAnswersByUserIdSortedByDate(profileOwner.getId());
 		ArrayList<String> userLog = manager.getUserLog(userName);
 		render(profileOwner, reputations, userQuestions, userAnswers, userLog);
 	}
@@ -302,13 +309,15 @@ public class Application extends Controller {
 		if (!text.equals("")) {
 			Search search = new Search(text);
 
-			SearchResultAssembler assembler = new SearchResultAssembler(
-					search.getAnswerContentResults(), search.getCommentResults(), search.getMergedQuestions(), search.getQuery());
+			SearchResultAssembler assembler = new SearchResultAssembler(search
+					.getAnswerContentResults(), search.getCommentResults(),
+					search.getMergedQuestions(), search.getQuery());
 
-			SearchResultSorter sorter = new SearchResultSorter(assembler.getSearchResults(), search.getQuery());
+			SearchResultSorter sorter = new SearchResultSorter(assembler
+					.getSearchResults(), search.getQuery());
 
 			ArrayList<SearchResult> results = sorter.getSearchResults();
-			
+
 			// If query has no results
 			if (results.size() == 0) {
 				String message = "No Results";
