@@ -20,9 +20,10 @@ public class User {
 	/** The current reputation. */
 	private int score;
 	
+	/** The last know reputation */
 	private int lastScore;
 	
-	/** The reputation over the last 30 days */
+	/** The reputation over time */
 	private LinkedList<Integer> reputations = new LinkedList<Integer>();
 	
 	/** The last time reputations were updated */
@@ -42,7 +43,9 @@ public class User {
 
 	/** The application-manager. */
 	private static DbManager manager = DbManager.getInstance();
-
+	
+	/** A list of recent changes */
+	private ArrayList<Notification> notifications;
 	/**
 	 * Instantiates a new user.
 	 * 
@@ -63,6 +66,8 @@ public class User {
 		activity.add(name + " is generated");
 		this.reputations = new LinkedList<Integer>();
 		this.lastReputationUpdate = new GregorianCalendar();
+		this.lastScore = 0;
+		notifications = new ArrayList<Notification>();
 	}
 
 	/**
@@ -318,5 +323,21 @@ public class User {
 	
 	public int getLastReputation() {
 		return this.lastScore;
+	}
+	
+	public void addNotification(Notification newChange) {
+		this.notifications.add(newChange);
+	}
+	
+	public void removeNotification(Notification oldChange) {
+		this.notifications.remove(oldChange);
+	}
+	
+	public void clearAllNotifications() {
+		this.notifications.clear();
+	}
+	
+	public ArrayList<Notification> getAllNotifications() {
+		return this.notifications;
 	}
 }
