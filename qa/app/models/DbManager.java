@@ -550,6 +550,10 @@ public class DbManager {
 		}
 		return reputations;
 	}
+	
+	public void updateReputation(User reputatedUser) {
+		reputatedUser.updateReputation();	
+	}
 
 	/*
 	 * Getter methods

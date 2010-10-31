@@ -41,6 +41,7 @@ public abstract class Post {
 		//int vote = Integer.parseInt(vote2);
 		score = score + vote;
 		this.setLastChanged(new Date());
+		manager.updateReputation(this.getOwner());
 	}
 
 	/**

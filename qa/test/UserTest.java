@@ -53,6 +53,15 @@ public class UserTest extends UnitTest {
 		assertEquals(3,(int)reputatedUser.getReputations().get(1)); //the day before yesterday
 	}
 	
+	@Test
+	public void shouldUpdateLastReputation() {
+		User reputatedUser = new User("reputatedUser", "rep.user@ese.ch", "1234");
+		Question question = new Question(true,"question", reputatedUser);
+		assertEquals(0,reputatedUser.getLastReputation());
+		question.vote(3);
+		assertEquals(3,reputatedUser.getLastReputation());
+	}
+	
 	@AfterClass
 	public static void tearDown() {
 		manager.getUsers().clear();
