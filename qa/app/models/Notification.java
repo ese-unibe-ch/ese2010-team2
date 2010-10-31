@@ -10,6 +10,7 @@ public class Notification {
 		this.message = message;
 		this.notifiedUser = notifiedUser;
 		this.changedQuestion = changedQuestion;
+		this.notifiedUser.addNotification(this);
 	}
 
 	public void setMessage(String message) {

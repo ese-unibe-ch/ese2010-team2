@@ -2,6 +2,7 @@ import java.util.GregorianCalendar;
 
 import models.Answer;
 import models.DbManager;
+import models.Notification;
 import models.Question;
 import models.User;
 
@@ -60,6 +61,34 @@ public class UserTest extends UnitTest {
 		assertEquals(0,reputatedUser.getLastReputation());
 		question.vote(3);
 		assertEquals(3,reputatedUser.getLastReputation());
+	}
+	
+	@Test
+	public void shouldAddNotification() {
+		User notifiedUser = new User("notifiedUser", "note.user@ese.ch", "1234");
+		Question changedQuestion = new Question("some question", notifiedUser);
+		Notification notification = new Notification("something changed", notifiedUser, changedQuestion);
+		assertEquals(1, notifiedUser.getAllNotifications().size());
+		assertEquals(notification, notifiedUser.getAllNotifications().get(0));
+	}
+	
+	@Test
+	public void shouldRemoveNotification() {
+		User notifiedUser = new User("notifiedUser", "note.user@ese.ch", "1234");
+		Question changedQuestion = new Question("some question", notifiedUser);
+		Notification notification = new Notification("something changed", notifiedUser, changedQuestion);
+		notifiedUser.removeNotification(notification);
+		assertTrue(notifiedUser.getAllNotifications().isEmpty());
+	}
+	
+	@Test
+	public void shouldClearNotification() {
+		User notifiedUser = new User("notifiedUser", "note.user@ese.ch", "1234");
+		Question changedQuestion = new Question("some question", notifiedUser);
+		Notification firstNotification = new Notification("something changed", notifiedUser, changedQuestion);
+		Notification secondNotification = new Notification("something changed", notifiedUser, changedQuestion);
+		notifiedUser.clearAllNotifications();
+		assertTrue(notifiedUser.getAllNotifications().isEmpty());
 	}
 	
 	@AfterClass
