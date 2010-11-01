@@ -24,7 +24,7 @@ GET                /register                                        	  Applicati
 GET                /delete_question  	  				  				  Admin.deleteQuestion
 GET                /delete_answer  	  				  				  	  Admin.deleteAnswer
 GET                /delete_comment	  				  				  	  Admin.deleteComment
-GET                /question/{qid}/edit_Comment			  				  Admin.showEditCommentForm
+GET                /edit_Comment			  				  			  Admin.showEditCommentForm
 GET                /question/{qid}/answer/{aid}/edit_Comment/{cid}  	  Admin.editComment
 GET                /question/{qid}/editQuestion                     	  Admin.editQuestion
 GET                /question/{qid}/editAnswer/{answerId}            	  Admin.editAnswer

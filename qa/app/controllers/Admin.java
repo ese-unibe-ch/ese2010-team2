@@ -249,18 +249,19 @@ public class Admin extends Controller {
 
 	public static void voteQuestion(int qid, int vote) {
 		// int id = Integer.parseInt(qid);
+		Question question = manager.getQuestionById(qid);
 		User user = manager.getUserByName(session.get("username"));
-		if (manager.getQuestionById(qid).getOwner().equals(
+		if (question.getOwner().equals(
 				session.get("username"))) {
 			String message = "You cannot vote your own question!";
 			render(message, qid);
-		} else if (manager.getQuestionById(qid).checkUserVotedForPost(user)) {
-			String message = "You already voted this question";
+		} else if (question.voteChangeable()==false) {
+			String message = "You can't vote twice the same value or your time for changing your mind is passed";
 			render(message, qid);
 		} else {
-			manager.getQuestionById(qid).vote(vote);
-			manager.getQuestionById(qid).userVotedForPost(user);
-			redirect("/");
+			question.vote(vote);
+			question.userVotedForPost(user);
+			redirect("/question/" + qid + "/answers/");
 		}
 	}
 
@@ -281,8 +282,8 @@ public class Admin extends Controller {
 				session.get("username"))) {
 			String message = "You cannot vote your own answer!";
 			render(message, qid);
-		} else if (manager.getAnswerById(aid).checkUserVotedForPost(user)) {
-			String message = "You already voted this question";
+		} else if (manager.getAnswerById(aid).voteChangeable()==false) {
+			String message = "You can't vote twice the same value or your time for changing your mind is passed";
 			render(message, qid);
 		} else {
 			manager.getAnswerById(aid).vote(vote);

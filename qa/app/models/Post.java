@@ -12,6 +12,7 @@ import com.petebevin.markdown.MarkdownProcessor;
  */
 public abstract class Post {
 
+	protected Date voteSetTime;
 	protected int id;
 	protected String content;
 	protected User owner;
@@ -38,6 +39,22 @@ public abstract class Post {
 		score = score + vote;
 		this.setLastChanged(new Date());
 		manager.updateReputation(this.getOwner());
+		voteSetTime = new Date();
+	}
+	
+	public boolean voteChangeable(){
+		long then;
+		long now = new Date().getTime();
+		
+		if(voteSetTime==null){
+			then = now;
+		}else{
+			then = voteSetTime.getTime();
+		}
+		
+		long diff = now - then;
+
+		return (diff / (1000 * 60)) < 1;
 	}
 
 	/**

@@ -12,6 +12,7 @@ import models.User;
 import org.hibernate.hql.ast.tree.ExpectedTypeAwareNode;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import play.test.UnitTest;
@@ -24,6 +25,51 @@ public class DbManagerTest extends UnitTest {
 	public void setUp() {
 		manager = DbManager.getInstance();
 		admin = new User("admin", "admin@admin.ch", "admin");
+	}
+	
+	@Test
+	public void shoulfindCommentbyId(){
+		Question Question1 = new Question(true, "question1", admin);
+		Comment comment1 = new Comment(admin, Question1, "hallo1");
+		Comment comment2 = new Comment(admin, Question1, "hallo2");
+		Comment comment3 = new Comment(admin, Question1, "hallo3");
+		assertTrue(manager.getComments().size()==3);
+		assertEquals(comment1, manager.getCommentById(comment1.getId()));
+		assert(manager.getCommentById(1).getContent()=="hallo2");
+	}
+	
+	@Test
+	public void shouldDeleteComment(){
+		Question Question1 = new Question(true, "question1", admin);
+		Comment comment = new Comment(admin, Question1, "hallo");
+		
+		assert(manager.getComments().size()>0&&manager.getCommentById(0).equals(comment));
+		manager.deleteComment(comment);
+		assert(manager.getComments().size()==0);
+	}
+	
+	
+	/**
+	 * Muss ich noch erledigen, irgendwas stimmt mit dem hinzufügen der Comments nicht...
+	 * (es)
+	 */
+	@Ignore
+	public void shouldDeleteAnswerandhisComments(){
+		Question question1 = new Question(true, "question1", admin);
+		Answer answer1 = new Answer("answer1", admin, question1);
+		Comment comment = new Comment(admin, answer1, "hallo");
+		
+		assert(answer1.getComments().size()>0);
+		manager.deleteAnswer(answer1);
+		assert(answer1.getComments().size()==0);
+	}
+	
+	@Ignore
+	public void shoulDeleteQuestionandallhisPost(){
+		Question question1 = new Question(true, "question1", admin);
+		Answer answer1 = new Answer("answer1", admin, question1);
+		Comment comment = new Comment(admin, answer1, "hallo");
+		
 	}
 
 	@Test

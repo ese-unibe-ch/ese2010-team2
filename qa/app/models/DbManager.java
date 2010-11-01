@@ -185,94 +185,39 @@ public class DbManager {
 	}
 	
 	/**
-	 * Deletes a certain question and all his answers and comments
+	 * Deletes a certain question and all his answers
 	 * 
 	 * @param question
 	 */
 	public void deleteQuestion(Question question){
 		
-		ArrayList<Question> UpdatedQuestions = new ArrayList<Question>();
-		ArrayList<Answer> UpdatedAnswers = new ArrayList<Answer>();
-		ArrayList<Comment> UpdatedComments = new ArrayList<Comment>();
+		DbManager.questions.remove(question);
 		
-		//Question && answers
-		for(Question toSearch : DbManager.questions){
-			if(!toSearch.equals(question)){
-				UpdatedQuestions.add(toSearch);
-			}
+		for(int i=0; i<=question.getAnswers().size()-1; i++){
+			DbManager.answers.remove(question.getAnswers().get(i));
 		}
-		
-		for(Answer toDelete : question.getAnswers()){
-			for(Answer each : DbManager.answers)
-				if(!toDelete.equals(each))
-					UpdatedAnswers.add(each);
-		}
-		DbManager.answers.clear();
-		DbManager.answers.addAll(UpdatedAnswers);
-		DbManager.questions.clear();
-		DbManager.questions.addAll(UpdatedQuestions);
-		
-		//Comments to answer
-		for(Answer each : this.getAllAnswersByQuestionId(question.getId())){
-			for(Comment CommentToDelete : each.getComments())
-				for(Comment all : DbManager.comments)
-					if(!CommentToDelete.equals(all))
-					UpdatedComments.add(all);
-		}
-		
-		//Comments to question
-		for(Comment each : question.getComments()){
-			for(Comment all : DbManager.comments)
-				if(!each.equals(all))
-					UpdatedComments.add(all);
-		}
-		DbManager.comments.clear();
-		DbManager.comments.addAll(UpdatedComments);
 	}
 	
 	/**
-	 * Deletes a certain answer and all his comments
+	 * Deletes a certain answer
 	 * 
 	 * @param answer
 	 */
 	public void deleteAnswer(Answer answer){
+		DbManager.answers.remove(answer);
 		
-		ArrayList<Answer> UpdatedAnswers = new ArrayList<Answer>();
-		ArrayList<Comment> UpdatedComments = new ArrayList<Comment>();
-		
-		//Answer
-		for(Answer all : DbManager.answers){
-			if(!answer.equals(all))
-				UpdatedAnswers.add(all);
+		for(int i=0; i<answer.getComments().size()-1; i++){
+			DbManager.comments.remove(answer.getComments().get(i));
 		}
-		DbManager.answers.clear();
-		DbManager.answers.addAll(UpdatedAnswers);
-		
-		//Comments
-		for(Comment toDelete : answer.getComments()){
-			for(Comment all : DbManager.comments)
-				if(!toDelete.equals(all))
-					UpdatedComments.add(all);
-		}
-		DbManager.comments.clear();
-		DbManager.comments.addAll(UpdatedComments);
 	}
 	
 	/**
-	 * Deletes a certaion comment
+	 * Deletes a certain comment
 	 * 
 	 * @param comment
 	 */
 	public void deleteComment(Comment comment){
-		
-		ArrayList<Comment> UpdatedComments = new ArrayList<Comment>();
-		
-		for(Comment all : DbManager.comments){
-			if(!comment.equals(all))
-				UpdatedComments.add(all);
-		}
-		DbManager.comments.clear();
-		DbManager.comments.addAll(UpdatedComments);
+		DbManager.comments.remove(comment);
 	}
 
 	/**
