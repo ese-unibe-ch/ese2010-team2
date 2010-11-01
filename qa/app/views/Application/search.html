@@ -3,21 +3,21 @@
 <a href="/">back</a>
 <form action="@{Application.Search()}" method="GET">
 	<br>
-	<input type="text" name="text" value="${text}"><input type="submit" value="Search" /><br>
+	<input type="text" name="text" value="${params.get('text')}"><input type="submit" value="Search" /><br>
 	<br>
 	<br>
 </form>
 <h3>${message}</h3>
 #{if results}
+<h3>Search results for "${params.get('text')}":</h3>
 #{list items:results, as:'searchresult'}
-	<p><a href="/question/${searchresult.getQuestion().getId()}/answers/">${searchresult.getQuestion().getContent()}</a></p>
-	<p>----------------------------------------</p>
-	
+	#{short_post post:searchresult.getQuestion() /}
+
 	<!-- For testing only -->
 	<!-- <p>Total Score: ${searchresult.getTotalScore()}</p>
 	<p>Total Radius Count: ${searchresult.getTotalCount()}</p>
 	<p>Has a best Answer?: ${searchresult.getHasABestAnswer()}</p>
 	<p>----------------------------------------</p> -->
-	
+
 #{/list}
 #{/if}

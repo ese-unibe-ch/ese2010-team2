@@ -1,11 +1,7 @@
 package models;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 
 import com.petebevin.markdown.MarkdownProcessor;
@@ -114,8 +110,6 @@ public abstract class Post {
 		
 		StringBuffer s = new StringBuffer();
 		
-		s.append("about ");
-		
 		if ( diff < 60 ) {
 			s.append(diff + " seconds ");
 		} else if ( diff > 60 && diff < 60 * 60 ) {
@@ -144,7 +138,6 @@ public abstract class Post {
 			s.append(years > 1 ? " years " : " year ");
 		}
 		
-		s.append("ago");
 		return s.toString();
 	}
 
