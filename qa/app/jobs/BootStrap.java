@@ -113,6 +113,19 @@ public class BootStrap extends Job {
 			}
 		}
 		
+		//a question just to test best answer
+		Question goodQuestion = new Question(true, "This is actually a good question", manager.getUserByName("user-1"));
+		Date aWeekAgo = new Date(goodQuestion.getDate().getTime()-604800000);
+		goodQuestion.setDate(aWeekAgo);
+		goodQuestion.vote(2);
+		Answer stupidAnswer = new Answer(true, "This is a stupid answer", manager.getUserByName("user-2"), goodQuestion);
+		Answer anotherstupidAnswer = new Answer(true, "This is just another stupid answer", manager.getUserByName("user-3"), goodQuestion);
+		Answer goodAnswer = new Answer(true, "Finally a good answer", manager.getUserByName("user-4"), goodQuestion);
+		goodAnswer.vote(3);
+		Answer bestAnswer = new Answer(true, "This is the best answer ever", manager.getUserByName("user-5"), goodQuestion);
+		bestAnswer.vote(7);
+		Comment aComment = new Comment(manager.getUserByName("user-4"), bestAnswer, "Wow! Best answer, even better than mine");
+		
 		// set user-1 be moderator
 		manager.getUserByName("user-1").setGroup(UserGroups.moderator);
 
