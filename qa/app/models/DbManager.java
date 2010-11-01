@@ -183,6 +183,97 @@ public class DbManager {
 			updatedEditedBy.add(getUserByName("anonymous"));
 		return updatedEditedBy;
 	}
+	
+	/**
+	 * Deletes a certain question and all his answers and comments
+	 * 
+	 * @param question
+	 */
+	public void deleteQuestion(Question question){
+		
+		ArrayList<Question> UpdatedQuestions = new ArrayList<Question>();
+		ArrayList<Answer> UpdatedAnswers = new ArrayList<Answer>();
+		ArrayList<Comment> UpdatedComments = new ArrayList<Comment>();
+		
+		//Question && answers
+		for(Question toSearch : DbManager.questions){
+			if(!toSearch.equals(question)){
+				UpdatedQuestions.add(toSearch);
+			}
+		}
+		
+		for(Answer toDelete : question.getAnswers()){
+			for(Answer each : DbManager.answers)
+				if(!toDelete.equals(each))
+					UpdatedAnswers.add(each);
+		}
+		DbManager.answers.clear();
+		DbManager.answers.addAll(UpdatedAnswers);
+		DbManager.questions.clear();
+		DbManager.questions.addAll(UpdatedQuestions);
+		
+		//Comments to answer
+		for(Answer each : this.getAllAnswersByQuestionId(question.getId())){
+			for(Comment CommentToDelete : each.getComments())
+				for(Comment all : DbManager.comments)
+					if(!CommentToDelete.equals(all))
+					UpdatedComments.add(all);
+		}
+		
+		//Comments to question
+		for(Comment each : question.getComments()){
+			for(Comment all : DbManager.comments)
+				if(!each.equals(all))
+					UpdatedComments.add(all);
+		}
+		DbManager.comments.clear();
+		DbManager.comments.addAll(UpdatedComments);
+	}
+	
+	/**
+	 * Deletes a certain answer and all his comments
+	 * 
+	 * @param answer
+	 */
+	public void deleteAnswer(Answer answer){
+		
+		ArrayList<Answer> UpdatedAnswers = new ArrayList<Answer>();
+		ArrayList<Comment> UpdatedComments = new ArrayList<Comment>();
+		
+		//Answer
+		for(Answer all : DbManager.answers){
+			if(!answer.equals(all))
+				UpdatedAnswers.add(all);
+		}
+		DbManager.answers.clear();
+		DbManager.answers.addAll(UpdatedAnswers);
+		
+		//Comments
+		for(Comment toDelete : answer.getComments()){
+			for(Comment all : DbManager.comments)
+				if(!toDelete.equals(all))
+					UpdatedComments.add(all);
+		}
+		DbManager.comments.clear();
+		DbManager.comments.addAll(UpdatedComments);
+	}
+	
+	/**
+	 * Deletes a certaion comment
+	 * 
+	 * @param comment
+	 */
+	public void deleteComment(Comment comment){
+		
+		ArrayList<Comment> UpdatedComments = new ArrayList<Comment>();
+		
+		for(Comment all : DbManager.comments){
+			if(!comment.equals(all))
+				UpdatedComments.add(all);
+		}
+		DbManager.comments.clear();
+		DbManager.comments.addAll(UpdatedComments);
+	}
 
 	/**
 	 * Gets a user by his name.

@@ -21,8 +21,11 @@ GET                /question/{id}/answers/                          	  Applicati
 GET                /showState                                       	  Application.showState
 GET                /users                                           	  Admin.showUsers
 GET                /register                                        	  Application.register
+GET                /delete_question  	  				  				  Admin.deleteQuestion
+GET                /delete_answer  	  				  				  	  Admin.deleteAnswer
+GET                /delete_comment	  				  				  	  Admin.deleteComment
 GET                /question/{qid}/edit_Comment			  				  Admin.showEditCommentForm
-GET                /question/{qid}/answer/{aid}/edit_AnswerComment/{cid}  Admin.editComment
+GET                /question/{qid}/answer/{aid}/edit_Comment/{cid}  	  Admin.editComment
 GET                /question/{qid}/editQuestion                     	  Admin.editQuestion
 GET                /question/{qid}/editAnswer/{answerId}            	  Admin.editAnswer
 GET                /question/{qid}/setbestanswer/{aid}              	  Application.setBestAnswer

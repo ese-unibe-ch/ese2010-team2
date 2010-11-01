@@ -36,9 +36,9 @@ public class Admin extends Controller {
 	}
 
 	public static void showEditCommentForm(int qid, int cid) {
-		Comment c_comment = manager.getCommentById(cid);
+		Comment comment = manager.getCommentById(cid);
 		String CommentContent = manager.getCommentById(cid).getContent();
-		render(c_comment, qid, cid, CommentContent);
+		render(comment, qid, cid, CommentContent);
 	}
 
 	/**
@@ -101,6 +101,24 @@ public class Admin extends Controller {
 
 	public static void showAnswerCommentForm(int answerId, String qid) {
 		render(answerId, qid);
+	}
+	
+	public static void deleteQuestion(int qid){
+		Question question = manager.getQuestionById(qid);
+		manager.deleteQuestion(question);
+		redirect("/");
+	}
+	
+	public static void deleteAnswer(int aid, int qid){
+		Answer answer = manager.getAnswerById(aid);
+		manager.deleteAnswer(answer);
+		redirect("/question/" + qid + "/answers/");
+	}
+	
+	public static void deleteComment(int qid, int cid){
+		Comment comment = manager.getCommentById(cid);
+		manager.deleteComment(comment);
+		redirect("/question/" + qid + "/answers/");
 	}
 
 	public static void addQuestion(String newQuestion, String tags) {

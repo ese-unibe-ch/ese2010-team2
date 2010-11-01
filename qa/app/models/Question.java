@@ -192,6 +192,15 @@ public class Question extends Post {
 	public ArrayList<Comment> getComments() {
 		return manager.getAllCommentsByQuestionIdSortedByDate(this.getId());
 	}
+	
+	/**
+	 * Gets all answers which belongs to this question
+	 * 
+	 * @return
+	 */
+	public ArrayList<Answer> getAnswers() {
+		return manager.getAllAnswersByQuestionId(this.getId());
+	}
 
 	/**
 	 * Gets the date of the last change (means adding of answer, comment, vote)

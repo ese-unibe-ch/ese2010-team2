@@ -20,13 +20,18 @@
 
 		#{votebox post:_answer, mode:'answer', question:_question /}
 
-
-		#{if _answer.ownerIs(session.uid) && session.uid}
+		#{if session.uid}
+		#{if _answer.ownerIs(session.uid) || session.get("username")=="admin"}
 		<a href="@{Admin.showEditAnswerForm(_answer.getId(), _question.getId())}">edit answer</a> |
 		#{/if}
 
 		#{if session.uid}
 		<a href="@{Admin.showAnswerCommentForm(_answer.getId(), _question.getId())}">write comment</a>
+		#{/if}
+		
+		#{if _answer.ownerIs(session.uid) || session.get("username")=="admin"}
+		 | <a href="@{Admin.deleteAnswer(_answer.getId(), _question.getId())}">delete answer</a>
+		#{/if}
 		#{/if}
 </div>
 #{if _answer.getComments().size() > 0}
@@ -39,8 +44,14 @@
 			<p class="comment_text">${comment.getContent()}</p>
 		</div>
 
-		#{if session.uid && comment.ownerIs(session.uid)}
+		#{if session.uid}
+		#{if comment.ownerIs(session.uid) || session.get("username")=="admin"}
 		<a href="@{Admin.showEditCommentForm(_question.getId(), comment.getId())}">edit comment</a>
+		#{/if}
+		
+		#{if comment.ownerIs(session.uid)|| session.get("username")=="admin"}
+		 | <a href="@{Admin.deleteComment(_question.getId(), comment.getId())}">delete comment</a>
+		#{/if}
 		#{/if}
 
 		#{/list}
