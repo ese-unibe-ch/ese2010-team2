@@ -31,7 +31,7 @@
 	</div>
 
 	#{if session.uid && comment.ownerIs(session.uid)}
-	<a href="@{Admin.showEditCommentForm(0, _question.getId(), comment.getId())}">edit comment</a>
+	<a href="@{Admin.showEditCommentForm(_question.getId(), comment.getId())}">edit comment</a>
 	#{/if}
 
 	#{/list}

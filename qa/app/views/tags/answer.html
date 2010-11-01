@@ -5,7 +5,7 @@
 		<span class="date">Posted ${_answer.getTimePassedSincePosting()}</span>
 
 		#{if _answer.isBestAnswer()}
-		<span class="bestanswer">Best answer according to OP</span>
+		<span class="bestanswer">Marked as best answer</span>
 		#{/if}
 
 		#{if _question.ownerIs(session.uid) && _question.bestAnswerChangeable() && !_answer.isBestAnswer()}
