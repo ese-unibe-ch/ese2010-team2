@@ -25,12 +25,14 @@ public class Admin extends Controller {
 
 	private static Calendar calendar = Calendar.getInstance();
 
-	public static void showEditQuestionForm(int qid, String newContent, String tags, String message) {
+	public static void showEditQuestionForm(int qid, String newContent,
+			String tags, String message) {
 		Question question = manager.getQuestionById(qid);
 		render(question, newContent, qid, message, tags);
 	}
 
-	public static void showEditAnswerForm(int answerId, int qid, String newContent, String message) {
+	public static void showEditAnswerForm(int answerId, int qid,
+			String newContent, String message) {
 		Answer answer = manager.getAnswerById(answerId);
 		render(answer, answerId, qid, newContent, message);
 	}
@@ -63,9 +65,35 @@ public class Admin extends Controller {
 	 */
 	public static void editQuestion(int qid, String newContentQuestion,
 			String newContentTag) {
-		String checked = checkQuestion(newContentQuestion, newContentTag);
-		if (!checked.isEmpty())
-			showEditQuestionForm(qid, newContentQuestion, newContentTag, checked);
+		// --> Bitte noch nicht löschen, evtl. steht hier noch Refactoring an!
+		// String checked = checkQuestion(newContentQuestion, newContentTag);
+		// if (!checked.isEmpty())
+		// showEditQuestionForm(qid, newContentQuestion, newContentTag,
+		// checked);
+		// else {
+		// manager.getQuestionById(qid).addVersion(newContentQuestion,
+		// newContentTag, session.get("username"));
+		// redirect("/question/" + qid + "/answers/");
+		// }
+		// Store the overgiven tags in another object to prevent information
+		// loss due to splitting the tag list.
+		String copyTags = "" + newContentTag;
+
+		User user = manager.getUserByName(session.get("username"));
+		if (newContentQuestion.equals("") || newContentQuestion.equals(" ")) {
+			String message = "Your question is empty!";
+			showEditQuestionForm(qid, newContentQuestion, newContentTag, message);
+		} else if (!Question.checkTags(copyTags).isEmpty()) {
+			String message = "The following tags already exist: "
+					+ Question.checkTags(copyTags)
+					+ ". Please review your tags.";
+			showEditQuestionForm(qid, newContentQuestion, newContentTag, message);
+		}
+		// if (!checkQuestion(newQuestion, copyTags).isEmpty()) {
+		// showQuestionForm(newQuestion, tags, checkQuestion(newQuestion,
+		// copyTags));
+		//			
+		// }
 		else {
 			manager.getQuestionById(qid).addVersion(newContentQuestion,
 					newContentTag, session.get("username"));
@@ -81,8 +109,8 @@ public class Admin extends Controller {
 	 */
 	public static void editAnswer(int answerId, int qid, String newContent,
 			User user) {
-		if(newContent.equals("") || newContent.equals(" ")){
-			String message="Your answer is empty.";
+		if (newContent.equals("") || newContent.equals(" ")) {
+			String message = "Your answer is empty.";
 			showEditAnswerForm(answerId, qid, newContent, message);
 		}
 		manager.getAnswerById(answerId).addVersion(newContent,
@@ -127,21 +155,25 @@ public class Admin extends Controller {
 		String copyTags = "" + tags;
 
 		User user = manager.getUserByName(session.get("username"));
-		// if (newQuestion.equals("") || newQuestion.equals(" ")) {
-		// String message = "Your question is empty!";
-		// showQuestionForm(newQuestion, tags, message);
-		// } else if (manager.checkQuestionDuplication(newQuestion)) {
-		// String message = "Your question already exists!";
-		// showQuestionForm(newQuestion, tags, message);
-		// } else if (!Question.checkTags(copyTags).isEmpty()) {
-		// String message = "The following tags already exist: "
-		// + Question.checkTags(copyTags)
-		// + ". Please review your tags.";
-		// showQuestionForm(newQuestion, tags, message);
-		if (!checkQuestion(newQuestion, copyTags).isEmpty()) {
-			showQuestionForm(newQuestion, tags, checkQuestion(newQuestion,
-					copyTags));
-		} else {
+		if (newQuestion.equals("") || newQuestion.equals(" ")) {
+			String message = "Your question is empty!";
+			showQuestionForm(newQuestion, tags, message);
+		} else if (manager.checkQuestionDuplication(newQuestion)) {
+			String message = "Your question already exists!";
+			showQuestionForm(newQuestion, tags, message);
+		} else if (!Question.checkTags(copyTags).isEmpty()) {
+			String message = "The following tags already exist: "
+					+ Question.checkTags(copyTags)
+					+ ". Please review your tags.";
+			showQuestionForm(newQuestion, tags, message);
+		}
+		// --> Bitte nicht löschen, evtl. Refactoring.
+		// if (!checkQuestion(newQuestion, copyTags).isEmpty()) {
+		// showQuestionForm(newQuestion, tags, checkQuestion(newQuestion,
+		// copyTags));
+		//			
+		// }
+		else {
 			@SuppressWarnings("unused")
 			Question question = new Question(true, newQuestion, user);
 			question.addTags(tags);
@@ -149,25 +181,23 @@ public class Admin extends Controller {
 		}
 	}
 
-	private static String checkQuestion(String newQuestion, String tags) {
-		// Store the overgiven tags in another object to prevent information
-		// loss due to splitting the tag list.
-		String copyTags = "" + tags;
-		String message = "";
-
-		if (newQuestion.equals("") || newQuestion.equals(" ")) {
-			message = "Your question is empty!\n";
-		} 
-		if (manager.checkQuestionDuplication(newQuestion)) {
-			message = "Your question already exists!\n";
-		} 
-		if (!Question.checkTags(copyTags).isEmpty()) {
-			message = "The following tags already exist: "
-					+ Question.checkTags(copyTags)
-					+ ". Please review your tags.\n";
-		}
-		return message;
-	}
+	// --> Bitte noch nicht löschen, evtl. Refactoring.
+	//	private static String checkQuestion(String newQuestion, String tags) {
+	// // Store the overgiven tags in another object to prevent information
+	// // loss due to splitting the tag list.
+	// String copyTags = "" + tags;
+	// String message = "";
+	//
+	// if (newQuestion.equals("") || newQuestion.equals(" ")) {
+	// message = "Your question is empty!\n";
+	// }
+	// if (!Question.checkTags(copyTags).isEmpty()) {
+	// message = "The following tags already exist: "
+	// + Question.checkTags(copyTags)
+	// + ". Please review your tags.\n";
+	// }
+	// return message;
+	// }
 
 	public static void addAnswer(String qid, String newAnswer) {
 		int intId = Integer.parseInt(qid);
@@ -289,7 +319,8 @@ public class Admin extends Controller {
 
 	public static void showNotifications() {
 		User user = manager.getUserByName(session.get("username"));
-		ArrayList<Notification> notifications = (ArrayList<Notification>) user.getAllNotifications().clone();
+		ArrayList<Notification> notifications = (ArrayList<Notification>) user
+				.getAllNotifications().clone();
 		user.clearAllNotifications();
 		render(notifications);
 	}

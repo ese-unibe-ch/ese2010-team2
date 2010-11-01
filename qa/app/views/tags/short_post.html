@@ -1,16 +1,16 @@
 <div class="short_post">
     <div class="short_post_info">
-        Posted ${_post.getTimePassedSincePosting()}
+        Posted ${_post.getTimePassedSincePosting()} ago
         <br />
-        by ${_post.getOwner()}
+        by <a href="/showUser/${_post.getOwner()}">${_post.getOwner()}</a>
         <br />
-
+        <strong>Score:</strong> ${_post.getScore()}
+        <br />
         #{tagbox post:_post /}
     </div>
 
     <div class="short_post_text">
-        <a href="/question/${_post.getId()}/answers/">
         ${_post.getHtml().raw()}
-        </a>
+        <a href="/question/${_post.getId()}/answers/">&raquo; read more</a>
     </div>
 </div>

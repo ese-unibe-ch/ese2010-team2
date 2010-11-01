@@ -11,6 +11,10 @@ a {
 	font-weight: bold;
 }
 
+a:hover {
+	color: #900;
+}
+
 img {
 	border: 0;
 }
@@ -86,18 +90,40 @@ div.answer_text {
 }
 
 div.short_post {
+	width: 80%;
 	border-radius: 7px;
 	background: #9BF33D;
 	border: medium solid #78E700;
-	margin: .5em 0 .5em 0;
-	padding: .2em .5em .2em .5em;
+	margin: .5em 0 .8em 0;
+	padding: .3em .5em .3em .5em;
 }
 
 div.short_post_text {
 	width: 70%;
+	padding-right: 1em;
 }
 div.short_post_info {
 	width: 30%;
+	font-size: smaller;
+	float: right;
+	text-align: right;
+	line-height: 1.4em;
+}
+
+div.short_answer {
+	width: 68%;
+	border-radius: 7px;
+	background: #FFF773;
+	border: medium solid #FFF100;
+	margin: .5em 0 .5em 1em;
+	padding: .2em .5em .2em .5em;
+}
+
+div.short_answer_text {
+	width: 70%;
+}
+div.short_answer_info {
+	width: 40%;
 	font-size: smaller;
 	float: right;
 	text-align: right;

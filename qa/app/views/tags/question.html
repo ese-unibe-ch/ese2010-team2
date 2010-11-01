@@ -1,7 +1,7 @@
 <div class="question">
 	#{userbox user:_question.getOwner() /}
 
-	<span class="date">Posted ${_question.getTimePassedSincePosting()}</span>
+	<span class="date">Posted ${_question.getTimePassedSincePosting()} ago</span>
 
 	<div class="question_text">
 		${_question.getHtml().raw()}
