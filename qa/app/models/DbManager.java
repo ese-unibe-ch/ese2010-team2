@@ -166,57 +166,69 @@ public class DbManager {
 	 * @return - The anonymized list
 	 */
 	private ArrayList<User> anonymize(String uname, ArrayList<User> list) {
-		if(!checkUserNameIsOccupied("anonymous"))
+		if (!checkUserNameIsOccupied("anonymous"))
 			new User("anonymous", "a@nonymous", "anonymous");
-		
+
 		ArrayList<User> updatedEditedBy = new ArrayList<User>();
 		for (User u : list) {
 			if (!u.getName().equals(uname)) {
 				updatedEditedBy.add(u);
+			} else {
+				updatedEditedBy.add(getUserByName("anonymous"));
 			}
-			 else{
-			 updatedEditedBy.add(getUserByName("anonymous"));
-			 }
 
 		}
 		if (list.contains(getUserByName(uname)))
 			updatedEditedBy.add(getUserByName("anonymous"));
 		return updatedEditedBy;
 	}
-	
+
 	/**
 	 * Deletes a certain question and all his answers
 	 * 
 	 * @param question
 	 */
-	public void deleteQuestion(Question question){
-		
-		DbManager.questions.remove(question);
-		
-		for(int i=0; i<=question.getAnswers().size()-1; i++){
-			DbManager.answers.remove(question.getAnswers().get(i));
+	public void deleteQuestion(Question question) {
+		for (Comment c : comments) {
+			if (this.getAllCommentsByQuestionIdSortedByDate(question.getId())
+					.contains(c))
+				this.comments.remove(c);
 		}
+
+		for (Comment c : comments) {
+			for (Answer a : question.getAnswers()) {
+				if (this.getAllCommentsByAnswerIdSortedByDate(a.getId())
+						.contains(c))
+					this.comments.remove(c);
+			}
+		}
+		for (Answer a : question.getAnswers()) {
+			deleteAnswer(a);
+		}
+		DbManager.questions.remove(question);
 	}
-	
+
 	/**
 	 * Deletes a certain answer
 	 * 
 	 * @param answer
 	 */
-	public void deleteAnswer(Answer answer){
-		DbManager.answers.remove(answer);
-		
-		for(int i=0; i<answer.getComments().size()-1; i++){
-			DbManager.comments.remove(answer.getComments().get(i));
+	public void deleteAnswer(Answer answer) {
+		for (Comment c : comments) {
+			if (this.getAllCommentsByAnswerIdSortedByDate(answer.getId())
+					.contains(c))
+				this.comments.remove(c);
 		}
+
+		DbManager.answers.remove(answer);
 	}
-	
+
 	/**
 	 * Deletes a certain comment
 	 * 
 	 * @param comment
 	 */
-	public void deleteComment(Comment comment){
+	public void deleteComment(Comment comment) {
 		DbManager.comments.remove(comment);
 	}
 
