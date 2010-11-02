@@ -39,7 +39,9 @@
 			</form>
 		</td>
 		<td>
+		#{if user.getName() != "admin"}
 			<a href="@{Application.showAdminUserProfile(user.getName())}"><h5>edit ${user.getName()}<h5></a>
+		#{/if}
 	</tr>
 #{/list}
 </table>

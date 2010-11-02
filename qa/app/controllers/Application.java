@@ -165,8 +165,7 @@ public class Application extends Controller {
 	/** shows a specific User */
 	public static void showUser(String userName) {
 		User profileOwner = manager.getUserByName(userName);
-		Boolean isAdmin = manager.getUserByName(session.get("username"))
-				.isAdmin();
+
 		ArrayList<Integer> reputations = manager.getReputations(profileOwner,
 				30);
 		ArrayList<Question> userQuestions = manager
@@ -174,8 +173,14 @@ public class Application extends Controller {
 		ArrayList<Answer> userAnswers = manager
 				.getAnswersByUserIdSortedByDate(profileOwner.getId());
 		ArrayList<String> userLog = manager.getUserLog(userName);
-		render(profileOwner, reputations, userQuestions, userAnswers, userLog,
-				isAdmin);
+		if (manager.getUserByName(session.get("username")) != null) {
+			Boolean isAdmin = manager.getUserByName(session.get("username"))
+					.isAdmin();
+			render(profileOwner, reputations, userQuestions, userAnswers,
+					userLog, isAdmin);
+		} else
+			render(profileOwner, reputations, userQuestions, userAnswers,
+					userLog);
 	}
 
 	/**
@@ -265,14 +270,20 @@ public class Application extends Controller {
 		// following attributes e.g. email
 		// email must be changed for the new user name not the old, so you have
 		// to determine if the user name was changed.
-		String username = owner;
+		String username;
+		if (name.equals("")) {
+			username = owner;
+		} else {
+			username = name;
+		}
 
 		// Checks if user name is already occupied
 		if (!name.equals("")) {
 			if (!manager.checkUserNameIsOccupied(name)) {
-				manager.getUserByName(username).setName(name);
+				manager.getUserByName(owner).setName(name);
 			} else {
-				Application.showUserProfile("Sorry, this user already exists!");
+				Application
+						.showAdminUserProfile("Sorry, this user already exists!");
 			}
 
 		}
@@ -282,7 +293,7 @@ public class Application extends Controller {
 				manager.getUserByName(username).setEmail(email);
 			} else {
 				Application
-						.showUserProfile("Please re-check your email address!");
+						.showAdminUserProfile("Please re-check your email address!");
 			}
 		}
 		// Checks if two similar password were typed in.
@@ -290,15 +301,12 @@ public class Application extends Controller {
 			if (password.equals(password2)) {
 				manager.getUserByName(username).setPassword(password);
 			} else {
-				Application.showUserProfile("Passwords are not identical!");
+				Application
+						.showAdminUserProfile("Passwords are not identical!");
 			}
 		}
 
-		if (name.equals("")) {
-			redirect("/editUserGroup");
-		} else {
-			Secure.logout();
-		}
+		redirect("/editUserGroup");
 	}
 
 	/**

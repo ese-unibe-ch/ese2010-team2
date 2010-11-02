@@ -6,7 +6,8 @@
 #{list items:informationOwner, as:'user'}
 <fieldset>
  <legend>Edit:</legend>
-	<form action="@{Application.editInformation(message)}" method="GET">
+	<form action="@{Application.editInformation()}" method="GET">
+	<input type="hidden" name="owner" value = "${message}">
 	<table>
 		<tr>
 			<td valign="top">Username:</td>
