@@ -194,6 +194,19 @@ public class Question extends Post {
 	}
 	
 	/**
+	 * Gets a comment to this question by the id - cid
+	 * 
+	 * @param cid
+	 * @return
+	 */
+	public Comment getCommentbyId(int cid){
+		if(manager.getCommentById(cid).getCommentedPost().equals(this)){
+			return manager.getCommentById(cid);
+		}
+		return null;
+	}
+	
+	/**
 	 * Gets all answers which belongs to this question
 	 * 
 	 * @return

@@ -12,6 +12,8 @@ import com.petebevin.markdown.MarkdownProcessor;
  */
 public abstract class Post {
 
+	protected int votedTimes;
+	protected int voteUpMax, voteDownMax;
 	protected Date voteSetTime;
 	protected int id;
 	protected String content;
@@ -42,7 +44,7 @@ public abstract class Post {
 		voteSetTime = new Date();
 	}
 	
-	public boolean voteChangeable(){
+	public boolean voteChangeable(){		
 		long then;
 		long now = new Date().getTime();
 		
@@ -106,6 +108,18 @@ public abstract class Post {
 
 	public Date getDate() {
 		return date;
+	}
+	
+	public int getVotedTimes(){
+		return this.votedTimes;
+	}
+	
+	public int getVoteUpMax(){
+		return this.voteUpMax;
+	}
+	
+	public int getVoteDownMax(){
+		return this.voteDownMax;
 	}
 	
 	/**
@@ -186,6 +200,18 @@ public abstract class Post {
 
 	public void setDate(Date date) {
 		this.date = date; 
+	}
+	
+	public void setVotedTimes(int value){
+		this.votedTimes=votedTimes+value;
+	}
+	
+	public void setVoteUpMax(int value){
+		this.voteUpMax=value;
+	}
+	
+	public void setVoteDownMax(int value){
+		this.voteDownMax=value;
 	}
 
 	/**
