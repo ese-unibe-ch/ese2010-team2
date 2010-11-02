@@ -290,12 +290,20 @@ public class Admin extends Controller {
 				session.get("username"))) {
 			String message = "You cannot vote your own answer!";
 			render(message, qid);
-		} else if (manager.getAnswerById(aid).voteChangeable()==false) {
+		} else if (answer.voteChangeable()==false||answer.getVotedTimes()>1||(vote==1&&answer.getVoteUpMax()==1)
+				||(vote==-1&&answer.getVoteDownMax()==1)){
 			String message = "You can't vote twice the same value or your time for changing your mind is passed";
 			render(message, qid);
 		} else {
-			manager.getAnswerById(aid).vote(vote);
-			manager.getAnswerById(aid).userVotedForPost(user);
+			answer.vote(vote);
+			answer.userVotedForPost(user);
+			answer.setVotedTimes(1);
+			if(vote==1){
+				answer.setVoteUpMax(1);
+			}
+			if(vote==-1){
+				answer.setVoteDownMax(1);
+			}
 			redirect("/question/" + qid + "/answers/");
 		}
 	}

@@ -17,6 +17,9 @@ public class User {
 	private String password;
 	private int id;
 	
+	/** The post a user voted for*/
+	private Post votedPost;
+	
 	/** The current reputation. */
 	private int score;
 	
