@@ -38,6 +38,8 @@
 				<input type="submit" value="Save" />	
 			</form>
 		</td>
+		<td>
+			<a href="@{Application.showAdminUserProfile(user.getName())}"><h5>edit ${user.getName()}<h5></a>
 	</tr>
 #{/list}
 </table>

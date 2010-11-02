@@ -49,6 +49,8 @@ GET				   /users/{uname}/log									  Admin.showUserLog
 GET                /notifications                                         Admin.showNotifications
 GET				   /editUserProfile										  Application.editUserProfile
 GET				   /showUserProfile										  Application.showUserProfile
+GET				   /editInformation										  Application.editInformation
+GET				   /showAdminUserProfile								  Application.showAdminUserProfile
 GET                /showUser/{userName}                                   Application.showUser
 GET				   /search												  Application.search
 GET				   /editUserGroup										  Admin.editUserGroup

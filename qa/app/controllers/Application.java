@@ -89,13 +89,13 @@ public class Application extends Controller {
 		ArrayList<Answer> answers = manager.getAnswersSortedByScore(intId);
 		Post question = manager.getQuestionById(intId);
 		if (answers.size() == 0) {
-			String message= new String();;
-			if (newMessage!=null)
+			String message = new String();
+			;
+			if (newMessage != null)
 				message = newMessage;
 			render(message, question, newAnswer);
-		} 
-		else {
-			String message=newMessage;
+		} else {
+			String message = newMessage;
 			render(answers, question, newAnswer, message);
 		}
 	}
@@ -155,9 +155,18 @@ public class Application extends Controller {
 		render(message, currentUser);
 	}
 
+	/** renders user profile to admin */
+	public static void showAdminUserProfile(String message) {
+		ArrayList<User> informationOwner = new ArrayList<User>();
+		informationOwner.add(manager.getUserByName(message));
+		render(message, informationOwner);
+	}
+
 	/** shows a specific User */
 	public static void showUser(String userName) {
 		User profileOwner = manager.getUserByName(userName);
+		Boolean isAdmin = manager.getUserByName(session.get("username"))
+				.isAdmin();
 		ArrayList<Integer> reputations = manager.getReputations(profileOwner,
 				30);
 		ArrayList<Question> userQuestions = manager
@@ -165,7 +174,8 @@ public class Application extends Controller {
 		ArrayList<Answer> userAnswers = manager
 				.getAnswersByUserIdSortedByDate(profileOwner.getId());
 		ArrayList<String> userLog = manager.getUserLog(userName);
-		render(profileOwner, reputations, userQuestions, userAnswers, userLog);
+		render(profileOwner, reputations, userQuestions, userAnswers, userLog,
+				isAdmin);
 	}
 
 	/**
@@ -248,6 +258,49 @@ public class Application extends Controller {
 		}
 	}
 
+	public static void editInformation(String owner, String name, String email,
+			String password, String password2) throws Throwable {
+
+		// This block will be used when changing the user name and one of the
+		// following attributes e.g. email
+		// email must be changed for the new user name not the old, so you have
+		// to determine if the user name was changed.
+		String username = owner;
+
+		// Checks if user name is already occupied
+		if (!name.equals("")) {
+			if (!manager.checkUserNameIsOccupied(name)) {
+				manager.getUserByName(username).setName(name);
+			} else {
+				Application.showUserProfile("Sorry, this user already exists!");
+			}
+
+		}
+		// Checks if the email has a @ and a dot
+		if (!email.equals("")) {
+			if (email.contains("@") || email.contains(".")) {
+				manager.getUserByName(username).setEmail(email);
+			} else {
+				Application
+						.showUserProfile("Please re-check your email address!");
+			}
+		}
+		// Checks if two similar password were typed in.
+		if (!password.equals("")) {
+			if (password.equals(password2)) {
+				manager.getUserByName(username).setPassword(password);
+			} else {
+				Application.showUserProfile("Passwords are not identical!");
+			}
+		}
+
+		if (name.equals("")) {
+			redirect("/editUserGroup");
+		} else {
+			Secure.logout();
+		}
+	}
+
 	/**
 	 * Update or set user's avatar.
 	 * 
@@ -309,12 +362,13 @@ public class Application extends Controller {
 		if (!text.equals("")) {
 			Search search = new Search(text);
 
-			SearchResultAssembler assembler = new SearchResultAssembler(search
-					.getAnswerContentResults(), search.getCommentResults(),
-					search.getMergedQuestions(), search.getQuery());
+			SearchResultAssembler assembler = new SearchResultAssembler(
+					search.getAnswerContentResults(),
+					search.getCommentResults(), search.getMergedQuestions(),
+					search.getQuery());
 
-			SearchResultSorter sorter = new SearchResultSorter(assembler
-					.getSearchResults(), search.getQuery());
+			SearchResultSorter sorter = new SearchResultSorter(
+					assembler.getSearchResults(), search.getQuery());
 
 			ArrayList<SearchResult> results = sorter.getSearchResults();
 
