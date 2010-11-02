@@ -275,7 +275,7 @@ public class Application extends Controller {
 		}
 
 		// Checks if user name is already occupied
-		if (!name.equals("")) {
+		if (!name.equals("") && !name.equals(" ")) {
 			if (!manager.checkUserNameIsOccupied(name)) {
 				manager.getUserByName(owner).setName(name);
 			} else {

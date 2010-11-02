@@ -40,7 +40,9 @@
 		</td>
 		<td>
 		#{if user.getName() != "admin"}
-			<a href="@{Application.showAdminUserProfile(user.getName())}"><h5>edit ${user.getName()}<h5></a>
+			<a href="@{Application.showAdminUserProfile(user.getName())}">edit ${user.getName()}</a>
+			<a href="@{Admin.deleteUser(user.getName())}">delete ${user.getName()}</a>
+			
 		#{/if}
 	</tr>
 #{/list}

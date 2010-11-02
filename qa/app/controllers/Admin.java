@@ -148,6 +148,11 @@ public class Admin extends Controller {
 		manager.deleteComment(comment);
 		redirect("/question/" + qid + "/answers/");
 	}
+	
+	public static void deleteUser(String uname){
+		manager.deleteUser(uname);
+		redirect("/editUserGroup");
+	}
 
 	public static void addQuestion(String newQuestion, String tags) {
 		// Store the overgiven tags in another object to prevent information

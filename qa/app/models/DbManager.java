@@ -100,7 +100,8 @@ public class DbManager {
 	}
 
 	/**
-	 * Deletes a user and all entries he or she wrote.
+	 * Deletes a user and all entries he or she wrote. Posts which the user
+	 * edited are anonymized.
 	 * 
 	 * @param - The username of the user to be deleted as a string object.
 	 */

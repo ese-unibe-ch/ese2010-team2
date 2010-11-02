@@ -58,5 +58,6 @@ GET				   /{type}/{id}/history									  Application.showVersionHistory
 GET				   /admin												  Admin.showAdminPage
 GET				   /restoreAnswer										  Admin.restoreAnswer
 GET				   /restoreQuestion										  Admin.restoreQuestion
+GET				   /users/{uname}/deleteUser							  Admin.deleteUser
 
 POST				/setAvatar											  Application.setAvatar
