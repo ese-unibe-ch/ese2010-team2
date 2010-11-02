@@ -112,6 +112,19 @@ public class Answer extends Post {
 	public ArrayList<Comment> getComments() {
 		return manager.getAllCommentsByAnswerIdSortedByDate(this.getId());
 	}
+	
+	/**
+	 * Gets a comment to this answer by the id - cid
+	 * 
+	 * @param cid
+	 * @return
+	 */
+	public Comment getCommentbyId(int cid){
+		if(manager.getCommentById(cid).getCommentedPost().equals(this)){
+			return manager.getCommentById(cid);
+		}
+		return null;
+	}
 
 	public void setContent(String content, String uname) {
 		// this.oldVersions.add(0, new Answer(false, this.content, this.owner,

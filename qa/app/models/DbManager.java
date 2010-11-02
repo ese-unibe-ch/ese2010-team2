@@ -190,19 +190,21 @@ public class DbManager {
 	 * @param question
 	 */
 	public void deleteQuestion(Question question) {
-		for (Comment c : comments) {
-			if (this.getAllCommentsByQuestionIdSortedByDate(question.getId())
-					.contains(c))
-				this.comments.remove(c);
-		}
-
-		for (Comment c : comments) {
-			for (Answer a : question.getAnswers()) {
-				if (this.getAllCommentsByAnswerIdSortedByDate(a.getId())
-						.contains(c))
-					this.comments.remove(c);
+		for(int i=0; i<=question.getComments().size()-1;i++){
+			if(question.getComments().contains(this.comments.get(i))){
+				this.comments.remove(this.comments.get(i));
 			}
 		}
+
+		for(Answer a : this.answers){
+			if(question.getAnswers().contains(a)){
+				for(int i=0; i<=a.getComments().size()-1;i++){
+					this.comments.remove(i);
+				}
+			}
+		}
+		
+		
 		for (Answer a : question.getAnswers()) {
 			deleteAnswer(a);
 		}
@@ -215,11 +217,11 @@ public class DbManager {
 	 * @param answer
 	 */
 	public void deleteAnswer(Answer answer) {
-		for (Comment c : comments) {
+		for(int i=0; i<=comments.size()-1; i++){
 			if (this.getAllCommentsByAnswerIdSortedByDate(answer.getId())
-					.contains(c))
-				this.comments.remove(c);
-		}
+					.contains(comments.get(i)))
+				this.comments.remove(comments.get(i));
+			}
 
 		DbManager.answers.remove(answer);
 	}

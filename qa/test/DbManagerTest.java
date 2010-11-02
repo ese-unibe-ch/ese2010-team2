@@ -30,12 +30,15 @@ public class DbManagerTest extends UnitTest {
 	@Test
 	public void shoulfindCommentbyId(){
 		Question Question1 = new Question(true, "question1", admin);
+		Answer answer1 = new Answer(true, "answer1", admin, Question1);
 		Comment comment1 = new Comment(admin, Question1, "hallo1");
 		Comment comment2 = new Comment(admin, Question1, "hallo2");
-		Comment comment3 = new Comment(admin, Question1, "hallo3");
+		Comment comment3 = new Comment(admin, answer1, "hallo3");
 		assertTrue(manager.getComments().size()==3);
 		assertEquals(comment1, manager.getCommentById(comment1.getId()));
-		assert(manager.getCommentById(1).getContent()=="hallo2");
+		assertEquals(comment3, manager.getCommentById(comment3.getId()));
+		assert(manager.getCommentById(comment2.getId()).getContent()=="hallo2");
+		assert(manager.getCommentById(comment3.getId()).getContent()=="hallo3");
 	}
 	
 	@Test
@@ -44,32 +47,59 @@ public class DbManagerTest extends UnitTest {
 		Comment comment = new Comment(admin, Question1, "hallo");
 		
 		assert(manager.getComments().size()>0&&manager.getCommentById(0).equals(comment));
+		assertEquals(comment, Question1.getCommentbyId(comment.getId()));
 		manager.deleteComment(comment);
 		assert(manager.getComments().size()==0);
-	}
+	}	
 	
-	
-	/**
-	 * Muss ich noch erledigen, irgendwas stimmt mit dem hinzufügen der Comments nicht...
-	 * (es)
-	 */
-	@Ignore
+	@Test
 	public void shouldDeleteAnswerandhisComments(){
 		Question question1 = new Question(true, "question1", admin);
-		Answer answer1 = new Answer("answer1", admin, question1);
+		Answer answer1 = new Answer(true, "answer1", admin, question1);
 		Comment comment = new Comment(admin, answer1, "hallo");
+		Comment comment2 = new Comment(admin, question1, "hallo2");
 		
-		assert(answer1.getComments().size()>0);
+		assertEquals(comment, answer1.getCommentbyId(comment.getId()));
+		assertFalse(comment2==answer1.getCommentbyId(comment2.getId()));
+		assertEquals(answer1, manager.getAnswerById(answer1.getId()));
+		assertTrue(manager.getAnswers().size()==1);
+		assertTrue(manager.getComments().size()==2);
+		
 		manager.deleteAnswer(answer1);
-		assert(answer1.getComments().size()==0);
+		
+		assertTrue(manager.getAnswers().size()==0);
+		assertTrue(manager.getComments().size()==1);
 	}
 	
 	@Ignore
 	public void shoulDeleteQuestionandallhisPost(){
 		Question question1 = new Question(true, "question1", admin);
-		Answer answer1 = new Answer("answer1", admin, question1);
+		Question question2 = new Question(true, "question2", admin);
+		Answer answer1 = new Answer(true, "answer1", admin, question1);
+		Answer answer2 = new Answer(true, "answer1", admin, question2);
 		Comment comment = new Comment(admin, answer1, "hallo");
+		Comment comment2 = new Comment(admin, question1, "hallo2");
+		Comment comment3 = new Comment(admin, question1, "hallo3");
 		
+		assertEquals(question1, manager.getQuestionById(question1.getId()));
+		assertTrue(manager.getQuestions().size()==2);
+		assertTrue(manager.getComments().size()==3);
+		assertTrue(manager.getAnswers().size()==2);
+		assertTrue(question1.getComments().size()==2);
+		assertEquals(comment3, question1.getCommentbyId(comment3.getId()));
+		assertEquals(comment2.getCommentedPost(), question1);
+		assertEquals(comment3.getCommentedPost(), question1);
+		assertFalse(question1.getCommentbyId(comment.getId())==comment);
+		assertFalse(question1.getComments().contains(comment));
+		
+		manager.deleteQuestion(question1);
+		
+		assertTrue(manager.getQuestions().size()==1);
+		assertTrue(manager.getComments().isEmpty());
+		assertTrue(manager.getAnswers().size()==1);
+		assertFalse(manager.getComments().contains(comment3));
+		assertFalse(manager.getComments().contains(comment2));
+		assertFalse(manager.getComments().contains(comment));
 	}
 
 	@Test

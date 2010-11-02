@@ -260,13 +260,21 @@ public class Admin extends Controller {
 				session.get("username"))) {
 			String message = "You cannot vote your own question!";
 			render(message, qid);
-		} else if (question.voteChangeable()==false) {
+		} else if (question.voteChangeable()==false||question.getVotedTimes()>1||(vote==1&&question.getVoteUpMax()==1)
+				||(vote==-1&&question.getVoteDownMax()==1)) {
 			String message = "You can't vote twice the same value or your time for changing your mind is passed";
 			render(message, qid);
 		} else {
-			question.vote(vote);
-			question.userVotedForPost(user);
-			redirect("/question/" + qid + "/answers/");
+				question.vote(vote);
+				question.userVotedForPost(user);
+				question.setVotedTimes(1);
+				if(vote==1){
+					question.setVoteUpMax(1);
+				}
+				if(vote==-1){
+					question.setVoteDownMax(1);
+				}
+				redirect("/question/" + qid + "/answers/");
 		}
 	}
 
@@ -287,12 +295,20 @@ public class Admin extends Controller {
 				session.get("username"))) {
 			String message = "You cannot vote your own answer!";
 			render(message, qid);
-		} else if (manager.getAnswerById(aid).voteChangeable()==false) {
+		} else if (answer.voteChangeable()==false||answer.getVotedTimes()>1||(vote==1&&answer.getVoteUpMax()==1)
+				||(vote==-1&&answer.getVoteDownMax()==1)){
 			String message = "You can't vote twice the same value or your time for changing your mind is passed";
 			render(message, qid);
 		} else {
-			manager.getAnswerById(aid).vote(vote);
-			manager.getAnswerById(aid).userVotedForPost(user);
+			answer.vote(vote);
+			answer.userVotedForPost(user);
+			answer.setVotedTimes(1);
+			if(vote==1){
+				answer.setVoteUpMax(1);
+			}
+			if(vote==-1){
+				answer.setVoteDownMax(1);
+			}
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
