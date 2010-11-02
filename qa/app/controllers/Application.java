@@ -263,13 +263,10 @@ public class Application extends Controller {
 		}
 	}
 
+	/** Admin form for saving changes in user profiles */
 	public static void editInformation(String owner, String name, String email,
 			String password, String password2) throws Throwable {
 
-		// This block will be used when changing the user name and one of the
-		// following attributes e.g. email
-		// email must be changed for the new user name not the old, so you have
-		// to determine if the user name was changed.
 		String username;
 		if (name.equals("")) {
 			username = owner;
