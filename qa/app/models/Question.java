@@ -233,14 +233,6 @@ public class Question extends Post {
 		this.lastChangedDate = date;
 	}
 
-	public void setContent(String content, String uname) {
-		// this.oldVersions.add(0, new Question(false, this.content,
-		// this.owner));
-		super.setContent(content, uname);
-		// manager.getUserByName(uname).addActivity(
-		// "Edited Question " + this.id + " by writing: <" + content + ">.");
-	}
-
 	/**
 	 * Edits a question and adds the actual contents and tags to the list of
 	 * older versions.

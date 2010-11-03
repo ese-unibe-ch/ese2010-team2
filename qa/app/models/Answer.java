@@ -126,15 +126,6 @@ public class Answer extends Post {
 		return null;
 	}
 
-	public void setContent(String content, String uname) {
-		// this.oldVersions.add(0, new Answer(false, this.content, this.owner,
-		// manager
-		// .getQuestionById(questionId)));
-		super.setContent(content, uname);
-		// manager.getUserByName(uname).addActivity(
-		// "Edited Answer " + this.id + " by writing: <" + content + ">.");
-	}
-
 	public void addVersion(String content, String uname) {
 		Answer answer = new Answer(false, this.content, this.owner, manager
 				.getQuestionById(this.questionId));
