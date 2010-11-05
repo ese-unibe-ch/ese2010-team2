@@ -461,7 +461,7 @@ public class DbManagerTest extends UnitTest {
     }
     
     @Test
-    public void shouldAnonymizeEditedByList(){
+    public void shouldAnonymizeEditedBy(){
     	User u1= new User("u1","u@u","u");
     	User u2= new User("u2","u@u","u");
     	
@@ -478,14 +478,14 @@ public class DbManagerTest extends UnitTest {
     	
     	manager.deleteUser("u2");
     	
-    	assertTrue(q.getEditors().contains(manager.getUserByName("u1")));
-    	assertTrue(q.getEditors().contains(admin));
-    	assertFalse(q.getEditors().contains(manager.getUserByName("u2")));
-    	assertTrue(q.getEditors().contains(manager.getUserByName("anonymous")));
+    	assertTrue(q.getEditor().equals(manager.getUserByName("admin")));
+//    	assertTrue(q.getEditors().contains(admin));
+//    	assertFalse(q.getEditors().contains(manager.getUserByName("u2")));
+//    	assertTrue(q.getEditors().contains(manager.getUserByName("anonymous")));
     	
-    	assertTrue(a.getEditors().contains(manager.getUserByName("u1")));
-    	assertFalse(a.getEditors().contains(manager.getUserByName("u2")));
-    	assertTrue(a.getEditors().contains(manager.getUserByName("anonymous")));
+    	assertTrue(a.getEditor().equals(manager.getUserByName("anonymous")));
+//    	assertFalse(a.getEditors().contains(manager.getUserByName("u2")));
+//    	assertTrue(a.getEditors().contains(manager.getUserByName("anonymous")));
     }
 
 

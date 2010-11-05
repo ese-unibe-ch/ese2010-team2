@@ -1,7 +1,12 @@
 <div class="question">
 	#{userbox user:_question.getOwner() /}
 
-	<span class="date">Posted ${_question.getTimePassedSincePosting()} ago</span>
+	<span 
+		class="date">Posted ${_question.getTimePassedSincePosting()} ago
+		#{if _question.getEditor()!=_question.getOwner()}
+			 | <a href="/question/${_question.getId()}/history">edited by ${_question.getEditor()}</a>
+		#{/if}
+	</span>
 
 	<div class="question_text">
 		${_question.getHtml().raw()}

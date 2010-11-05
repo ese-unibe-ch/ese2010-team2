@@ -2,7 +2,9 @@
 	<div class="answer">
 		#{userbox user:_answer.getOwner() /}
 
-		<span class="date">Posted ${_answer.getTimePassedSincePosting()} ago</span>
+		<span class="date">Posted ${_answer.getTimePassedSincePosting()} ago
+
+		</span>
 
 		#{if _answer.isBestAnswer()}
 		<span class="bestanswer">Marked as best answer</span>

@@ -420,11 +420,15 @@ public class Application extends Controller {
 		if (type.equals("questions") || type.equals("question")) {
 			post = manager.getQuestionById(intId);
 			type = "question";
+			ArrayList<Post> history = post.getOldVersions();
+			render(type, post, history);
 		} else {
 			post = manager.getAnswerById(intId);
+			Post question=manager.getAnswerById(intId).getQuestion();
+			ArrayList<Post> history = post.getOldVersions();
+			render(type, post, history, question);
 		}
-		ArrayList<Post> history = post.getOldVersions();
-		render(type, post, history);
+
 	}
 
 }

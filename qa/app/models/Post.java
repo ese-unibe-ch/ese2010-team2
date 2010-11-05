@@ -20,7 +20,7 @@ public abstract class Post {
 	protected User owner;
 	protected int score = 0;
 	protected ArrayList<Post> oldVersions= new ArrayList<Post>();
-	public ArrayList<User> editedBy= new ArrayList<User>();
+	public User editedBy;
  
 	protected static DbManager manager = DbManager.getInstance();
 	protected Calendar calendar = Calendar.getInstance();
@@ -184,13 +184,13 @@ public abstract class Post {
 		return this.oldVersions;
 	}
 	
-	public ArrayList<User> getEditors(){
+	public User getEditor(){
 		return this.editedBy;
 	}
 
 	/** Setter methods */
 	protected void setContent(String content, String uname) {
-		this.editedBy.add(manager.getUserByName(uname));
+		this.editedBy=manager.getUserByName(uname);
 		this.content = content;
 	}
 
@@ -258,10 +258,15 @@ public abstract class Post {
 		userVotedForPost.add(user);
 	}
 	
-	public void removeEditor(String uname){
-		for(int i=0;i<editedBy.size();i++){
-			if(editedBy.get(i).getName().equals(uname))
-				editedBy.remove(i);
-		}
+	public void setEditor(String uname){
+		this.editedBy=manager.getUserByName(uname);
 	}
+	
+//	public void removeEditor(String uname){
+//		for(int i=0;i<editedBy.size();i++){
+//			if(editedBy.get(i).getName().equals(uname))
+//				editedBy.remove(i);
+//		}
+//	}
+
 }

@@ -110,6 +110,8 @@ public class DbManager {
 			throw new NoSuchElementException();
 
 		User deleteUser = getUserByName(username);
+		if (!checkUserNameIsOccupied("anonymous"))
+			new User("anonymous", "a@nonymous", "anonymous");
 
 		ArrayList<Question> updatedQuestions = new ArrayList<Question>();
 		ArrayList<Answer> updatedAnswers = new ArrayList<Answer>();
@@ -124,9 +126,8 @@ public class DbManager {
 
 		// Anonymize all questions a user edited
 		for (Question p : updatedQuestions) {
-			ArrayList<User> updatedEditors = anonymize(username, p.getEditors());
-			p.editedBy.clear();
-			p.editedBy.addAll(updatedEditors);
+			if(p.getEditor()!=p.getOwner() || p.getEditor().equals(deleteUser))
+				p.setEditor("anonymous");
 		}
 		DbManager.questions.clear();
 		DbManager.questions.addAll(updatedQuestions);
@@ -139,9 +140,8 @@ public class DbManager {
 
 		// Anonymize all answers a user edited
 		for (Post p : updatedAnswers) {
-			ArrayList<User> updatedEditors = anonymize(username, p.getEditors());
-			p.editedBy.clear();
-			p.editedBy.addAll(updatedEditors);
+			if(p.getEditor()!=p.getOwner()|| p.getEditor().equals(deleteUser))
+				p.setEditor("anonymous");
 		}
 
 		DbManager.answers.clear();
@@ -166,6 +166,7 @@ public class DbManager {
 	 *            - The list to be anonymized
 	 * @return - The anonymized list
 	 */
+	@Deprecated
 	private ArrayList<User> anonymize(String uname, ArrayList<User> list) {
 		if (!checkUserNameIsOccupied("anonymous"))
 			new User("anonymous", "a@nonymous", "anonymous");

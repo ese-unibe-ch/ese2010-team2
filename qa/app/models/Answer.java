@@ -31,6 +31,7 @@ public class Answer extends Post {
 		this.questionId = question.getId();
 		this.content = content;
 		this.owner = user;
+		this.editedBy=user;
 		isBestAnswer = false;
 		date = new Date();
 		question.setLastChangedDate(new Date());
@@ -129,8 +130,11 @@ public class Answer extends Post {
 	public void addVersion(String content, String uname) {
 		Answer answer = new Answer(false, this.content, this.owner, manager
 				.getQuestionById(this.questionId));
+		if(this.getEditor()!=null)
+			answer.setEditor(this.getEditor().getName());
+		
 		this.oldVersions.add(0, answer);
-		this.editedBy.add(manager.getUserByName(uname));
+		this.setEditor(uname);
 		super.setContent(content, uname);
 		manager.getUserByName(uname).addActivity(
 				"Edited Answer" + this.id + " by writing: <" + content + ">.");

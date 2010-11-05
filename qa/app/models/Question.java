@@ -36,6 +36,7 @@ public class Question extends Post {
 	public Question(Boolean addQuestionToList, String content,
 			User questionOwner) {
 		this.owner = questionOwner;
+		this.editedBy=questionOwner;
 		this.content = content;
 		this.score = 0;
 
@@ -247,6 +248,8 @@ public class Question extends Post {
 	public void addVersion(String content, String tags, String uname) {
 		Question question = new Question(false, this.content, this.owner);
 		question.addTags(this.getTags());
+		question.setEditor(this.getEditor().getName());
+		
 		this.oldVersions.add(0, question);
 		super.setContent(content, uname);
 		this.setTags(""+tags);

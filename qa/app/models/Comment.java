@@ -40,7 +40,7 @@ public class Comment extends Post {
 	}
 	
 	public void setContent(String content, String uname) {
-		this.editedBy.add(manager.getUserByName(uname));
+		this.setEditor(uname);
 		this.content = content;
 	}
 
