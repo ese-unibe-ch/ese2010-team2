@@ -384,6 +384,7 @@ public class Application extends Controller {
 			} else {
 				render(results);
 			}
+			
 		}
 		/*
 		 * Old Code --> Do not delete will maybe usefull for Advanced Search
