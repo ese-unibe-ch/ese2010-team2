@@ -100,6 +100,8 @@ public class Search {
 		for (int i = 0; i < numberOfQuestions; i++) {
 			Question curQuestion = manager.getQuestions().get(i);
 			String curContent = curQuestion.getContent();
+			curContent = curContent.toLowerCase();
+
 			if(doASoundexSearch){
 				String[] curContentArray = curQuestion.getContent()
 						.split("\\s");
@@ -109,8 +111,7 @@ public class Search {
 					}
 				}
 			} else if (curContent.contains(query)) {
-				System.out.println("Query: " + query);
-				System.out.println("Query: " + curContent);
+				
 				questions.add(curQuestion);
 			}
 		}

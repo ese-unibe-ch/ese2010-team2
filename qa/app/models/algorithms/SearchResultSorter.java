@@ -100,7 +100,7 @@ public class SearchResultSorter {
 				}
 			}
 			// If we have a sentence as query
-			else if (curQuestion.getContent().contains(query)) {
+			else if (curQuestion.getContent().toLowerCase().contains(query)) {
 				contentCount++;
 			}
 
@@ -118,7 +118,7 @@ public class SearchResultSorter {
 					}
 				}
 				// If we have a sentence as query
-				else if (curAnswer.getContent().contains(query)) {
+				else if (curAnswer.getContent().toLowerCase().contains(query)) {
 					contentCount++;
 				}
 			}
@@ -138,7 +138,7 @@ public class SearchResultSorter {
 					}
 				}
 				// If we have a sentence as query
-				else if (curComment.getContent().contains(query)) {
+				else if (curComment.getContent().toLowerCase().contains(query)) {
 					contentCount++;
 				}
 			}

@@ -128,12 +128,15 @@ public class SearchQueryParser {
 		// Filter out Strings marked with "" e.g.
 		// "this is to filter out as a sentence"
 		for (int i = 0; i < queryWordsList.size(); i++) {
-			if (queryWordsList.get(i).contains("\"") || doubleQuoteCounter == 1) {
+			if (queryWordsList.get(i).contains("\"")) {
 				sentence = sentence + " " + queryWordsList.get(i);
 				indexesToRemove.add(i);
 				doubleQuoteCounter++;
+			} else if (doubleQuoteCounter == 1) {
+				sentence = sentence + " " + queryWordsList.get(i);
+				indexesToRemove.add(i);
 			}
-			if (doubleQuoteCounter == 3) {
+			if (doubleQuoteCounter == 2) {
 				sentence = sentence.replace("\"", "");
 				sentence = sentence.substring(1, sentence.length());
 				querySentencesList.add(sentence);
@@ -147,7 +150,7 @@ public class SearchQueryParser {
 			queryWordsList.remove(index);
 		}
 
-		// TODO
+		// TODO Write comment
 		removeDuplicate();
 		filterOutStopwords();
 		createSoundexOfWords();
