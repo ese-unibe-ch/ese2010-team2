@@ -116,12 +116,17 @@ public class SearchTest extends UnitTest {
 	public void shouldAddQuestionOnlyOnceWhenMoreThanOneTagMatches() {
 		Question question1 = new Question(true, "question1", admin);
 		question1.addTags("testA");
-		question1.addTags("testB");
+		question1.addTags("test");
+
+		Question question2 = new Question(true, "question2", admin);
+		question2.addTags("testA");
+		question2.addTags("test");
 
 		Search search = new Search("test");
 
 		assertEquals(2, question1.getTags().size());
-		assertEquals(1, search.getQuestionTagsResults().size());
+		assertEquals(2, question2.getTags().size());
+		assertEquals(2, search.getQuestionTagsResults().size());
 
 	}
 
