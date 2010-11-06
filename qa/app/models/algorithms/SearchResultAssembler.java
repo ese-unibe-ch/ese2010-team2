@@ -18,18 +18,18 @@ public class SearchResultAssembler {
 	/** ArrayList for the results from the search class */
 	private ArrayList<Answer> answerContentResults;
 	private ArrayList<Comment> commentResults;
-	private ArrayList<Question> mergedQuestion;
+	private ArrayList<Question> questions;
 
 	/** ArrayList for the assembled results */
 	private ArrayList<SearchResult> searchResults;
 
 	public SearchResultAssembler(ArrayList<Answer> answerContentResults,
 			ArrayList<Comment> commentResults,
-			ArrayList<Question> mergedQuestion, String query) {
+			ArrayList<Question> questions, String query) {
 
 		this.answerContentResults = answerContentResults;
 		this.commentResults = commentResults;
-		this.mergedQuestion = mergedQuestion;
+		this.questions = questions;
 
 		searchResults = new ArrayList<SearchResult>();
 		this.manager = DbManager.getInstance();
@@ -42,8 +42,8 @@ public class SearchResultAssembler {
 
 	/** Assembles a SearchResult based on the search matches in the questions */
 	private void assembleBasedOnQuestion() {
-		for (int j = 0; j < mergedQuestion.size(); j++) {
-			Question curQuestion = mergedQuestion.get(j);
+		for (int j = 0; j < questions.size(); j++) {
+			Question curQuestion = questions.get(j);
 			avoidDuplicatedSearchResults(curQuestion);
 		}
 	}

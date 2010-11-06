@@ -7,8 +7,20 @@ import org.apache.commons.codec.language.Soundex;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 
-
+/**
+ * In this class will the search query splitted in word or sentences if some
+ * words are embraced with double quotes. e.g. words: these are words, sentence:
+ * "this would be a sentence". Then some stopwords will be filtered out of the
+ * words, and soundex codes will be made of them.
+ * 
+ * @author jonas
+ * 
+ */
 public class SearchQueryParser {
+	/**
+	 * The list of the stopwords found on:
+	 * http://armandbrahaj.blog.al/2009/04/14/list-of-english-stop-words/
+	 */
 	private String[] englishStopwordsDatabase = { "a", "a's", "able", "about",
 			"above",
 			"according", "accordingly", "across", "actually", "after",
@@ -95,31 +107,40 @@ public class SearchQueryParser {
 			"yet", "you", "you'd", "you'll", "you're", "you've", "your",
 			"yours", "yourself", "yourselves", "z", "zero" };
 	private ArrayList<String> englishStopwords;
+	/** The original search query the user typed in */
 	private String originalQuery;
-	private ArrayList<String> queryWordsList;
-	private ArrayList<String> queryWordsListSoundex;
-	private ArrayList<String> querySentencesList;
+	/** The list of the word in the query */
+	private ArrayList<String> wordsList;
+	/** the soundex codes of the word in the query */
+	private ArrayList<String> soundexCodes;
+	/** the sentences in the query */
+	private ArrayList<String> sentences;
+	/**
+	 * the soundex algorithm from:
+	 * 
+	 * @package org.apache.commons.codec.language.Soundex
+	 */
 	private Soundex soundex;
 
 	public SearchQueryParser(String query) {
 		// Make query case insensitive
 		originalQuery = query.toLowerCase();
 		
-		queryWordsList = new ArrayList<String>(Arrays.asList(originalQuery
+		// Get original query an split words and store in ArrayList
+		wordsList = new ArrayList<String>(Arrays.asList(originalQuery
 				.split(" ")));
 
 		englishStopwords = new ArrayList<String>(
 				Arrays.asList(englishStopwordsDatabase));
 
-		querySentencesList = new ArrayList<String>();
-		queryWordsListSoundex = new ArrayList<String>();
+		sentences = new ArrayList<String>();
+		soundexCodes = new ArrayList<String>();
 		soundex = new Soundex();
 
-		createQueryList();
-
+		divideQueryInWordsAndSentences();
 	}
 
-	private void createQueryList() {
+	private void divideQueryInWordsAndSentences() {
 
 		int doubleQuoteCounter = 0;
 		String sentence = "";
@@ -127,73 +148,80 @@ public class SearchQueryParser {
 
 		// Filter out Strings marked with "" e.g.
 		// "this is to filter out as a sentence"
-		for (int i = 0; i < queryWordsList.size(); i++) {
-			if (queryWordsList.get(i).contains("\"")) {
-				sentence = sentence + " " + queryWordsList.get(i);
+		for (int i = 0; i < wordsList.size(); i++) {
+			// Will add the first word after the double quote
+			if (wordsList.get(i).contains("\"")) {
+				sentence = sentence + " " + wordsList.get(i);
 				indexesToRemove.add(i);
 				doubleQuoteCounter++;
-			} else if (doubleQuoteCounter == 1) {
-				sentence = sentence + " " + queryWordsList.get(i);
+			}
+			// will add all word from the second to the second last word
+			else if (doubleQuoteCounter == 1) {
+				sentence = sentence + " " + wordsList.get(i);
 				indexesToRemove.add(i);
 			}
+			// Ads the last word (the word directly before the double quote
 			if (doubleQuoteCounter == 2) {
 				sentence = sentence.replace("\"", "");
 				sentence = sentence.substring(1, sentence.length());
-				querySentencesList.add(sentence);
+				sentences.add(sentence);
 				doubleQuoteCounter = 0;
 				sentence = "";
 			}
 		}
-		// Removes the filtered stuff
+		// removes the sentences from the word list
 		for (int j = indexesToRemove.size() - 1; j >= 0; j--) {
 			int index = indexesToRemove.get(j);
-			queryWordsList.remove(index);
+			wordsList.remove(index);
 		}
 
-		// TODO Write comment
+		// Remoces duplicates in word, filter out stopwords and create soundex
+		// codes
 		removeDuplicate();
 		filterOutStopwords();
 		createSoundexOfWords();
 	}
 
+	/** Removes duplicated words */
 	private void removeDuplicate() {
-		HashSet h = new HashSet(queryWordsList);
-		queryWordsList.clear();
-		queryWordsList.addAll(h);
+		HashSet h = new HashSet(wordsList);
+		wordsList.clear();
+		wordsList.addAll(h);
 	}
 
+	/** Will filter out all english stopwords in the list above */
 	private void filterOutStopwords() {
-		// Filter out english Stopwords
 		for (int j = englishStopwords.size() - 1; j >= 0; j--) {
-			for (int i = queryWordsList.size() - 1; i >= 0; i--) {
-				if (englishStopwords.get(j).equals(queryWordsList.get(i))) {
-					queryWordsList.remove(i);
+			for (int i = wordsList.size() - 1; i >= 0; i--) {
+				if (englishStopwords.get(j).equals(wordsList.get(i))) {
+					wordsList.remove(i);
 				}
 			}
 		}
 	}
 
+	/** Creates the soundex of all words in the query */
 	private void createSoundexOfWords() {
-		for (int i = 0; i < queryWordsList.size(); i++) {
-			String soundexCode = soundex.encode(queryWordsList.get(i));
-			queryWordsListSoundex.add(soundexCode);
+		for (int i = 0; i < wordsList.size(); i++) {
+			String soundexCode = soundex.encode(wordsList.get(i));
+			soundexCodes.add(soundexCode);
 		}
 
 		// Remove duplicated soundex codes
-		HashSet h = new HashSet(queryWordsListSoundex);
-		queryWordsListSoundex.clear();
-		queryWordsListSoundex.addAll(h);
+		HashSet h = new HashSet(soundexCodes);
+		soundexCodes.clear();
+		soundexCodes.addAll(h);
 	}
 
 	public ArrayList<String> getQueryWordsSoundex() {
-		return queryWordsListSoundex;
+		return soundexCodes;
 	}
 
 	public ArrayList<String> getQueryWords() {
-		return queryWordsList;
+		return wordsList;
 	}
 
 	public ArrayList<String> getQuerySentences() {
-		return querySentencesList;
+		return sentences;
 	}
 }

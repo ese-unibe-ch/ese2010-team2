@@ -364,7 +364,6 @@ public class Application extends Controller {
 		// If a query is typed in
 		if (!text.equals("")) {
 			SearchManager searchManager = new SearchManager(text);
-
 			ArrayList<SearchResult> results = searchManager.getResults();
 
 			// If query has no results

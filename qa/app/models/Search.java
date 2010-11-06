@@ -10,10 +10,22 @@ import org.apache.commons.codec.language.Soundex;
  * Answer, Comments
  */
 public class Search {
-	private ArrayList<String> queryWordsSoundex;
-	private ArrayList<String> querySentences;
+	/** The from the SearchQueryParser made soundex Codes */
+	private ArrayList<String> soundexCodes;
+	/** The form the SearchQuery made senteces */
+	private ArrayList<String> sentences;
 	private DbManager manager;
+
+	/**
+	 * Used for the distinction between a with soundex codes or with full
+	 * sentences
+	 */
 	private boolean doASoundexSearch;
+	/**
+	 * the soundex algorithm from:
+	 * 
+	 * @package org.apache.commons.codec.language.Soundex
+	 */
 	private Soundex soundex;
 
 	/**
@@ -29,10 +41,12 @@ public class Search {
 	private ArrayList<Comment> commentResults;
 	private ArrayList<Question> questions;
 
-	public Search(ArrayList<String> queryWordsSoundex, ArrayList<String> querySentences) {
-		this.queryWordsSoundex = queryWordsSoundex;
-		this.querySentences = querySentences;
+
+	public Search(ArrayList<String> soundexCodes, ArrayList<String> sentences) {
+		this.soundexCodes = soundexCodes;
+		this.sentences = sentences;
 		this.manager = DbManager.getInstance();
+
 		doASoundexSearch = false;
 		soundex = new Soundex();
 
@@ -47,10 +61,14 @@ public class Search {
 		doTheSearchForEveryQuery();
 	}
 
+	/**
+	 * Does a search through all Questions, Answers and Comments the first time
+	 * with the soundex codes the second time with complete sentences
+	 */
 	private void doTheSearchForEveryQuery() {
 		doASoundexSearch = true;
-		for (int i = 0; i < queryWordsSoundex.size(); i++) {
-			String query = queryWordsSoundex.get(i);
+		for (int i = 0; i < soundexCodes.size(); i++) {
+			String query = soundexCodes.get(i);
 			searchQuestionTags(query);
 			searchQuestionContent(query);
 			searchAnswerContent(query);
@@ -58,8 +76,8 @@ public class Search {
 		}
 
 		doASoundexSearch = false;
-		for (int i = 0; i < querySentences.size(); i++) {
-			String query = querySentences.get(i);
+		for (int i = 0; i < sentences.size(); i++) {
+			String query = sentences.get(i);
 			searchQuestionContent(query);
 			searchAnswerContent(query);
 			searchComments(query);
@@ -160,8 +178,8 @@ public class Search {
 	}
 
 	/**
-	 * Merge the questions of the tag search with them of the content search. I
-	 * have left both method, because of advanced search.
+	 * Because of tag and conent search there may be question duplicates in
+	 * ArrayList, this method deletes all duplicates
 	 */
 	public void removeDuplicatedQuestions() {
 		HashSet h = new HashSet(questions);
