@@ -17,9 +17,6 @@
 		#{/if}
 #{/if}
 
-
-
-
 <fieldset>
 	About me<hr/>
 	Birthdate: ${profileOwner.getBirthdate()}<br>
@@ -80,19 +77,73 @@ Current Reputation: ${profileOwner.getScore()}<br>
 	
 	#{if userQuestions}
 		<fieldset>
-			My questions<hr/>
-			#{list items:userQuestions, as:'question'}
-				#{short_post post:question /}
-			#{/list}
+			<a id="da1" style="display:inline" href="javascript:show1()">Show my questions</a><a id="nd1" style="display:none" href="javascript:weg1()">My questions (close)</a>
+			<div id="ve1" style="display:none"><br>
+				<hr/>
+				#{list items:userQuestions, as:'question'}
+					#{short_post post:question /}
+				#{/list}
+			</div>&nbsp;
 		</fieldset>
 	#{/if}
 	
 	#{if userAnswers}
 		<fieldset>
-			My answers<hr/>
-			#{list items:userAnswers, as:'answer'}
-				#{short_answer post:answer /}
-			#{/list}
+			<a id="da2" style="display:inline" href="javascript:show2()">Show my answers</a><a id="nd2" style="display:none" href="javascript:weg2()">My answers (close)</a>
+			<div id="ve2" style="display:none"><br>
+				<hr/>
+				#{list items:userAnswers, as:'answer'}
+					#{short_answer post:answer /}
+				#{/list}
+			</div>&nbsp;
 		</fieldset>
 	#{/if}
+		
+	#{if userLog}
+		<fieldset>
+			<a id="da3" style="display:inline" href="javascript:show3()">Show my activities</a><a id="nd3" style="display:none" href="javascript:weg3()">My activities (close)</a>
+			<div id="ve3" style="display:none"><br>
+				<hr/>
+				#{list items:userLog, as:'log'}
+					#{log_entry post:log /}
+				#{/list}
+			</div>&nbsp;
+		</fieldset>
+	#{/if}
+		
+		
+	<script language="JavaScript" type="text/javascript">
+		function show1() {
+			if(document.getElementById) document.getElementById("ve1").style.display = "inline";
+			if(document.getElementById) document.getElementById("da1").style.display = "none";
+			if(document.getElementById) document.getElementById("nd1").style.display = "inline";   
+		}
+	
+		function weg1() {
+			if(document.getElementById) document.getElementById("ve1").style.display = "none";
+			if(document.getElementById) document.getElementById("da1").style.display = "inline";
+			if(document.getElementById) document.getElementById("nd1").style.display = "none";
+		}
+		function show2() {
+			if(document.getElementById) document.getElementById("ve2").style.display = "inline";
+			if(document.getElementById) document.getElementById("da2").style.display = "none";
+			if(document.getElementById) document.getElementById("nd2").style.display = "inline";   
+		}
 
+		function weg2() {
+			if(document.getElementById) document.getElementById("ve2").style.display = "none";
+			if(document.getElementById) document.getElementById("da2").style.display = "inline";
+			if(document.getElementById) document.getElementById("nd2").style.display = "none";
+		}
+		function show3() {
+			if(document.getElementById) document.getElementById("ve3").style.display = "inline";
+			if(document.getElementById) document.getElementById("da3").style.display = "none";
+			if(document.getElementById) document.getElementById("nd3").style.display = "inline";   
+		}
+
+		function weg3() {
+			if(document.getElementById) document.getElementById("ve3").style.display = "none";
+			if(document.getElementById) document.getElementById("da3").style.display = "inline";
+			if(document.getElementById) document.getElementById("nd3").style.display = "none";
+		}
+	</script>
