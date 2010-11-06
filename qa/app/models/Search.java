@@ -72,8 +72,8 @@ public class Search {
 					}
 				}
 			}
+			addQuestionOnlyOnce = true;
 		}
-		addQuestionOnlyOnce = true;
 	}
 
 	/** Search through all question contents for search query matches */
