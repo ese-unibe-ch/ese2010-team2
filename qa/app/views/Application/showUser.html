@@ -17,9 +17,6 @@
 		#{/if}
 #{/if}
 
-
-
-
 <fieldset>
 	About me<hr/>
 	Birthdate: ${profileOwner.getBirthdate()}<br>
@@ -108,7 +105,7 @@ Current Reputation: ${profileOwner.getScore()}<br>
 			<div id="ve3" style="display:none"><br>
 				<hr/>
 				#{list items:userLog, as:'log'}
-					${log} <br></br>
+					#{log_entry post:log /}
 				#{/list}
 			</div>&nbsp;
 		</fieldset>
@@ -150,8 +147,3 @@ Current Reputation: ${profileOwner.getScore()}<br>
 			if(document.getElementById) document.getElementById("nd3").style.display = "none";
 		}
 	</script>
-
-
-
-
-
