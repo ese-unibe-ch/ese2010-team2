@@ -189,6 +189,10 @@ public class SearchQueryParser {
 		return queryWordsListSoundex;
 	}
 
+	public ArrayList<String> getQueryWords() {
+		return queryWordsList;
+	}
+
 	public ArrayList<String> getQuerySentences() {
 		return querySentencesList;
 	}
