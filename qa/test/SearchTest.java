@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import models.Answer;
 import models.Comment;
 import models.DbManager;
@@ -30,19 +32,27 @@ public class SearchTest extends UnitTest {
 		Comment commentQuestion = new Comment(admin, question3, "comment");
 		Comment commentAnswer = new Comment(admin, answer3, "comment1");
 
-		Search search = new Search("QuEstion1");
+		ArrayList<String> query = new ArrayList<String>();
+		query.add("QuEstion1");
+		Search search = new Search(query);
 		assertEquals("question1", search.getQuestionContentResults().get(0)
 				.getContent());
 
+		ArrayList<String> query = new ArrayList<String>();
+		query.add("QuEstion1");
 		Search search1 = new Search("AnSWer1");
 		assertEquals("answer1", search1.getAnswerContentResults().get(0)
 				.getContent());
 
+		ArrayList<String> query = new ArrayList<String>();
+		query.add("QuEstion1");
 		Search search2 = new Search("cOMMent");
 		assertEquals("comment", search2.getCommentResults().get(0).getContent());
 		assertEquals("comment1", search2.getCommentResults().get(1)
 				.getContent());
 
+		ArrayList<String> query = new ArrayList<String>();
+		query.add("QuEstion1");
 		Search search3 = new Search("TesT");
 		assertEquals("test", search3.getQuestionTagsResults().get(0).getTags()
 				.get(0));
@@ -53,6 +63,8 @@ public class SearchTest extends UnitTest {
 		Question question1 = new Question(true, "question1", admin);
 		question1.addTags("test");
 
+		ArrayList<String> query = new ArrayList<String>();
+		query.add("QuEstion1");
 		Search search = new Search("test");
 		assertEquals("test", search.getQuestionTagsResults().get(0).getTags()
 				.get(0));
@@ -61,6 +73,8 @@ public class SearchTest extends UnitTest {
 	@Test
 	public void shouldSearchQuestionContent() {
 		Post question1 = new Question(true, "question1", admin);
+		ArrayList<String> query = new ArrayList<String>();
+		query.add("QuEstion1");
 		Search search = new Search("question1");
 		assertEquals("question1", search.getQuestionContentResults().get(0)
 				.getContent());
@@ -71,6 +85,8 @@ public class SearchTest extends UnitTest {
 		Question question1 = new Question(true, "question1", admin);
 		Answer answer1 = new Answer(true, "answer1", admin, question1);
 
+		ArrayList<String> query = new ArrayList<String>();
+		query.add("QuEstion1");
 		Search search = new Search("answer1");
 		assertEquals("answer1", search.getAnswerContentResults().get(0)
 				.getContent());
@@ -86,10 +102,14 @@ public class SearchTest extends UnitTest {
 				"commentToQuestion1");
 		Comment commentAnswer = new Comment(admin, answer1, "commentToAnswer1");
 
+		ArrayList<String> query = new ArrayList<String>();
+		query.add("QuEstion1");
 		Search search = new Search("commentToQuestion1");
 		assertEquals("commentToQuestion1", search.getCommentResults().get(0)
 				.getContent());
 
+		ArrayList<String> query = new ArrayList<String>();
+		query.add("QuEstion1");
 		Search search1 = new Search("commentToAnswer1");
 		assertEquals("commentToAnswer1", search1.getCommentResults().get(0)
 				.getContent());
@@ -104,6 +124,8 @@ public class SearchTest extends UnitTest {
 				"commentToQuestion1");
 		Comment commentAnswer = new Comment(admin, answer1, "commentToAnswer1");
 
+		ArrayList<String> query = new ArrayList<String>();
+		query.add("QuEstion1");
 		Search search = new Search("nothing");
 
 		assertEquals(0, search.getAnswerContentResults().size());
@@ -122,6 +144,8 @@ public class SearchTest extends UnitTest {
 		question2.addTags("testA");
 		question2.addTags("test");
 
+		ArrayList<String> query = new ArrayList<String>();
+		query.add("QuEstion1");
 		Search search = new Search("test");
 
 		assertEquals(2, question1.getTags().size());

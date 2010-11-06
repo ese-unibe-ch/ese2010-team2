@@ -12,11 +12,9 @@ import models.Answer;
 import models.DbManager;
 import models.Post;
 import models.Question;
-import models.Search;
+import models.SearchManager;
 import models.SearchResult;
 import models.User;
-import models.algorithms.SearchResultAssembler;
-import models.algorithms.SearchResultSorter;
 
 import org.apache.commons.io.IOUtils;
 
@@ -365,17 +363,9 @@ public class Application extends Controller {
 		}
 		// If a query is typed in
 		if (!text.equals("")) {
-			Search search = new Search(text);
+			SearchManager searchManager = new SearchManager(text);
 
-			SearchResultAssembler assembler = new SearchResultAssembler(
-					search.getAnswerContentResults(),
-					search.getCommentResults(), search.getMergedQuestions(),
-					search.getQuery());
-
-			SearchResultSorter sorter = new SearchResultSorter(
-					assembler.getSearchResults(), search.getQuery());
-
-			ArrayList<SearchResult> results = sorter.getSearchResults();
+			ArrayList<SearchResult> results = searchManager.getResults();
 
 			// If query has no results
 			if (results.size() == 0) {
@@ -385,20 +375,6 @@ public class Application extends Controller {
 				render(results);
 			}
 		}
-		/*
-		 * Old Code --> Do not delete will maybe usefull for Advanced Search
-		 * 
-		 * search.searchQuestionTags(); search.searchQuestionContent();
-		 * search.searchAnswerContent(); search.searchComments();
-		 * search.mergeQuestionTagWithQuestionContentList();
-		 * 
-		 * 
-		 * ArrayList<Question> questionContentResults = search
-		 * .getQuestionContentResults(); ArrayList<Question> questionTagResults
-		 * = search .getQuestionTagsResults(); ArrayList<Answer>
-		 * answerContentResults = search .getAnswerContentResults();
-		 * ArrayList<Comment> commentResults = search.getCommentResults();
-		 */
 	}
 
 	/*
