@@ -4,6 +4,7 @@ import models.DbManager;
 import models.Post;
 import models.Question;
 import models.Search;
+import models.SearchQueryParser;
 import models.User;
 
 import org.junit.After;
@@ -15,6 +16,8 @@ import play.test.UnitTest;
 public class SearchTest extends UnitTest {
 	private static DbManager manager;
 	private User admin;
+	private SearchQueryParser parser;
+
 
 	@Before
 	public void setUp() {
@@ -23,29 +26,31 @@ public class SearchTest extends UnitTest {
 	}
 
 	@Test
-	public void shouldNotBeUpperLowerCaseSensitive() {
-		Question question3 = new Question(true, "question1", admin);
-		Answer answer3 = new Answer(true, "answer1", admin, question3);
-		question3.addTags("test");
-		Comment commentQuestion = new Comment(admin, question3, "comment");
-		Comment commentAnswer = new Comment(admin, answer3, "comment1");
+	public void sentenceSearchShouldNotBeCaseSensitive() {
+		Question question3 = new Question(true, "question1 is the best", admin);
+		Answer answer3 = new Answer(true, "answer1 is the best", admin,
+				question3);
+		Comment commentQuestion = new Comment(admin, question3,
+				"kant is the best");
 
-		Search search = new Search("QuEstion1");
-		assertEquals("question1", search.getQuestionContentResults().get(0)
+		parser = new SearchQueryParser("\"question1 is the best\"");
+		Search search = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
+		assertEquals("question1 is the best", search.getQuestions().get(0)
 				.getContent());
 
-		Search search1 = new Search("AnSWer1");
-		assertEquals("answer1", search1.getAnswerContentResults().get(0)
+		parser = new SearchQueryParser("\"answer1 is the best\"");
+		Search search1 = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
+		assertEquals("answer1 is the best", search1.getAnswerContentResults()
+				.get(0)
 				.getContent());
 
-		Search search2 = new Search("cOMMent");
-		assertEquals("comment", search2.getCommentResults().get(0).getContent());
-		assertEquals("comment1", search2.getCommentResults().get(1)
+		parser = new SearchQueryParser("\"kant is the best\"");
+		Search search2 = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
+		assertEquals("kant is the best", search2.getCommentResults().get(0)
 				.getContent());
-
-		Search search3 = new Search("TesT");
-		assertEquals("test", search3.getQuestionTagsResults().get(0).getTags()
-				.get(0));
 	}
 
 	@Test
@@ -53,45 +58,108 @@ public class SearchTest extends UnitTest {
 		Question question1 = new Question(true, "question1", admin);
 		question1.addTags("test");
 
-		Search search = new Search("test");
-		assertEquals("test", search.getQuestionTagsResults().get(0).getTags()
+		// Only soundex based search will be done on tags
+		parser = new SearchQueryParser("test");
+		Search search = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
+		assertEquals("test", search.getQuestions().get(0).getTags()
 				.get(0));
 	}
 
 	@Test
-	public void shouldSearchQuestionContent() {
+	public void shouldSearchQuestionContentSoundexBased() {
 		Post question1 = new Question(true, "question1", admin);
-		Search search = new Search("question1");
-		assertEquals("question1", search.getQuestionContentResults().get(0)
+
+		parser = new SearchQueryParser("question1");
+		Search search = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
+		assertEquals("question1", search.getQuestions().get(0)
 				.getContent());
 	}
 
 	@Test
-	public void shouldSearchAnswerContent() {
+	public void shouldSearchQuestionContentSentenceBased() {
+		Post question2 = new Question(true,
+				"Should find only this phrase question1", admin);
+
+		parser = new SearchQueryParser(
+				"\"Should find only this phrase question1\"");
+		Search search1 = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
+
+		assertEquals("Should find only this phrase question1", search1
+				.getQuestions().get(0).getContent());
+	}
+
+	@Test
+	public void shouldSearchAnswerContentSoundexBased() {
 		Question question1 = new Question(true, "question1", admin);
 		Answer answer1 = new Answer(true, "answer1", admin, question1);
 
-		Search search = new Search("answer1");
+		parser = new SearchQueryParser("answer1");
+		Search search = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
+
 		assertEquals("answer1", search.getAnswerContentResults().get(0)
 				.getContent());
-
 	}
 
 	@Test
-	public void shouldSearchComments() {
+	public void shouldSearchAnswerContentSentenceBased() {
+		Question question1 = new Question(true, "question1", admin);
+		Answer answer1 = new Answer(true, "Search this text answer1", admin,
+				question1);
+
+		parser = new SearchQueryParser("\"Search this text answer1\"");
+		Search search = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
+
+		assertEquals("Search this text answer1", search
+				.getAnswerContentResults().get(0)
+				.getContent());
+	}
+
+	@Test
+	public void shouldSearchCommentsSoundexBased() {
+		Question question1 = new Question(true, "question1", admin);
+		Answer answer1 = new Answer(true, "answer1", admin, question1);
+
+		Comment commentQuestion = new Comment(admin, question1, "comment1");
+		Comment commentAnswer = new Comment(admin, answer1, "blabla");
+
+		parser = new SearchQueryParser("comment1");
+		Search search = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
+		assertEquals("comment1", search.getCommentResults().get(0)
+				.getContent());
+
+		parser = new SearchQueryParser("blabla");
+		Search search1 = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
+		assertEquals("blabla", search1.getCommentResults().get(0)
+				.getContent());
+	}
+
+	@Test
+	public void shouldSearchCommentsSentenceBased() {
 		Question question1 = new Question(true, "question1", admin);
 		Answer answer1 = new Answer(true, "answer1", admin, question1);
 
 		Comment commentQuestion = new Comment(admin, question1,
-				"commentToQuestion1");
-		Comment commentAnswer = new Comment(admin, answer1, "commentToAnswer1");
+				"comment To Question 1");
+		Comment commentAnswer = new Comment(admin, answer1,
+				"comment To Answer 1");
 
-		Search search = new Search("commentToQuestion1");
-		assertEquals("commentToQuestion1", search.getCommentResults().get(0)
+		parser = new SearchQueryParser("\"comment To Question 1\"");
+		Search search = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
+		assertEquals("comment To Question 1", search.getCommentResults().get(0)
 				.getContent());
 
-		Search search1 = new Search("commentToAnswer1");
-		assertEquals("commentToAnswer1", search1.getCommentResults().get(0)
+		parser = new SearchQueryParser("\"comment To Answer 1\"");
+		Search search1 = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
+		assertEquals("comment To Answer 1", search1.getCommentResults().get(0)
 				.getContent());
 	}
 
@@ -104,24 +172,32 @@ public class SearchTest extends UnitTest {
 				"commentToQuestion1");
 		Comment commentAnswer = new Comment(admin, answer1, "commentToAnswer1");
 
-		Search search = new Search("nothing");
+		parser = new SearchQueryParser("nothing");
+		Search search = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
 
 		assertEquals(0, search.getAnswerContentResults().size());
 		assertEquals(0, search.getCommentResults().size());
-		assertEquals(0, search.getQuestionContentResults().size());
-		assertEquals(0, search.getQuestionTagsResults().size());
+		assertEquals(0, search.getQuestions().size());
 	}
 
 	@Test
 	public void shouldAddQuestionOnlyOnceWhenMoreThanOneTagMatches() {
 		Question question1 = new Question(true, "question1", admin);
 		question1.addTags("testA");
-		question1.addTags("testB");
+		question1.addTags("test");
 
-		Search search = new Search("test");
+		Question question2 = new Question(true, "question2", admin);
+		question2.addTags("testA");
+		question2.addTags("test");
+
+		parser = new SearchQueryParser("test");
+		Search search = new Search(parser.getQueryWordsSoundex(),
+				parser.getQuerySentences());
 
 		assertEquals(2, question1.getTags().size());
-		assertEquals(1, search.getQuestionTagsResults().size());
+		assertEquals(2, question2.getTags().size());
+		assertEquals(2, search.getQuestions().size());
 
 	}
 

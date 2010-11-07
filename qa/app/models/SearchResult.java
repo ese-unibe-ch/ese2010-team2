@@ -22,6 +22,11 @@ public class SearchResult {
 	private ArrayList<Answer> answers;
 	private ArrayList<Comment> comments;
 
+	public SearchResult() {
+		answers = new ArrayList<Answer>();
+		comments = new ArrayList<Comment>();
+	}
+
 
 	/** Getters */
 	public Question getQuestion() {
@@ -54,7 +59,7 @@ public class SearchResult {
 	}
 
 	public void setComments(ArrayList<Comment> comments) {
-		this.comments = comments;
+		this.comments.addAll(comments);
 	}
 
 	public void setQuestion(Question question) {

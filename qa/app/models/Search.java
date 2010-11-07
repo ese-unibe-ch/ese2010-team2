@@ -1,14 +1,32 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+
+import org.apache.commons.codec.language.Soundex;
 
 /**
  * This class implents the feature of fulltext and tag search for Question,
  * Answer, Comments
  */
 public class Search {
-	private String query;
+	/** The from the SearchQueryParser made soundex Codes */
+	private ArrayList<String> soundexCodes;
+	/** The form the SearchQuery made senteces */
+	private ArrayList<String> sentences;
 	private DbManager manager;
+
+	/**
+	 * Used for the distinction between a with soundex codes or with full
+	 * sentences
+	 */
+	private boolean doASoundexSearch;
+	/**
+	 * the soundex algorithm from:
+	 * 
+	 * @package org.apache.commons.codec.language.Soundex
+	 */
+	private Soundex soundex;
 
 	/**
 	 * Determines the number of questions, answer and comments in DbMangers
@@ -19,37 +37,56 @@ public class Search {
 	private int numberOfComments;
 
 	/** Store the results of the search */
-	private ArrayList<Question> questionTagResults;
-	private ArrayList<Question> questionContentResults;
 	private ArrayList<Answer> answerContentResults;
 	private ArrayList<Comment> commentResults;
-	private ArrayList<Question> mergedQuestions;
+	private ArrayList<Question> questions;
 
-	public Search(String query) {
-		this.query = query;
-		this.query = this.query.toLowerCase();
+
+	public Search(ArrayList<String> soundexCodes, ArrayList<String> sentences) {
+		this.soundexCodes = soundexCodes;
+		this.sentences = sentences;
 		this.manager = DbManager.getInstance();
 
-		questionTagResults = new ArrayList<Question>();
-		questionContentResults = new ArrayList<Question>();
+		doASoundexSearch = false;
+		soundex = new Soundex();
+
 		answerContentResults = new ArrayList<Answer>();
 		commentResults = new ArrayList<Comment>();
-		mergedQuestions = new ArrayList<Question>();
+		questions = new ArrayList<Question>();
 
 		numberOfQuestions = manager.getQuestions().size();
 		numberOfAnswers = manager.getAnswers().size();
 		numberOfComments = manager.getComments().size();
 
-		// Do the search
-		searchQuestionTags();
-		searchQuestionContent();
-		searchAnswerContent();
-		searchComments();
-		mergeQuestionTagWithQuestionContentList();
+		doTheSearchForEveryQuery();
+	}
+
+	/**
+	 * Does a search through all Questions, Answers and Comments the first time
+	 * with the soundex codes the second time with complete sentences
+	 */
+	private void doTheSearchForEveryQuery() {
+		doASoundexSearch = true;
+		for (int i = 0; i < soundexCodes.size(); i++) {
+			String query = soundexCodes.get(i);
+			searchQuestionTags(query);
+			searchQuestionContent(query);
+			searchAnswerContent(query);
+			searchComments(query);
+		}
+
+		doASoundexSearch = false;
+		for (int i = 0; i < sentences.size(); i++) {
+			String query = sentences.get(i);
+			searchQuestionContent(query);
+			searchAnswerContent(query);
+			searchComments(query);
+		}
+		removeDuplicatedQuestions();
 	}
 
 	/** Search through all question tags for search query matches */
-	public void searchQuestionTags() {
+	public void searchQuestionTags(String query) {
 		// Prevents that if a search query matches two different tags the
 		// question will be added twice.
 		boolean addQuestionOnlyOnce = true;
@@ -60,97 +97,99 @@ public class Search {
 			int numberOfTags = curQuestion.getTags().size();
 
 			for (int j = 0; j < numberOfTags; j++) {
-
 				String curTag = curQuestion.getTagByIndex(j);
 				curTag = curTag.toLowerCase();
+				curTag = soundex.encode(curTag);
 
 				if (curTag.contains(query)) {
 					if (addQuestionOnlyOnce) {
-						questionTagResults.add(curQuestion);
-						mergedQuestions.add(curQuestion);
+						questions.add(curQuestion);
 						addQuestionOnlyOnce = false;
 					}
 				}
 			}
+			addQuestionOnlyOnce = true;
 		}
-		addQuestionOnlyOnce = true;
 	}
 
 	/** Search through all question contents for search query matches */
-	public void searchQuestionContent() {
+	public void searchQuestionContent(String query) {
 		for (int i = 0; i < numberOfQuestions; i++) {
-
 			Question curQuestion = manager.getQuestions().get(i);
 			String curContent = curQuestion.getContent();
 			curContent = curContent.toLowerCase();
 
-			if (curContent.contains(query)) {
-				questionContentResults.add(curQuestion);
-			}
-		}
-	}
-
-	/**
-	 * Merge the questions of the tag search with them of the content search. I
-	 * have left both method, because of advanced search.
-	 */
-	public void mergeQuestionTagWithQuestionContentList() {
-		for (int i = 0; i < mergedQuestions.size(); i++) {
-			Question curQuestion = mergedQuestions.get(i);
-			for (int j = 0; j < questionContentResults.size(); j++) {
-				Question questionToCheck = questionContentResults.get(j);
-				if (curQuestion.getId() == questionToCheck.getId()) {
-					mergedQuestions.remove(i);
+			if(doASoundexSearch){
+				String[] curContentArray = curQuestion.getContent()
+						.split("\\s");
+				for (int x = 0; x < curContentArray.length; x++) {
+					if (soundex.encode(curContentArray[x]).contains(query)) {
+						questions.add(curQuestion);
+					}
 				}
+			} else if (curContent.contains(query)) {
+				
+				questions.add(curQuestion);
 			}
 		}
-		// fill in the the not duplicated questions in mergeQuestion List
-		for (int k = 0; k < questionContentResults.size(); k++) {
-			Question curQuestion = questionContentResults.get(k);
-			mergedQuestions.add(curQuestion);
-		}
-
 	}
 
 	/** Search through all comments for matches */
-	public void searchComments() {
+	public void searchComments(String query) {
 		for (int i = 0; i < numberOfComments; i++) {
 
 			Comment curComment = manager.getComments().get(i);
 			String curContent = curComment.getContent();
 			curContent = curContent.toLowerCase();
 
-			if (curContent.contains(query)) {
+			if (doASoundexSearch) {
+				String[] curContentArray = curComment.getContent().split("\\s");
+				for (int x = 0; x < curContentArray.length; x++) {
+					if (soundex.encode(curContentArray[x]).contains(query)) {
+						commentResults.add(curComment);
+					}
+				}
+			} else if (curContent.contains(query)) {
 				commentResults.add(curComment);
 			}
 		}
 	}
 
 	/** Search through all answer contents for matches */
-	public void searchAnswerContent() {
+	public void searchAnswerContent(String query) {
 		for (int i = 0; i < numberOfAnswers; i++) {
 
 			Answer curAnswer = manager.getAnswers().get(i);
 			String curContent = curAnswer.getContent();
+
 			curContent = curContent.toLowerCase();
 
-			if (curContent.contains(query)) {
+			if (doASoundexSearch) {
+				String[] curContentArray = curAnswer.getContent().split("\\s");
+				for (int x = 0; x < curContentArray.length; x++) {
+					if (soundex.encode(curContentArray[x]).contains(query)) {
+						answerContentResults.add(curAnswer);
+					}
+				}
+			} else if (curContent.contains(query)) {
 				answerContentResults.add(curAnswer);
 			}
 		}
 	}
 
+	/**
+	 * Because of tag and conent search there may be question duplicates in
+	 * ArrayList, this method deletes all duplicates
+	 */
+	public void removeDuplicatedQuestions() {
+		HashSet h = new HashSet(questions);
+		questions.clear();
+		questions.addAll(h);
+	}
+
 	/** Getters */
-	public ArrayList<Question> getQuestionTagsResults() {
-		return questionTagResults;
-	}
-
-	public ArrayList<Question> getMergedQuestions() {
-		return mergedQuestions;
-	}
-
-	public ArrayList<Question> getQuestionContentResults() {
-		return questionContentResults;
+	public ArrayList<Question> getQuestions() {
+		return questions;
 	}
 
 	public ArrayList<Answer> getAnswerContentResults() {
@@ -160,9 +199,4 @@ public class Search {
 	public ArrayList<Comment> getCommentResults() {
 		return commentResults;
 	}
-
-	public String getQuery() {
-		return query;
-	}
-
 }

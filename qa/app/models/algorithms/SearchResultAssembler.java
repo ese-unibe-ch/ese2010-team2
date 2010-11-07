@@ -18,18 +18,17 @@ public class SearchResultAssembler {
 	/** ArrayList for the results from the search class */
 	private ArrayList<Answer> answerContentResults;
 	private ArrayList<Comment> commentResults;
-	private ArrayList<Question> mergedQuestion;
+	private ArrayList<Question> questions;
 
 	/** ArrayList for the assembled results */
 	private ArrayList<SearchResult> searchResults;
 
 	public SearchResultAssembler(ArrayList<Answer> answerContentResults,
-			ArrayList<Comment> commentResults,
-			ArrayList<Question> mergedQuestion, String query) {
+			ArrayList<Comment> commentResults, ArrayList<Question> questions) {
 
 		this.answerContentResults = answerContentResults;
 		this.commentResults = commentResults;
-		this.mergedQuestion = mergedQuestion;
+		this.questions = questions;
 
 		searchResults = new ArrayList<SearchResult>();
 		this.manager = DbManager.getInstance();
@@ -42,8 +41,8 @@ public class SearchResultAssembler {
 
 	/** Assembles a SearchResult based on the search matches in the questions */
 	private void assembleBasedOnQuestion() {
-		for (int j = 0; j < mergedQuestion.size(); j++) {
-			Question curQuestion = mergedQuestion.get(j);
+		for (int j = 0; j < questions.size(); j++) {
+			Question curQuestion = questions.get(j);
 			avoidDuplicatedSearchResults(curQuestion);
 		}
 	}
@@ -99,6 +98,14 @@ public class SearchResultAssembler {
 		result.setAnswers(manager.getAllAnswersByQuestionId(curQuestion
 				.getId()));
 
+		// Determine Comments who belong to Answers
+		for (int i = 0; i < result.getAnswers().size(); i++) {
+			result.setComments(result.getAnswers().get(i).getComments());
+		}
+
+		// Determine comments who belong to question
+		result.setComments(curQuestion.getComments());
+
 		// Avoid duplicated SearchResults because of Answers
 		for (int k = 0; k < answerContentResults.size(); k++) {
 			Answer curAnswer1 = answerContentResults.get(k);
@@ -107,15 +114,25 @@ public class SearchResultAssembler {
 			}
 		}
 
-		// Determine comments who belong to question
-		result.setComments(curQuestion.getComments());
-
-		// Avoid duplicated SearchResults because of comments
+		// Avoid duplicated SearchResults because of comments who belong to
+		// questions
 		for (int j = 0; j < commentResults.size(); j++) {
 			Comment curComment1 = commentResults.get(j);
 			if (curComment1.getCommentedPost().getId() == curQuestion
 					.getId()) {
 				commentResults.remove(j);
+			}
+		}
+
+		// Avoid duplicated SearchResults because of comment who belong to
+		// answers
+		for (int j = 0; j < commentResults.size(); j++) {
+			Comment curComment1 = commentResults.get(j);
+			for (int y = 0; y < result.getAnswers().size(); y++) {
+				Answer curAnswer = result.getAnswers().get(y);
+				if (curComment1.getCommentedPost().getId() == curAnswer.getId()) {
+					commentResults.remove(j);
+				}
 			}
 		}
 		searchResults.add(result);
@@ -125,4 +142,17 @@ public class SearchResultAssembler {
 	public ArrayList<SearchResult> getSearchResults() {
 		return searchResults;
 	}
+
+	public ArrayList<Answer> getAnswerContentResults() {
+		return answerContentResults;
+	}
+
+	public ArrayList<Comment> getCommentResults() {
+		return commentResults;
+	}
+
+	public ArrayList<Question> getQuestions() {
+		return questions;
+	}
+
 }

@@ -3,8 +3,8 @@
 <a href="/">back</a>
 <form action="@{Application.Search()}" method="GET">
 	<br>
+	<p><span style="font-size:60%">Search for a whole sentence by embracing two or more words by double quotes!</span></p>
 	<input type="text" name="text" value="${params.get('text')}"><input type="submit" value="Search" /><br>
-	<br>
 	<br>
 </form>
 <h3>${message}</h3>
@@ -12,12 +12,5 @@
 <h3>Search results for "${params.get('text')}":</h3>
 #{list items:results, as:'searchresult'}
 	#{short_post post:searchresult.getQuestion() /}
-
-	<!-- For testing only -->
-	<!-- <p>Total Score: ${searchresult.getTotalScore()}</p>
-	<p>Total Radius Count: ${searchresult.getTotalCount()}</p>
-	<p>Has a best Answer?: ${searchresult.getHasABestAnswer()}</p>
-	<p>----------------------------------------</p> -->
-
 #{/list}
 #{/if}

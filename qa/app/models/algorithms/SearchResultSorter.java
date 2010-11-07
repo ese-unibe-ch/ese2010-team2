@@ -8,6 +8,8 @@ import models.Comment;
 import models.Question;
 import models.SearchResult;
 
+import org.apache.commons.codec.language.Soundex;
+
 import comparators.SearchResultComparator;
 
 /**
@@ -18,17 +20,52 @@ public class SearchResultSorter {
 	/** The sorted searchResults */
 	private ArrayList<SearchResult> searchResults;
 
-	/** The original search query, will be used for sorting */
-	private String query;
+	/**
+	 * Will be used for distinction between counting based on sentences or
+	 * counting based on soundex codes
+	 */
+	private boolean doASoundexBasedCount;
+	/**
+	 * the soundex algorithm from:
+	 * 
+	 * @package org.apache.commons.codec.language.Soundex
+	 */
+	private Soundex soundex;
+
+	private ArrayList<String> soundexCodes;
+	private ArrayList<String> sentences;
 
 	public SearchResultSorter(ArrayList<SearchResult> searchResults,
-			String query) {
-		this.searchResults = searchResults;
-		this.query = query;
+			ArrayList<String> queryWordsSoundex,
+			ArrayList<String> querySentences) {
 
-		// Initialize sorting
-		countTagMatches();
-		countContentMatches();
+		this.searchResults = searchResults;
+		this.soundexCodes = queryWordsSoundex;
+		this.sentences = querySentences;
+		doASoundexBasedCount = false;
+		soundex = new Soundex();
+
+		initSorting();
+	}
+
+	/**
+	 * Go two times through all search results, first time count based on the
+	 * soundex codes the second time based on sentences
+	 */
+	public void initSorting() {
+		doASoundexBasedCount = true;
+		for (int i = 0; i < soundexCodes.size(); i++) {
+			String query = soundexCodes.get(i);
+			countTagMatches(query);
+			countContentMatches(query);
+		}
+		
+		doASoundexBasedCount = false;
+		for (int i = 0; i < sentences.size(); i++) {
+			String query = sentences.get(i);
+			countContentMatches(query);
+		}
+		
 		checkIfHasABestAnswer();
 		countTotalScore();
 		sort();
@@ -38,7 +75,7 @@ public class SearchResultSorter {
 	 * Goes through all composits and counts the tags in a composite which match
 	 * the search query. Every tag that matches the query will count +2.
 	 */
-	private void countTagMatches() {
+	private void countTagMatches(String query) {
 		for (int i = 0; i < searchResults.size(); i++) {
 			int tagCount = 0;
 			Question curQuestion = searchResults.get(i).getQuestion();
@@ -46,7 +83,7 @@ public class SearchResultSorter {
 
 			for (int j = 0; j < numberOfTags; j++) {
 				String curTag = curQuestion.getTagByIndex(j);
-				curTag = curTag.toLowerCase();
+				curTag = soundex.encode(curTag);
 
 				if (curTag.contains(query)) {
 					tagCount = tagCount + 2;
@@ -62,20 +99,24 @@ public class SearchResultSorter {
 	 * composits contents (Question-, Answer-, Comment-Content). Every match
 	 * counts +1.
 	 */
-	private void countContentMatches(){
+	private void countContentMatches(String query) {
 		for (int i = 0; i < searchResults.size(); i++) {
 			int contentCount = 0;
 			Question curQuestion = searchResults.get(i).getQuestion();
 			String[] splitedQuestionContent = curQuestion.getContent().split("\\s");
 
 			// Go through question content word by word count every match.
-			for (int x = 0; x < splitedQuestionContent.length; x++) {
-				if (splitedQuestionContent[x].contains(query)) {
-					contentCount++;
+			if (doASoundexBasedCount) {
+
+				for (int x = 0; x < splitedQuestionContent.length; x++) {
+					if (soundex.encode(splitedQuestionContent[x]).contains(
+							query)) {
+						contentCount++;
+					}
 				}
 			}
 			// If we have a sentence as query
-			if (curQuestion.getContent().contains(query) && contentCount == 0) {
+			else if (curQuestion.getContent().toLowerCase().contains(query)) {
 				contentCount++;
 			}
 
@@ -84,20 +125,25 @@ public class SearchResultSorter {
 				Answer curAnswer = searchResults.get(i).getAnswers().get(j);
 				String[] splitedAnswerContent = curAnswer.getContent().split("\\s");
 
-				// Will be used in case query is a sentence
-				int contentCountCheck = contentCount;
-
-				// Go through answer content word by word count every match.
-				for (int x = 0; x < splitedAnswerContent.length; x++) {
-					if (splitedAnswerContent[x].contains(query)) {
-						contentCount++;
+				if (doASoundexBasedCount) {
+					for (int x = 0; x < splitedAnswerContent.length; x++) {
+						if (soundex.encode(splitedAnswerContent[x]).contains(
+								query)) {
+							if (curAnswer.isBestAnswer()) {
+								contentCount = contentCount + 5;
+							} else {
+								contentCount++;
+							}
+						}
 					}
 				}
-
 				// If we have a sentence as query
-				if (curAnswer.getContent().contains(query)
-						&& contentCount == contentCountCheck) {
-					contentCount++;
+				else if (curAnswer.getContent().toLowerCase().contains(query)) {
+					if (curAnswer.isBestAnswer()) {
+						contentCount = contentCount + 5;
+					} else {
+						contentCount++;
+					}
 				}
 			}
 
@@ -106,19 +152,17 @@ public class SearchResultSorter {
 				Comment curComment = searchResults.get(i).getComments().get(k);
 				String[] splitedCommentContent = curComment.getContent().split("\\s");
 
-				// Will be used in case query is a sentence
-				int contentCountCheck = contentCount;
+				if (doASoundexBasedCount) {
 
-				// Go through word by word count every match with search query
-				for (int x = 0; x < splitedCommentContent.length; x++) {
-					if (splitedCommentContent[x].contains(query)) {
-						contentCount++;
+					for (int x = 0; x < splitedCommentContent.length; x++) {
+						if (soundex.encode(splitedCommentContent[x]).contains(
+								query)) {
+							contentCount++;
+						}
 					}
 				}
-
 				// If we have a sentence as query
-				if (curComment.getContent().contains(query)
-						&& contentCountCheck == contentCount) {
+				else if (curComment.getContent().toLowerCase().contains(query)) {
 					contentCount++;
 				}
 			}
@@ -136,7 +180,7 @@ public class SearchResultSorter {
 			if (curQuestion.hasBestAnswer()) {
 				searchResults.get(i).setHasABestAnswer(true);
 
-				searchResults.get(i).setTotalCount(5);
+				searchResults.get(i).setTotalScore(5);
 			}
 		}
 	}
