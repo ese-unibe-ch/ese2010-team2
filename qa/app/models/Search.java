@@ -83,7 +83,6 @@ public class Search {
 			searchComments(query);
 		}
 		removeDuplicatedQuestions();
-
 	}
 
 	/** Search through all question tags for search query matches */
@@ -162,6 +161,7 @@ public class Search {
 
 			Answer curAnswer = manager.getAnswers().get(i);
 			String curContent = curAnswer.getContent();
+
 			curContent = curContent.toLowerCase();
 
 			if (doASoundexSearch) {

@@ -30,7 +30,7 @@ public class SearchManager {
 		search = new Search(parser.getQueryWordsSoundex(), parser.getQuerySentences());
 		// Init the assembler
 		assembler = new SearchResultAssembler(search.getAnswerContentResults(),
-				search.getCommentResults(), search.getQuestions(), query);
+				search.getCommentResults(), search.getQuestions());
 		// Do the sorting of the results
 		sorter = new SearchResultSorter(assembler.getSearchResults(),
 				parser.getQueryWordsSoundex(), parser.getQuerySentences());

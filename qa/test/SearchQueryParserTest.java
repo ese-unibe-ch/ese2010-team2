@@ -14,7 +14,6 @@ public class SearchQueryParserTest extends UnitTest {
 	public void setUp() {
 		query = "";
 		parser = new SearchQueryParser(query);
-
 	}
 
 	@Test
