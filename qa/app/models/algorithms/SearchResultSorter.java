@@ -38,6 +38,7 @@ public class SearchResultSorter {
 	public SearchResultSorter(ArrayList<SearchResult> searchResults,
 			ArrayList<String> queryWordsSoundex,
 			ArrayList<String> querySentences) {
+
 		this.searchResults = searchResults;
 		this.soundexCodes = queryWordsSoundex;
 		this.sentences = querySentences;
@@ -128,13 +129,21 @@ public class SearchResultSorter {
 					for (int x = 0; x < splitedAnswerContent.length; x++) {
 						if (soundex.encode(splitedAnswerContent[x]).contains(
 								query)) {
-							contentCount++;
+							if (curAnswer.isBestAnswer()) {
+								contentCount = contentCount + 5;
+							} else {
+								contentCount++;
+							}
 						}
 					}
 				}
 				// If we have a sentence as query
 				else if (curAnswer.getContent().toLowerCase().contains(query)) {
-					contentCount++;
+					if (curAnswer.isBestAnswer()) {
+						contentCount = contentCount + 5;
+					} else {
+						contentCount++;
+					}
 				}
 			}
 
@@ -171,7 +180,7 @@ public class SearchResultSorter {
 			if (curQuestion.hasBestAnswer()) {
 				searchResults.get(i).setHasABestAnswer(true);
 
-				searchResults.get(i).setTotalCount(5);
+				searchResults.get(i).setTotalScore(5);
 			}
 		}
 	}
