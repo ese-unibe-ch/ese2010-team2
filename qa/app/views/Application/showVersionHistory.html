@@ -7,7 +7,7 @@
 	#{question question:post /}
 #{/if}
 #{else}
-	#{answer answer:post /}
+	#{answer answer:post,question:post.getQuestion() /}
 #{/else}
 
 <!--${post.getContent()}  -->
@@ -25,7 +25,7 @@
 	#{else}
 		<p style align="right">
 		<a href="@{Admin.restoreAnswer(post.getId(), oldPost.getContent())}">restore</a></p>
-		#{answer answer:oldPost /} 
+		#{answer answer:oldPost,question:oldPost.getQuestion() /} 
 	#{/else}
 	<br/>
 #{/list}
