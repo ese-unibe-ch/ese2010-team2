@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
 <html>
     <head>
@@ -10,47 +11,62 @@
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
         <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
         #{get 'moreScripts' /}
+
+		<script type="text/javascript">
+        <!--
+			var listQuestions = #{jsAction @Application.questions() /};
+
+		    $(document).load(listQuestions(), function(response, status, request) {
+                    $("#questions").html(response);
+            });
+
+
+        -->
+		</script>
     </head>
     <body>
     	<div id="root">
-            <div id="search">
-                <form action="@{Application.Search()}" method="GET">
-                    <input size="15" type="text" name="text" value="${text}"><input type="submit" value="Search" />
-                </form>
-            </div>
-
     		<div id="head">
-        		<a href="@{Application.index()}"><h1>ESE KB</h1></a>
-        		<span id="subtitle">A knowledge base by minerva for ewernli.</span>
-        	</div>
+                <div id="statusbox">
+                    #{if session.uid}
+                        Logged in as: ${session.get("username")} |
+                        <a href="@{Secure.logout()}">logout</a>
+                    #{/if}
+                    #{else}
+                        <a href="@{Application.showRegister()}">register</a> |
+                        <a href="@{Secure.login()}">login</a>
+                    #{/else}
+                </div>
 
+                <div id="search">
+                    <form action="@{Application.Search()}" method="GET">
+                        <input size="15" type="text" name="text" value="${text}"><input type="submit" value="Search" />
+                    </form>
+                </div>
 
-            <div id="statusbox">
                 #{if session.uid}
-                    Logged in as: ${session.get("username")} |
-                    <a href="@{Secure.logout()}">logout</a>
-                #{/if}
-                #{else}
-                    <a href="@{Application.showRegister()}">register</a> |
-                    <a href="@{Secure.login()}">login</a>
-                #{/else}
-            </div>
-
-            #{if session.uid}
-            <div id="toolbox">
-                <a href="@{Admin.showQuestionForm()}">add new Question</a> |
-                <a href="@{Application.showRecentQuestionsByNumber()}">newest questions</a> |
-                       <a href="@{Application.showUser(session.get("username"))}">my profile</a> |
-                <a href="@{Application.showState()}">statistics</a>
-                #{if isChanged}
-                	<br>
-                	<a href="@{Admin.showNotifications()}">something happend</a>
+                <div id="toolbox">
+                    <ul>
+                    <li><a href="@{Admin.showQuestionForm()}">add new Question</a></li>
+                    <li><a href="@{Application.showRecentQuestionsByNumber()}">newest questions</a></li>
+                    <li><a href="@{Admin.showUserLog(session.get('username'))}">show my activities</a></li>
+                    <li><a href="@{Application.showUser(session.get('username'))}">my profile</a></li>
+                    <li><a href="@{Application.showState()}">statistics</a></li>
+                    #{if isChanged}
+                    <li><a href="@{Admin.showNotifications()}">something happend</a></li>
+                    #{/if}
+                    </ul>
+                </div>
                 #{/if}
             </div>
-            #{/if}
 
             <div id="content">
-            #{doLayout /}
+                <div id="questions">
+
+                </div>
+				<div id="details">
+                    #{doLayout /}
+				</div>
             </div>
 
             <div id="footer">

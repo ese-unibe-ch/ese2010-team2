@@ -19,6 +19,7 @@ import models.User;
 import org.apache.commons.io.IOUtils;
 
 import play.Play;
+import play.cache.Cache;
 import play.mvc.Controller;
 import annotations.Unused;
 
@@ -41,8 +42,14 @@ public class Application extends Controller {
 			render(message, userName, score);
 		} else {
 			ArrayList<Question> questions = manager.getQuestionsSortedByScore();
+			Cache.set("questions", questions);
 			render(questions, userName, isChanged);
 		}
+	}
+	
+	public static void questions() {
+		ArrayList<Question> questions = manager.getQuestionsSortedByScore();
+		render(questions);
 	}
 
 	public static void showRegister(String message, String name,

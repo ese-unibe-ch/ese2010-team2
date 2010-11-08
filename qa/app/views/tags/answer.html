@@ -1,5 +1,5 @@
 <div "answerbox">
-	<div class="answer">
+	<div class="answer" id="answer-${_answer.getId()}">
 		#{userbox user:_answer.getOwner() /}
 
 		<span class="date">
@@ -34,7 +34,7 @@
 		#{if session.uid}
 		<a href="@{Admin.showAnswerCommentForm(_answer.getId(), _question.getId())}">write comment</a>
 		#{/if}
-		
+
 		#{if _answer.ownerIs(session.uid) || session.get("username")=="admin"}
 		 | <a href="@{Admin.deleteAnswer(_answer.getId(), _question.getId())}">delete answer</a>
 		#{/if}
@@ -54,7 +54,7 @@
 		#{if comment.ownerIs(session.uid) || session.get("username")=="admin"}
 		<a href="@{Admin.showEditCommentForm(_question.getId(), comment.getId())}">edit comment</a>
 		#{/if}
-		
+
 		#{if comment.ownerIs(session.uid)|| session.get("username")=="admin"}
 		 | <a href="@{Admin.deleteComment(_question.getId(), comment.getId())}">delete comment</a>
 		#{/if}

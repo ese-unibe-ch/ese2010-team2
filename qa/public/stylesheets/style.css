@@ -1,12 +1,12 @@
 body {
-	background:#EEE;
+	background: #EEE;
 	font-family: Sans-serif;
 	padding: 0;
 	margin: 0;
 }
 
 a {
-	color:#000;
+	color: #000;
 	text-decoration: none;
 	font-weight: bold;
 }
@@ -19,12 +19,38 @@ img {
 	border: 0;
 }
 
+#head a {
+	color: #AA00A2;
+	background: #D460CF;
+	padding: 0 .2em 0 .2em;
+	font-size: small;
+}
+
+#head a:hover {
+	color: #D460CF;
+	background: #AA00A2;
+	padding: 0 .2em 0 .2em;
+}
+
 #head h1 {
 	color:#FFF;
 	font-family: Georgia, serif;
-	margin: .2em 0 .2em 0;
-	border-bottom: thin solid #D460CF;
-	text-align: right;
+	margin: 0;
+	float: right;
+	padding-right: 5em;
+	text-shadow: #444 2px 2px;
+}
+
+#content h2 {
+	margin-bottom: 0
+}
+
+#toolbox ul {
+	display: inline;
+}
+
+#toolbox li {
+	display: inline;
 }
 
 td {
@@ -40,18 +66,20 @@ div.userbox {
 }
 
 div.question {
+	box-shadow:2px 2px 10px #666;
 	border-radius: 7px;
 	background: #9BF33D;
 	margin: 1em;
-	padding: 1em;
+	padding: .7em;
 	border: thick solid #78E700;
 }
 
 div.answer {
+	box-shadow:2px 2px 10px #666;
 	border-radius: 7px;
 	background: #FFF773;
 	margin: 1em;
-	padding: 1em;
+	padding: .7em;
 	border: thick solid #FFF100;
 }
 
@@ -90,7 +118,7 @@ div.answer_text {
 }
 
 div.short_post {
-	width: 80%;
+	box-shadow:2px 2px 10px #666;
 	border-radius: 7px;
 	background: #9BF33D;
 	border: medium solid #78E700;
@@ -99,11 +127,11 @@ div.short_post {
 }
 
 div.short_post_text {
-	width: 70%;
+	width: 65%;
 	padding-right: 1em;
 }
 div.short_post_info {
-	width: 30%;
+	width: 35%;
 	font-size: smaller;
 	float: right;
 	text-align: right;
@@ -111,6 +139,7 @@ div.short_post_info {
 }
 
 div.short_answer {
+	box-shadow:2px 2px 10px #666;
 	width: 68%;
 	border-radius: 7px;
 	background: #FFF773;
