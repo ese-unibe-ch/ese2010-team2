@@ -2,7 +2,7 @@
     <div class="short_post_info">
         Posted ${_post.getTimePassedSincePosting()} ago
         <br />
-        by <a href="/showUser/${_post.getOwner()}">${_post.getOwner()}</a>
+        #{by post:_post /}
         <br />
         <strong>Score:</strong> ${_post.getScore()}
         <br />

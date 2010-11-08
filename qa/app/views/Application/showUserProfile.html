@@ -1,71 +1,70 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Edit User Profile' /}
-<a href="/">back</a>
-<h2>Edit your User Profile</h2>
-<h3>${message}</h3>
-#{list items:currentUser, as:'user'}
-<fieldset>
- <legend>Edit your Profile:</legend>
-	<form action="@{Application.editUserProfile()}" method="GET">
-	<table>
-		<tr>
-			<td valign="top">Username:</td>
-			<td><input type="text" name="name" value="${name}"></td>
-		</tr>
-		<tr>
-			<td valign="top">Password:</td>
-			<td><input type="password" name="password" value="${password}" /></td>
-		</tr>
-		<tr>
-			<td valign="top">Password again:</td>
-			<td><input type="password" name="password2" value="${password2}" /></td>
-		</tr>
-		<td></td><td></td>
-		<tr>
-		</tr>
-		<tr>
-			<td valign="top">Email:</td>
-			<td><textarea rows="1"  cols="18" id="email" name="email" value="${email}">${user.getEmail()}</textarea></td>
-		</tr>
-		<tr>
-			<td valign="top">Phone:</td>
-			<td><textarea rows="1" cols="18" id="phone" name="phone" value="${phone}">${user.getPhone()}</textarea></td>
 
-		</tr>
-		<tr>
-			<td valign="top">Birthdate:</td>
-			<td><textarea rows="1" cols="18" id="birthdate" name="birthdate" value="${birthdate}">${user.getBirthdate()}</textarea></td>
-		</tr>
-		<tr>
-			<td valign="top">Street:</td>
-			<td><textarea rows="1"  cols="18" id="street" name="street" value="${street}">${user.getStreet()}</textarea></td>
-		</tr>
-		<tr>
-			<td valign="top">Town:</td>
-			<td><textarea rows="1" cols="18" id="town" name="town" value="${town}">${user.getTown()}</textarea></td>
-		</tr>
-		<tr>
-			<td valign="top">Hobbies:</td>
-			<td><textarea rows="3" cols="36" id="hobbies" name="hobbies" value="${hobbies}">${user.getHobbies()}</textarea></td>
-		</tr>
-		<tr>
-			<td valign="top">Moto:</td>
-			<td><textarea rows="3" cols="36" id="moto" name="moto" value="${moto}">${user.getMoto()}</textarea></td>
-		</tr>
-		<tr>
-			<td valign="top">Technical Background:</td>
-			<td><textarea rows="3" cols="36" id="background" name="background" value="${background}">${user.getBackground()}</textarea></td>
-		</tr>
-		<tr>
-			<td valign="top">Favourite Quote: </td>
-			<td><textarea rows="3" cols="36" id="quote" name="quote" value="${quote}">${user.getQuote()}</textarea></td>
-		</tr>
-		<tr>
-			<td><input type="submit" value="Save" /></td>
-		</tr>
+<a href="/">back</a>
+
+<h2>Edit your profile</h2>
+
+<h3>${message}</h3>
+
+#{list items:currentUser, as:'user'}
+<div class="form">
+	<form action="@{Application.editUserProfile()}" method="GET">
+	<ul>
+		<li>
+			<label for="name">Username:</label>
+			<input type="text" name="name" value="${user.getName()}" />
+		<li>
+		<li>
+			<label for="password">Password:</label>
+			<input type="password" name="password" value="" />
+		</li>
+		<li>
+			<label for="password2">Repeat password:</label>
+			<input type="password" name="password2" value="" />
+		</li>
+		<li>
+			<label for="email">Email:</label>
+			<input type="text" id="email" name="email" value="${user.getEmail()}" />
+		</li>
+		<li>
+			<label for="phone">Phone:</label>
+			<input type="text" id="phone" name="phone" value="${user.getPhone()}" />
+		</li>
+		<li>
+			<label for="birthdate">Birthdate:</label>
+			<input type="text" id="birthdate" name="birthdate" value="${user.getBirthdate()}" />
+		</li>
+		<li>
+			<label for="street">Street:</label>
+			<input type="text" id="street" name="street" value="${user.getStreet()}" />
+		</li>
+		<li>
+			<label for="town">Town:</label>
+			<input type="text" id="town" name="town" value="${user.getTown()}" />
+		</li>
+		<li>
+			<label for="hobbies">Hobbies:</label>
+			<textarea rows="3" cols="36" id="hobbies" name="hobbies">${user.getHobbies()}</textarea>
+		</li>
+		<li>
+			<label for="moto">Moto:</label>
+			<textarea rows="3" cols="36" id="moto" name="moto">${user.getMoto()}</textarea>
+		</li>
+		<li>
+			<label for="background">Technical background:</label>
+			<textarea rows="3" cols="36" id="background" name="background">${user.getBackground()}</textarea>
+		</li>
+		<li>
+			<label for="quote">Favourite quote: </label>
+			<textarea rows="3" cols="36" id="quote" name="quote" value="${quote}">${user.getQuote()}</textarea>
+		</li>
+		<li>
+			<input type="submit" value="Save" />
+		</li>
 	</table>
 	</form>
-</fieldset>
+</div>
 <fieldset>
 	<legend>Avatar</legend>
 
