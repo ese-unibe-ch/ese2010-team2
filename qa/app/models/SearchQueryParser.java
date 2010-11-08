@@ -1,11 +1,10 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 
 import org.apache.commons.codec.language.Soundex;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * In this class will the search query splitted in word or sentences if some
