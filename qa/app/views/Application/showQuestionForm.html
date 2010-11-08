@@ -1,22 +1,11 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Add a new question' /}
-<a href="/">back</a>
+
 <h2>Add a new Question</h2>
-<fieldset>
- <legend>Add new Question:</legend>
-	<form action="@{Admin.addQuestion()}" method="GET">
-	<table>
-		<tr>
-			<td>Enter your Question:</td>
-			<td><textarea id="newQuestion" name="newQuestion"></textarea></td>
-		</tr>
-		<tr>
-			<td></td>
-			<h3>${message}</h3>
-			<td><input type="submit" value="Post your Question!" /></td>
-		</tr>
-	</table>
-	</form>
-</fieldset>
+
+<form action="@{Admin.addQuestion()}" method="GET">
+	<textarea id="newQuestion" name="newQuestion"></textarea>
+	<input type="submit" value="Post your Question!" />
+</form>
 
 

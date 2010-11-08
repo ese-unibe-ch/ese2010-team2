@@ -1,34 +1,35 @@
-<div class="question" id="question-${_question.getId()}">
-	#{userbox user:_question.getOwner() /}
-
-	<span
-		class="date">Posted ${_question.getTimePassedSincePosting()} ago
-		#{if _question.getEditor()!=_question.getOwner()}
-			 | <a href="/question/${_question.getId()}/history">edited by ${_question.getEditor()}</a>
-		#{/if}
-	</span>
-
-	<div class="question_text">
-		${_question.getHtml().raw()}
-	</div>
-
+<div>
 	#{votebox post:_question, mode:'question' /}
 
-	#{tagbox post:_question /}
+	<div class="question" id="question-${_question.getId()}">
+		#{userbox user:_question.getOwner() /}
 
-	#{if session.uid}
-	#{if _question.ownerIs(session.uid)|| session.get("username")=="admin"}
-	<a href="@{Admin.showEditQuestionForm(_question.getId())}">edit question</a> |
-	#{/if}
+		<span
+			class="date">Posted ${_question.getTimePassedSincePosting()} ago
+			#{if _question.getEditor()!=_question.getOwner()}
+				 | <a href="/question/${_question.getId()}/history">edited by ${_question.getEditor()}</a>
+			#{/if}
+		</span>
 
-	<a href="@{Admin.showQuestionCommentForm(_question.getId())}">write comment</a>
+		<div class="question_text">
+			${_question.getHtml().raw()}
+		</div>
 
-	#{if _question.ownerIs(session.uid)|| session.get("username")=="admin"}
-	 | <a href="@{Admin.deleteQuestion(_question.getId())}">delete question</a>
-	#{/if}
-	#{/if}
+		#{tagbox post:_question /}
 
+		#{if session.uid}
+		<div class="toolbox">
+			<a href="@{Admin.showQuestionCommentForm(_question.getId())}" title="write comment"><img src="/public/images/comment.png" alt="write comment" /></a>
+
+			#{if _question.ownerIs(session.uid) || session.get("username")=="admin"}
+			<a href="@{Admin.showEditQuestionForm(_question.getId())}" title="edit question"><img src="/public/images/edit.png" alt="edit question" /></a>
+			<a href="@{Admin.deleteQuestion(_question.getId())}" title="delete question"><img src="/public/images/delete.png" alt="delete question" /></a>
+			#{/if}
+		</div>
+		#{/if}
+	</div>
 </div>
+
 #{if _question.getComments().size > 0}
 <div class="comments">
 	<h3>Comments to this answer</h3>
@@ -37,18 +38,18 @@
 	<div class="comment">
 		Posted <strong>${comment.getTimePassedSincePosting()}</strong> by <strong>${comment.getOwner()}</strong>
 		<p class="comment_text">${comment.getContent()}</p>
+
+		#{if session.uid}
+			<div class="toolbox">
+			#{if comment.ownerIs(session.uid)|| session.get("username")=="admin"}
+			<a href="@{Admin.showEditCommentForm(_question.getId(), comment.getId())}"><img src="/public/images/edit.png" alt="edit comment" /></a>
+			<a href="@{Admin.deleteComment(_question.getId(), comment.getId())}"><img src="/public/images/delete.png" alt="delete comment" /></a>
+			#{/if}
+		</div>
+		#{/if}
 	</div>
 
-	#{if session.uid}
-	#{if comment.ownerIs(session.uid)|| session.get("username")=="admin"}
-	<a href="@{Admin.showEditCommentForm(_question.getId(), comment.getId())}">edit comment</a>
-	#{/if}
 
-	#{if comment.ownerIs(session.uid)|| session.get("username")=="admin"}
-	 | <a href="@{Admin.deleteComment(_question.getId(), comment.getId())}">delete comment</a>
-	#{/if}
-
-	#{/if}
 
 	#{/list}
 </div>

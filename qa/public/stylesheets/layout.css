@@ -6,19 +6,11 @@
 	background: #AA00A2;
 	border-bottom: thick solid #D460CF;
 	padding: .5em;
-	text-align: center;
 	min-height: 1.8em;
 }
 
-#menu {
-	color: #D460CF;
-	text-align: right;
-	width: 70%;
-	float: right;
-}
-
 #content {
-	width: 1000px;
+	width: 1060px;
 	margin: 0 auto;
 }
 
@@ -37,8 +29,9 @@
 
 #details {
 	margin: 0;
+	margin-left: .5em;
 	padding: .3em;
-	width: 510px;
+	width: 560px;
 	height: 550px;
 	float: right;
 	overflow: auto;
@@ -61,8 +54,8 @@
 	float: right;
 }
 
-#toolbox {
-	width: 50%;
+#menu {
+	width: 60%;
 	padding: .2em;
 }
 

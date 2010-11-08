@@ -1,19 +1,14 @@
 #{secure.check ''}
 <div class="votebox">
-    #{if _post.ownerIs(session.uid)}
-        You can't rate your own post!
-    #{/if}
-    #{else}
-        Score: ${_post.getScore()} |
-        Vote:
         #{if _mode == 'answer'}
-        <a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/up"><span class="vote_button">up</span></a>
-        <a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/down"><span class="vote_button">down</span></a>
+        <a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/up"><img src="/public/images/up.png" /></a>
+        <p class="score">${_post.getScore()}</p>
+        <a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/down"><img src="/public/images/down.png" /></a>
         #{/if}
         #{else}
-        <a href="/question/${_post.getId()}/vote/up"><span class="vote_button">up</span></a>
-        <a href="/question/${_post.getId()}/vote/down"><span class="vote_button">down</span></a>
+        <a href="/question/${_post.getId()}/vote/up"><img src="/public/images/up.png" /></a>
+        <p class="score">${_post.getScore()}</p>
+        <a href="/question/${_post.getId()}/vote/down"><img src="/public/images/down.png" /></a>
         #{/else}
-    #{/else}
 </div>
 #{/secure.check}

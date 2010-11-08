@@ -19,6 +19,10 @@ img {
 	border: 0;
 }
 
+/*
+ *
+ */
+
 #head a {
 	color: #AA00A2;
 	background: #D460CF;
@@ -45,40 +49,50 @@ img {
 	margin-bottom: 0
 }
 
-#toolbox ul {
+#menu ul {
 	display: inline;
 }
 
-#toolbox li {
+#menu li {
 	display: inline;
+}
+
+div.toolbox a {
+	padding: 0 .2em 0 .2em;
+}
+
+div.toolbox a:hover {
+	background: #ED1C24;
 }
 
 td {
 	padding: 1em;
 }
 
-ul {
-	margin-left: 1em;
-}
+/*
+ * divisions
+ */
 
 div.userbox {
 	float: right;
 }
 
 div.question {
+	width: 80%;
 	box-shadow:2px 2px 10px #666;
 	border-radius: 7px;
 	background: #9BF33D;
-	margin: 1em;
+	margin: 1em 0 1em 0;
 	padding: .7em;
 	border: thick solid #78E700;
 }
 
 div.answer {
+	width: 80%;
 	box-shadow:2px 2px 10px #666;
 	border-radius: 7px;
 	background: #FFF773;
-	margin: 1em;
+	margin: 1em 0 1em 0;
 	padding: .7em;
 	border: thick solid #FFF100;
 }
@@ -104,14 +118,14 @@ div.comment {
 }
 
 div.question_text {
-	width: 80%;
+	width: 75%;
 	margin: .2em 0 .2em 0;
 	border-top: thin solid #78E700;
 	border-bottom: thin solid #78E700;
 }
 
 div.answer_text {
-	width: 80%;
+	width: 75%;
 	margin: .5em 0 .5em 0;
 	border-top: thin solid #FFF100;
 	border-bottom: thin solid #FFF100;
@@ -158,6 +172,9 @@ div.short_answer_info {
 	text-align: right;
 }
 
+div.form {
+	margin: 1em;
+}
 
 p.comment_text {
 	border-radius: 7px;
@@ -175,11 +192,32 @@ div.log_entry {
 	border: thick solid #B70F17;
 }
 
+div.votebox {
+	margin-right: 1.4em;
+	float: right;
+}
+
+div.toolbox {
+	display: inline;
+}
+
+/*
+ * paragraphs
+ */
+
 p.show { display: block }
 
 p.hide { display: none; }
 
 .adminbutton {display:none;}
+
+p.score {
+	font-size: x-large;
+	font-weight: bold;
+	margin: .4em;
+	margin-left: .3em;
+	padding: 0;
+}
 
 
 /**
@@ -215,7 +253,25 @@ span.date {
 
 span.tag {
 	padding: .1em .4em .1em .4em;
-	background: red;
+	background: #ED1C24;
 	color: #FFF;
 	font-size: small;
 }
+
+/*
+ * form stuff
+ */
+
+div.form label {
+	display: block;
+}
+
+div.form ul {
+	padding: 0;
+	list-style: none outside;
+}
+
+div.form ul li {
+	margin-bottom: 1em;
+}
+
