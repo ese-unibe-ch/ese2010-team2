@@ -5,8 +5,6 @@ import java.util.HashSet;
 
 import org.apache.commons.codec.language.Soundex;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
-
 /**
  * In this class will the search query splitted in word or sentences if some
  * words are embraced with double quotes. e.g. words: these are words, sentence:
@@ -127,11 +125,11 @@ public class SearchQueryParser {
 		originalQuery = query.toLowerCase();
 		
 		// Get original query an split words and store in ArrayList
-		wordsList = new ArrayList<String>(Arrays.asList(originalQuery
+		wordsList = new ArrayList<String>(java.util.Arrays.asList(originalQuery
 				.split(" ")));
 
 		englishStopwords = new ArrayList<String>(
-				Arrays.asList(englishStopwordsDatabase));
+				java.util.Arrays.asList(englishStopwordsDatabase));
 
 		sentences = new ArrayList<String>();
 		soundexCodes = new ArrayList<String>();

@@ -12,8 +12,9 @@ import com.petebevin.markdown.MarkdownProcessor;
  */
 public abstract class Post {
 
-	protected int votedTimes;
-	protected int voteUpMax, voteDownMax;
+	protected int currentVote = -2;
+	protected int currentScore;
+	protected int tempVote = 0;
 	protected Date voteSetTime;
 	protected int id;
 	protected String content;
@@ -44,6 +45,20 @@ public abstract class Post {
 		voteSetTime = new Date();
 	}
 	
+	/**
+	 * Sets the current vote
+	 */
+	public void setcurrentVote(int vote) {
+		this.setLastChanged(new Date());
+		this.currentVote = vote;
+	}
+	
+	/**
+	 * Checks if a vote for this post is changeable
+	 * 
+	 * @return true if the vote can changed
+	 * 		   false otherwise
+	 */
 	public boolean voteChangeable(){		
 		long then;
 		long now = new Date().getTime();
@@ -55,8 +70,25 @@ public abstract class Post {
 		}
 		
 		long diff = now - then;
-
-		return (diff / (1000 * 60)) < 1;
+		
+		if((diff / (1000 * 60)) < 1){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public boolean checkVoteChangeableForUser(String name){
+		User user = manager.getUserByName(name);
+		Post post = user.getVotedPost(this);
+		if(post==null){
+			return true;
+		}
+		if(post!=null && post.voteChangeable()==true){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -103,23 +135,11 @@ public abstract class Post {
 	}
 
 	public int getScore() {
-		return score;
+		return this.score+tempVote;
 	}
 
 	public Date getDate() {
 		return date;
-	}
-	
-	public int getVotedTimes(){
-		return this.votedTimes;
-	}
-	
-	public int getVoteUpMax(){
-		return this.voteUpMax;
-	}
-	
-	public int getVoteDownMax(){
-		return this.voteDownMax;
 	}
 	
 	/**
@@ -171,6 +191,31 @@ public abstract class Post {
 		
 		return s.toString();
 	}
+	
+
+	/**
+	 * Gets the current vote from the user who voted for this post
+	 * 
+	 * @param name of user
+	 * @return
+	 */
+	public int getCurrentVoteFromUser(String name){
+		User user = manager.getUserByName(name);
+		return user.getVotedPost(this).getcurrentVote();
+	}
+	
+	//Muss ich noch machen, evt. löschen... (e.s)
+	public boolean getVoteChangeableForUser(String name){
+		User user = manager.getUserByName(name);
+		if(user.getVotedPost(this)==null){
+			return false;
+		}
+		if(user.getVotedPost(this).voteChangeable()==true){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 	public String getContent() {
 		return content;
@@ -187,8 +232,24 @@ public abstract class Post {
 	public User getEditor(){
 		return this.editedBy;
 	}
+	
+	public int getcurrentVote(){
+		return this.currentVote;
+	}
+	
+	public Date getVoteSetTime(){
+		return this.voteSetTime;
+	}
+	
+	public int getTempVote(){
+		return this.tempVote;
+	}
 
 	/** Setter methods */
+	public void setTempVote(int value){
+		this.tempVote = value;
+	}
+	
 	protected void setContent(String content, String uname) {
 		this.editedBy=manager.getUserByName(uname);
 		this.content = content;
@@ -202,16 +263,16 @@ public abstract class Post {
 		this.date = date; 
 	}
 	
-	public void setVotedTimes(int value){
-		this.votedTimes=votedTimes+value;
+	public void setScore(int value){
+		this.score = value;
 	}
 	
-	public void setVoteUpMax(int value){
-		this.voteUpMax=value;
+	public void setvoteSetTime(){
+		voteSetTime = new Date();
 	}
 	
-	public void setVoteDownMax(int value){
-		this.voteDownMax=value;
+	public void setNewReputation(){
+		manager.updateReputation(this.getOwner());
 	}
 
 	/**
@@ -249,13 +310,16 @@ public abstract class Post {
 	}
 
 	/**
-	 * Adds a user to the list of all users who already voted for this question.
+	 * Adds a user to the list of all users who already voted for this question
+	 * but only if the user isn't already in the list.
 	 * 
 	 * @param user
 	 *            - that voted for the question.
 	 */
 	public void userVotedForPost(User user) {
-		userVotedForPost.add(user);
+		if(this.userVotedForPost.contains(user)!=true){
+			userVotedForPost.add(user);
+		}
 	}
 	
 	public void setEditor(String uname){
