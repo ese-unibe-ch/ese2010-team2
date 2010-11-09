@@ -77,19 +77,6 @@ public abstract class Post {
 			return false;
 		}
 	}
-	
-	public boolean checkVoteChangeableForUser(String name){
-		User user = manager.getUserByName(name);
-		Post post = user.getVotedPost(this);
-		if(post==null){
-			return true;
-		}
-		if(post!=null && post.voteChangeable()==true){
-			return true;
-		}else{
-			return false;
-		}
-	}
 
 	/**
 	 * @return parsed markdown string, so either plain text or HTML.
@@ -194,27 +181,25 @@ public abstract class Post {
 	
 
 	/**
-	 * Gets the current vote from the user who voted for this post
+	 * Gets the current vote from the user who voted for this question
 	 * 
 	 * @param name of user
 	 * @return
 	 */
-	public int getCurrentVoteFromUser(String name){
+	public int getCurrentVoteFromUser(String name, Question question){
 		User user = manager.getUserByName(name);
-		return user.getVotedPost(this).getcurrentVote();
+		return user.getVotedQuestion(question).getcurrentVote();
 	}
 	
-	//Muss ich noch machen, evt. löschen... (e.s)
-	public boolean getVoteChangeableForUser(String name){
+	/**
+	 * Gets the current vote from the user who voted for this question
+	 * 
+	 * @param name of user
+	 * @return
+	 */
+	public int getCurrentVoteFromUser(String name, Answer answer){
 		User user = manager.getUserByName(name);
-		if(user.getVotedPost(this)==null){
-			return false;
-		}
-		if(user.getVotedPost(this).voteChangeable()==true){
-			return true;
-		}else{
-			return false;
-		}
+		return user.getVotedAnswer(answer).getcurrentVote();
 	}
 
 	public String getContent() {
@@ -317,8 +302,9 @@ public abstract class Post {
 	 *            - that voted for the question.
 	 */
 	public void userVotedForPost(User user) {
+		User newUser = user;
 		if(this.userVotedForPost.contains(user)!=true){
-			userVotedForPost.add(user);
+			userVotedForPost.add(newUser);
 		}
 	}
 	

@@ -1,14 +1,34 @@
 #{secure.check ''}
 <div class="votebox">        
         #{if _mode == 'answer'}
-        <a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/up"><img src="/public/images/up.png" /></a>
-        <p class="score">${_post.getScore()}</p>
-        <a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/down"><img src="/public/images/down.png" /></a>
-        #{/if}
+        	#{if _post.getcurrentVote() == 1}
+        		<a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/up"><img src="/public/images/VotedUp.png" alt="Vote Up" title="Vote Up"/></a>
+        	#{/if}
+        	#{else}
+        		<a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/up"><img src="/public/images/up.png" alt="Vote Up" title="Vote Up"/></a>
+        	#{/else}
+        	<p class="score">${_post.getScore()}</p>
+        	#{if _post.getcurrentVote() == -1}
+        		<a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/up"><img src="/public/images/VotedDown.png" alt="Vote Down" title="Vote Down"/></a>
+        	#{/if}
+        	#{else}
+        		<a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/down"><img src="/public/images/down.png" alt="Vote Down" title="Vote Down"/></a>
+       		#{/else}
+       	#{/if}
         #{else}
-        <a href="/question/${_post.getId()}/vote/up"><img src="/public/images/up.png" /></a>
-        <p class="score">${_post.getScore()}</p>
-        <a href="/question/${_post.getId()}/vote/down"><img src="/public/images/down.png" /></a>
+        	#{if _post.getcurrentVote() == 1}
+        		<a href="/question/${_post.getId()}/answer/${_post.getId()}/vote/up"><img src="/public/images/VotedUp.png" alt="Vote Up" title="Vote Up"/></a>
+        	#{/if}
+        	#{else}
+        		<a href="/question/${_post.getId()}/vote/up"><img src="/public/images/up.png" alt="Vote Up" title="Vote Up"/></a>
+        	#{/else}
+        	<p class="score">${_post.getScore()}</p>
+        	#{if _post.getcurrentVote() == -1}
+        		<a href="/question/${_post.getId()}/answer/${_post.getId()}/vote/up"><img src="/public/images/VotedDown.png" alt="Vote Down" title="Vote Down"/></a>
+        	#{/if}
+        	#{else}
+        		<a href="/question/${_post.getId()}/vote/down"><img src="/public/images/down.png" alt="Vote Down" title="Vote Down"/></a>
+        	#{/else}
         #{/else}
 </div>
 #{/secure.check}

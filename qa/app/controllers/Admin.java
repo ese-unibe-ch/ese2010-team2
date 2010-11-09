@@ -247,10 +247,6 @@ public class Admin extends Controller {
 	public static void voteQuestionUp(int qid) {
 		voteQuestion(qid, 1);
 	}
-	
-	public static void voteQuestionNeutral(int qid) {
-		voteQuestion(qid, 0);
-	}
 
 	public static void voteQuestionDown(int qid) {
 		voteQuestion(qid, -1);
@@ -260,31 +256,29 @@ public class Admin extends Controller {
 		// int id = Integer.parseInt(qid);
 		Question question = manager.getQuestionById(qid);
 		User user = manager.getUserByName(session.get("username"));
-		user.addvotedPost(question);
-		question.userVotedForPost(user);
-		if(user.getVotedPost(question).getVoteSetTime()==null){
-			user.getVotedPost(question).setvoteSetTime();
+		user.addvotedQuestion(question);
+		Question userquestion = user.getVotedQuestion(question);
+		if(userquestion.getVoteSetTime()==null){
+			userquestion.setvoteSetTime();
 		}
-		if(user.getVotedPost(question).voteChangeable()==false){
+		if(userquestion.voteChangeable()==false){
 			String message = "You already voted for this post!";
 			render(message, qid);
 		}
-		if (vote==1&&user.getVotedPost(question).getcurrentVote()!=1) {
-			user.getVotedPost(question).setcurrentVote(vote);
+		if (vote==1&&userquestion.getcurrentVote()!=1) {
+			userquestion.setcurrentVote(vote);
 			question.setTempVote(1);
+			question.setcurrentVote(vote);
 			String message = "Your current vote is +1";
+			question.userVotedForPost(user);
 			render(message, qid);
 		}
-		if (vote==0&&user.getVotedPost(question).getcurrentVote()!=0){
-			user.getVotedPost(question).setcurrentVote(vote);
-			question.setTempVote(0);
-			String message = "Your current vote is 0";
-			render(message, qid);
-		}
-		if (vote==-1&&user.getVotedPost(question).getcurrentVote()!=-1){
-			user.getVotedPost(question).setcurrentVote(vote);
+		if (vote==-1&&userquestion.getcurrentVote()!=-1){
+			userquestion.setcurrentVote(vote);
 			question.setTempVote(-1);
+			question.setcurrentVote(vote);
 			String message = "Your current vote is -1";
+			question.userVotedForPost(user);
 			render(message, qid);
 		}
 		redirect("/question/" + qid + "/answers/");
@@ -292,10 +286,6 @@ public class Admin extends Controller {
 
 	public static void voteAnswerUp(int qid, int aid) {
 		voteAnswer(qid, aid, 1);
-	}
-	
-	public static void voteAnswerNeutral(int qid, int aid) {
-		voteAnswer(qid, aid, 0);
 	}
 
 	public static void voteAnswerDown(int qid, int aid) {
@@ -306,31 +296,29 @@ public class Admin extends Controller {
 		// int id = Integer.parseInt(qid);
 		Answer answer = manager.getAnswerById(aid);
 		User user = manager.getUserByName(session.get("username"));
-		user.addvotedPost(answer);
-		answer.userVotedForPost(user);
-		if(user.getVotedPost(answer).getVoteSetTime()==null){
-			user.getVotedPost(answer).setvoteSetTime();
+		user.addvotedAnswer(answer);
+		Answer useranswer = user.getVotedAnswer(answer);
+		if(useranswer.getVoteSetTime()==null){
+			useranswer.setvoteSetTime();
 		}
-		if(answer.checkUserVotedForPost(user)==true&&user.getVotedPost(answer).voteChangeable()==false){
+		if(useranswer.voteChangeable()==false){
 			String message = "You already voted for this post!";
 			render(message, qid);
 		}
-		if (vote==1&&user.getVotedPost(answer).getcurrentVote()!=1) {
-			user.getVotedPost(answer).setcurrentVote(vote);
+		if (vote==1&&useranswer.getcurrentVote()!=1) {
+			useranswer.setcurrentVote(vote);
 			answer.setTempVote(1);
+			answer.setcurrentVote(vote);
 			String message = "Your current vote is +1";
+			answer.userVotedForPost(user);
 			render(message, qid);
 		}
-		if (vote==0&&user.getVotedPost(answer).getcurrentVote()!=0){
-			user.getVotedPost(answer).setcurrentVote(vote);
-			answer.setTempVote(0);
-			String message = "Your current vote is 0";
-			render(message, qid);
-		}
-		if (vote==-1&&user.getVotedPost(answer).getcurrentVote()!=-1){
-			user.getVotedPost(answer).setcurrentVote(vote);
+		if (vote==-1&&useranswer.getcurrentVote()!=-1){
+			useranswer.setcurrentVote(vote);
 			answer.setTempVote(-1);
+			answer.setcurrentVote(vote);
 			String message = "Your current vote is -1";
+			answer.userVotedForPost(user);
 			render(message, qid);
 		}
 		redirect("/question/" + qid + "/answers/");
