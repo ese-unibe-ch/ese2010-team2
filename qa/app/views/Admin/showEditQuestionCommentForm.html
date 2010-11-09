@@ -1,16 +1,12 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Edit comment' /}
-
-<a href="javascript:history.back()">back</a>
-
-#{if comment.ownerIs(session.uid)}
-<h2>Edit comment</h2>
+<a href="/question/${qid}/answers/"">back</a>
 
 <div class="form">
-	<form action="@{Admin.editAnswerComment(qid, aid, cid, comment)}" method="GET">
+	<form action="@{Admin.editQuestionComment(qid, cid, comment)}" method="GET">
 		<ul>
 			<li>
-				<label for="newContent">Comment:</label>
+				<label for="newContent">Edit comment</label>
 				<textarea id="newContent" name="newContent" cols="40" rows="4">${comment.getContent()}</textarea>
 			</li>
 			<li>
@@ -19,9 +15,3 @@
 		</ul>
 	</form>
 </div>
-
-#{/if}
-
-#{else}
-<h4>${message}</h4>
-#{/else}

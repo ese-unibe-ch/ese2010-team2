@@ -47,8 +47,11 @@ public class User {
 	/** A list of recent changes */
 	private ArrayList<Notification> notifications;
 
-	/** A list of voted posts */
-	public ArrayList<Post> votedPosts;
+	/** A list of voted questions */
+	public ArrayList<Question> votedQuestions;
+	
+	/** A list of voted answers */
+	public ArrayList<Answer> votedAnswers;
 	
 	/**
 	 * Instantiates a new user.
@@ -72,7 +75,8 @@ public class User {
 		this.lastReputationUpdate = new GregorianCalendar();
 		this.lastScore = 0;
 		notifications = new ArrayList<Notification>();
-		votedPosts = new ArrayList<Post>();
+		votedQuestions = new ArrayList<Question>();
+		votedAnswers = new ArrayList<Answer>();
 	}
 
 	/**
@@ -105,16 +109,6 @@ public class User {
 			userScore += currentVotable.getScore();
 		}
 		this.setScore(userScore);
-	}
-	/**
-	 * Adds the Post to the list of voted Post if it isn't already in it
-	 * 
-	 * @param post
-	 */
-	public void addvotedPost(Post post){
-		if(this.votedPosts.contains(post)!=true){
-			this.votedPosts.add(post);
-		}
 	}
 
 	/*
@@ -175,18 +169,6 @@ public class User {
 	
 	public UserGroups getGroup(){
 		return this.userGroup;
-	}
-	
-	public ArrayList<Post> getVotedPosts(){
-		return this.votedPosts;
-	}
-	
-	public Post getVotedPost(Post post){
-		if(this.votedPosts.contains(post)){
-			int x = this.votedPosts.indexOf(post);
-			return this.votedPosts.get(x); 
-		}
-		return null;
 	}
 
 	/*
@@ -374,5 +356,55 @@ public class User {
 	
 	public boolean isChanged() {
 		return !notifications.isEmpty();
+	}
+	
+	/**
+	 * Adds a new question similar to the old question to the list of voted questions
+	 * if it isn't already in it
+	 * 
+	 * @param post
+	 */
+	public void addvotedQuestion(Question question){
+		Question newQuestion = question;
+		if(this.votedQuestions.contains(question)!=true){
+			this.votedQuestions.add(newQuestion);
+		}
+	}
+	
+	public Question getVotedQuestion(Question question){
+		if(this.votedQuestions.contains(question)){
+			int x = this.votedQuestions.indexOf(question);
+			return this.votedQuestions.get(x); 
+		}
+		return null;
+	}
+	
+	/**
+	 * Adds a new answer similar to the old answer to the list of voted answer
+	 * if it isn't already in it
+	 * 
+	 * @param post
+	 */
+	public void addvotedAnswer(Answer answer){
+		Answer newAnswer = answer;
+		if(this.votedAnswers.contains(answer)!=true){
+			this.votedAnswers.add(newAnswer);
+		}
+	}
+	
+	public Answer getVotedAnswer(Answer answer){
+		if(this.votedAnswers.contains(answer)){
+			int x = this.votedAnswers.indexOf(answer);
+			return this.votedAnswers.get(x); 
+		}
+		return null;
+	}
+	
+	public ArrayList<Question> getVotedQuetions(){
+		return this.votedQuestions;
+	}
+	
+	public ArrayList<Answer> getVotedAnswers(){
+		return this.votedAnswers;
 	}
 }
