@@ -39,17 +39,26 @@
                 </div>
 
                 <div id="search">
-                    <form action="@{Application.Search()}" method="GET">
-                        <input size="15" type="text" name="text" value="${text}"><input type="submit" value="Search" />
-                    </form>
-                </div>
 
+<form action="@{Application.Search()}" method="GET">               
+	<form method="post" >
+		<select name="menu">
+		<option value="similarQuestion">Find Question</option>
+		<option value="similarUser">Find User</option> 
+		<input size="15" type="text" name="text" value="${text}">
+		<input type="submit" value="Search" />
+	</form>
+</form>
+
+        
+                </div>
+			
                 #{if session.uid}
                 <div id="menu">
                     <ul>
-                    <li><a href="@{Admin.showQuestionForm()}">add question</a></li>
-                    <li><a href="@{Application.showRecentQuestionsByNumber()}">recent questions</a></li>
-                    <li><a href="@{Admin.showUserLog(session.get('username'))}">my activities</a></li>
+                    <li><a href="@{Admin.showQuestionForm()}">add new Question</a></li>
+                    <li><a href="@{Application.showRecentQuestionsByNumber()}">newest questions</a></li>
+                    <li><a href="@{Admin.showUserLog(session.get('username'))}">show my activities</a></li>
                     <li><a href="@{Application.showUser(session.get('username'))}">my profile</a></li>
                     <li><a href="@{Application.showState()}">statistics</a></li>
                     #{if isChanged}
