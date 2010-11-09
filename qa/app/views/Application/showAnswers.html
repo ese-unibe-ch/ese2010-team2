@@ -29,3 +29,13 @@
 		</ul>
 	</form>
 </div>
+
+<!-- show similar questions -->
+<hr />
+
+#{if similar}
+<h3>Similar questions:</h3>
+#{list items:similar, as:'similarQuestion'}
+	#{short_post post:similarQuestion /}
+#{/list}
+#{/if}
