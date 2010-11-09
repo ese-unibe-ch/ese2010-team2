@@ -37,10 +37,14 @@ public class Admin extends Controller {
 		render(answer, answerId, qid, newContent, message);
 	}
 
-	public static void showEditCommentForm(int qid, int cid) {
+	public static void showEditQuestionCommentForm(int qid, int cid) {
 		Comment comment = manager.getCommentById(cid);
-		String CommentContent = manager.getCommentById(cid).getContent();
-		render(comment, qid, cid, CommentContent);
+		render(qid, cid, comment);
+	}
+	
+	public static void showEditAnswerCommentForm(int qid, int cid) {
+		Comment comment = manager.getCommentById(cid);
+		render(qid, cid, comment);
 	}
 
 	/**
@@ -50,9 +54,24 @@ public class Admin extends Controller {
 	 * @param newContent
 	 */
 
-	public static void editComment(Comment comment, int qid, int cid,
-			String newContent) {
-		comment.setContent(newContent, session.get("Username"));
+	public static void editQuestionComment(int qid, int cid,
+			String newContent, Comment comment) {
+		Comment QComment = manager.getCommentById(cid);
+		QComment.setContent(newContent, session.get("Username"));
+		redirect("/question/" + qid + "/answers/");
+	}
+	
+	/**
+	 * Sets the content of the comment to the new value
+	 * 
+	 * @param comment
+	 * @param newContent
+	 */
+
+	public static void editAnswerComment(int qid, int cid,
+			String newContent, Comment comment) {
+		Comment AComment = manager.getCommentById(cid);
+		AComment.setContent(newContent, session.get("Username"));
 		redirect("/question/" + qid + "/answers/");
 	}
 

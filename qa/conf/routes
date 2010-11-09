@@ -25,8 +25,10 @@ GET                /register                                        	  Applicati
 GET                /delete_question  	  				  				  Admin.deleteQuestion
 GET                /delete_answer  	  				  				  	  Admin.deleteAnswer
 GET                /delete_comment	  				  				  	  Admin.deleteComment
-GET                /edit_Comment			  				  			  Admin.showEditCommentForm
-GET                /question/{qid}/answer/{aid}/edit_Comment/{cid}  	  Admin.editComment
+GET                /question/{qid}/edit_commentForm			  		  	  Admin.showEditQuestionCommentForm
+GET                /question/{qid}/edit_QuestionComment/{cid}		  	  Admin.editQuestionComment
+GET                /question/{qid}/edit_commentForm			  		  	  Admin.showEditAnswerCommentForm
+GET                /question/{qid}/answer/{aid}/edit_AnswerComment/{cid}  Admin.editAnswerComment
 GET                /question/{qid}/editQuestion                     	  Admin.editQuestion
 GET                /question/{qid}/editAnswer/{answerId}            	  Admin.editAnswer
 GET                /question/{qid}/setbestanswer/{aid}              	  Application.setBestAnswer
@@ -41,11 +43,9 @@ GET                /question/{qid}/addAnswerComment/{answerId}      	  Admin.add
 GET                /question/{qid}/edit_comment                     	  Admin.showEditCommentForm
 GET                /question/{qid}/vote                        			  Admin.voteQuestion
 GET                /question/{qid}/vote/up                      		  Admin.voteQuestionUp
-GET                /question/{qid}/vote/neutral                    		  Admin.voteQuestionNeutral
 GET                /question/{qid}/vote/down                   			  Admin.voteQuestionDown
 GET                /question/{qid}/answers/{aid}/vote               	  Admin.voteAnswer
 GET                /question/{qid}/answer/{aid}/vote/up             	  Admin.voteAnswerUp
-GET                /question/{qid}/answer/{aid}/vote/neutral           	  Admin.voteAnswerNeutral
 GET                /question/{qid}/answer/{aid}/vote/down           	  Admin.voteAnswerDown
 GET			       /recent												  Application.showRecentQuestionsByNumber
 GET				   /users/{uname}/log									  Admin.showUserLog
