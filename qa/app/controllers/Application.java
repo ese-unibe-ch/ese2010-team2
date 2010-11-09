@@ -46,7 +46,7 @@ public class Application extends Controller {
 			render(questions, userName, isChanged);
 		}
 	}
-	
+
 	public static void questions() {
 		ArrayList<Question> questions = manager.getQuestionsSortedByScore();
 		render(questions);
@@ -92,16 +92,32 @@ public class Application extends Controller {
 			String newMessage) {
 		int intId = Integer.parseInt(id);
 		ArrayList<Answer> answers = manager.getAnswersSortedByScore(intId);
-		Post question = manager.getQuestionById(intId);
+		Question question = manager.getQuestionById(intId);
+
+		// Search similar questions
+		SearchManager searchManager = new SearchManager(question
+				.getTagsString()
+				+ " " + question.getContent());
+		ArrayList<Post> similar = new ArrayList<Post>();
+		if(!searchManager.getResults().isEmpty())
+			similar.add(searchManager.getResults().get(0).getQuestion());
+		
+		// Fill the list of similar questions with different search results.
+		int i=0;
+		while(i<searchManager.getResults().size() && similar.size()<3){
+			if(!similar.contains(searchManager.getResults().get(i).getQuestion()))
+				similar.add(searchManager.getResults().get(i).getQuestion());
+			i++;
+		}
+
 		if (answers.size() == 0) {
 			String message = new String();
-			;
 			if (newMessage != null)
 				message = newMessage;
-			render(message, question, newAnswer);
+			render(message, question, newAnswer, similar);
 		} else {
 			String message = newMessage;
-			render(answers, question, newAnswer, message);
+			render(answers, question, newAnswer, message, similar);
 		}
 	}
 
@@ -380,7 +396,7 @@ public class Application extends Controller {
 			} else {
 				render(results);
 			}
-			
+
 		}
 	}
 
@@ -407,7 +423,7 @@ public class Application extends Controller {
 			render(type, post, history);
 		} else {
 			post = manager.getAnswerById(intId);
-			Post question=manager.getAnswerById(intId).getQuestion();
+			Post question = manager.getAnswerById(intId).getQuestion();
 			ArrayList<Post> history = post.getOldVersions();
 			render(type, post, history, question);
 		}
