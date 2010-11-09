@@ -203,7 +203,7 @@ public abstract class Post {
 	}
 
 	public String getContent() {
-		return content;
+		return this.content;
 	}
 
 	public User getOwner() {

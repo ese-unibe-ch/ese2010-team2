@@ -53,7 +53,7 @@
 			#{if session.uid}
 			<div class="toolbox">
 				#{if comment.ownerIs(session.uid) || session.get("username")=="admin"}
-				<a href="@{Admin.showEditCommentForm(_question.getId(), comment.getId())}"><img src="/public/images/edit.png" alt="edit comment" /></a>
+				<a href="@{Admin.showEditAnswerCommentForm(_question.getId(), comment.getId())}"><img src="/public/images/edit.png" alt="edit comment" /></a>
 				<a href="@{Admin.deleteComment(_question.getId(), comment.getId())}"><img src="/public/images/delete.png" alt="delete comment" /></a>
 				#{/if}
 			</div>
