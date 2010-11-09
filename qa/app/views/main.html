@@ -29,7 +29,7 @@
     		<div id="head">
                 <div id="statusbox">
                     #{if session.uid}
-                        Logged in as: ${session.get("username")} |
+                        Logged in as: ${session.get("username")}
                         <a href="@{Secure.logout()}">logout</a>
                     #{/if}
                     #{else}

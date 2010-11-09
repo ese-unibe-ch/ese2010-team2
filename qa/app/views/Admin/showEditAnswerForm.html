@@ -1,18 +1,23 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Edit question' /}
 <a href="javascript:history.back()">back</a>
-<fieldset>
- <legend>Edit answer:</legend>
+
+<h2>Edit answer</h2>
+
+#{if message}
+<h4 style="color:#c00">${message}</h4>
+#{/if}
+
+<div class="form">
 	<form action="@{Admin.editAnswer(answer.getId(), qid)}" method="GET">
-	<table>
-		<tr>
-		<h4 style="color:#c00">${message}</h4>
-			<td>Answer:</td>
-				<td><textarea id="newContent" name="newContent" cols="70" rows="5">${answer.getContent()}</textarea></td>
-		</tr>
-			<td></td>
-			<td><input type="submit" value="Save!" /></td>
-		</tr>
-	</table>
+		<ul>
+			<li>
+				<label for="newContent">Answer:</label>
+				<textarea id="newContent" name="newContent" cols="70" rows="5">${answer.getContent()}</textarea>
+			</li>
+			<li>
+				<input type="submit" value="Save!" />
+			</li>
+		</ul>
 	</form>
-</fieldset>
+</div>

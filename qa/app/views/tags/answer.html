@@ -1,5 +1,7 @@
 <div "answerbox">
+	#{if !_answer.ownerIs(session.uid)}
 	#{votebox post:_answer, mode:'answer', question:_question /}
+	#{/if}
 
 	<div class="answer" id="answer-${_answer.getId()}">
 		#{userbox user:_answer.getOwner() /}
@@ -9,11 +11,10 @@
 			#{if _answer.getEditor()!=_answer.getOwner()}
 			 | <a href="/answer/${_answer.getId()}/history">edited by ${_answer.getEditor()}</a>
 			#{/if}
-
 		</span>
 
 		#{if _answer.isBestAnswer()}
-		<span class="bestanswer">Marked as best answer</span>
+		<span class="bestanswer">Best answer!</span>
 		#{/if}
 
 		#{if _question.ownerIs(session.uid) && _question.bestAnswerChangeable() && !_answer.isBestAnswer()}
@@ -30,13 +31,14 @@
 		<div class="toolbox">
 			<a href="@{Admin.showAnswerCommentForm(_answer.getId(), _question.getId())}" title="write comment"><img src="/public/images/comment.png" alt="write comment" /></a>
 
-			#{if _answer.ownerIs(session.uid) || session.get("username")=="admin"}
+			#{if _answer.ownerIs(session.uid)||session.get("username")=="admin"}
 			<a href="@{Admin.showEditAnswerForm(_answer.getId(), _question.getId())}"><img src="/public/images/edit.png" alt="edit answer" title="edit answer" /></a>
 			<a href="@{Admin.deleteAnswer(_answer.getId(), _question.getId())}"><img src="/public/images/delete.png" alt="delete answer" title="delete answer" /></a>
 			#{/if}
 		</div>
 		#{/if}
 </div>
+
 #{if _answer.getComments().size() > 0}
 <div class="comments">
 		<h3>Comments to this answer</h3>
@@ -44,8 +46,10 @@
 		#{list items:_answer.getComments(), as:'comment'}
 
 		<div class="comment">
-			Posted <strong>${comment.getTimePassedSincePosting()}</strong> by <strong>${comment.getOwner()}</strong>
-			<p class="comment_text">${comment.getContent()}</p>
+			Posted <strong>${comment.getTimePassedSincePosting()}</strong> ago
+
+			#{by post:comment /}
+
 			#{if session.uid}
 			<div class="toolbox">
 				#{if comment.ownerIs(session.uid) || session.get("username")=="admin"}
@@ -54,6 +58,9 @@
 				#{/if}
 			</div>
 			#{/if}
+
+			<p class="comment_text">${comment.getContent()}</p>
+
 		</div>
 
 		#{/list}

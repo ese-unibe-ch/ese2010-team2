@@ -1,5 +1,7 @@
 <div>
+	#{if !_question.ownerIs(session.uid)}
 	#{votebox post:_question, mode:'question' /}
+	#{/if}
 
 	<div class="question" id="question-${_question.getId()}">
 		#{userbox user:_question.getOwner() /}
@@ -36,20 +38,23 @@
 
 	#{list items:_question.getComments(), as:'comment'}
 	<div class="comment">
-		Posted <strong>${comment.getTimePassedSincePosting()}</strong> by <strong>${comment.getOwner()}</strong>
-		<p class="comment_text">${comment.getContent()}</p>
+		Posted <strong>${comment.getTimePassedSincePosting()}</strong> ago
+
+		#{by post:comment /}
 
 		#{if session.uid}
-			<div class="toolbox">
+		<div class="toolbox">
 			#{if comment.ownerIs(session.uid)|| session.get("username")=="admin"}
 			<a href="@{Admin.showEditCommentForm(_question.getId(), comment.getId())}"><img src="/public/images/edit.png" alt="edit comment" /></a>
 			<a href="@{Admin.deleteComment(_question.getId(), comment.getId())}"><img src="/public/images/delete.png" alt="delete comment" /></a>
 			#{/if}
 		</div>
 		#{/if}
+
+		<p class="comment_text">${comment.getContent()}</p>
+
+
 	</div>
-
-
 
 	#{/list}
 </div>

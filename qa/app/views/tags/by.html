@@ -1,0 +1,8 @@
+by <strong>
+#{if _post.ownerIs(session.uid)}
+you
+#{/if}
+#{else}
+<a href="/showUser/${_post.getOwner()}">${_post.getOwner()}</a>
+#{/else}
+</strong>

@@ -79,7 +79,6 @@ div.userbox {
 
 div.question {
 	width: 80%;
-	box-shadow:2px 2px 10px #666;
 	border-radius: 7px;
 	background: #9BF33D;
 	margin: 1em 0 1em 0;
@@ -89,7 +88,6 @@ div.question {
 
 div.answer {
 	width: 80%;
-	box-shadow:2px 2px 10px #666;
 	border-radius: 7px;
 	background: #FFF773;
 	margin: 1em 0 1em 0;
@@ -132,7 +130,6 @@ div.answer_text {
 }
 
 div.short_post {
-	box-shadow:2px 2px 10px #666;
 	border-radius: 7px;
 	background: #9BF33D;
 	border: medium solid #78E700;
@@ -153,7 +150,6 @@ div.short_post_info {
 }
 
 div.short_answer {
-	box-shadow:2px 2px 10px #666;
 	width: 68%;
 	border-radius: 7px;
 	background: #FFF773;
@@ -173,6 +169,7 @@ div.short_answer_info {
 }
 
 div.form {
+	width: 60%;
 	margin: 1em;
 }
 
@@ -263,7 +260,6 @@ span.tag {
  */
 
 div.form label {
-	display: block;
 }
 
 div.form ul {
@@ -275,3 +271,6 @@ div.form ul li {
 	margin-bottom: 1em;
 }
 
+div.form input[type="text"], input[type="password"] {
+	float: right;
+}

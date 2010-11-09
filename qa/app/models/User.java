@@ -17,9 +17,6 @@ public class User {
 	private String password;
 	private int id;
 	
-	/** The post a user voted for*/
-	private Post votedPost;
-	
 	/** The current reputation. */
 	private int score;
 	
@@ -49,6 +46,9 @@ public class User {
 	
 	/** A list of recent changes */
 	private ArrayList<Notification> notifications;
+
+	/** A list of voted posts */
+	public ArrayList<Post> votedPosts;
 	
 	/**
 	 * Instantiates a new user.
@@ -72,6 +72,7 @@ public class User {
 		this.lastReputationUpdate = new GregorianCalendar();
 		this.lastScore = 0;
 		notifications = new ArrayList<Notification>();
+		votedPosts = new ArrayList<Post>();
 	}
 
 	/**
@@ -104,6 +105,16 @@ public class User {
 			userScore += currentVotable.getScore();
 		}
 		this.setScore(userScore);
+	}
+	/**
+	 * Adds the Post to the list of voted Post if it isn't already in it
+	 * 
+	 * @param post
+	 */
+	public void addvotedPost(Post post){
+		if(this.votedPosts.contains(post)!=true){
+			this.votedPosts.add(post);
+		}
 	}
 
 	/*
@@ -164,6 +175,18 @@ public class User {
 	
 	public UserGroups getGroup(){
 		return this.userGroup;
+	}
+	
+	public ArrayList<Post> getVotedPosts(){
+		return this.votedPosts;
+	}
+	
+	public Post getVotedPost(Post post){
+		if(this.votedPosts.contains(post)){
+			int x = this.votedPosts.indexOf(post);
+			return this.votedPosts.get(x); 
+		}
+		return null;
 	}
 
 	/*

@@ -126,11 +126,11 @@ public class SearchQueryParser {
 		originalQuery = query.toLowerCase();
 		
 		// Get original query an split words and store in ArrayList
-		wordsList = new ArrayList<String>(Arrays.asList(originalQuery
+		wordsList = new ArrayList<String>(java.util.Arrays.asList(originalQuery
 				.split(" ")));
 
 		englishStopwords = new ArrayList<String>(
-				Arrays.asList(englishStopwordsDatabase));
+				java.util.Arrays.asList(englishStopwordsDatabase));
 
 		sentences = new ArrayList<String>();
 		soundexCodes = new ArrayList<String>();

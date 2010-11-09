@@ -1,19 +1,20 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Add a new Comment' /}
+
 <a href="/">back</a>
+
 <h2>Add a new Comment</h2>
-<fieldset>
- <legend>Add new Comment:</legend>
+
+<div class="form">
 	<form action="@{Admin.addCommentToQuestion(qid)}" method="GET">
-	<table>
-		<tr>
-			<td>Enter your Comment:</td>
-			<td><textarea id="newComment" name="newComment"></textarea></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td><input type="submit" value="Comment!" /></td>
-		</tr>
-	</table>
+		<ul>
+			<li>
+				<label for="newComment">Your comment</label>
+				<textarea id="newComment" name="newComment" cols="40" rows="4"></textarea>
+			</li>
+			<li>
+				<input type="submit" value="Comment!" />
+			</li>
+		</ul>
 	</form>
-</fieldset>
+</div>
