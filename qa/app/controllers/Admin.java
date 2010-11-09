@@ -262,12 +262,12 @@ public class Admin extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		user.addvotedPost(question);
 		question.userVotedForPost(user);
+		if(user.getVotedPost(question).getVoteSetTime()==null){
+			user.getVotedPost(question).setvoteSetTime();
+		}
 		if(user.getVotedPost(question).voteChangeable()==false){
 			String message = "You already voted for this post!";
 			render(message, qid);
-		}
-		if(user.getVotedPost(question).getVoteSetTime()==null){
-			user.getVotedPost(question).setvoteSetTime();
 		}
 		if (vote==1&&user.getVotedPost(question).getcurrentVote()!=1) {
 			user.getVotedPost(question).setcurrentVote(vote);
@@ -308,12 +308,12 @@ public class Admin extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		user.addvotedPost(answer);
 		answer.userVotedForPost(user);
+		if(user.getVotedPost(answer).getVoteSetTime()==null){
+			user.getVotedPost(answer).setvoteSetTime();
+		}
 		if(answer.checkUserVotedForPost(user)==true&&user.getVotedPost(answer).voteChangeable()==false){
 			String message = "You already voted for this post!";
 			render(message, qid);
-		}
-		if(user.getVotedPost(answer).getVoteSetTime()==null){
-			user.getVotedPost(answer).setvoteSetTime();
 		}
 		if (vote==1&&user.getVotedPost(answer).getcurrentVote()!=1) {
 			user.getVotedPost(answer).setcurrentVote(vote);
