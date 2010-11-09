@@ -25,7 +25,7 @@
 		<div class="toolbox">
 			<a href="@{Admin.showAnswerCommentForm(_answer.getId(), _question.getId())}" title="write comment"><img src="/public/images/comment.png" alt="write comment" /></a>
 
-			#{if _answer.ownerIs(session.uid) || session.get("username") == "admin"}
+			#{if _answer.ownerIs(session.uid) || session.get("username") == "admin" || _answer.isModerator(session.get("username"))}
 			<a href="@{Admin.showEditAnswerForm(_answer.getId(), _question.getId())}"><img src="/public/images/edit.png" alt="edit answer" title="edit answer" /></a>
 			<a href="@{Admin.deleteAnswer(_answer.getId(), _question.getId())}"><img src="/public/images/delete.png" alt="delete answer" title="delete answer" /></a>
 			#{/if}
@@ -52,7 +52,7 @@
 
 			#{if session.uid}
 			<div class="toolbox">
-				#{if comment.ownerIs(session.uid) || session.get("username")=="admin"}
+				#{if comment.ownerIs(session.uid) || session.get("username")=="admin" || comment.isModerator(session.get("username"))}
 				<a href="@{Admin.showEditAnswerCommentForm(_question.getId(), comment.getId())}"><img src="/public/images/edit.png" alt="edit comment" /></a>
 				<a href="@{Admin.deleteComment(_question.getId(), comment.getId())}"><img src="/public/images/delete.png" alt="delete comment" /></a>
 				#{/if}

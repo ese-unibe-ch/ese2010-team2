@@ -308,6 +308,10 @@ public abstract class Post {
 		}
 	}
 	
+	public boolean isModerator(String username){
+		return manager.getUserByName(username).isModerator();
+	}
+	
 	public void setEditor(String uname){
 		this.editedBy=manager.getUserByName(uname);
 	}
