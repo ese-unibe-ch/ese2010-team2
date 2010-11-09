@@ -1,7 +1,7 @@
+#{if _post.getTags()}
 <strong>Tags:</strong>
-#{ifnot _post.getTags()}
-    none |
-#{/ifnot}
-#{list items:_post.getTags(), as:'tag'}
-    <span class="tag">#${tag}</span>
-#{/list}
+
+    #{list items:_post.getTags(), as:'tag'}
+        <span class="tag">#${tag}</span>
+    #{/list}
+#{/if}

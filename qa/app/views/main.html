@@ -47,9 +47,9 @@
                 #{if session.uid}
                 <div id="menu">
                     <ul>
-                    <li><a href="@{Admin.showQuestionForm()}">add new Question</a></li>
-                    <li><a href="@{Application.showRecentQuestionsByNumber()}">newest questions</a></li>
-                    <li><a href="@{Admin.showUserLog(session.get('username'))}">show my activities</a></li>
+                    <li><a href="@{Admin.showQuestionForm()}">add question</a></li>
+                    <li><a href="@{Application.showRecentQuestionsByNumber()}">recent questions</a></li>
+                    <li><a href="@{Admin.showUserLog(session.get('username'))}">my activities</a></li>
                     <li><a href="@{Application.showUser(session.get('username'))}">my profile</a></li>
                     <li><a href="@{Application.showState()}">statistics</a></li>
                     #{if isChanged}
