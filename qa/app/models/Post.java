@@ -7,8 +7,8 @@ import java.util.Date;
 import com.petebevin.markdown.MarkdownProcessor;
 
 /**
- * The Class Votable delivers functionality for all objects that are votable
- * (e.g. answers and questions).
+ * The Class Post delivers functionality for all objects that are a Post e.g.
+ * answers and questions and comments.
  */
 public abstract class Post {
 
@@ -23,12 +23,13 @@ public abstract class Post {
 	protected ArrayList<Post> oldVersions= new ArrayList<Post>();
 	public User editedBy;
  
+	protected static MarkdownProcessor markdownProcessor = new MarkdownProcessor();
 	protected static DbManager manager = DbManager.getInstance();
 	protected Calendar calendar = Calendar.getInstance();
 	protected Date date;
+
 	/** All users that already voted for the question. */
 	private ArrayList<User> userVotedForPost = new ArrayList<User>();
-	protected static MarkdownProcessor markdownProcessor = new MarkdownProcessor();
 
 	/**
 	 * Vote for a votable.
@@ -38,19 +39,10 @@ public abstract class Post {
 	 *            containing an integer number.
 	 */
 	public void vote(int vote) {
-		//int vote = Integer.parseInt(vote2);
 		score = score + vote;
 		this.setLastChanged(new Date());
 		manager.updateReputation(this.getOwner());
 		voteSetTime = new Date();
-	}
-	
-	/**
-	 * Sets the current vote
-	 */
-	public void setcurrentVote(int vote) {
-		this.setLastChanged(new Date());
-		this.currentVote = vote;
 	}
 	
 	/**
@@ -76,13 +68,6 @@ public abstract class Post {
 		}else{
 			return false;
 		}
-	}
-
-	/**
-	 * @return parsed markdown string, so either plain text or HTML.
-	 */
-	public String getHtml() {
-		return markdownProcessor.markdown(content);
 	}
 
 	/**
@@ -112,8 +97,40 @@ public abstract class Post {
 		return owner.getId() == uid;
 	}
 
-	public String toString() {
-		return content + "\n by " + owner;
+	/**
+	 * Checks if a certain user already voted for this question.
+	 * 
+	 * @param user
+	 *            - The user you want to check if he has alrady voted for this
+	 *            question.
+	 * @return - true if the user already voted for this question or false if he
+	 *         didn't.
+	 */
+	public boolean checkUserVotedForPost(User user) {
+		for (int i = 0; i < userVotedForPost.size(); i++) {
+			if (user.getName().equals(userVotedForPost.get(i).getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Adds a user to the list of all users who already voted for this question
+	 * but only if the user isn't already in the list.
+	 * 
+	 * @param user
+	 *            - that voted for the question.
+	 */
+	public void userVotedForPost(User user) {
+		User newUser = user;
+		if (this.userVotedForPost.contains(user) != true) {
+			userVotedForPost.add(newUser);
+		}
+	}
+
+	public boolean isModerator(String username) {
+		return manager.getUserByName(username).isModerator();
 	}
 
 	/** Getter methods */
@@ -128,14 +145,21 @@ public abstract class Post {
 	public Date getDate() {
 		return date;
 	}
-	
+
 	/**
-	 * Gives an approximative measure of the amount of time passed since
-	 * this post has been created. 
+	 * @return parsed markdown string, so either plain text or HTML.
+	 */
+	public String getHtml() {
+		return markdownProcessor.markdown(content);
+	}
+
+	/**
+	 * Gives an approximative measure of the amount of time passed since this
+	 * post has been created.
 	 * 
-	 * The measure is given using the largest time unit where the amount 
-	 * is >= 1. I.e. if it was posted 9 months and 3 weeks ago, the measure will 
-	 * be "about 9 months ago". 1 week, 5 days => "about 1 week ago".   
+	 * The measure is given using the largest time unit where the amount is >=
+	 * 1. I.e. if it was posted 9 months and 3 weeks ago, the measure will be
+	 * "about 9 months ago". 1 week, 5 days => "about 1 week ago".
 	 * 
 	 * @return String representing the time difference
 	 */
@@ -235,6 +259,14 @@ public abstract class Post {
 		this.tempVote = value;
 	}
 	
+	/**
+	 * Sets the current vote
+	 */
+	public void setcurrentVote(int vote) {
+		this.setLastChanged(new Date());
+		this.currentVote = vote;
+	}
+
 	protected void setContent(String content, String uname) {
 		this.editedBy=manager.getUserByName(uname);
 		this.content = content;
@@ -275,52 +307,12 @@ public abstract class Post {
 			manager.getQuestionById(questionId).setLastChangedDate(date);
 		}
 	}
-
-	/**
-	 * Checks if a certain user already voted for this question.
-	 * 
-	 * @param user
-	 *            - The user you want to check if he has alrady voted for this
-	 *            question.
-	 * @return - true if the user already voted for this question or false if he
-	 *         didn't.
-	 */
-	public boolean checkUserVotedForPost(User user) {
-		for (int i = 0; i < userVotedForPost.size(); i++) {
-			if (user.getName().equals(userVotedForPost.get(i).getName())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * Adds a user to the list of all users who already voted for this question
-	 * but only if the user isn't already in the list.
-	 * 
-	 * @param user
-	 *            - that voted for the question.
-	 */
-	public void userVotedForPost(User user) {
-		User newUser = user;
-		if(this.userVotedForPost.contains(user)!=true){
-			userVotedForPost.add(newUser);
-		}
-	}
-	
-	public boolean isModerator(String username){
-		return manager.getUserByName(username).isModerator();
-	}
 	
 	public void setEditor(String uname){
 		this.editedBy=manager.getUserByName(uname);
 	}
-	
-//	public void removeEditor(String uname){
-//		for(int i=0;i<editedBy.size();i++){
-//			if(editedBy.get(i).getName().equals(uname))
-//				editedBy.remove(i);
-//		}
-//	}
 
+	public String toString() {
+		return content + "\n by " + owner;
+	}
 }
