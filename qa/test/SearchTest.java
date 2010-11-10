@@ -34,21 +34,21 @@ public class SearchTest extends UnitTest {
 				"kant is the best");
 
 		parser = new SearchQueryParser("\"question1 is the best\"");
-		Search search = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
-		assertEquals("question1 is the best", search.getQuestions().get(0)
+		Search search = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
+		assertEquals("question1 is the best", search.getQuestionResults().get(0)
 				.getContent());
 
 		parser = new SearchQueryParser("\"answer1 is the best\"");
-		Search search1 = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
-		assertEquals("answer1 is the best", search1.getAnswerContentResults()
+		Search search1 = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
+		assertEquals("answer1 is the best", search1.getAnswerResults()
 				.get(0)
 				.getContent());
 
 		parser = new SearchQueryParser("\"kant is the best\"");
-		Search search2 = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
+		Search search2 = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
 		assertEquals("kant is the best", search2.getCommentResults().get(0)
 				.getContent());
 	}
@@ -60,9 +60,9 @@ public class SearchTest extends UnitTest {
 
 		// Only soundex based search will be done on tags
 		parser = new SearchQueryParser("test");
-		Search search = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
-		assertEquals("test", search.getQuestions().get(0).getTags()
+		Search search = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
+		assertEquals("test", search.getQuestionResults().get(0).getTags()
 				.get(0));
 	}
 
@@ -71,9 +71,9 @@ public class SearchTest extends UnitTest {
 		Post question1 = new Question(true, "question1", admin);
 
 		parser = new SearchQueryParser("question1");
-		Search search = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
-		assertEquals("question1", search.getQuestions().get(0)
+		Search search = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
+		assertEquals("question1", search.getQuestionResults().get(0)
 				.getContent());
 	}
 
@@ -84,11 +84,11 @@ public class SearchTest extends UnitTest {
 
 		parser = new SearchQueryParser(
 				"\"Should find only this phrase question1\"");
-		Search search1 = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
+		Search search1 = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
 
 		assertEquals("Should find only this phrase question1", search1
-				.getQuestions().get(0).getContent());
+				.getQuestionResults().get(0).getContent());
 	}
 
 	@Test
@@ -97,10 +97,10 @@ public class SearchTest extends UnitTest {
 		Answer answer1 = new Answer(true, "answer1", admin, question1);
 
 		parser = new SearchQueryParser("answer1");
-		Search search = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
+		Search search = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
 
-		assertEquals("answer1", search.getAnswerContentResults().get(0)
+		assertEquals("answer1", search.getAnswerResults().get(0)
 				.getContent());
 	}
 
@@ -111,11 +111,11 @@ public class SearchTest extends UnitTest {
 				question1);
 
 		parser = new SearchQueryParser("\"Search this text answer1\"");
-		Search search = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
+		Search search = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
 
 		assertEquals("Search this text answer1", search
-				.getAnswerContentResults().get(0)
+				.getAnswerResults().get(0)
 				.getContent());
 	}
 
@@ -128,14 +128,14 @@ public class SearchTest extends UnitTest {
 		Comment commentAnswer = new Comment(admin, answer1, "blabla");
 
 		parser = new SearchQueryParser("comment1");
-		Search search = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
+		Search search = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
 		assertEquals("comment1", search.getCommentResults().get(0)
 				.getContent());
 
 		parser = new SearchQueryParser("blabla");
-		Search search1 = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
+		Search search1 = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
 		assertEquals("blabla", search1.getCommentResults().get(0)
 				.getContent());
 	}
@@ -151,14 +151,14 @@ public class SearchTest extends UnitTest {
 				"comment To Answer 1");
 
 		parser = new SearchQueryParser("\"comment To Question 1\"");
-		Search search = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
+		Search search = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
 		assertEquals("comment To Question 1", search.getCommentResults().get(0)
 				.getContent());
 
 		parser = new SearchQueryParser("\"comment To Answer 1\"");
-		Search search1 = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
+		Search search1 = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
 		assertEquals("comment To Answer 1", search1.getCommentResults().get(0)
 				.getContent());
 	}
@@ -173,12 +173,12 @@ public class SearchTest extends UnitTest {
 		Comment commentAnswer = new Comment(admin, answer1, "commentToAnswer1");
 
 		parser = new SearchQueryParser("nothing");
-		Search search = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
+		Search search = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
 
-		assertEquals(0, search.getAnswerContentResults().size());
+		assertEquals(0, search.getAnswerResults().size());
 		assertEquals(0, search.getCommentResults().size());
-		assertEquals(0, search.getQuestions().size());
+		assertEquals(0, search.getQuestionResults().size());
 	}
 
 	@Test
@@ -192,12 +192,12 @@ public class SearchTest extends UnitTest {
 		question2.addTags("test");
 
 		parser = new SearchQueryParser("test");
-		Search search = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
+		Search search = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
 
 		assertEquals(2, question1.getTags().size());
 		assertEquals(2, question2.getTags().size());
-		assertEquals(2, search.getQuestions().size());
+		assertEquals(2, search.getQuestionResults().size());
 
 	}
 

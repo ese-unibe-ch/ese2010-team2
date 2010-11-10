@@ -35,21 +35,21 @@ public class SearchResultAssemblerTest extends UnitTest {
 
 		// Init Parser and Search
 		SearchQueryParser parser = new SearchQueryParser("Test1");
-		Search search = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
+		Search search = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
 
 		// Be sure only a answer was found by search
-		assertEquals(0, search.getQuestions().size());
+		assertEquals(0, search.getQuestionResults().size());
 		assertEquals(0, search.getCommentResults().size());
-		assertEquals(1, search.getAnswerContentResults().size());
+		assertEquals(1, search.getAnswerResults().size());
 
 		// Check that the answer was found
-		assertEquals("Test1", search.getAnswerContentResults().get(0)
+		assertEquals("Test1", search.getAnswerResults().get(0)
 				.getContent());
 
 		SearchResultAssembler assembler = new SearchResultAssembler(
-				search.getAnswerContentResults(), search.getCommentResults(),
-				search.getQuestions());
+				search.getAnswerResults(), search.getCommentResults(),
+				search.getQuestionResults());
 
 		// Check if assembling is correct
 		assertEquals(1, assembler.getSearchResults().size());
@@ -62,7 +62,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 				.getContent());
 
 		// Check everything was assembled
-		assertEquals(0, assembler.getAnswerContentResults().size());
+		assertEquals(0, assembler.getAnswerResults().size());
 		assertEquals(0, assembler.getCommentResults().size());
 	}
 
@@ -77,19 +77,19 @@ public class SearchResultAssemblerTest extends UnitTest {
 
 		// Init Parser Search and Assembler
 		SearchQueryParser parser = new SearchQueryParser("question1Test");
-		Search search = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
+		Search search = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
 		SearchResultAssembler assembler = new SearchResultAssembler(
-				search.getAnswerContentResults(), search.getCommentResults(),
-				search.getQuestions());
+				search.getAnswerResults(), search.getCommentResults(),
+				search.getQuestionResults());
 
 		// Be sure only a question was found by search
-		assertEquals(1, search.getQuestions().size());
+		assertEquals(1, search.getQuestionResults().size());
 		assertEquals(0, search.getCommentResults().size());
-		assertEquals(0, search.getAnswerContentResults().size());
+		assertEquals(0, search.getAnswerResults().size());
 
 		// Check that the right question was found
-		assertEquals("question1Test", search.getQuestions().get(0).getContent());
+		assertEquals("question1Test", search.getQuestionResults().get(0).getContent());
 
 		// Check if assembling is correct
 		assertEquals(1, assembler.getSearchResults().size());
@@ -102,7 +102,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 				.getContent());
 
 		// Check everthing was assembled
-		assertEquals(0, assembler.getAnswerContentResults().size());
+		assertEquals(0, assembler.getAnswerResults().size());
 		assertEquals(0, assembler.getCommentResults().size());
 
 	}
@@ -117,21 +117,21 @@ public class SearchResultAssemblerTest extends UnitTest {
 
 		// Init parser and search
 		SearchQueryParser parser = new SearchQueryParser("schopenhauer");
-		Search search = new Search(parser.getQueryWordsSoundex(),
-				parser.getQuerySentences());
+		Search search = new Search(parser.getSoundexCodes(),
+				parser.getSentences());
 
 		// Be sure only a comment was found by search
-		assertEquals(0, search.getQuestions().size());
+		assertEquals(0, search.getQuestionResults().size());
 		assertEquals(1, search.getCommentResults().size());
-		assertEquals(0, search.getAnswerContentResults().size());
+		assertEquals(0, search.getAnswerResults().size());
 
 		// Check that the right comment was found
 		assertEquals("schopenhauer", search.getCommentResults().get(0)
 				.getContent());
 
 		SearchResultAssembler assembler = new SearchResultAssembler(
-				search.getAnswerContentResults(), search.getCommentResults(),
-				search.getQuestions());
+				search.getAnswerResults(), search.getCommentResults(),
+				search.getQuestionResults());
 
 		// Check if assembling is correct
 		assertEquals(1, assembler.getSearchResults().size());
@@ -143,7 +143,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 		assertEquals("schopenhauer", result.getComments().get(1).getContent());
 
 		// Check everthing was assembled
-		assertEquals(0, assembler.getAnswerContentResults().size());
+		assertEquals(0, assembler.getAnswerResults().size());
 		assertEquals(0, assembler.getCommentResults().size());
 	}
 

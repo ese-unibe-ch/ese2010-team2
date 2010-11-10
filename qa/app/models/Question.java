@@ -162,9 +162,7 @@ public class Question extends Post {
 		return existingTags;
 	}
 
-	/*
-	 * Getter methods
-	 */
+	/** Getters */
 	public String getTagByIndex(int i) {
 		return tags.get(i);
 	}
@@ -224,8 +222,9 @@ public class Question extends Post {
 		return this.lastChangedDate;
 	}
 
+
 	/**
-	 * Setter methods
+	 * Sets date when answer has last changed.
 	 * 
 	 * @param date
 	 *            - the date when the answer has been changed.

@@ -6,40 +6,43 @@ import java.util.HashSet;
 import org.apache.commons.codec.language.Soundex;
 
 /**
- * This class implents the feature of fulltext and tag search for Question,
- * Answer, Comments
+ * This class implements the feature of fulltext and tag search for Question,
+ * Answer, Comments.
  */
 public class Search {
-	/** The from the SearchQueryParser made soundex Codes */
-	private ArrayList<String> soundexCodes;
-	/** The form the SearchQuery made senteces */
-	private ArrayList<String> sentences;
 	private DbManager manager;
 
+	/** The from the SearchQueryParser made soundex Codes for the query. */
+	private ArrayList<String> soundexCodes;
+
+	/** The form the SearchQueryParser made sentences. */
+	private ArrayList<String> sentences;
+
 	/**
-	 * Used for the distinction between a with soundex codes or with full
-	 * sentences
+	 * Used for the distinction between a Search to do with soundex codes or
+	 * with full sentences.
 	 */
 	private boolean doASoundexSearch;
+
 	/**
-	 * the soundex algorithm from:
+	 * The soundex algorithm from:
 	 * 
 	 * @package org.apache.commons.codec.language.Soundex
 	 */
-	private Soundex soundex;
+	private Soundex soundexAlgorithm;
 
 	/**
 	 * Determines the number of questions, answer and comments in DbMangers
-	 * ArrayLists
+	 * ArrayLists.
 	 */
 	private int numberOfQuestions;
 	private int numberOfAnswers;
 	private int numberOfComments;
 
-	/** Store the results of the search */
-	private ArrayList<Answer> answerContentResults;
+	/** Store the results of the search, grouped after their type. */
+	private ArrayList<Answer> answerResults;
 	private ArrayList<Comment> commentResults;
-	private ArrayList<Question> questions;
+	private ArrayList<Question> questionResults;
 
 
 	public Search(ArrayList<String> soundexCodes, ArrayList<String> sentences) {
@@ -48,11 +51,11 @@ public class Search {
 		this.manager = DbManager.getInstance();
 
 		doASoundexSearch = false;
-		soundex = new Soundex();
+		soundexAlgorithm = new Soundex();
 
-		answerContentResults = new ArrayList<Answer>();
+		answerResults = new ArrayList<Answer>();
 		commentResults = new ArrayList<Comment>();
-		questions = new ArrayList<Question>();
+		questionResults = new ArrayList<Question>();
 
 		numberOfQuestions = manager.getQuestions().size();
 		numberOfAnswers = manager.getAnswers().size();
@@ -63,9 +66,10 @@ public class Search {
 
 	/**
 	 * Does a search through all Questions, Answers and Comments the first time
-	 * with the soundex codes the second time with complete sentences
+	 * with the soundex codes, the second time with complete sentences.
 	 */
 	private void doTheSearchForEveryQuery() {
+
 		doASoundexSearch = true;
 		for (int i = 0; i < soundexCodes.size(); i++) {
 			String query = soundexCodes.get(i);
@@ -85,7 +89,7 @@ public class Search {
 		removeDuplicatedQuestions();
 	}
 
-	/** Search through all question tags for search query matches */
+	/** Search through all questions tags for search query matches. */
 	public void searchQuestionTags(String query) {
 		// Prevents that if a search query matches two different tags the
 		// question will be added twice.
@@ -99,11 +103,11 @@ public class Search {
 			for (int j = 0; j < numberOfTags; j++) {
 				String curTag = curQuestion.getTagByIndex(j);
 				curTag = curTag.toLowerCase();
-				curTag = soundex.encode(curTag);
+				curTag = soundexAlgorithm.encode(curTag);
 
 				if (curTag.contains(query)) {
 					if (addQuestionOnlyOnce) {
-						questions.add(curQuestion);
+						questionResults.add(curQuestion);
 						addQuestionOnlyOnce = false;
 					}
 				}
@@ -112,7 +116,7 @@ public class Search {
 		}
 	}
 
-	/** Search through all question contents for search query matches */
+	/** Search through all questions content for search query matches. */
 	public void searchQuestionContent(String query) {
 		for (int i = 0; i < numberOfQuestions; i++) {
 			Question curQuestion = manager.getQuestions().get(i);
@@ -123,34 +127,13 @@ public class Search {
 				String[] curContentArray = curQuestion.getContent()
 						.split("\\s");
 				for (int x = 0; x < curContentArray.length; x++) {
-					if (soundex.encode(curContentArray[x]).contains(query)) {
-						questions.add(curQuestion);
+					if (soundexAlgorithm.encode(curContentArray[x]).contains(query)) {
+						questionResults.add(curQuestion);
 					}
 				}
+
 			} else if (curContent.contains(query)) {
-				
-				questions.add(curQuestion);
-			}
-		}
-	}
-
-	/** Search through all comments for matches */
-	public void searchComments(String query) {
-		for (int i = 0; i < numberOfComments; i++) {
-
-			Comment curComment = manager.getComments().get(i);
-			String curContent = curComment.getContent();
-			curContent = curContent.toLowerCase();
-
-			if (doASoundexSearch) {
-				String[] curContentArray = curComment.getContent().split("\\s");
-				for (int x = 0; x < curContentArray.length; x++) {
-					if (soundex.encode(curContentArray[x]).contains(query)) {
-						commentResults.add(curComment);
-					}
-				}
-			} else if (curContent.contains(query)) {
-				commentResults.add(curComment);
+				questionResults.add(curQuestion);
 			}
 		}
 	}
@@ -167,33 +150,54 @@ public class Search {
 			if (doASoundexSearch) {
 				String[] curContentArray = curAnswer.getContent().split("\\s");
 				for (int x = 0; x < curContentArray.length; x++) {
-					if (soundex.encode(curContentArray[x]).contains(query)) {
-						answerContentResults.add(curAnswer);
+					if (soundexAlgorithm.encode(curContentArray[x]).contains(query)) {
+						answerResults.add(curAnswer);
 					}
 				}
 			} else if (curContent.contains(query)) {
-				answerContentResults.add(curAnswer);
+				answerResults.add(curAnswer);
+			}
+		}
+	}
+
+	/** Search through all comments content for matches */
+	public void searchComments(String query) {
+		for (int i = 0; i < numberOfComments; i++) {
+
+			Comment curComment = manager.getComments().get(i);
+			String curContent = curComment.getContent();
+			curContent = curContent.toLowerCase();
+
+			if (doASoundexSearch) {
+				String[] curContentArray = curComment.getContent().split("\\s");
+				for (int x = 0; x < curContentArray.length; x++) {
+					if (soundexAlgorithm.encode(curContentArray[x]).contains(query)) {
+						commentResults.add(curComment);
+					}
+				}
+			} else if (curContent.contains(query)) {
+				commentResults.add(curComment);
 			}
 		}
 	}
 
 	/**
-	 * Because of tag and conent search there may be question duplicates in
-	 * ArrayList, this method deletes all duplicates
+	 * Because of tag and content search in questions there may be question
+	 * duplicates in "questions" ArrayList, this method deletes all duplicates.
 	 */
 	public void removeDuplicatedQuestions() {
-		HashSet h = new HashSet(questions);
-		questions.clear();
-		questions.addAll(h);
+		HashSet h = new HashSet(questionResults);
+		questionResults.clear();
+		questionResults.addAll(h);
 	}
 
 	/** Getters */
-	public ArrayList<Question> getQuestions() {
-		return questions;
+	public ArrayList<Question> getQuestionResults() {
+		return questionResults;
 	}
 
-	public ArrayList<Answer> getAnswerContentResults() {
-		return answerContentResults;
+	public ArrayList<Answer> getAnswerResults() {
+		return answerResults;
 	}
 
 	public ArrayList<Comment> getCommentResults() {

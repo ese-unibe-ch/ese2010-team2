@@ -3,7 +3,6 @@ package models;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
@@ -111,9 +110,90 @@ public class User {
 		this.setScore(userScore);
 	}
 
-	/*
-	 * Getter methods
+	public boolean hasAvatar() {
+		return avatar != null;
+	}
+
+	/**
+	 * Checks whether the user belongs to the administrators.
+	 * 
+	 * @return - true if the user is an admin and false otherwise.
 	 */
+	public boolean isAdmin() {
+		return this.userGroup.equals(UserGroups.admin);
+	}
+
+	/**
+	 * Checks whether the user belongs to the moderators.
+	 * 
+	 * @return - true if the user is a moderator and false otherwise.
+	 */
+	public boolean isModerator() {
+		return this.userGroup.equals(UserGroups.moderator);
+	}
+
+	public void updateReputation() {
+		GregorianCalendar now = new GregorianCalendar();
+		int counter = now.get(Calendar.DAY_OF_YEAR)
+				- this.lastReputationUpdate.get(Calendar.DAY_OF_YEAR) - 1;
+		for (int i = 0; i < counter; i++) {
+			this.addReputation(this.lastScore);
+		}
+		this.setLastTimeOfReputation(now);
+		this.lastScore = this.getScore();
+	}
+
+	public void addReputation(int reputation) {
+		this.reputations.addFirst(reputation);
+	}
+
+	public void addNotification(Notification newChange) {
+		this.notifications.add(newChange);
+	}
+
+	public void removeNotification(Notification oldChange) {
+		this.notifications.remove(oldChange);
+	}
+
+	public void clearAllNotifications() {
+		this.notifications.clear();
+	}
+
+	public void notifyChange(String message, Question changedQuestion) {
+		Notification change = new Notification(message, this, changedQuestion);
+	}
+
+	public boolean isChanged() {
+		return !notifications.isEmpty();
+	}
+
+	/**
+	 * Adds a new question similar to the old question to the list of voted
+	 * questions if it isn't already in it
+	 * 
+	 * @param post
+	 */
+	public void addvotedQuestion(Question question) {
+		Question newQuestion = question;
+		if (this.votedQuestions.contains(question) != true) {
+			this.votedQuestions.add(newQuestion);
+		}
+	}
+
+	/**
+	 * Adds a new answer similar to the old answer to the list of voted answer
+	 * if it isn't already in it
+	 * 
+	 * @param post
+	 */
+	public void addvotedAnswer(Answer answer) {
+		Answer newAnswer = answer;
+		if (this.votedAnswers.contains(answer) != true) {
+			this.votedAnswers.add(newAnswer);
+		}
+	}
+
+	/** Getters ****************************/
 	public String getName() {
 		return name;
 	}
@@ -171,9 +251,70 @@ public class User {
 		return this.userGroup;
 	}
 
-	/*
-	 * Setter methods
+	/**
+	 * @return avatar filename
 	 */
+	public String getAvatarFileName() {
+		return avatar.getName();
+	}
+
+	/**
+	 * 
+	 * @return File instance representing avatar image
+	 * @see File
+	 */
+	public File getAvatar() {
+		return avatar;
+	}
+
+	/**
+	 * returns the reputations as an ArrayList
+	 */
+	public ArrayList<Integer> getReputations() {
+		this.updateReputation();
+		ArrayList<Integer> reputations = new ArrayList<Integer>();
+		reputations.addAll(this.reputations);
+		return reputations;
+	}
+
+	public GregorianCalendar getLastTimeOfReputation() {
+		return this.lastReputationUpdate;
+	}
+
+	public int getLastReputation() {
+		return this.lastScore;
+	}
+
+	public ArrayList<Notification> getAllNotifications() {
+		return this.notifications;
+	}
+
+	public Question getVotedQuestion(Question question) {
+		if (this.votedQuestions.contains(question)) {
+			int x = this.votedQuestions.indexOf(question);
+			return this.votedQuestions.get(x);
+		}
+		return null;
+	}
+
+	public Answer getVotedAnswer(Answer answer) {
+		if (this.votedAnswers.contains(answer)) {
+			int x = this.votedAnswers.indexOf(answer);
+			return this.votedAnswers.get(x);
+		}
+		return null;
+	}
+
+	public ArrayList<Question> getVotedQuetions() {
+		return this.votedQuestions;
+	}
+
+	public ArrayList<Answer> getVotedAnswers() {
+		return this.votedAnswers;
+	}
+
+	/** Setters *******************************/
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -223,13 +364,6 @@ public class User {
 	}
 
 	/**
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return name;
-	}
-
-	/**
 	 * @param avatar
 	 *            File instance representing new avatar
 	 */
@@ -237,50 +371,16 @@ public class User {
 		this.avatar = avatar;
 	}
 
-	/**
-	 * @return avatar filename
-	 */
-	public String getAvatarFileName() {
-		return avatar.getName();
-	}
-
-	/**
-	 * 
-	 * @return File instance representing avatar image
-	 * @see File
-	 */
-	public File getAvatar() {
-		return avatar;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean hasAvatar() {
-		return avatar != null;
-	}
-
-	/**
-	 * Checks whether the user belongs to the administrators.
-	 * 
-	 * @return - true if the user is an admin and false otherwise.
-	 */
-	public boolean isAdmin() {
-		return this.userGroup.equals(UserGroups.admin);
-	}
-
-	/**
-	 * Checks whether the user belongs to the moderators.
-	 * 
-	 * @return - true if the user is a moderator and false otherwise.
-	 */
-	public boolean isModerator() {
-		return this.userGroup.equals(UserGroups.moderator);
-	}
-
 	public void setId(int userId) {
 		this.id = userId;
+	}
+
+	public void setLastTimeOfReputation(GregorianCalendar date) {
+		this.lastReputationUpdate = date;
+	}
+
+	public void setLastReputation(int reputation) {
+		this.lastScore = reputation;
 	}
 
 	/**
@@ -293,118 +393,11 @@ public class User {
 	public void setGroup(UserGroups group) {
 		this.userGroup = group;
 	}
-	
-	/**
-	 * returns the reputations as an ArrayList
-	 */
-	public ArrayList<Integer> getReputations() {
-		this.updateReputation();
-		ArrayList<Integer> reputations = new ArrayList<Integer>();
-		reputations.addAll(this.reputations);
-		return reputations;
-	}
-	
-	public void updateReputation() {
-		GregorianCalendar now = new GregorianCalendar();
-		int counter = now.get(Calendar.DAY_OF_YEAR) - this.lastReputationUpdate.get(Calendar.DAY_OF_YEAR)-1;
-		for (int i = 0; i < counter; i++) {
-			this.addReputation(this.lastScore);
-		}
-		this.setLastTimeOfReputation(now);
-		this.lastScore = this.getScore();
-	}
-	
-	public void addReputation(int reputation) {
-		this.reputations.addFirst(reputation);
-	}
-	
-	public GregorianCalendar getLastTimeOfReputation() {
-		return this.lastReputationUpdate;
-	}
-	
-	public void setLastTimeOfReputation(GregorianCalendar date) {
-		this.lastReputationUpdate = date;
-	}
-	
-	public void setLastReputation(int reputation) {
-		this.lastScore = reputation;
-	}
-	
-	public int getLastReputation() {
-		return this.lastScore;
-	}
-	
-	public void addNotification(Notification newChange) {
-		this.notifications.add(newChange);
-	}
-	
-	public void removeNotification(Notification oldChange) {
-		this.notifications.remove(oldChange);
-	}
-	
-	public void clearAllNotifications() {
-		this.notifications.clear();
-	}
-	
-	public ArrayList<Notification> getAllNotifications() {
-		return this.notifications;
-	}
 
-	public void notifyChange(String message, Question changedQuestion) {
-		Notification change = new Notification(message, this, changedQuestion);	
-	}
-	
-	public boolean isChanged() {
-		return !notifications.isEmpty();
-	}
-	
 	/**
-	 * Adds a new question similar to the old question to the list of voted questions
-	 * if it isn't already in it
-	 * 
-	 * @param post
+	 * @see java.lang.Object#toString()
 	 */
-	public void addvotedQuestion(Question question){
-		Question newQuestion = question;
-		if(this.votedQuestions.contains(question)!=true){
-			this.votedQuestions.add(newQuestion);
-		}
-	}
-	
-	public Question getVotedQuestion(Question question){
-		if(this.votedQuestions.contains(question)){
-			int x = this.votedQuestions.indexOf(question);
-			return this.votedQuestions.get(x); 
-		}
-		return null;
-	}
-	
-	/**
-	 * Adds a new answer similar to the old answer to the list of voted answer
-	 * if it isn't already in it
-	 * 
-	 * @param post
-	 */
-	public void addvotedAnswer(Answer answer){
-		Answer newAnswer = answer;
-		if(this.votedAnswers.contains(answer)!=true){
-			this.votedAnswers.add(newAnswer);
-		}
-	}
-	
-	public Answer getVotedAnswer(Answer answer){
-		if(this.votedAnswers.contains(answer)){
-			int x = this.votedAnswers.indexOf(answer);
-			return this.votedAnswers.get(x); 
-		}
-		return null;
-	}
-	
-	public ArrayList<Question> getVotedQuetions(){
-		return this.votedQuestions;
-	}
-	
-	public ArrayList<Answer> getVotedAnswers(){
-		return this.votedAnswers;
+	public String toString() {
+		return name;
 	}
 }

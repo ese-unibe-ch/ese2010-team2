@@ -1,10 +1,11 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.NoSuchElementException;
+
+import annotations.Unused;
 
 import comparators.ChangedDateComparator;
 import comparators.DateComparator;
@@ -166,7 +167,7 @@ public class DbManager {
 	 *            - The list to be anonymized
 	 * @return - The anonymized list
 	 */
-	@Deprecated
+	@Unused
 	private ArrayList<User> anonymize(String uname, ArrayList<User> list) {
 		if (!checkUserNameIsOccupied("anonymous"))
 			new User("anonymous", "a@nonymous", "anonymous");
@@ -617,9 +618,7 @@ public class DbManager {
 		reputatedUser.updateReputation();
 	}
 
-	/*
-	 * Getter methods
-	 */
+	/** Getters */
 	public ArrayList<User> getUsers() {
 		return users;
 	}
@@ -640,9 +639,7 @@ public class DbManager {
 		return tags;
 	}
 
-	/*
-	 * Count methods
-	 */
+	/** Count Methods */
 	public int countOfUsers() {
 		return this.getUsers().size();
 	}

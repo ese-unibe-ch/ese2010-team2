@@ -27,8 +27,7 @@ import annotations.Unused;
 
 public class Application extends Controller {
 
-	static Calendar calendar = Calendar.getInstance();
-
+	private static Calendar calendar = Calendar.getInstance();
 	private static DbManager manager = DbManager.getInstance();
 
 	public static void index() {
@@ -54,11 +53,6 @@ public class Application extends Controller {
 		render(questions);
 	}
 
-	public static void showRegister(String message, String name,
-			String password, String password2, String email) {
-		render(message, name, password, password2, email);
-	}
-
 	public static void showState() {
 		int userCount = manager.countOfUsers();
 		int questionCount = manager.countOfQuestions();
@@ -68,6 +62,10 @@ public class Application extends Controller {
 		render(userCount, questionCount, answerCount, commentCount, tagCount);
 	}
 
+	/**
+	 * Check wehen a new User is registered if the User's Input is correct
+	 * according to the rules mentioned in the method.
+	 */
 	public static void register(String name, String password, String password2,
 			String email) throws Throwable {
 		if (name.equals(""))
@@ -90,6 +88,15 @@ public class Application extends Controller {
 		}
 	}
 
+	/**
+	 * Renders the registration form with the proper error message to the user
+	 * due to is wrong input.
+	 */
+	public static void showRegister(String message, String name,
+			String password, String password2, String email) {
+		render(message, name, password, password2, email);
+	}
+
 	public static void showAnswers(String id, String newAnswer,
 			String newMessage) {
 		int intId = Integer.parseInt(id);
@@ -100,15 +107,15 @@ public class Application extends Controller {
 		SearchManager searchManager = new SearchManager(
 				question.getTagsString() + " " + question.getContent());
 		ArrayList<Post> similar = new ArrayList<Post>();
-		if (!searchManager.getResults().isEmpty())
-			similar.add(searchManager.getResults().get(0).getQuestion());
+		if (!searchManager.getSearchResults().isEmpty())
+			similar.add(searchManager.getSearchResults().get(0).getQuestion());
 
 		// Fill the list of similar questions with different search results.
 		int i = 0;
-		while (i < searchManager.getResults().size() && similar.size() < 3) {
-			if (!similar.contains(searchManager.getResults().get(i)
+		while (i < searchManager.getSearchResults().size() && similar.size() < 3) {
+			if (!similar.contains(searchManager.getSearchResults().get(i)
 					.getQuestion()))
-				similar.add(searchManager.getResults().get(i).getQuestion());
+				similar.add(searchManager.getSearchResults().get(i).getQuestion());
 			i++;
 		}
 
@@ -381,9 +388,11 @@ public class Application extends Controller {
 		if (text == null) {
 			render();
 		}
-		Boolean isQuestion = menu.equals("similarQuestion");
-		Boolean isUser = menu.equals("similarUser");
+
+		boolean isQuestion = menu.equals("similarQuestion");
+		boolean isUser = menu.equals("similarUser");
 		User currentUser = manager.getUserByName(session.get("username"));
+
 		// If no query is typed in
 		if (text != null && text.equals("")) {
 			String message = "Nothing to search";
@@ -392,7 +401,7 @@ public class Application extends Controller {
 		// If a query is typed in
 		if (!text.equals("")) {
 			SearchManager searchManager = new SearchManager(text);
-			ArrayList<SearchResult> results = searchManager.getResults();
+			ArrayList<SearchResult> results = searchManager.getSearchResults();
 			if (isUser) {
 				// returns list of users without duplicates or user logged into
 				// session
@@ -430,7 +439,6 @@ public class Application extends Controller {
 	 * user.setGroup(ugroup); } // manager.getUsers().get // .setGroup(ugroup);
 	 * }
 	 */
-
 	public static void showVersionHistory(String type, String id) {
 		Post post;
 		int intId = Integer.parseInt(id);

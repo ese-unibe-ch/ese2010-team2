@@ -1,15 +1,11 @@
 package models;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 public class Comment extends Post {
 
 	private Post commentedPost;
-
-	/** The application-manager. */
 	private static DbManager manager = DbManager
 			.getInstance();
 

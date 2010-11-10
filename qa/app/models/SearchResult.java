@@ -11,15 +11,17 @@ import java.util.ArrayList;
 public class SearchResult {
 	private boolean hasABestAnswer;
 
-	/** The value of the tagCount + contentCount */
+	/**
+	 * The value of the matches with the search query in tags on Questio,
+	 * Answer, Comment content.
+	 */
 	private int totalCount;
 
-	/** The score of the question, all answers and comments together */
+	/** The score of the question and all answers. */
 	private int totalScore;
 
 	/** The components in the composite */
 	private Question question;
-	private User user;
 	private ArrayList<Answer> answers;
 	private ArrayList<Comment> comments;
 

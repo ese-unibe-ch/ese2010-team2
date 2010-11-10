@@ -1,19 +1,16 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 
 import org.apache.commons.codec.language.Soundex;
 
 /**
- * In this class will the search query splitted in word or sentences if some
- * words are embraced with double quotes. e.g. words: these are words, sentence:
- * "this would be a sentence". Then some stopwords will be filtered out of the
- * words, and soundex codes will be made of them.
- * 
- * @author jonas
- * 
+ * In this class will the search query splitted in word or sentences if the
+ * words are embraced with double quotes. For example: Word are: these are
+ * words, and a sentence would be: "this would be a sentence". Then some
+ * stopwords will be filtered out of the words, and soundex codes will be made
+ * of them.
  */
 public class SearchQueryParser {
 	/**
@@ -105,28 +102,34 @@ public class SearchQueryParser {
 			"won't", "wonder", "would", "would", "wouldn't", "x", "y", "yes",
 			"yet", "you", "you'd", "you'll", "you're", "you've", "your",
 			"yours", "yourself", "yourselves", "z", "zero" };
+
 	private ArrayList<String> englishStopwords;
-	/** The original search query the user typed in */
+
+	/** The original search query the user typed in. */
 	private String originalQuery;
-	/** The list of the word in the query */
-	private ArrayList<String> wordsList;
-	/** the soundex codes of the word in the query */
+
+	/** The list of the word in the query. */
+	private ArrayList<String> words;
+
+	/** the soundex codes of the word in the query. */
 	private ArrayList<String> soundexCodes;
-	/** the sentences in the query */
+
+	/** the sentences in the query. */
 	private ArrayList<String> sentences;
+
 	/**
-	 * the soundex algorithm from:
+	 * The soundex algorithm from:
 	 * 
 	 * @package org.apache.commons.codec.language.Soundex
 	 */
-	private Soundex soundex;
+	private Soundex soundexAlgorithm;
 
 	public SearchQueryParser(String query) {
-		// Make query case insensitive
+		// Make query case insensitive.
 		originalQuery = query.toLowerCase();
 		
-		// Get original query an split words and store in ArrayList
-		wordsList = new ArrayList<String>(java.util.Arrays.asList(originalQuery
+		// Get original query an split in words and store in ArrayList.
+		words = new ArrayList<String>(java.util.Arrays.asList(originalQuery
 				.split(" ")));
 
 		englishStopwords = new ArrayList<String>(
@@ -134,32 +137,37 @@ public class SearchQueryParser {
 
 		sentences = new ArrayList<String>();
 		soundexCodes = new ArrayList<String>();
-		soundex = new Soundex();
+		soundexAlgorithm = new Soundex();
 
 		divideQueryInWordsAndSentences();
 	}
 
 	private void divideQueryInWordsAndSentences() {
-
 		int doubleQuoteCounter = 0;
 		String sentence = "";
 		ArrayList<Integer> indexesToRemove = new ArrayList<Integer>();
 
 		// Filter out Strings marked with "" e.g.
 		// "this is to filter out as a sentence"
-		for (int i = 0; i < wordsList.size(); i++) {
-			// Will add the first word after the double quote
-			if (wordsList.get(i).contains("\"")) {
-				sentence = sentence + " " + wordsList.get(i);
+		for (int i = 0; i < words.size(); i++) {
+
+			// Will get the first word after the double quote and add to
+			// sentence string.
+			if (words.get(i).contains("\"")) {
+				sentence = sentence + " " + words.get(i);
 				indexesToRemove.add(i);
 				doubleQuoteCounter++;
 			}
-			// will add all word from the second to the second last word
+
+			// Will add all word from the second to the second last word to
+			// sentence string.
 			else if (doubleQuoteCounter == 1) {
-				sentence = sentence + " " + wordsList.get(i);
+				sentence = sentence + " " + words.get(i);
 				indexesToRemove.add(i);
 			}
-			// Ads the last word (the word directly before the double quote
+
+			// Ads the last word (the word directly before the double quote) to
+			// sentence String.
 			if (doubleQuoteCounter == 2) {
 				sentence = sentence.replace("\"", "");
 				sentence = sentence.substring(1, sentence.length());
@@ -168,14 +176,16 @@ public class SearchQueryParser {
 				sentence = "";
 			}
 		}
-		// removes the sentences from the word list
+
+		// Removes the word previously added to the sentence from the words
+		// List.
 		for (int j = indexesToRemove.size() - 1; j >= 0; j--) {
 			int index = indexesToRemove.get(j);
-			wordsList.remove(index);
+			words.remove(index);
 		}
 
-		// Remoces duplicates in word, filter out stopwords and create soundex
-		// codes
+		// Removes duplicates in words list, filter out stopwords and creates
+		// soundex codes.
 		removeDuplicate();
 		filterOutStopwords();
 		createSoundexOfWords();
@@ -183,26 +193,26 @@ public class SearchQueryParser {
 
 	/** Removes duplicated words */
 	private void removeDuplicate() {
-		HashSet h = new HashSet(wordsList);
-		wordsList.clear();
-		wordsList.addAll(h);
+		HashSet h = new HashSet(words);
+		words.clear();
+		words.addAll(h);
 	}
 
-	/** Will filter out all english stopwords in the list above */
+	/** Will filter out all english word which are in the stopwords list. */
 	private void filterOutStopwords() {
 		for (int j = englishStopwords.size() - 1; j >= 0; j--) {
-			for (int i = wordsList.size() - 1; i >= 0; i--) {
-				if (englishStopwords.get(j).equals(wordsList.get(i))) {
-					wordsList.remove(i);
+			for (int i = words.size() - 1; i >= 0; i--) {
+				if (englishStopwords.get(j).equals(words.get(i))) {
+					words.remove(i);
 				}
 			}
 		}
 	}
 
-	/** Creates the soundex of all words in the query */
+	/** Creates the soundex code of all words in the query. */
 	private void createSoundexOfWords() {
-		for (int i = 0; i < wordsList.size(); i++) {
-			String soundexCode = soundex.encode(wordsList.get(i));
+		for (int i = 0; i < words.size(); i++) {
+			String soundexCode = soundexAlgorithm.encode(words.get(i));
 			soundexCodes.add(soundexCode);
 		}
 
@@ -212,15 +222,14 @@ public class SearchQueryParser {
 		soundexCodes.addAll(h);
 	}
 
-	public ArrayList<String> getQueryWordsSoundex() {
+	/** Getters */
+	public ArrayList<String> getSoundexCodes() {
 		return soundexCodes;
 	}
-
-	public ArrayList<String> getQueryWords() {
-		return wordsList;
+	public ArrayList<String> getWords() {
+		return words;
 	}
-
-	public ArrayList<String> getQuerySentences() {
+	public ArrayList<String> getSentences() {
 		return sentences;
 	}
 }

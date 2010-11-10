@@ -13,8 +13,10 @@ import org.apache.commons.codec.language.Soundex;
 import comparators.SearchResultComparator;
 
 /**
- * This class sorts the search results in way they appear to the user as "smart"
- * searched
+ * This class gatters the information needed for sorting, like counting how many
+ * times a search query appears in the tags. Furthermore the class sorts the
+ * search results in the way they appear to the user as smart. See the
+ * SearchResultComparator for the sorting rules.
  */
 public class SearchResultSorter {
 	/** The sorted searchResults */
@@ -22,26 +24,30 @@ public class SearchResultSorter {
 
 	/**
 	 * Will be used for distinction between counting based on sentences or
-	 * counting based on soundex codes
+	 * counting based on soundex codes.
 	 */
 	private boolean doASoundexBasedCount;
+
 	/**
-	 * the soundex algorithm from:
+	 * The soundex algorithm from:
 	 * 
 	 * @package org.apache.commons.codec.language.Soundex
 	 */
 	private Soundex soundex;
 
+	/** ArrayList with the soundexCodes from SearchQueryParser */
 	private ArrayList<String> soundexCodes;
+
+	/** ArrayList with the sentences from SearchQueryParser */
 	private ArrayList<String> sentences;
 
 	public SearchResultSorter(ArrayList<SearchResult> searchResults,
-			ArrayList<String> queryWordsSoundex,
-			ArrayList<String> querySentences) {
+			ArrayList<String> soundexCodesOfQuery,
+			ArrayList<String> sentencesOfQuery) {
 
 		this.searchResults = searchResults;
-		this.soundexCodes = queryWordsSoundex;
-		this.sentences = querySentences;
+		this.soundexCodes = soundexCodesOfQuery;
+		this.sentences = sentencesOfQuery;
 		doASoundexBasedCount = false;
 		soundex = new Soundex();
 
@@ -50,9 +56,10 @@ public class SearchResultSorter {
 
 	/**
 	 * Go two times through all search results, first time count based on the
-	 * soundex codes the second time based on sentences
+	 * soundex codes the second time based on sentences.
 	 */
 	public void initSorting() {
+
 		doASoundexBasedCount = true;
 		for (int i = 0; i < soundexCodes.size(); i++) {
 			String query = soundexCodes.get(i);
@@ -67,7 +74,7 @@ public class SearchResultSorter {
 		}
 		
 		checkIfHasABestAnswer();
-		countTotalScore();
+		summarizeScores();
 		sort();
 	}
 
@@ -172,24 +179,23 @@ public class SearchResultSorter {
 
 	/**
 	 * Checks if a composite has a answer which is selected as "best answer". A
-	 * best answer counts +5
+	 * best answer counts +5.
 	 */
 	private void checkIfHasABestAnswer() {
 		for (int i = 0; i < searchResults.size(); i++) {
 			Question curQuestion = searchResults.get(i).getQuestion();
+
 			if (curQuestion.hasBestAnswer()) {
 				searchResults.get(i).setHasABestAnswer(true);
-
 				searchResults.get(i).setTotalScore(5);
 			}
 		}
 	}
 	
-	/** Counts all Scores (Question, Answer) in a composite */
-	private void countTotalScore() {
+	/** Summarizes all Scores (Question, Answer) in a composite. */
+	private void summarizeScores() {
 		for (int i = 0; i < searchResults.size(); i++) {
 			int totalScore = 0;
-
 			Question curQuestion = searchResults.get(i).getQuestion();
 			totalScore = totalScore + curQuestion.getScore();
 

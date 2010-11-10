@@ -16,24 +16,25 @@ public class SearchResultAssembler {
 	private DbManager manager;
 
 	/** ArrayList for the results from the search class */
-	private ArrayList<Answer> answerContentResults;
+	private ArrayList<Answer> answerResults;
 	private ArrayList<Comment> commentResults;
-	private ArrayList<Question> questions;
+	private ArrayList<Question> questionResults;
 
 	/** ArrayList for the assembled results */
 	private ArrayList<SearchResult> searchResults;
 
-	public SearchResultAssembler(ArrayList<Answer> answerContentResults,
-			ArrayList<Comment> commentResults, ArrayList<Question> questions) {
 
-		this.answerContentResults = answerContentResults;
+	public SearchResultAssembler(ArrayList<Answer> answerResults,
+			ArrayList<Comment> commentResults, ArrayList<Question> questionResults) {
+
+		this.answerResults = answerResults;
 		this.commentResults = commentResults;
-		this.questions = questions;
+		this.questionResults = questionResults;
 
 		searchResults = new ArrayList<SearchResult>();
 		this.manager = DbManager.getInstance();
 
-		// initialize the assembling
+		// Initialize the assembling
 		assembleBasedOnQuestion();
 		assembleBasedOnAnswer();
 		assembleBasedOnComment();
@@ -41,16 +42,16 @@ public class SearchResultAssembler {
 
 	/** Assembles a SearchResult based on the search matches in the questions */
 	private void assembleBasedOnQuestion() {
-		for (int j = 0; j < questions.size(); j++) {
-			Question curQuestion = questions.get(j);
+		for (int j = 0; j < questionResults.size(); j++) {
+			Question curQuestion = questionResults.get(j);
 			avoidDuplicatedSearchResults(curQuestion);
 		}
 	}
 
 	/** Assembles a SearchResult based on the search matches in the answers */
 	private void assembleBasedOnAnswer() {
-		for (int i = 0; i < answerContentResults.size(); i++) {
-			Answer curAnswer = answerContentResults.get(i);
+		for (int i = 0; i < answerResults.size(); i++) {
+			Answer curAnswer = answerResults.get(i);
 			int questionId = curAnswer.getQuestionId();
 
 			// Get question which belongs to answer
@@ -86,9 +87,10 @@ public class SearchResultAssembler {
 
 	/**
 	 * This helper method, avoids duplicated SearchResults. Basically it goes
-	 * through all ArrayLists which were delivered from Search class and checks
-	 * if there is answer's or comment's questionId that is already in a
-	 * SearchResult composite.
+	 * through Question, Answer, Comment ArrayLists which were delivered from
+	 * Search class and checks if there is an answer's or comment's questionId
+	 * that is already in a SearchResult composite and if true deletes those
+	 * answer's or comment's.
 	 */
 	private void avoidDuplicatedSearchResults(Question curQuestion) {
 		SearchResult result = new SearchResult();
@@ -107,10 +109,10 @@ public class SearchResultAssembler {
 		result.setComments(curQuestion.getComments());
 
 		// Avoid duplicated SearchResults because of Answers
-		for (int k = 0; k < answerContentResults.size(); k++) {
-			Answer curAnswer1 = answerContentResults.get(k);
+		for (int k = 0; k < answerResults.size(); k++) {
+			Answer curAnswer1 = answerResults.get(k);
 			if (curAnswer1.getQuestionId() == curQuestion.getId()) {
-				answerContentResults.remove(k);
+				answerResults.remove(k);
 			}
 		}
 
@@ -143,16 +145,18 @@ public class SearchResultAssembler {
 		return searchResults;
 	}
 
-	public ArrayList<Answer> getAnswerContentResults() {
-		return answerContentResults;
+	// Will be used for testing only.
+	public ArrayList<Answer> getAnswerResults() {
+		return answerResults;
 	}
 
+	// Will be used for testing only.
 	public ArrayList<Comment> getCommentResults() {
 		return commentResults;
 	}
 
-	public ArrayList<Question> getQuestions() {
-		return questions;
+	// Will be used for testing only.
+	public ArrayList<Question> getQuestionResults() {
+		return questionResults;
 	}
-
 }

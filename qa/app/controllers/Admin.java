@@ -22,7 +22,6 @@ import play.mvc.With;
 public class Admin extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
-
 	private static Calendar calendar = Calendar.getInstance();
 
 	public static void showEditQuestionForm(int qid, String newContent,
@@ -53,7 +52,6 @@ public class Admin extends Controller {
 	 * @param comment
 	 * @param newContent
 	 */
-
 	public static void editQuestionComment(int qid, int cid,
 			String newContent, Comment comment) {
 		Comment QComment = manager.getCommentById(cid);
@@ -67,7 +65,6 @@ public class Admin extends Controller {
 	 * @param comment
 	 * @param newContent
 	 */
-
 	public static void editAnswerComment(int qid, int cid,
 			String newContent, Comment comment) {
 		Comment AComment = manager.getCommentById(cid);

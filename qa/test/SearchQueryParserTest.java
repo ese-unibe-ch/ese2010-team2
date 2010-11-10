@@ -21,10 +21,10 @@ public class SearchQueryParserTest extends UnitTest {
 		query = "fredi house friend";
 		parser = new SearchQueryParser(query);
 
-		assertEquals(3, parser.getQueryWords().size());
-		assertEquals("house", parser.getQueryWords().get(0));
-		assertEquals("friend", parser.getQueryWords().get(1));
-		assertEquals("fredi", parser.getQueryWords().get(2));
+		assertEquals(3, parser.getWords().size());
+		assertEquals("house", parser.getWords().get(0));
+		assertEquals("friend", parser.getWords().get(1));
+		assertEquals("fredi", parser.getWords().get(2));
 	}
 	
 	@Test
@@ -32,9 +32,9 @@ public class SearchQueryParserTest extends UnitTest {
 		query = "\"fredi house friend\"";
 		parser = new SearchQueryParser(query);
 
-		assertEquals(0, parser.getQueryWords().size());
-		assertEquals(1, parser.getQuerySentences().size());
-		assertEquals("fredi house friend", parser.getQuerySentences().get(0));
+		assertEquals(0, parser.getWords().size());
+		assertEquals(1, parser.getSentences().size());
+		assertEquals("fredi house friend", parser.getSentences().get(0));
 	}
 
 	@Test
@@ -42,12 +42,12 @@ public class SearchQueryParserTest extends UnitTest {
 		query = "\"fredi house friend\" test garden \"We can\"";
 		parser = new SearchQueryParser(query);
 
-		assertEquals(2, parser.getQueryWords().size());
-		assertEquals("test", parser.getQueryWords().get(0));
-		assertEquals("garden", parser.getQueryWords().get(1));
-		assertEquals(2, parser.getQuerySentences().size());
-		assertEquals("fredi house friend", parser.getQuerySentences().get(0));
-		assertEquals("we can", parser.getQuerySentences().get(1));
+		assertEquals(2, parser.getWords().size());
+		assertEquals("test", parser.getWords().get(0));
+		assertEquals("garden", parser.getWords().get(1));
+		assertEquals(2, parser.getSentences().size());
+		assertEquals("fredi house friend", parser.getSentences().get(0));
+		assertEquals("we can", parser.getSentences().get(1));
 	}
 
 	@Test
@@ -58,9 +58,9 @@ public class SearchQueryParserTest extends UnitTest {
 		query = "\"fredi hOUse friEnd\"";
 		parser = new SearchQueryParser(query);
 
-		assertEquals(0, parser.getQueryWords().size());
-		assertEquals(1, parser.getQuerySentences().size());
-		assertEquals("fredi house friend", parser.getQuerySentences().get(0));
+		assertEquals(0, parser.getWords().size());
+		assertEquals(1, parser.getSentences().size());
+		assertEquals("fredi house friend", parser.getSentences().get(0));
 	}
 
 	@Test
@@ -68,7 +68,7 @@ public class SearchQueryParserTest extends UnitTest {
 		query = "fredi house friend";
 		parser = new SearchQueryParser(query);
 
-		assertEquals(3, parser.getQueryWordsSoundex().size());
+		assertEquals(3, parser.getSoundexCodes().size());
 	}
 
 	@Test
@@ -76,13 +76,13 @@ public class SearchQueryParserTest extends UnitTest {
 		query = "fredi man men";
 		parser = new SearchQueryParser(query);
 
-		assertEquals(2, parser.getQueryWordsSoundex().size());
+		assertEquals(2, parser.getSoundexCodes().size());
 	}
 
 	@After
 	public void tearDown() {
-		parser.getQuerySentences().clear();
-		parser.getQueryWords().clear();
-		parser.getQueryWordsSoundex().clear();
+		parser.getSentences().clear();
+		parser.getWords().clear();
+		parser.getSoundexCodes().clear();
 	}
 }
