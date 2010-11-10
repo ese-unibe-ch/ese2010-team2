@@ -19,6 +19,7 @@ public class SearchResult {
 
 	/** The components in the composite */
 	private Question question;
+	private User user;
 	private ArrayList<Answer> answers;
 	private ArrayList<Comment> comments;
 
@@ -31,6 +32,10 @@ public class SearchResult {
 	/** Getters */
 	public Question getQuestion() {
 		return question;
+	}
+
+	public User getOwner() {
+		return question.owner;
 	}
 
 	public int getTotalCount() {

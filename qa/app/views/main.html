@@ -39,9 +39,18 @@
                 </div>
 
                 <div id="search">
-                    <form action="@{Application.Search()}" method="GET">
-                        <input size="15" type="text" name="text" value="${text}"><input type="submit" value="Search" />
-                    </form>
+
+<form action="@{Application.Search()}" method="GET">
+	<form method="post" >
+		<select name="menu">
+		<option value="similarQuestion">Find Question</option>
+		<option value="similarUser">Find User</option>
+		<input size="15" type="text" name="text" value="${text}">
+		<input type="submit" value="Search" />
+	</form>
+</form>
+
+
                 </div>
 
                 #{if session.uid}

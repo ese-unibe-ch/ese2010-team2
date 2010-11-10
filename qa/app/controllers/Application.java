@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import models.Answer;
 import models.DbManager;
@@ -95,17 +97,17 @@ public class Application extends Controller {
 		Question question = manager.getQuestionById(intId);
 
 		// Search similar questions
-		SearchManager searchManager = new SearchManager(question
-				.getTagsString()
-				+ " " + question.getContent());
+		SearchManager searchManager = new SearchManager(
+				question.getTagsString() + " " + question.getContent());
 		ArrayList<Post> similar = new ArrayList<Post>();
-		if(!searchManager.getResults().isEmpty())
+		if (!searchManager.getResults().isEmpty())
 			similar.add(searchManager.getResults().get(0).getQuestion());
-		
+
 		// Fill the list of similar questions with different search results.
-		int i=0;
-		while(i<searchManager.getResults().size() && similar.size()<3){
-			if(!similar.contains(searchManager.getResults().get(i).getQuestion()))
+		int i = 0;
+		while (i < searchManager.getResults().size() && similar.size() < 3) {
+			if (!similar.contains(searchManager.getResults().get(i)
+					.getQuestion()))
 				similar.add(searchManager.getResults().get(i).getQuestion());
 			i++;
 		}
@@ -374,11 +376,14 @@ public class Application extends Controller {
 	}
 
 	/** Renders Search Results */
-	public static void search(String text) {
+	public static void search(String text, String menu) {
 		// When site is first time loaded
 		if (text == null) {
 			render();
 		}
+		Boolean isQuestion = menu.equals("similarQuestion");
+		Boolean isUser = menu.equals("similarUser");
+		User currentUser = manager.getUserByName(session.get("username"));
 		// If no query is typed in
 		if (text != null && text.equals("")) {
 			String message = "Nothing to search";
@@ -388,16 +393,29 @@ public class Application extends Controller {
 		if (!text.equals("")) {
 			SearchManager searchManager = new SearchManager(text);
 			ArrayList<SearchResult> results = searchManager.getResults();
+			if (isUser) {
+				// returns list of users without duplicates or user logged into
+				// session
+				ArrayList<SearchResult> newList = new ArrayList();
+				Set set = new HashSet();
+				for (SearchResult result : results) {
+					if (set.add(result.getOwner())
+							&& !result.getOwner().equals(currentUser))
+						newList.add(result);
+				}
+				results.clear();
+				results.addAll(newList);
+			}
 
 			// If query has no results
 			if (results.size() == 0) {
 				String message = "No Results";
 				render(message);
 			} else {
-				render(results);
+				render(results, isQuestion, isUser);
 			}
-
 		}
+
 	}
 
 	/*
