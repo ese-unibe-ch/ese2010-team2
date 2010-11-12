@@ -14,11 +14,11 @@ GET     /                                       Application.index
 GET     /public/                                staticDir:public
 
 # Catch all
-GET					/questions												Application.questions
+GET				   /questions											  DisplayQuestionController.questions
 GET                /showQuestionForm                                	  Admin.showQuestionForm
 GET                /addQuestion   		                            	  Admin.addQuestion
 GET                /showRegister                                    	  Application.showRegister
-GET                /question/{id}/answers/                          	  Application.showAnswers
+GET                /question/{id}/answers/                          	  DisplayQuestionController.showAnswers
 GET                /showState                                       	  Application.showState
 GET                /users                                           	  Admin.showUsers
 GET                /register                                        	  Application.register
@@ -47,7 +47,7 @@ GET                /question/{qid}/vote/down                   			  Admin.voteQu
 GET                /question/{qid}/answers/{aid}/vote               	  Admin.voteAnswer
 GET                /question/{qid}/answer/{aid}/vote/up             	  Admin.voteAnswerUp
 GET                /question/{qid}/answer/{aid}/vote/down           	  Admin.voteAnswerDown
-GET			       /recent												  Application.showRecentQuestionsByNumber
+GET			       /recent												  DisplayQuestionController.showRecentQuestionsByNumber
 GET				   /users/{uname}/log									  Admin.showUserLog
 GET                /notifications                                         Admin.showNotifications
 GET				   /editUserProfile										  Application.editUserProfile

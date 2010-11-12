@@ -185,7 +185,7 @@ public class Admin extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		if (newAnswer.equals("") || newAnswer.equals(" ")) {
 			String message = "Your answer is empty!";
-			Application.showAnswers(qid, newAnswer, message);
+			DisplayQuestionController.showAnswers(qid, newAnswer, message);
 		} else {
 			@SuppressWarnings("unused")
 			Answer answer = new Answer(true, newAnswer, user, manager
