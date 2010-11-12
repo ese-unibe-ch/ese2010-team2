@@ -103,21 +103,7 @@ public class Application extends Controller {
 		ArrayList<Answer> answers = manager.getAnswersSortedByScore(intId);
 		Question question = manager.getQuestionById(intId);
 
-		// Search similar questions
-		SearchManager searchManager = new SearchManager(
-				question.getTagsString() + " " + question.getContent());
-		ArrayList<Post> similar = new ArrayList<Post>();
-		if (!searchManager.getSearchResults().isEmpty())
-			similar.add(searchManager.getSearchResults().get(0).getQuestion());
-
-		// Fill the list of similar questions with different search results.
-		int i = 0;
-		while (i < searchManager.getSearchResults().size() && similar.size() < 3) {
-			if (!similar.contains(searchManager.getSearchResults().get(i)
-					.getQuestion()))
-				similar.add(searchManager.getSearchResults().get(i).getQuestion());
-			i++;
-		}
+		ArrayList<Post> similar = question.similarQuestions();
 
 		if (answers.size() == 0) {
 			String message = new String();

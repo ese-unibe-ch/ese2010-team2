@@ -18,7 +18,7 @@ public class Question extends Post {
 	private Date bestAnswerSetTime;
 
 	/** The tags of this question. */
-	private ArrayList<String> tags= new ArrayList<String>();
+	private ArrayList<String> tags = new ArrayList<String>();
 
 	private Date lastChangedDate;
 
@@ -36,7 +36,7 @@ public class Question extends Post {
 	public Question(Boolean addQuestionToList, String content,
 			User questionOwner) {
 		this.owner = questionOwner;
-		this.editedBy=questionOwner;
+		this.editedBy = questionOwner;
 		this.content = content;
 		this.score = 0;
 
@@ -126,9 +126,9 @@ public class Question extends Post {
 	public void addTags(ArrayList<String> tags) {
 		this.tags.addAll(tags);
 	}
-	
-	public void setTags(String tags){
-		this.tags=new ArrayList<String>();
+
+	public void setTags(String tags) {
+		this.tags = new ArrayList<String>();
 		this.addTags(tags);
 	}
 
@@ -162,6 +162,33 @@ public class Question extends Post {
 		return existingTags;
 	}
 
+	/**
+	 * Searches for questions that have similar tags and similar content and
+	 * returns the top 3.
+	 * 
+	 * @return - An ArrayList with the top 3 similar Questions (as type: Post)
+	 */
+	public ArrayList<Post> similarQuestions() {
+		ArrayList<Post> similar = new ArrayList<Post>();
+		// Search similar questions
+		SearchManager searchManager = new SearchManager(this.getTagsString()
+				+ " " + this.getContent());
+
+		// Fill the list of similar questions with different search results.
+		int i = 0;
+		while (i < searchManager.getSearchResults().size()
+				&& similar.size() < 3) {
+			if (!similar.contains(searchManager.getSearchResults().get(i)
+					.getQuestion())
+					&& !this.equals(searchManager.getSearchResults().get(i)
+							.getQuestion()))
+				similar.add(0, searchManager.getSearchResults().get(i)
+						.getQuestion());
+			i++;
+		}
+		return similar;
+	}
+
 	/** Getters */
 	public String getTagByIndex(int i) {
 		return tags.get(i);
@@ -191,20 +218,20 @@ public class Question extends Post {
 	public ArrayList<Comment> getComments() {
 		return manager.getAllCommentsByQuestionIdSortedByDate(this.getId());
 	}
-	
+
 	/**
 	 * Gets a comment to this question by the id - cid
 	 * 
 	 * @param cid
 	 * @return
 	 */
-	public Comment getCommentbyId(int cid){
-		if(manager.getCommentById(cid).getCommentedPost().equals(this)){
+	public Comment getCommentbyId(int cid) {
+		if (manager.getCommentById(cid).getCommentedPost().equals(this)) {
 			return manager.getCommentById(cid);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Gets all answers which belongs to this question
 	 * 
@@ -221,7 +248,6 @@ public class Question extends Post {
 	public Date getLastChangedDate() {
 		return this.lastChangedDate;
 	}
-
 
 	/**
 	 * Sets date when answer has last changed.
@@ -248,10 +274,10 @@ public class Question extends Post {
 		Question question = new Question(false, this.content, this.owner);
 		question.addTags(this.getTags());
 		question.setEditor(this.getEditor().getName());
-		
+
 		this.oldVersions.add(0, question);
 		super.setContent(content, uname);
-		this.setTags(""+tags);
+		this.setTags("" + tags);
 		manager.getUserByName(uname).addActivity(
 				"Edited Question " + this.id + " by writing: <" + content
 						+ ">.");
