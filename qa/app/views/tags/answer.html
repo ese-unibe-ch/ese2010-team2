@@ -1,5 +1,5 @@
 <div "answerbox">
-	#{if !_answer.ownerIs(session.uid)}
+	#{if !_answer.ownerIs(session.uid) && _answer.isVoteable}
 	#{votebox post:_answer, mode:'answer', question:_question /}
 	#{/if}
 

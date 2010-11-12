@@ -103,7 +103,8 @@ public class Application extends Controller {
 		ArrayList<Answer> answers = manager.getAnswersSortedByScore(intId);
 		Question question = manager.getQuestionById(intId);
 
-		ArrayList<Post> similar = question.similarQuestions();
+		ArrayList<Post> similar = new ArrayList<Post>();
+		similar.addAll(question.similarQuestions());
 
 		if (answers.size() == 0) {
 			String message = new String();

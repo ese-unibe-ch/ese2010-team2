@@ -22,6 +22,8 @@ public abstract class Post {
 	protected int score = 0;
 	protected ArrayList<Post> oldVersions= new ArrayList<Post>();
 	public User editedBy;
+	// Posts in the history can't be voted any longer, therefore set isVoteable 'false'.
+	protected boolean isVoteable=true;
  
 	protected static MarkdownProcessor markdownProcessor = new MarkdownProcessor();
 	protected static DbManager manager = DbManager.getInstance();

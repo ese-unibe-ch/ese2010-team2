@@ -132,7 +132,7 @@ public class Answer extends Post {
 				.getQuestionById(this.questionId));
 		if(this.getEditor()!=null)
 			answer.setEditor(this.getEditor().getName());
-		
+		answer.isVoteable=false;
 		this.oldVersions.add(0, answer);
 		this.setEditor(uname);
 		super.setContent(content, uname);

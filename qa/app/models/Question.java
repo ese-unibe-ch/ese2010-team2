@@ -274,6 +274,7 @@ public class Question extends Post {
 		Question question = new Question(false, this.content, this.owner);
 		question.addTags(this.getTags());
 		question.setEditor(this.getEditor().getName());
+		question.isVoteable=false;
 
 		this.oldVersions.add(0, question);
 		super.setContent(content, uname);
