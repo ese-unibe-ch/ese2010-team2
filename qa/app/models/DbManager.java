@@ -120,33 +120,36 @@ public class DbManager {
 		users.remove(deleteUser);
 
 		// Delete all questions a user added
-		for (Question q : DbManager.questions) {
-			if (!q.getOwner().equals(deleteUser))
-				updatedQuestions.add(q);
+		int i = 0;
+		while (i < DbManager.questions.size()) {
+			if (questions.get(i).getOwner().equals(deleteUser))
+				deleteQuestion(questions.get(i));
+			else
+				i++;
 		}
 
 		// Anonymize all questions a user edited
-		for (Question p : updatedQuestions) {
-			if(p.getEditor()!=p.getOwner() || p.getEditor().equals(deleteUser))
+		for (Question p : DbManager.questions) {
+			if (p.getEditor() != p.getOwner()
+					|| p.getEditor().equals(deleteUser))
 				p.setEditor("anonymous");
 		}
-		DbManager.questions.clear();
-		DbManager.questions.addAll(updatedQuestions);
 
 		// Delete all answers a user added
-		for (Answer a : DbManager.answers) {
-			if (!a.getOwner().equals(deleteUser))
-				updatedAnswers.add(a);
+		i = 0;
+		while (i < DbManager.answers.size()) {
+			if (answers.get(i).getOwner().equals(deleteUser))
+				deleteAnswer(answers.get(i));
+			else
+				i++;
 		}
 
 		// Anonymize all answers a user edited
-		for (Post p : updatedAnswers) {
-			if(p.getEditor()!=p.getOwner()|| p.getEditor().equals(deleteUser))
+		for (Post p : DbManager.answers) {
+			if (p.getEditor() != p.getOwner()
+					&& p.getEditor().equals(deleteUser))
 				p.setEditor("anonymous");
 		}
-
-		DbManager.answers.clear();
-		DbManager.answers.addAll(updatedAnswers);
 
 		// Delete all comments a user added
 		for (Comment c : DbManager.comments) {
@@ -192,21 +195,20 @@ public class DbManager {
 	 * @param question
 	 */
 	public void deleteQuestion(Question question) {
-		for(int i=0; i<=question.getComments().size()-1;i++){
-			if(question.getComments().contains(this.comments.get(i))){
+		for (int i = 0; i <= question.getComments().size() - 1; i++) {
+			if (question.getComments().contains(this.comments.get(i))) {
 				this.comments.remove(this.comments.get(i));
 			}
 		}
 
-		for(Answer a : this.answers){
-			if(question.getAnswers().contains(a)){
-				for(int i=0; i<=a.getComments().size()-1;i++){
+		for (Answer a : this.answers) {
+			if (question.getAnswers().contains(a)) {
+				for (int i = 0; i <= a.getComments().size() - 1; i++) {
 					this.comments.remove(i);
 				}
 			}
 		}
-		
-		
+
 		for (Answer a : question.getAnswers()) {
 			deleteAnswer(a);
 		}
@@ -219,11 +221,11 @@ public class DbManager {
 	 * @param answer
 	 */
 	public void deleteAnswer(Answer answer) {
-		for(int i=0; i<=comments.size()-1; i++){
+		for (int i = 0; i <= comments.size() - 1; i++) {
 			if (this.getAllCommentsByAnswerIdSortedByDate(answer.getId())
 					.contains(comments.get(i)))
 				this.comments.remove(comments.get(i));
-			}
+		}
 
 		DbManager.answers.remove(answer);
 	}
