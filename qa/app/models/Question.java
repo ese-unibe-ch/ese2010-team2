@@ -61,7 +61,6 @@ public class Question extends Post {
 		new Question(true, content, questionOwner);
 	}
 
-
 	/**
 	 * Checks if an answer has been selected as the best answer.
 	 * 
@@ -98,6 +97,8 @@ public class Question extends Post {
 		String delimiter = "[ ]+";
 		tags = tags.toLowerCase();
 		for (String newTag : tags.split(delimiter)) {
+			// Leerzeichen entfernen
+			newTag.replace(" ", "");
 			if (!this.tags.contains(newTag))
 				this.tags.add(newTag);
 			if (!manager.getTagList().contains(newTag.toLowerCase()))
@@ -106,7 +107,7 @@ public class Question extends Post {
 	}
 
 	/**
-	 * Adds all tags in the ArrayList to the questino and also adds new Tags to
+	 * Adds all tags in the ArrayList to the question and also adds new Tags to
 	 * the tag-List in the manager.
 	 * 
 	 * @param tags
@@ -115,7 +116,6 @@ public class Question extends Post {
 	public void addTags(ArrayList<String> tags) {
 		this.tags.addAll(tags);
 	}
-
 
 	/**
 	 * Checks whether some tags from the parameter 'tags' are similar to some
@@ -173,7 +173,7 @@ public class Question extends Post {
 		}
 		return similar;
 	}
-	
+
 	/**
 	 * Edits a question and adds the actual contents and tags to the list of
 	 * older versions.
@@ -190,27 +190,24 @@ public class Question extends Post {
 		question.addTags(this.getTags());
 		question.setEditor(this.getEditor().getName());
 		question.isVoteable = false;
-		
+
 		this.oldVersions.add(0, question);
 		super.setContent(content, uname);
 		this.setTags("" + tags);
 		manager.getUserByName(uname).addActivity(
 				"Edited Question " + this.id + " by writing: <" + content
-				+ ">.");
+						+ ">.");
 		this.setLastChanged(getDate());
 	}
-	
+
 	public void restoreOldVersion(String oldContent, String oldTags,
 			String uname) {
-			addVersion(oldContent, oldTags, uname);
-			}
+		addVersion(oldContent, oldTags, uname);
+	}
 
-
-	
 	public void notifyChange() {
 		this.getOwner().notifyChange("Your question was answered", this);
 	}
-
 
 	/** Getters */
 	public String getTagByIndex(int i) {
@@ -271,7 +268,7 @@ public class Question extends Post {
 	public Date getLastChangedDate() {
 		return this.lastChangedDate;
 	}
-	
+
 	/** Setters */
 
 	/**
@@ -306,7 +303,7 @@ public class Question extends Post {
 			if (hasBestAnswer()) {
 				bestAnswer.markAsBestAnswer(false);
 			}
-			
+
 			answer.markAsBestAnswer(true);
 			bestAnswerSetTime = new Date();
 			bestAnswer = answer;

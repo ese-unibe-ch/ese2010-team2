@@ -21,7 +21,7 @@ public abstract class Post {
 	protected User owner;
 	protected int score = 0;
 	protected ArrayList<Post> oldVersions= new ArrayList<Post>();
-	public User editedBy;
+	protected User editedBy;
 	// Posts in the history can't be voted any longer, therefore set isVoteable 'false'.
 	protected boolean isVoteable=true;
  
