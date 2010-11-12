@@ -414,18 +414,6 @@ public class Application extends Controller {
 
 	}
 
-	/*
-	 * 
-	 * // TODO: Übergabe der Werte aus radio check boxes & speichern dieser. /*
-	 * public static void editUserGroup(User user, String group) { UserGroups
-	 * ugroup; if (group == null) { String message = "Group is null";
-	 * render(message); } else { if (group.equals("admin")) ugroup =
-	 * UserGroups.admin; else { if (group.equals("moderator")) ugroup =
-	 * UserGroups.moderator; else { if (group.equals("user")) ugroup =
-	 * UserGroups.user; else throw new NoSuchElementException(); } }
-	 * user.setGroup(ugroup); } // manager.getUsers().get // .setGroup(ugroup);
-	 * }
-	 */
 	public static void showVersionHistory(String type, String id) {
 		Post post;
 		int intId = Integer.parseInt(id);

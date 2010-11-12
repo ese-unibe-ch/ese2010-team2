@@ -81,18 +81,6 @@ public class Admin extends Controller {
 	 */
 	public static void editQuestion(int qid, String newContentQuestion,
 			String newContentTag) {
-		// --> Bitte noch nicht löschen, evtl. steht hier noch Refactoring an!
-		// String checked = checkQuestion(newContentQuestion, newContentTag);
-		// if (!checked.isEmpty())
-		// showEditQuestionForm(qid, newContentQuestion, newContentTag,
-		// checked);
-		// else {
-		// manager.getQuestionById(qid).addVersion(newContentQuestion,
-		// newContentTag, session.get("username"));
-		// redirect("/question/" + qid + "/answers/");
-		// }
-		// Store the overgiven tags in another object to prevent information
-		// loss due to splitting the tag list.
 		String copyTags = "" + newContentTag;
 
 		User user = manager.getUserByName(session.get("username"));
@@ -105,11 +93,6 @@ public class Admin extends Controller {
 					+ ". Please review your tags.";
 			showEditQuestionForm(qid, newContentQuestion, newContentTag, message);
 		}
-		// if (!checkQuestion(newQuestion, copyTags).isEmpty()) {
-		// showQuestionForm(newQuestion, tags, checkQuestion(newQuestion,
-		// copyTags));
-		//			
-		// }
 		else {
 			manager.getQuestionById(qid).addVersion(newContentQuestion,
 					newContentTag, session.get("username"));
@@ -188,12 +171,6 @@ public class Admin extends Controller {
 					+ ". Please review your tags.";
 			showQuestionForm(newQuestion, tags, message);
 		}
-		// --> Bitte nicht löschen, evtl. Refactoring.
-		// if (!checkQuestion(newQuestion, copyTags).isEmpty()) {
-		// showQuestionForm(newQuestion, tags, checkQuestion(newQuestion,
-		// copyTags));
-		//			
-		// }
 		else {
 			@SuppressWarnings("unused")
 			Question question = new Question(true, newQuestion, user);
@@ -202,23 +179,6 @@ public class Admin extends Controller {
 		}
 	}
 
-	// --> Bitte noch nicht löschen, evtl. Refactoring.
-	//	private static String checkQuestion(String newQuestion, String tags) {
-	// // Store the overgiven tags in another object to prevent information
-	// // loss due to splitting the tag list.
-	// String copyTags = "" + tags;
-	// String message = "";
-	//
-	// if (newQuestion.equals("") || newQuestion.equals(" ")) {
-	// message = "Your question is empty!\n";
-	// }
-	// if (!Question.checkTags(copyTags).isEmpty()) {
-	// message = "The following tags already exist: "
-	// + Question.checkTags(copyTags)
-	// + ". Please review your tags.\n";
-	// }
-	// return message;
-	// }
 
 	public static void addAnswer(String qid, String newAnswer) {
 		int intId = Integer.parseInt(qid);
@@ -226,7 +186,6 @@ public class Admin extends Controller {
 		if (newAnswer.equals("") || newAnswer.equals(" ")) {
 			String message = "Your answer is empty!";
 			Application.showAnswers(qid, newAnswer, message);
-			// render(message, qid);
 		} else {
 			@SuppressWarnings("unused")
 			Answer answer = new Answer(true, newAnswer, user, manager
@@ -269,7 +228,6 @@ public class Admin extends Controller {
 	}
 
 	public static void voteQuestion(int qid, int vote) {
-		// int id = Integer.parseInt(qid);
 		Question question = manager.getQuestionById(qid);
 		User user = manager.getUserByName(session.get("username"));
 		user.addvotedQuestion(question);
@@ -309,7 +267,6 @@ public class Admin extends Controller {
 	}
 
 	public static void voteAnswer(int qid, int aid, int vote) {
-		// int id = Integer.parseInt(qid);
 		Answer answer = manager.getAnswerById(aid);
 		User user = manager.getUserByName(session.get("username"));
 		user.addvotedAnswer(answer);
@@ -426,7 +383,7 @@ public class Admin extends Controller {
 	public static void restoreAnswer(int actualId, String oldContent) {
 		String uname = session.get("username");
 		Answer actualAnswer = manager.getAnswerById(actualId);
-		actualAnswer.restoreOldVersion(oldContent, uname);
+		actualAnswer.addVersion(oldContent, uname);
 		redirect("/answer/" + actualAnswer.getId() + "/history");
 	}
 

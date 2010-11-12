@@ -31,7 +31,7 @@ public class Answer extends Post {
 		this.questionId = question.getId();
 		this.content = content;
 		this.owner = user;
-		this.editedBy=user;
+		this.editedBy = user;
 		isBestAnswer = false;
 		date = new Date();
 		question.setLastChangedDate(new Date());
@@ -113,26 +113,36 @@ public class Answer extends Post {
 	public ArrayList<Comment> getComments() {
 		return manager.getAllCommentsByAnswerIdSortedByDate(this.getId());
 	}
-	
+
 	/**
 	 * Gets a comment to this answer by the id - cid
 	 * 
 	 * @param cid
-	 * @return
+	 *            - The id of the comment.
+	 * @return - The comment to this answer with the id 'cid'.
 	 */
-	public Comment getCommentbyId(int cid){
-		if(manager.getCommentById(cid).getCommentedPost().equals(this)){
+	public Comment getCommentbyId(int cid) {
+		if (manager.getCommentById(cid).getCommentedPost().equals(this)) {
 			return manager.getCommentById(cid);
 		}
 		return null;
 	}
 
+	/**
+	 * Adds a new version to the question and moves the current version to the
+	 * history.
+	 * 
+	 * @param content
+	 *            - The content of the new version.
+	 * @param uname
+	 *            - The name of the user who adds the version.
+	 */
 	public void addVersion(String content, String uname) {
 		Answer answer = new Answer(false, this.content, this.owner, manager
 				.getQuestionById(this.questionId));
-		if(this.getEditor()!=null)
+		if (this.getEditor() != null)
 			answer.setEditor(this.getEditor().getName());
-		answer.isVoteable=false;
+		answer.isVoteable = false;
 		this.oldVersions.add(0, answer);
 		this.setEditor(uname);
 		super.setContent(content, uname);

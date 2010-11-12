@@ -190,7 +190,7 @@ public class DbManager {
 	}
 
 	/**
-	 * Deletes a certain question and all his answers
+	 * Deletes a certain question and all its answers
 	 * 
 	 * @param question
 	 */

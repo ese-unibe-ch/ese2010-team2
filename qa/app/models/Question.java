@@ -61,23 +61,6 @@ public class Question extends Post {
 		new Question(true, content, questionOwner);
 	}
 
-	/**
-	 * Set an answer as the best answer to this question.
-	 * 
-	 * @param answer
-	 *            - the answer that is best answering this question.
-	 */
-	public void setBestAnswer(Answer answer) {
-		if (bestAnswerChangeable() && answer.belongsToQuestion(id)) {
-			if (hasBestAnswer()) {
-				bestAnswer.markAsBestAnswer(false);
-			}
-
-			answer.markAsBestAnswer(true);
-			bestAnswerSetTime = new Date();
-			bestAnswer = answer;
-		}
-	}
 
 	/**
 	 * Checks if an answer has been selected as the best answer.
@@ -122,15 +105,17 @@ public class Question extends Post {
 		}
 	}
 
-	@Unused
+	/**
+	 * Adds all tags in the ArrayList to the questino and also adds new Tags to
+	 * the tag-List in the manager.
+	 * 
+	 * @param tags
+	 *            - An ArrayList of Strings containing individual tags.
+	 */
 	public void addTags(ArrayList<String> tags) {
 		this.tags.addAll(tags);
 	}
 
-	public void setTags(String tags) {
-		this.tags = new ArrayList<String>();
-		this.addTags(tags);
-	}
 
 	/**
 	 * Checks whether some tags from the parameter 'tags' are similar to some
@@ -188,6 +173,44 @@ public class Question extends Post {
 		}
 		return similar;
 	}
+	
+	/**
+	 * Edits a question and adds the actual contents and tags to the list of
+	 * older versions.
+	 * 
+	 * @param content
+	 *            - the new content of the question
+	 * @param tags
+	 *            - the new tags
+	 * @param uname
+	 *            - the name of the user who adds the new version.
+	 */
+	public void addVersion(String content, String tags, String uname) {
+		Question question = new Question(false, this.content, this.owner);
+		question.addTags(this.getTags());
+		question.setEditor(this.getEditor().getName());
+		question.isVoteable = false;
+		
+		this.oldVersions.add(0, question);
+		super.setContent(content, uname);
+		this.setTags("" + tags);
+		manager.getUserByName(uname).addActivity(
+				"Edited Question " + this.id + " by writing: <" + content
+				+ ">.");
+		this.setLastChanged(getDate());
+	}
+	
+	public void restoreOldVersion(String oldContent, String oldTags,
+			String uname) {
+			addVersion(oldContent, oldTags, uname);
+			}
+
+
+	
+	public void notifyChange() {
+		this.getOwner().notifyChange("Your question was answered", this);
+	}
+
 
 	/** Getters */
 	public String getTagByIndex(int i) {
@@ -248,6 +271,8 @@ public class Question extends Post {
 	public Date getLastChangedDate() {
 		return this.lastChangedDate;
 	}
+	
+	/** Setters */
 
 	/**
 	 * Sets date when answer has last changed.
@@ -260,38 +285,31 @@ public class Question extends Post {
 	}
 
 	/**
-	 * Edits a question and adds the actual contents and tags to the list of
-	 * older versions.
+	 * Deletes all previous tags and adds the ones in the String 'tags'.
 	 * 
-	 * @param content
-	 *            - the new content of the question
 	 * @param tags
-	 *            - the new tags
-	 * @param uname
-	 *            - the name of the user who adds the new version.
+	 *            - A String object containing the tags to be set.
 	 */
-	public void addVersion(String content, String tags, String uname) {
-		Question question = new Question(false, this.content, this.owner);
-		question.addTags(this.getTags());
-		question.setEditor(this.getEditor().getName());
-		question.isVoteable=false;
-
-		this.oldVersions.add(0, question);
-		super.setContent(content, uname);
-		this.setTags("" + tags);
-		manager.getUserByName(uname).addActivity(
-				"Edited Question " + this.id + " by writing: <" + content
-						+ ">.");
-		this.setLastChanged(getDate());
+	public void setTags(String tags) {
+		this.tags = new ArrayList<String>();
+		this.addTags(tags);
 	}
 
-	public void restoreOldVersion(String oldContent, String oldTags,
-			String uname) {
-		addVersion(oldContent, oldTags, uname);
+	/**
+	 * Set an answer as the best answer to this question.
+	 * 
+	 * @param answer
+	 *            - the answer that is best answering this question.
+	 */
+	public void setBestAnswer(Answer answer) {
+		if (bestAnswerChangeable() && answer.belongsToQuestion(id)) {
+			if (hasBestAnswer()) {
+				bestAnswer.markAsBestAnswer(false);
+			}
+			
+			answer.markAsBestAnswer(true);
+			bestAnswerSetTime = new Date();
+			bestAnswer = answer;
+		}
 	}
-
-	public void notifyChange() {
-		this.getOwner().notifyChange("Your question was answered", this);
-	}
-
 }

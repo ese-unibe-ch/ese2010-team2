@@ -228,6 +228,7 @@ public abstract class Post {
 		return user.getVotedAnswer(answer).getcurrentVote();
 	}
 
+	/** Getters */
 	public String getContent() {
 		return this.content;
 	}
