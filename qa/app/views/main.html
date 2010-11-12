@@ -33,7 +33,7 @@
                         <a href="@{Secure.logout()}">logout</a>
                     #{/if}
                     #{else}
-                        <a href="@{Application.showRegister()}">register</a> |
+                        <a href="@{UserController.showRegister()}">register</a> |
                         <a href="@{Secure.login()}">login</a>
                     #{/else}
                 </div>
@@ -58,7 +58,7 @@
                     <ul>
                     <li><a href="@{Admin.showQuestionForm()}">add question</a></li>
                     <li><a href="@{DisplayQuestionController.showRecentQuestionsByNumber()}">recent questions</a></li>
-                    <li><a href="@{Application.showUser(session.get('username'))}">my profile</a></li>
+                    <li><a href="@{UserController.showUser(session.get('username'))}">my profile</a></li>
                     <li><a href="@{Application.showState()}">statistics</a></li>
                     #{if isChanged}
                     <li><a href="@{Admin.showNotifications()}">something happend</a></li>

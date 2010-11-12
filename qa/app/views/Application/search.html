@@ -21,7 +21,7 @@
 #{/if}
 #{if isUser}
 	<p>#{avatar user:searchresult.getOwner() /}
-	<a href="@{Application.showUser(searchresult.getOwner())}">${searchresult.getOwner()}</a></p>
+	<a href="@{UserController.showUser(searchresult.getOwner())}">${searchresult.getOwner()}</a></p>
 #{/if}
 #{/list}
 #{/if}

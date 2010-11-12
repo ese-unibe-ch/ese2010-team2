@@ -1,0 +1,149 @@
+#{extends 'main.html' /}
+#{set title:'ESE KB - Home' /}
+
+<h2>${profileOwner.getName()}</h2>
+#{avatar user:profileOwner /}
+
+#{if session.get("username") == profileOwner.getName()}
+	<fieldset>
+		<a href="@{UserController.showUserProfile()}">edit Profile</a>
+	</fieldset>
+#{/if}
+#{if isAdmin}
+	#{if session.get("username") != profileOwner.getName()}
+		<fieldset>
+			<a href="@{Application.showAdminUserProfile(profileOwner.getName())}">edit Information</a>
+		</fieldset>
+		#{/if}
+#{/if}
+
+<fieldset>
+	About me<hr/>
+	Birthdate: ${profileOwner.getBirthdate()}<br>
+	Moto: ${profileOwner.getMoto()}<br>
+	Background: ${profileOwner.getBackground()}<br>
+	Hobbies: ${profileOwner.getHobbies()}<br>
+	Quote: ${profileOwner.getQuote()}<br>
+</fieldset>
+
+<fieldset>
+	Contact Information<hr/>
+	Town: ${profileOwner.getTown()}<br>
+	Street: ${profileOwner.getStreet()}<br>
+	Phone: ${profileOwner.getPhone()}<br>
+	E-Mail: ${profileOwner.getEmail()}<br>
+</fieldset>
+
+Current Reputation: ${profileOwner.getScore()}<br>
+<img src="http://chart.apis.google.com/chart
+	?chxt=y
+	&chbh=a
+	&chs=700x225
+	&cht=bvg
+	&chco=000000
+	&chd=t:${reputations.get(29)},
+			${reputations.get(28)},
+			${reputations.get(27)},
+			${reputations.get(26)},
+			${reputations.get(25)},
+			${reputations.get(24)},
+			${reputations.get(23)},
+			${reputations.get(22)},
+			${reputations.get(21)},
+			${reputations.get(20)},
+			${reputations.get(19)},
+			${reputations.get(18)},
+			${reputations.get(17)},
+			${reputations.get(16)},
+			${reputations.get(15)},
+			${reputations.get(14)},
+			${reputations.get(13)},
+			${reputations.get(12)},
+			${reputations.get(11)},
+			${reputations.get(10)},
+			${reputations.get(9)},
+			${reputations.get(8)},
+			${reputations.get(7)},
+			${reputations.get(6)},
+			${reputations.get(5)},
+			${reputations.get(4)},
+			${reputations.get(3)},
+			${reputations.get(2)},
+			${reputations.get(1)},
+			${reputations.get(0)}
+	&chtt=Reputation+over+Time" 
+	width="700" height="225" 
+	alt="Reputation over Time" />
+	
+	#{if userQuestions}
+		<fieldset>
+			<a id="da1" style="display:inline" href="javascript:show1()">Show my questions</a><a id="nd1" style="display:none" href="javascript:weg1()">My questions (close)</a>
+			<div id="ve1" style="display:none"><br>
+				<hr/>
+				#{list items:userQuestions, as:'question'}
+					#{short_post post:question /}
+				#{/list}
+			</div>&nbsp;
+		</fieldset>
+	#{/if}
+	
+	#{if userAnswers}
+		<fieldset>
+			<a id="da2" style="display:inline" href="javascript:show2()">Show my answers</a><a id="nd2" style="display:none" href="javascript:weg2()">My answers (close)</a>
+			<div id="ve2" style="display:none"><br>
+				<hr/>
+				#{list items:userAnswers, as:'answer'}
+					#{short_answer post:answer /}
+				#{/list}
+			</div>&nbsp;
+		</fieldset>
+	#{/if}
+		
+	#{if userLog}
+		<fieldset>
+			<a id="da3" style="display:inline" href="javascript:show3()">Show my activities</a><a id="nd3" style="display:none" href="javascript:weg3()">My activities (close)</a>
+			<div id="ve3" style="display:none"><br>
+				<hr/>
+				#{list items:userLog, as:'log'}
+					#{log_entry post:log /}
+				#{/list}
+			</div>&nbsp;
+		</fieldset>
+	#{/if}
+		
+		
+	<script language="JavaScript" type="text/javascript">
+		function show1() {
+			if(document.getElementById) document.getElementById("ve1").style.display = "inline";
+			if(document.getElementById) document.getElementById("da1").style.display = "none";
+			if(document.getElementById) document.getElementById("nd1").style.display = "inline";   
+		}
+	
+		function weg1() {
+			if(document.getElementById) document.getElementById("ve1").style.display = "none";
+			if(document.getElementById) document.getElementById("da1").style.display = "inline";
+			if(document.getElementById) document.getElementById("nd1").style.display = "none";
+		}
+		function show2() {
+			if(document.getElementById) document.getElementById("ve2").style.display = "inline";
+			if(document.getElementById) document.getElementById("da2").style.display = "none";
+			if(document.getElementById) document.getElementById("nd2").style.display = "inline";   
+		}
+
+		function weg2() {
+			if(document.getElementById) document.getElementById("ve2").style.display = "none";
+			if(document.getElementById) document.getElementById("da2").style.display = "inline";
+			if(document.getElementById) document.getElementById("nd2").style.display = "none";
+		}
+		function show3() {
+			if(document.getElementById) document.getElementById("ve3").style.display = "inline";
+			if(document.getElementById) document.getElementById("da3").style.display = "none";
+			if(document.getElementById) document.getElementById("nd3").style.display = "inline";   
+		}
+
+		function weg3() {
+			if(document.getElementById) document.getElementById("ve3").style.display = "none";
+			if(document.getElementById) document.getElementById("da3").style.display = "inline";
+			if(document.getElementById) document.getElementById("nd3").style.display = "none";
+		}
+	</script>
