@@ -31,7 +31,7 @@ GET                /question/{qid}/edit_commentForm			  		  	  Admin.showEditAns
 GET                /question/{qid}/answer/{aid}/edit_AnswerComment/{cid}  Admin.editAnswerComment
 GET                /question/{qid}/editQuestion                     	  Admin.editQuestion
 GET                /question/{qid}/editAnswer/{answerId}            	  Admin.editAnswer
-GET                /question/{qid}/setbestanswer/{aid}              	  Application.setBestAnswer
+GET                /question/{qid}/setbestanswer/{aid}              	  DisplayAnswerController.setBestAnswer
 GET                /question/{qid}/addAnswer	                   		  Admin.showAnswerForm
 GET                /question/{qid}/edit_question                    	  Admin.showEditQuestionForm
 GET                /question/{qid}/comment_question                 	  Admin.showQuestionCommentForm

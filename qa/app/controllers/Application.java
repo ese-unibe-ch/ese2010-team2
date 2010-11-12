@@ -92,20 +92,6 @@ public class Application extends Controller {
 		render(message, name, password, password2, email);
 	}
 
-	/**
-	 * 
-	 * @param qid
-	 * @param aid
-	 */
-	public static void setBestAnswer(int qid, int aid) {
-		Question q = manager.getQuestionById(qid);
-		Answer a = manager.getAnswerById(aid);
-
-		q.setBestAnswer(a);
-
-		DisplayQuestionController.showAnswers(Integer.toString(qid), "", "");
-	}
-
 	/** renders the current user profile */
 	public static void showUserProfile(String message) {
 		ArrayList<User> currentUser = new ArrayList<User>();
