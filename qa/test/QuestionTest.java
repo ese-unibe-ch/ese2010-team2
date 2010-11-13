@@ -55,13 +55,13 @@ public class QuestionTest extends UnitTest {
 	@Test
 	public void shouldAddTags() {
 		// Before checking size before adding 4 tags
-		assertEquals(4, DbManager.getTagList().size());
+		assertEquals(0, DbManager.getTagList().size());
 
 		question.addTags("hello world planet earth");
 		assertEquals(4, question.getTags().size());
 
 		// Size after adding 4 tags should now incremented by 4
-		assertEquals(8, DbManager.getTagList().size());
+		assertEquals(4, DbManager.getTagList().size());
 
 		assertTrue(question.getTags().contains("hello"));
 		assertTrue(question.getTags().contains("world"));
@@ -92,7 +92,7 @@ public class QuestionTest extends UnitTest {
 
 	@Test
 	public void shouldAddVersionAndRestore(){
-		Question q= new Question("question", admin);
+		Question q = new Question(true, "question", admin);
 		q.addVersion("hallo velo", "hallo velo", "admin");
 		assertEquals(1, q.getOldVersions().size());
 		q.restoreOldVersion("question", "hallo velo", "admin");
@@ -109,6 +109,8 @@ public class QuestionTest extends UnitTest {
 		manager.getQuestions().clear();
 		manager.getAnswers().clear();
 		manager.resetAllIdCounts();
+		manager.getComments().clear();
+		manager.getTagList().clear();
 	}
 
 }

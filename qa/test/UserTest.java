@@ -96,7 +96,8 @@ public class UserTest extends UnitTest {
 		manager.getUsers().clear();
 		manager.getQuestions().clear();
 		manager.getAnswers().clear();
-		manager.getTagList().clear();
 		manager.resetAllIdCounts();
+		manager.getComments().clear();
+		manager.getTagList().clear();
 	}
 }

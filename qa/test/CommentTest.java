@@ -1,8 +1,11 @@
-import models.*;
+import models.Answer;
+import models.Comment;
+import models.DbManager;
+import models.Question;
+import models.User;
 
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import play.test.UnitTest;
@@ -48,6 +51,7 @@ public class CommentTest extends UnitTest {
 		manager.getAnswers().clear();
 		manager.resetAllIdCounts();
 		manager.getComments().clear();
+		manager.getTagList().clear();
 	}
 
 }

@@ -9,7 +9,6 @@ import models.Post;
 import models.Question;
 import models.User;
 
-import org.hibernate.hql.ast.tree.ExpectedTypeAwareNode;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -34,7 +33,7 @@ public class DbManagerTest extends UnitTest {
 		Comment comment1 = new Comment(admin, Question1, "hallo1");
 		Comment comment2 = new Comment(admin, Question1, "hallo2");
 		Comment comment3 = new Comment(admin, answer1, "hallo3");
-		assertTrue(manager.getComments().size()==3);
+		assertEquals(3, manager.getComments().size());
 		assertEquals(comment1, manager.getCommentById(comment1.getId()));
 		assertEquals(comment3, manager.getCommentById(comment3.getId()));
 		assert(manager.getCommentById(comment2.getId()).getContent()=="hallo2");
@@ -479,13 +478,8 @@ public class DbManagerTest extends UnitTest {
     	manager.deleteUser("u2");
     	
     	assertTrue(q.getEditor().equals(manager.getUserByName("admin")));
-//    	assertTrue(q.getEditors().contains(admin));
-//    	assertFalse(q.getEditors().contains(manager.getUserByName("u2")));
-//    	assertTrue(q.getEditors().contains(manager.getUserByName("anonymous")));
     	
     	assertTrue(a.getEditor().equals(manager.getUserByName("anonymous")));
-//    	assertFalse(a.getEditors().contains(manager.getUserByName("u2")));
-//    	assertTrue(a.getEditors().contains(manager.getUserByName("anonymous")));
     }
 
 
@@ -494,8 +488,8 @@ public class DbManagerTest extends UnitTest {
 		manager.getUsers().clear();
 		manager.getQuestions().clear();
 		manager.getAnswers().clear();
+		manager.resetAllIdCounts();
 		manager.getComments().clear();
 		manager.getTagList().clear();
-		manager.resetAllIdCounts();
 	}
 }

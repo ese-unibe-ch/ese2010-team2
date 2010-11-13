@@ -58,6 +58,8 @@ public class AnswerTest extends UnitTest {
 		manager.getQuestions().clear();
 		manager.getAnswers().clear();
 		manager.resetAllIdCounts();
+		manager.getComments().clear();
+		manager.getTagList().clear();
 	}
 
 }

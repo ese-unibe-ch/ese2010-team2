@@ -93,8 +93,12 @@ public class SearchResultSorterTest extends UnitTest {
 
 	@AfterClass
 	public static void tearDown() {
-		// Needed that QuestionTest doesn't fail.
-		manager.getTagList().remove(4);
+		manager.getUsers().clear();
+		manager.getQuestions().clear();
+		manager.getAnswers().clear();
+		manager.resetAllIdCounts();
+		manager.getComments().clear();
+		manager.getTagList().clear();
 	}
 }
 
