@@ -12,7 +12,7 @@
 #{if isAdmin}
 	#{if session.get("username") != profileOwner.getName()}
 		<fieldset>
-			<a href="@{Application.showAdminUserProfile(profileOwner.getName())}">edit Information</a>
+			<a href="@{Admin.showAdminUserProfile(profileOwner.getName())}">edit Information</a>
 		</fieldset>
 		#{/if}
 #{/if}

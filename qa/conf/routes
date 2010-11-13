@@ -49,11 +49,11 @@ GET                /question/{qid}/answer/{aid}/vote/up             	  MutateAns
 GET                /question/{qid}/answer/{aid}/vote/down           	  MutateAnswerController.voteAnswerDown
 GET			       /recent												  DisplayQuestionController.showRecentQuestionsByNumber
 GET				   /users/{uname}/log									  ExtendedUserController.showUserLog
-GET                /notifications                                         Admin.showNotifications
+GET                /notifications                                         ExtendedUserController.showNotifications
 GET				   /editUserProfile										  UserController.editUserProfile
 GET				   /showUserProfile										  UserController.showUserProfile
-GET				   /editInformation										  Application.editInformation
-GET				   /showAdminUserProfile								  Application.showAdminUserProfile
+GET				   /editInformation										  Admin.editInformation
+GET				   /showAdminUserProfile								  Admin.showAdminUserProfile
 GET                /showUser/{userName}                                   UserController.showUser
 GET				   /search												  Application.search
 GET				   /editUserGroup										  ExtendedUserController.editUserGroup

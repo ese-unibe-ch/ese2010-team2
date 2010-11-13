@@ -40,7 +40,7 @@
 		</td>
 		<td>
 		#{if user.getName() != "admin"}
-			<a href="@{Application.showAdminUserProfile(user.getName())}">edit ${user.getName()}</a>
+			<a href="@{Admin.showAdminUserProfile(user.getName())}">edit ${user.getName()}</a>
 			<a href="@{ExtendedUserController.deleteUser(user.getName())}">delete ${user.getName()}</a>
 			
 		#{/if}

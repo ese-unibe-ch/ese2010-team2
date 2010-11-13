@@ -61,7 +61,7 @@
                     <li><a href="@{UserController.showUser(session.get('username'))}">my profile</a></li>
                     <li><a href="@{Application.showState()}">statistics</a></li>
                     #{if isChanged}
-                    <li><a href="@{Admin.showNotifications()}">something happend</a></li>
+                    <li><a href="@{ExtendedUserController.showNotifications()}">something happend</a></li>
                     #{/if}
                     </ul>
                 </div>
