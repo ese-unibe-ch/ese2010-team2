@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,6 +26,9 @@ import play.cache.Cache;
 import play.mvc.Controller;
 import annotations.Unused;
 
+/**
+ * This Controller manages some general actions.
+ */
 public class Application extends Controller {
 
 	private static Calendar calendar = Calendar.getInstance();
@@ -99,24 +103,5 @@ public class Application extends Controller {
 				render(results, isQuestion, isUser);
 			}
 		}
-
 	}
-
-	public static void showVersionHistory(String type, String id) {
-		Post post;
-		int intId = Integer.parseInt(id);
-		if (type.equals("questions") || type.equals("question")) {
-			post = manager.getQuestionById(intId);
-			type = "question";
-			ArrayList<Post> history = post.getOldVersions();
-			render(type, post, history);
-		} else {
-			post = manager.getAnswerById(intId);
-			Post question = manager.getAnswerById(intId).getQuestion();
-			ArrayList<Post> history = post.getOldVersions();
-			render(type, post, history, question);
-		}
-
-	}
-
 }

@@ -57,7 +57,7 @@ GET				   /showAdminUserProfile								  Admin.showAdminUserProfile
 GET                /showUser/{userName}                                   UserController.showUser
 GET				   /search												  Application.search
 GET				   /editUserGroup										  ExtendedUserController.editUserGroup
-GET				   /{type}/{id}/history									  Application.showVersionHistory
+GET				   /{type}/{id}/history									  PostController.showVersionHistory
 GET				   /admin												  Admin.showAdminPage
 GET				   /restoreAnswer										  MutateAnswerController.restoreAnswer
 GET				   /restoreQuestion										  MutateQuestionController.restoreQuestion
