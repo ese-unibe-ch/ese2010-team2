@@ -16,7 +16,7 @@
 	<hr />
 	#{if type=="question"}
 		<p style align="right">
-		<a href="@{Admin.restoreQuestion(post.getId(), oldPost.getContent(), oldPost.getTags())}">restore</a></p>
+		<a href="@{MutateQuestionController.restoreQuestion(post.getId(), oldPost.getContent(), oldPost.getTags())}">restore</a></p>
 		#{question question:oldPost /}
 	#{/if}
 	#{else}

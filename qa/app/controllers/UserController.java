@@ -24,7 +24,11 @@ import play.Play;
 import play.cache.Cache;
 import play.mvc.Controller;
 import annotations.Unused;
-
+/** 
+ * This Controller manages some basic actions about User which do not
+ * include the Security Annotation.
+ *
+ */
 public class UserController extends Controller {
 
 	private static Calendar calendar = Calendar.getInstance();

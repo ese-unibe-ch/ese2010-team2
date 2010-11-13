@@ -25,6 +25,9 @@ import play.cache.Cache;
 import play.mvc.Controller;
 import annotations.Unused;
 
+/**
+ * This Controller manages the view of answers
+ */
 public class DisplayAnswerController extends Controller {
 
 	private static Calendar calendar = Calendar.getInstance();

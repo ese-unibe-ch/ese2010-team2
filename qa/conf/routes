@@ -15,25 +15,25 @@ GET     /public/                                staticDir:public
 
 # Catch all
 GET				   /questions											  DisplayQuestionController.questions
-GET                /showQuestionForm                                	  Admin.showQuestionForm
-GET                /addQuestion   		                            	  Admin.addQuestion
+GET                /showQuestionForm                                	  MutateQuestionController.showQuestionForm
+GET                /addQuestion   		                            	  MutateQuestionController.addQuestion
 GET                /showRegister                                    	  UserController.showRegister
 GET                /question/{id}/answers/                          	  DisplayQuestionController.showAnswers
 GET                /showState                                       	  Application.showState
 GET                /users                                           	  Admin.showUsers
 GET                /register                                        	  UserController.register
-GET                /delete_question  	  				  				  Admin.deleteQuestion
+GET                /delete_question  	  				  				  MutateQuestionController.deleteQuestion
 GET                /delete_answer  	  				  				  	  Admin.deleteAnswer
 GET                /delete_comment	  				  				  	  Admin.deleteComment
 GET                /question/{qid}/edit_commentForm			  		  	  Admin.showEditQuestionCommentForm
 GET                /question/{qid}/edit_QuestionComment/{cid}		  	  Admin.editQuestionComment
 GET                /question/{qid}/edit_commentForm			  		  	  Admin.showEditAnswerCommentForm
 GET                /question/{qid}/answer/{aid}/edit_AnswerComment/{cid}  Admin.editAnswerComment
-GET                /question/{qid}/editQuestion                     	  Admin.editQuestion
+GET                /question/{qid}/editQuestion                     	  MutateQuestionController.editQuestion
 GET                /question/{qid}/editAnswer/{answerId}            	  Admin.editAnswer
 GET                /question/{qid}/setbestanswer/{aid}              	  DisplayAnswerController.setBestAnswer
 GET                /question/{qid}/addAnswer	                   		  Admin.showAnswerForm
-GET                /question/{qid}/edit_question                    	  Admin.showEditQuestionForm
+GET                /question/{qid}/edit_question                    	  MutateQuestionController.showEditQuestionForm
 GET                /question/{qid}/comment_question                 	  Admin.showQuestionCommentForm
 GET                /question/{qid}/edit_answer/{answerId}           	  Admin.showEditAnswerForm
 GET                /question/{qid}/comment_answer                   	  Admin.showAnswerCommentForm
@@ -41,9 +41,9 @@ GET                /question/{qid}/answer/addAnswer             		  Admin.addAns
 GET                /question/{qid}/addQuestionComment               	  Admin.addCommentToQuestion
 GET                /question/{qid}/addAnswerComment/{answerId}      	  Admin.addCommentToAnswer
 GET                /question/{qid}/edit_comment                     	  Admin.showEditCommentForm
-GET                /question/{qid}/vote                        			  Admin.voteQuestion
-GET                /question/{qid}/vote/up                      		  Admin.voteQuestionUp
-GET                /question/{qid}/vote/down                   			  Admin.voteQuestionDown
+GET                /question/{qid}/vote                        			  MutateQuestionController.voteQuestion
+GET                /question/{qid}/vote/up                      		  MutateQuestionController.voteQuestionUp
+GET                /question/{qid}/vote/down                   			  MutateQuestionController.voteQuestionDown
 GET                /question/{qid}/answers/{aid}/vote               	  Admin.voteAnswer
 GET                /question/{qid}/answer/{aid}/vote/up             	  Admin.voteAnswerUp
 GET                /question/{qid}/answer/{aid}/vote/down           	  Admin.voteAnswerDown
@@ -60,7 +60,7 @@ GET				   /editUserGroup										  Admin.editUserGroup
 GET				   /{type}/{id}/history									  Application.showVersionHistory
 GET				   /admin												  Admin.showAdminPage
 GET				   /restoreAnswer										  Admin.restoreAnswer
-GET				   /restoreQuestion										  Admin.restoreQuestion
+GET				   /restoreQuestion										  MutateQuestionController.restoreQuestion
 GET				   /users/{uname}/deleteUser							  Admin.deleteUser
 
 POST				/setAvatar											  UserController.setAvatar

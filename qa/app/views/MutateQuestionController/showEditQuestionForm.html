@@ -1,0 +1,37 @@
+#{extends 'main.html' /}
+#{set title:'ESE KB - Edit question' /}
+<a href="javascript:history.back()">back</a>
+
+<h2>Edit Question</h2>
+
+<div class="form">
+	<form action="@{MutateQuestionController.editQuestion(question.getId())}" method="GET">
+		<h4 style="color:#c00">${message}</h4>
+		<ul>
+			<li>
+				<label for="newContentQuestion">Question:</label>
+
+				#{ifnot newContent}
+				<textarea id="newContentQuestion" name="newContentQuestion" cols="50" rows="5">${question.getContent()}</textarea>
+				#{/ifnot}
+
+				#{else}
+				<textarea id="newContentQuestion" name="newContentQuestion" cols="50" rows="5">${newContent}</textarea>
+				#{/else}
+			</li>
+			<li>
+				<label for="newContentTag">Tags:</label>
+				#{ifnot tags}
+				<input id="newContentTag" name="newContentTag" type="text" value="${question.getTagsString()}" size="40" maxlength="200" value="${tags}" />
+				#{/ifnot}
+				#{else}
+				<input id="newContentTag" name="newContentTag" type="text" size="50" maxlength="200" value="${tags}" />
+				#{/else}
+			</li>
+
+			<li>
+				<input type="submit" value="Save!" />
+			</li>
+		</ul>
+	</form>
+</div>
