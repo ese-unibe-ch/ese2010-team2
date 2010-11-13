@@ -21,7 +21,7 @@
 
 		#{if session.uid}
 		<div class="toolbox">
-			<a href="@{Admin.showQuestionCommentForm(_question.getId())}" title="write comment"><img src="/public/images/comment.png" alt="write comment" /></a>
+			<a href="@{CommentController.showQuestionCommentForm(_question.getId())}" title="write comment"><img src="/public/images/comment.png" alt="write comment" /></a>
 
 			#{if _question.ownerIs(session.uid) || session.get("username")=="admin" || _question.isModerator(session.get("username"))}
 			<a href="@{MutateQuestionController.showEditQuestionForm(_question.getId())}" title="edit question"><img src="/public/images/edit.png" alt="edit question" /></a>
@@ -45,8 +45,8 @@
 		#{if session.uid}
 		<div class="toolbox">
 			#{if comment.ownerIs(session.uid) || session.get("username")=="admin" || comment.isModerator(session.get("username"))}
-			<a href="@{Admin.showEditQuestionCommentForm(_question.getId(), comment.getId())}"><img src="/public/images/edit.png" alt="edit comment" /></a>
-			<a href="@{Admin.deleteComment(_question.getId(), comment.getId())}"><img src="/public/images/delete.png" alt="delete comment" /></a>
+			<a href="@{CommentController.showEditQuestionCommentForm(_question.getId(), comment.getId())}"><img src="/public/images/edit.png" alt="edit comment" /></a>
+			<a href="@{CommentController.deleteComment(_question.getId(), comment.getId())}"><img src="/public/images/delete.png" alt="delete comment" /></a>
 			#{/if}
 		</div>
 		#{/if}

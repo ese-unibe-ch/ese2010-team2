@@ -1,0 +1,18 @@
+#{extends 'main.html' /}
+#{set title:'ESE KB - Edit question' /}
+
+<a href="javascript:history.back()">back</a>
+
+<div class="form">
+	<form action="@{Admin.editComment(comment, qid, cid)}" method="GET">
+		<ul>
+			<li>
+				<label for="newContent">Your comment</label>
+				<textarea id="newContent" name="newContent" cols="40" rows="4">${CommentContent}</textarea>
+			</li>
+			<li>
+				<input type="submit" value="Save!" />
+			</li>
+		</ul>
+	</form>
+</div>
