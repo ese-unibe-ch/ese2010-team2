@@ -63,4 +63,4 @@ GET				   /restoreAnswer										  Admin.restoreAnswer
 GET				   /restoreQuestion										  Admin.restoreQuestion
 GET				   /users/{uname}/deleteUser							  Admin.deleteUser
 
-POST				/setAvatar											  Application.setAvatar
+POST				/setAvatar											  UserController.setAvatar

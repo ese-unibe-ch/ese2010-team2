@@ -75,7 +75,7 @@
 	<p>No avatar set yet.</p>
 	#{/else}
 
-	<form action="@{Application.setAvatar()}" method="POST" enctype="multipart/form-data">
+	<form action="@{UserController.setAvatar()}" method="POST" enctype="multipart/form-data">
 		<input type="file" name="avatar" id="avatar" accept="image/*" />
 		<input type="submit" value="Upload" />
 	</form>

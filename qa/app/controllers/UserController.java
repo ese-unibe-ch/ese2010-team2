@@ -172,5 +172,51 @@ public class UserController extends Controller {
 			Secure.logout();
 		}
 	}
+	
+	/**
+	 * Update or set user's avatar.
+	 * 
+	 * Copy image file from play tmp directory to our avatar directory, delete
+	 * old avatar if exists, update filename.
+	 * 
+	 * @param title
+	 * @param avatar
+	 * @throws Exception
+	 */
+	public static void setAvatar(File avatar) throws Exception {
+
+		if (avatar != null) {
+			User user = manager.getUserByName(session.get("username"));
+			File avatarDir = new File(Play.applicationPath.getAbsolutePath()
+					+ "/public/images/avatars");
+
+			if (!avatarDir.exists()) {
+				avatarDir.mkdir();
+			} else {
+				if (user.hasAvatar()) {
+					File old = user.getAvatar();
+					if (!old.delete())
+						throw new IOException("Could not delete old avatar.");
+				}
+			}
+
+			File newAvatar = new File(avatarDir.getPath() + "/"
+					+ avatar.getName());
+			user.setAvatar(newAvatar);
+
+			try {
+				newAvatar.createNewFile();
+				FileInputStream input = new FileInputStream(avatar);
+				FileOutputStream output = new FileOutputStream(newAvatar);
+				IOUtils.copy(input, output);
+				output.close();
+				input.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		redirect("/showUserProfile");
+	}
 
 }
