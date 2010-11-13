@@ -1,0 +1,19 @@
+#{extends 'main.html' /}
+#{set title:'ESE KB - Your Answer' /}
+<a href="/question/${question.getId()}/answers/">back</a>
+<h3>Please insert your Answer</h3>
+<fieldset>
+ <legend>Your Answer</legend>
+	<form action="@{MutateAnswerController.addAnswer(question.getId())}" method="GET">
+	<table>
+		<tr>
+			<td>Enter your Answer:</td>
+			<td><textarea id="newAnswer" name="newAnswer"></textarea></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" value="Post your Answers!" /></td>
+		</tr>
+	</table>
+	</form>
+</fieldset>

@@ -21,7 +21,7 @@
 	#{/if}
 	#{else}
 		<p style align="right">
-		<a href="@{Admin.restoreAnswer(post.getId(), oldPost.getContent())}">restore</a></p>
+		<a href="@{MutateAnswerController.restoreAnswer(post.getId(), oldPost.getContent())}">restore</a></p>
 		#{answer answer:oldPost,question:oldPost.getQuestion() /} 
 	#{/else}
 	<br/>

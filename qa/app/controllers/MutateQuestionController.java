@@ -15,8 +15,8 @@ import play.mvc.Controller;
 import play.mvc.With;
 
 /**
- * This Controller manages mutations about questions, like add, edit and delete 
- * question.
+ * This Controller manages mutations of questions, like add, 
+ * edit and delete question.
  */
 @With(Secure.class)
 public class MutateQuestionController extends Controller {
