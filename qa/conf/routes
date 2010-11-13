@@ -14,53 +14,73 @@ GET     /                                       Application.index
 GET     /public/                                staticDir:public
 
 # Catch all
+#Application
+GET                /showState                                       	  Application.showState
+GET				   /search												  Application.search
+
+#UserController
+GET                /showRegister                                    	  UserController.showRegister
+GET                /register                                        	  UserController.register
+GET				   /editUserProfile										  UserController.editUserProfile
+GET				   /showUserProfile										  UserController.showUserProfile
+GET                /showUser/{userName}                                   UserController.showUser
+
+#PostController
+GET				   /{type}/{id}/history									  PostController.showVersionHistory
+
+#DisplayQuestionController
 GET				   /questions											  DisplayQuestionController.questions
+GET                /question/{id}/answers/                          	  DisplayQuestionController.showAnswers
+GET			       /recent												  DisplayQuestionController.showRecentQuestionsByNumber
+
+#DisplayAnswerController
+GET                /question/{qid}/setbestanswer/{aid}              	  DisplayAnswerController.setBestAnswer
+
+#Admin
+GET                /question/{qid}/edit_comment                     	  Admin.showEditCommentForm
+GET				   /editInformation										  Admin.editInformation
+GET				   /showAdminUserProfile								  Admin.showAdminUserProfile
+GET				   /admin												  Admin.showAdminPage
+
+#ExtendedUserController
+GET                /users                                           	  ExtendedUserController.showUsers
+GET				   /users/{uname}/log									  ExtendedUserController.showUserLog
+GET                /notifications                                         ExtendedUserController.showNotifications
+GET				   /editUserGroup										  ExtendedUserController.editUserGroup
+GET				   /users/{uname}/deleteUser							  ExtendedUserController.deleteUser
+
+#MutateQuestionController
 GET                /showQuestionForm                                	  MutateQuestionController.showQuestionForm
 GET                /addQuestion   		                            	  MutateQuestionController.addQuestion
-GET                /showRegister                                    	  UserController.showRegister
-GET                /question/{id}/answers/                          	  DisplayQuestionController.showAnswers
-GET                /showState                                       	  Application.showState
-GET                /users                                           	  ExtendedUserController.showUsers
-GET                /register                                        	  UserController.register
 GET                /delete_question  	  				  				  MutateQuestionController.deleteQuestion
+GET                /question/{qid}/editQuestion                     	  MutateQuestionController.editQuestion
+GET                /question/{qid}/edit_question                    	  MutateQuestionController.showEditQuestionForm
+GET                /question/{qid}/vote                        			  MutateQuestionController.voteQuestion
+GET                /question/{qid}/vote/up                      		  MutateQuestionController.voteQuestionUp
+GET                /question/{qid}/vote/down                   			  MutateQuestionController.voteQuestionDown
+GET				   /restoreQuestion										  MutateQuestionController.restoreQuestion
+
+#MutateAnswerController
 GET                /delete_answer  	  				  				  	  MutateAnswerController.deleteAnswer
+GET                /question/{qid}/editAnswer/{answerId}            	  MutateAnswerController.editAnswer
+GET                /question/{qid}/addAnswer	                   		  MutateAnswerController.showAnswerForm
+GET                /question/{qid}/edit_answer/{answerId}           	  MutateAnswerController.showEditAnswerForm
+GET                /question/{qid}/answer/addAnswer             		  MutateAnswerController.addAnswer
+GET                /question/{qid}/answers/{aid}/vote               	  MutateAnswerController.voteAnswer
+GET                /question/{qid}/answer/{aid}/vote/up             	  MutateAnswerController.voteAnswerUp
+GET                /question/{qid}/answer/{aid}/vote/down           	  MutateAnswerController.voteAnswerDown
+GET				   /restoreAnswer										  MutateAnswerController.restoreAnswer
+
+#CommentController
 GET                /delete_comment	  				  				  	  CommentController.deleteComment
 GET                /question/{qid}/edit_commentForm			  		  	  CommentController.showEditQuestionCommentForm
 GET                /question/{qid}/edit_QuestionComment/{cid}		  	  CommentController.editQuestionComment
 GET                /question/{qid}/edit_commentForm			  		  	  CommentController.showEditAnswerCommentForm
 GET                /question/{qid}/answer/{aid}/edit_AnswerComment/{cid}  CommentController.editAnswerComment
-GET                /question/{qid}/editQuestion                     	  MutateQuestionController.editQuestion
-GET                /question/{qid}/editAnswer/{answerId}            	  MutateAnswerController.editAnswer
-GET                /question/{qid}/setbestanswer/{aid}              	  DisplayAnswerController.setBestAnswer
-GET                /question/{qid}/addAnswer	                   		  MutateAnswerController.showAnswerForm
-GET                /question/{qid}/edit_question                    	  MutateQuestionController.showEditQuestionForm
 GET                /question/{qid}/comment_question                 	  CommentController.showQuestionCommentForm
-GET                /question/{qid}/edit_answer/{answerId}           	  MutateAnswerController.showEditAnswerForm
 GET                /question/{qid}/comment_answer                   	  CommentController.showAnswerCommentForm
-GET                /question/{qid}/answer/addAnswer             		  MutateAnswerController.addAnswer
 GET                /question/{qid}/addQuestionComment               	  CommentController.addCommentToQuestion
 GET                /question/{qid}/addAnswerComment/{answerId}      	  CommentController.addCommentToAnswer
-GET                /question/{qid}/edit_comment                     	  Admin.showEditCommentForm
-GET                /question/{qid}/vote                        			  MutateQuestionController.voteQuestion
-GET                /question/{qid}/vote/up                      		  MutateQuestionController.voteQuestionUp
-GET                /question/{qid}/vote/down                   			  MutateQuestionController.voteQuestionDown
-GET                /question/{qid}/answers/{aid}/vote               	  MutateAnswerController.voteAnswer
-GET                /question/{qid}/answer/{aid}/vote/up             	  MutateAnswerController.voteAnswerUp
-GET                /question/{qid}/answer/{aid}/vote/down           	  MutateAnswerController.voteAnswerDown
-GET			       /recent												  DisplayQuestionController.showRecentQuestionsByNumber
-GET				   /users/{uname}/log									  ExtendedUserController.showUserLog
-GET                /notifications                                         ExtendedUserController.showNotifications
-GET				   /editUserProfile										  UserController.editUserProfile
-GET				   /showUserProfile										  UserController.showUserProfile
-GET				   /editInformation										  Admin.editInformation
-GET				   /showAdminUserProfile								  Admin.showAdminUserProfile
-GET                /showUser/{userName}                                   UserController.showUser
-GET				   /search												  Application.search
-GET				   /editUserGroup										  ExtendedUserController.editUserGroup
-GET				   /{type}/{id}/history									  PostController.showVersionHistory
-GET				   /admin												  Admin.showAdminPage
-GET				   /restoreAnswer										  MutateAnswerController.restoreAnswer
-GET				   /restoreQuestion										  MutateQuestionController.restoreQuestion
-GET				   /users/{uname}/deleteUser							  ExtendedUserController.deleteUser
+
 
 POST				/setAvatar											  UserController.setAvatar
