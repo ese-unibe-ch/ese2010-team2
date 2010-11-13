@@ -52,6 +52,9 @@ public class Application extends Controller {
 		}
 	}
 
+	/** 
+	 * Renders some general informations about the application
+	 */
 	public static void showState() {
 		int userCount = manager.countOfUsers();
 		int questionCount = manager.countOfQuestions();

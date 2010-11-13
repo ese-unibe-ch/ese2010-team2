@@ -60,10 +60,25 @@ public class CommentController extends Controller {
 		redirect("/question/" + qid + "/answers/");
 	}
 
+	/** 
+	 * Shows the form to comment a question.
+	 * 
+	 * @param qid
+	 * 				- the question id of the commented question.
+	 */
 	public static void showQuestionCommentForm(String qid) {
 		render(qid);
 	}
 
+	/**
+	 * Shows the form to comment an answer.
+	 * 
+	 * @param answerId
+	 * 				- the answer id of the commented answer.
+	 * @param qid
+	 * 				- the questions id from the question
+	 * 				the answer belongs to.
+	 */
 	public static void showAnswerCommentForm(int answerId, String qid) {
 		render(answerId, qid);
 	}
@@ -74,6 +89,14 @@ public class CommentController extends Controller {
 		redirect("/question/" + qid + "/answers/");
 	}
 	
+	/**
+	 * Adds a comment to a question.
+	 * 
+	 * @param qid
+	 * 				- the question id of the commented question.
+	 * @param newComment
+	 * 				- the new comment as a String.
+	 */
 	public static void addCommentToQuestion(int qid, String newComment) {
 		User user = manager.getUserByName(session.get("username"));
 		Post question = manager.getQuestionById(qid);
@@ -86,6 +109,17 @@ public class CommentController extends Controller {
 		}
 	}
 
+	/**
+	 * Adds a comment to an answer.
+	 * 
+	 * @param answerId
+	 * 				- the answer id of the commented answer.
+	 * @param qid
+	 * 				- the question id of the question the 
+	 * 				answer belongs to.
+	 * @param newComment
+	 * 				- the new comment as a String.
+	 */
 	public static void addCommentToAnswer(int answerId, int qid,
 			String newComment) {
 		User user = manager.getUserByName(session.get("username"));

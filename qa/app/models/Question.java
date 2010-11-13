@@ -205,6 +205,9 @@ public class Question extends Post {
 		addVersion(oldContent, oldTags, uname);
 	}
 
+	/** 
+	 * Notifies the owner of this question about its change.
+	 */
 	public void notifyChange() {
 		this.getOwner().notifyChange("Your question was answered", this);
 	}

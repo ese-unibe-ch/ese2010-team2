@@ -587,6 +587,16 @@ public class DbManager {
 		user.addReputation(reputation);
 	}
 
+	/**
+	 * Gets the reputation from a user to a specific date.
+	 * 
+	 * @param user
+	 * 				- the specific user.
+	 * @param date
+	 * 				- the specific date.
+	 * 
+	 * @return	- the reputation as an integer.
+	 */
 	@SuppressWarnings("deprecation")
 	public int getReputationByUserAndDate(User user, Date date) {
 		ArrayList<Integer> allReputations = user.getReputations();
@@ -605,6 +615,16 @@ public class DbManager {
 		return result;
 	}
 
+	/**
+	 * Gets all reputations from a user in a specific time range.
+	 * 
+	 * @param user
+	 * 				- the specific user.
+	 * @param days
+	 * 				- the number of day the reputations are from.
+	 * 
+	 * @return - a list of reputations as integers sorted by date
+	 */
 	public ArrayList<Integer> getReputations(User user, int days) {
 		ArrayList<Integer> reputations = user.getReputations();
 		while (reputations.size() < days) {
@@ -615,6 +635,12 @@ public class DbManager {
 		}
 		return reputations;
 	}
+	
+	/**
+	 * Updates the reputations of an user
+	 * 
+	 * @param reputatedUser
+	 */
 
 	public void updateReputation(User reputatedUser) {
 		reputatedUser.updateReputation();

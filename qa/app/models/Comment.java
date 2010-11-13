@@ -3,12 +3,26 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * The Class Comment delivers functionality to comment other posts
+ * like answers and question.
+ */
 public class Comment extends Post {
 
 	private Post commentedPost;
 	private static DbManager manager = DbManager
 			.getInstance();
-
+	
+	/**
+	 * Instantiates a new comment.
+	 * 
+	 * @param owner
+	 * 				- the commenting user.
+	 * @param commentedPost
+	 * 				- the post which is commented.
+	 * @param content
+	 * 				- the content of the comment.
+	 */
 	public Comment(User owner, Post commentedPost, String content) {
 		this.owner = owner;
 		this.commentedPost = commentedPost;
@@ -39,5 +53,4 @@ public class Comment extends Post {
 		this.setEditor(uname);
 		this.content = content;
 	}
-
 }

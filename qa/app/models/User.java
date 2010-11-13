@@ -132,6 +132,9 @@ public class User {
 		return this.userGroup.equals(UserGroups.moderator);
 	}
 
+	/**
+	 * Updates the reputations of this user.
+	 */
 	public void updateReputation() {
 		GregorianCalendar now = new GregorianCalendar();
 		int counter = now.get(Calendar.DAY_OF_YEAR)
@@ -142,27 +145,58 @@ public class User {
 		this.setLastTimeOfReputation(now);
 		this.lastScore = this.getScore();
 	}
-
+	 
+	/**
+	 * Adds a specific reputations to the reputations
+	 * of this user.
+	 * @param reputation
+	 * 				- the reputations as an integer.
+	 */
 	public void addReputation(int reputation) {
 		this.reputations.addFirst(reputation);
 	}
 
+	/**
+	 * Adds a notification to the notifications of
+	 * this user.
+	 * 
+	 * @param newChange
+	 */
 	public void addNotification(Notification newChange) {
 		this.notifications.add(newChange);
 	}
 
+	/**
+	 * Removes a specific notification from the notifictions
+	 * ot this user.
+	 * 
+	 * @param oldChange
+	 */
 	public void removeNotification(Notification oldChange) {
 		this.notifications.remove(oldChange);
 	}
 
+	/**
+	 * Deletes all notifications of this user.
+	 */
 	public void clearAllNotifications() {
 		this.notifications.clear();
 	}
-
+	
+	/**
+	 * Notifies this user about a change
+	 * 
+	 * @param message
+	 * @param changedQuestion
+	 */
 	public void notifyChange(String message, Question changedQuestion) {
 		Notification change = new Notification(message, this, changedQuestion);
 	}
 
+	/**
+	 * @return	-true if there is at least one notifiaction
+	 * 			-false if there aren't any notifications
+	 */
 	public boolean isChanged() {
 		return !notifications.isEmpty();
 	}
@@ -193,7 +227,7 @@ public class User {
 		}
 	}
 
-	/** Getters ****************************/
+	/** Getters */
 	public String getName() {
 		return name;
 	}
@@ -313,7 +347,7 @@ public class User {
 		return this.votedAnswers;
 	}
 
-	/** Setters *******************************/
+	/** Setters */
 
 	public void setName(String name) {
 		this.name = name;
