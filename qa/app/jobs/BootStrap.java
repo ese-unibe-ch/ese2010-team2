@@ -27,13 +27,7 @@ public class BootStrap extends Job {
 	private static Random random = new Random();
 	private static DbManager manager = DbManager.getInstance();
 
-	// boolean up= (random.nextInt(2) == 0 ? true : false);
-	//
-	// if(up)
-	// post.rateUp(user);
-	// else
-	// post.rateDown(user);
-
+	
 	public void doJob() {
 		Calendar cal = Calendar.getInstance();
 		
