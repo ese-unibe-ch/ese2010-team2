@@ -1,0 +1,10 @@
+#{extends 'main.html' /}
+#{set title:'ESE KB - user activities' /}
+<a href="/">back</a>
+<h2> My activities</h2>
+<h3>${message}</h3>
+
+#{list items:userLog, as:'log'}
+	${log} <br></br>
+#{/list}
+

@@ -23,30 +23,6 @@ public class Admin extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
 	private static Calendar calendar = Calendar.getInstance();
-	
-	public static void deleteUser(String uname){
-		manager.deleteUser(uname);
-		redirect("/editUserGroup");
-	}
-
-	public static void showUsers() {
-		if (manager.getUsers().isEmpty()) {
-			String message = "no users";
-			render(message);
-		} else {
-			ArrayList<User> users = manager.getUsers();
-			render(users);
-		}
-	}
-
-	public static void showUserLog(String uname) {
-		ArrayList<String> userLog = manager.getUserLog(uname);
-		if (userLog.size() == 1) {
-			String message = "no activities so far.";
-			render(message);
-		}
-		render(userLog);
-	}
 
 	public static void showNotifications() {
 		User user = manager.getUserByName(session.get("username"));
@@ -54,35 +30,6 @@ public class Admin extends Controller {
 				.getAllNotifications().clone();
 		user.clearAllNotifications();
 		render(notifications);
-	}
-
-	public static void editUserGroup(String uname, String group) {
-		ArrayList<User> users = manager.getUsers();
-		User user = manager.getUserByName(uname);
-		UserGroups ugroup;
-
-		if (manager.getUserByName(session.get("username")).isAdmin()) {
-			if (uname == null && group == null)
-				render(users);
-			else {
-				if (group.equals("admin")) {
-					ugroup = UserGroups.admin;
-					user.setGroup(ugroup);
-				}
-				if (group.equals("moderator")) {
-					ugroup = UserGroups.moderator;
-					user.setGroup(ugroup);
-				}
-				if (group.equals("user")) {
-					ugroup = UserGroups.user;
-					user.setGroup(ugroup);
-				}
-				String message = "Settings changed.";
-				render(users, message);
-			}
-		} else {
-			redirect("/");
-		}
 	}
 
 	public static void showAdminPage() {

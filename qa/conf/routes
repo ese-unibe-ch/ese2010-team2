@@ -20,7 +20,7 @@ GET                /addQuestion   		                            	  MutateQuestio
 GET                /showRegister                                    	  UserController.showRegister
 GET                /question/{id}/answers/                          	  DisplayQuestionController.showAnswers
 GET                /showState                                       	  Application.showState
-GET                /users                                           	  Admin.showUsers
+GET                /users                                           	  ExtendedUserController.showUsers
 GET                /register                                        	  UserController.register
 GET                /delete_question  	  				  				  MutateQuestionController.deleteQuestion
 GET                /delete_answer  	  				  				  	  MutateAnswerController.deleteAnswer
@@ -48,7 +48,7 @@ GET                /question/{qid}/answers/{aid}/vote               	  MutateAns
 GET                /question/{qid}/answer/{aid}/vote/up             	  MutateAnswerController.voteAnswerUp
 GET                /question/{qid}/answer/{aid}/vote/down           	  MutateAnswerController.voteAnswerDown
 GET			       /recent												  DisplayQuestionController.showRecentQuestionsByNumber
-GET				   /users/{uname}/log									  Admin.showUserLog
+GET				   /users/{uname}/log									  ExtendedUserController.showUserLog
 GET                /notifications                                         Admin.showNotifications
 GET				   /editUserProfile										  UserController.editUserProfile
 GET				   /showUserProfile										  UserController.showUserProfile
@@ -56,11 +56,11 @@ GET				   /editInformation										  Application.editInformation
 GET				   /showAdminUserProfile								  Application.showAdminUserProfile
 GET                /showUser/{userName}                                   UserController.showUser
 GET				   /search												  Application.search
-GET				   /editUserGroup										  Admin.editUserGroup
+GET				   /editUserGroup										  ExtendedUserController.editUserGroup
 GET				   /{type}/{id}/history									  Application.showVersionHistory
 GET				   /admin												  Admin.showAdminPage
 GET				   /restoreAnswer										  MutateAnswerController.restoreAnswer
 GET				   /restoreQuestion										  MutateQuestionController.restoreQuestion
-GET				   /users/{uname}/deleteUser							  Admin.deleteUser
+GET				   /users/{uname}/deleteUser							  ExtendedUserController.deleteUser
 
 POST				/setAvatar											  UserController.setAvatar
