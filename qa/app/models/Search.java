@@ -103,7 +103,10 @@ public class Search {
 			for (int j = 0; j < numberOfTags; j++) {
 				String curTag = curQuestion.getTagByIndex(j);
 				curTag = curTag.toLowerCase();
-				curTag = soundexAlgorithm.encode(curTag);
+				try {
+					curTag = soundexAlgorithm.encode(curTag);
+				} catch (IllegalArgumentException e) {
+				}
 
 				if (curTag.contains(query)) {
 					if (addQuestionOnlyOnce) {
@@ -127,8 +130,12 @@ public class Search {
 				String[] curContentArray = curQuestion.getContent()
 						.split("\\s");
 				for (int x = 0; x < curContentArray.length; x++) {
-					if (soundexAlgorithm.encode(curContentArray[x]).contains(query)) {
-						questionResults.add(curQuestion);
+					try {
+						if (soundexAlgorithm.encode(curContentArray[x])
+								.contains(query)) {
+							questionResults.add(curQuestion);
+						}
+					} catch (IllegalArgumentException e) {
 					}
 				}
 
@@ -150,8 +157,12 @@ public class Search {
 			if (doASoundexSearch) {
 				String[] curContentArray = curAnswer.getContent().split("\\s");
 				for (int x = 0; x < curContentArray.length; x++) {
-					if (soundexAlgorithm.encode(curContentArray[x]).contains(query)) {
-						answerResults.add(curAnswer);
+					try {
+						if (soundexAlgorithm.encode(curContentArray[x])
+								.contains(query)) {
+							answerResults.add(curAnswer);
+						}
+					} catch (IllegalArgumentException e) {
 					}
 				}
 			} else if (curContent.contains(query)) {
@@ -171,8 +182,12 @@ public class Search {
 			if (doASoundexSearch) {
 				String[] curContentArray = curComment.getContent().split("\\s");
 				for (int x = 0; x < curContentArray.length; x++) {
-					if (soundexAlgorithm.encode(curContentArray[x]).contains(query)) {
-						commentResults.add(curComment);
+					try {
+						if (soundexAlgorithm.encode(curContentArray[x])
+								.contains(query)) {
+							commentResults.add(curComment);
+						}
+					} catch (IllegalArgumentException e) {
 					}
 				}
 			} else if (curContent.contains(query)) {

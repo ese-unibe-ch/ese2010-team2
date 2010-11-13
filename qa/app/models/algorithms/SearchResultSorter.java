@@ -33,7 +33,7 @@ public class SearchResultSorter {
 	 * 
 	 * @package org.apache.commons.codec.language.Soundex
 	 */
-	private Soundex soundex;
+	private Soundex soundexAlgorithm;
 
 	/** ArrayList with the soundexCodes from SearchQueryParser */
 	private ArrayList<String> soundexCodes;
@@ -49,7 +49,7 @@ public class SearchResultSorter {
 		this.soundexCodes = soundexCodesOfQuery;
 		this.sentences = sentencesOfQuery;
 		doASoundexBasedCount = false;
-		soundex = new Soundex();
+		soundexAlgorithm = new Soundex();
 
 		initSorting();
 	}
@@ -90,7 +90,10 @@ public class SearchResultSorter {
 
 			for (int j = 0; j < numberOfTags; j++) {
 				String curTag = curQuestion.getTagByIndex(j);
-				curTag = soundex.encode(curTag);
+				try {
+					curTag = soundexAlgorithm.encode(curTag);
+				} catch (IllegalArgumentException e) {
+				}
 
 				if (curTag.contains(query)) {
 					tagCount = tagCount + 2;
@@ -114,11 +117,13 @@ public class SearchResultSorter {
 
 			// Go through question content word by word count every match.
 			if (doASoundexBasedCount) {
-
 				for (int x = 0; x < splitedQuestionContent.length; x++) {
-					if (soundex.encode(splitedQuestionContent[x]).contains(
-							query)) {
-						contentCount++;
+					try {
+						if (soundexAlgorithm.encode(splitedQuestionContent[x])
+								.contains(query)) {
+							contentCount++;
+						}
+					} catch (IllegalArgumentException e) {
 					}
 				}
 			}
@@ -134,13 +139,17 @@ public class SearchResultSorter {
 
 				if (doASoundexBasedCount) {
 					for (int x = 0; x < splitedAnswerContent.length; x++) {
-						if (soundex.encode(splitedAnswerContent[x]).contains(
-								query)) {
-							if (curAnswer.isBestAnswer()) {
-								contentCount = contentCount + 5;
-							} else {
-								contentCount++;
+						try {
+							if (soundexAlgorithm
+									.encode(splitedAnswerContent[x]).contains(
+											query)) {
+								if (curAnswer.isBestAnswer()) {
+									contentCount = contentCount + 5;
+								} else {
+									contentCount++;
+								}
 							}
+						} catch (IllegalArgumentException e) {
 						}
 					}
 				}
@@ -162,9 +171,12 @@ public class SearchResultSorter {
 				if (doASoundexBasedCount) {
 
 					for (int x = 0; x < splitedCommentContent.length; x++) {
-						if (soundex.encode(splitedCommentContent[x]).contains(
-								query)) {
-							contentCount++;
+						try {
+							if (soundexAlgorithm.encode(
+									splitedCommentContent[x]).contains(query)) {
+								contentCount++;
+							}
+						} catch (IllegalArgumentException e) {
 						}
 					}
 				}

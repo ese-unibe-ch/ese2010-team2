@@ -212,8 +212,11 @@ public class SearchQueryParser {
 	/** Creates the soundex code of all words in the query. */
 	private void createSoundexOfWords() {
 		for (int i = 0; i < words.size(); i++) {
-			String soundexCode = soundexAlgorithm.encode(words.get(i));
-			soundexCodes.add(soundexCode);
+			try {
+				String soundexCode = soundexAlgorithm.encode(words.get(i));
+				soundexCodes.add(soundexCode);
+			} catch (IllegalArgumentException e) {
+			}
 		}
 
 		// Remove duplicated soundex codes
