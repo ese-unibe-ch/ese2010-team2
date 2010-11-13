@@ -6,24 +6,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import models.Answer;
 import models.DbManager;
-import models.Post;
 import models.Question;
-import models.SearchManager;
-import models.SearchResult;
 import models.User;
 
 import org.apache.commons.io.IOUtils;
 
 import play.Play;
-import play.cache.Cache;
 import play.mvc.Controller;
-import annotations.Unused;
 /** 
  * This Controller manages some basic actions about User which do not
  * include the Security Annotation.
@@ -50,7 +42,7 @@ public class UserController extends Controller {
 				|| !email.contains("."))
 			UserController.showRegister("Please check your email!", name,
 					password, password2, email);
-		else if (password.equals("") || !password.endsWith(password2))
+		else if (password.equals("") || !password.equals(password2))
 			UserController.showRegister("Please check your password!", name,
 					password, password2, email);
 		else {
@@ -112,6 +104,8 @@ public class UserController extends Controller {
 		// email must be changed for the new user name not the old, so you have
 		// to determine if the user name was changed.
 		String username;
+		boolean passwordChanged = false;
+		//When username doesn't change
 		if (name.equals("")) {
 			username = session.get("username");
 		} else {
@@ -120,12 +114,13 @@ public class UserController extends Controller {
 
 		// Checks if user name is already occupied
 		if (!name.equals("")) {
-			if (!manager.checkUserNameIsOccupied(name)) {
-				manager.getUserByName(session.get("username")).setName(name);
-			} else {
+			if (!manager.checkUserNameIsOccupied(username)) {
+				manager.getUserByName(session.get("username")).setName(username);
+			} else if (!username.equals(session.get("username"))
+					&& manager.checkUserNameIsOccupied(username)) {
 				UserController.showUserProfile("Sorry, this user already exists!");
 			}
-
+	
 		}
 		// Checks if the email has a @ and a dot
 		if (!email.equals("")) {
@@ -137,12 +132,21 @@ public class UserController extends Controller {
 			}
 		}
 		// Checks if two similar password were typed in.
-		if (!password.equals("")) {
+		if (!password.equals("") && !password2.equals("")) {
 			if (password.equals(password2)) {
 				manager.getUserByName(username).setPassword(password);
+				passwordChanged = true;
 			} else {
 				UserController.showUserProfile("Passwords are not identical!");
 			}
+		}
+		// Checks if two similar password were typed in.
+		if (password.equals("") && !password2.equals("")) {
+			UserController.showUserProfile("Passwords are not identical!");
+		}
+		// Checks if two similar password were typed in.
+		if (!password.equals("") && password2.equals("")) {
+			UserController.showUserProfile("Passwords are not identical!");
 		}
 
 		if (!phone.equals("")) {
@@ -170,10 +174,13 @@ public class UserController extends Controller {
 			manager.getUserByName(username).setQuote(quote);
 		}
 
-		if (name.equals("")) {
-			redirect("/showUser/" + session.get("username"));
-		} else {
+		// Automatically logout when password and/or username changed
+		if (!username.equals(session.get("username"))) {
 			Secure.logout();
+		} else if (passwordChanged) {
+			Secure.logout();
+		} else {
+			redirect("/showUser/" + session.get("username"));
 		}
 	}
 	
