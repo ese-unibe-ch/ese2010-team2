@@ -3,8 +3,6 @@ package models;
 import java.util.ArrayList;
 import java.util.Date;
 
-import annotations.Unused;
-
 /**
  * The Class Question delivers all functionality of the questions that other
  * votables don't have (those would be located in the class @see Votable.java.
@@ -96,13 +94,17 @@ public class Question extends Post {
 	public void addTags(String tags) {
 		String delimiter = "[ ]+";
 		tags = tags.toLowerCase();
-		for (String newTag : tags.split(delimiter)) {
-			// Leerzeichen entfernen
-			newTag.replace(" ", "");
-			if (!this.tags.contains(newTag))
-				this.tags.add(newTag);
-			if (!manager.getTagList().contains(newTag.toLowerCase()))
-				manager.addTag(newTag.toLowerCase());
+		if (!tags.equals(" ") && !tags.equals("")) {
+			for (String newTag : tags.split(delimiter)) {
+				// Leerzeichen entfernen
+				newTag = newTag.replace(" ", "");
+				if (!this.tags.contains(newTag)) {
+					this.tags.add(newTag);
+				}
+				if (!manager.getTagList().contains(newTag.toLowerCase())) {
+					manager.addTag(newTag.toLowerCase());
+				}
+			}
 		}
 	}
 
@@ -227,8 +229,8 @@ public class Question extends Post {
 
 	public String getTagsString() {
 		StringBuffer result = new StringBuffer();
-		for (String tag : tags) {
-			result.append(tag + " ");
+		for (int i = 0; i < tags.size(); i++) {
+			result.append(tags.get(i) + " ");
 		}
 		return result.toString();
 	}
