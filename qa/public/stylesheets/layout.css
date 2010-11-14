@@ -13,33 +13,36 @@
 	margin: 0 auto;
 }
 
-#questions {
+#questions_box {
 	width: 480px;
 	margin: 0;
 	padding: 0;
 	float: left;
 }
 
-#question_list {
-	overflow: auto;
+#questions {
 	height: 510px;
 	padding: .6em;
+	overflow: auto;
+}
+
+#details_box {
+	width: 560px;
+	margin: 0;
+	margin-left: .5em;
+	float: right;
+
 }
 
 #details {
-	margin: 0;
-	margin-left: .5em;
+	height: 510px;
 	padding: .3em;
-	width: 560px;
-	height: 550px;
-	float: right;
 	overflow: auto;
 }
 
 #search {
 	width: 25%;
 	float: right;
-
 }
 
 #subtitle {

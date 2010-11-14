@@ -1,7 +1,3 @@
-#{extends 'main.html' /}
-#{set title:'ESE KB - Home' /}
-
-<h2>${profileOwner.getName()}</h2>
 #{avatar user:profileOwner /}
 
 #{if session.get("username") == profileOwner.getName()}
@@ -71,10 +67,10 @@ Current Reputation: ${profileOwner.getScore()}<br>
 			${reputations.get(2)},
 			${reputations.get(1)},
 			${reputations.get(0)}
-	&chtt=Reputation+over+Time" 
-	width="700" height="225" 
+	&chtt=Reputation+over+Time"
+	width="700" height="225"
 	alt="Reputation over Time" />
-	
+
 	#{if userQuestions}
 		<fieldset>
 			<a id="da1" style="display:inline" href="javascript:show1()">Show my questions</a><a id="nd1" style="display:none" href="javascript:weg1()">My questions (close)</a>
@@ -86,7 +82,7 @@ Current Reputation: ${profileOwner.getScore()}<br>
 			</div>&nbsp;
 		</fieldset>
 	#{/if}
-	
+
 	#{if userAnswers}
 		<fieldset>
 			<a id="da2" style="display:inline" href="javascript:show2()">Show my answers</a><a id="nd2" style="display:none" href="javascript:weg2()">My answers (close)</a>
@@ -98,7 +94,7 @@ Current Reputation: ${profileOwner.getScore()}<br>
 			</div>&nbsp;
 		</fieldset>
 	#{/if}
-		
+
 	#{if userLog}
 		<fieldset>
 			<a id="da3" style="display:inline" href="javascript:show3()">Show my activities</a><a id="nd3" style="display:none" href="javascript:weg3()">My activities (close)</a>
@@ -110,15 +106,15 @@ Current Reputation: ${profileOwner.getScore()}<br>
 			</div>&nbsp;
 		</fieldset>
 	#{/if}
-		
-		
+
+
 	<script language="JavaScript" type="text/javascript">
 		function show1() {
 			if(document.getElementById) document.getElementById("ve1").style.display = "inline";
 			if(document.getElementById) document.getElementById("da1").style.display = "none";
-			if(document.getElementById) document.getElementById("nd1").style.display = "inline";   
+			if(document.getElementById) document.getElementById("nd1").style.display = "inline";
 		}
-	
+
 		function weg1() {
 			if(document.getElementById) document.getElementById("ve1").style.display = "none";
 			if(document.getElementById) document.getElementById("da1").style.display = "inline";
@@ -127,7 +123,7 @@ Current Reputation: ${profileOwner.getScore()}<br>
 		function show2() {
 			if(document.getElementById) document.getElementById("ve2").style.display = "inline";
 			if(document.getElementById) document.getElementById("da2").style.display = "none";
-			if(document.getElementById) document.getElementById("nd2").style.display = "inline";   
+			if(document.getElementById) document.getElementById("nd2").style.display = "inline";
 		}
 
 		function weg2() {
@@ -138,7 +134,7 @@ Current Reputation: ${profileOwner.getScore()}<br>
 		function show3() {
 			if(document.getElementById) document.getElementById("ve3").style.display = "inline";
 			if(document.getElementById) document.getElementById("da3").style.display = "none";
-			if(document.getElementById) document.getElementById("nd3").style.display = "inline";   
+			if(document.getElementById) document.getElementById("nd3").style.display = "inline";
 		}
 
 		function weg3() {

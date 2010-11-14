@@ -23,14 +23,14 @@ img {
  *
  */
 
-#head a {
+#menu ul li a {
 	color: #AA00A2;
 	background: #D460CF;
 	padding: 0 .2em 0 .2em;
 	font-size: small;
 }
 
-#head a:hover {
+#menu ul li a:hover {
 	color: #D460CF;
 	background: #AA00A2;
 	padding: 0 .2em 0 .2em;
@@ -50,6 +50,9 @@ img {
 }
 
 #menu ul {
+	margin: 0;
+	margin-left: 1em;
+	padding: 0;
 	display: inline;
 }
 
@@ -198,6 +201,19 @@ div.toolbox {
 	display: inline;
 }
 
+div.tagbox {
+	display: inline;
+	font-size: small;
+	line-height: 1.5em;
+}
+
+div.short_post > div.tagbox {
+	display: block;
+	margin-top: .3em;
+	padding-top: .4em;
+	border-top: thin solid #78E700;
+}
+
 /*
  * paragraphs
  */
@@ -252,7 +268,6 @@ span.tag {
 	padding: .1em .4em .1em .4em;
 	background: #ED1C24;
 	color: #FFF;
-	font-size: small;
 }
 
 /*

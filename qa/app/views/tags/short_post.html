@@ -5,12 +5,11 @@
         #{by post:_post /}
         <br />
         <strong>Score:</strong> ${_post.getScore()}
-        <br />
-        #{tagbox post:_post /}
     </div>
 
     <div class="short_post_text">
         ${_post.getHtml().raw()}
-        <a class="readmore" href="/question/${_post.getId()}/answers/">&raquo; read more</a>
+        <a class="readmore" href="javascript:showDetails('/question/${_post.getId()}/answers/', 'Question #${_post.getId()}')">&raquo; read more</a>
     </div>
+    #{tagbox post:_post /}
 </div>

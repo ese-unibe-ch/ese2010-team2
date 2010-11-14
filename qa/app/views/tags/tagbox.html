@@ -1,7 +1,8 @@
 #{if _post.getTags()}
-<strong>Tags:</strong>
-
+<div class="tagbox">
+Tags:
     #{list items:_post.getTags(), as:'tag'}
         <span class="tag">${tag}</span>
     #{/list}
+</div>
 #{/if}
