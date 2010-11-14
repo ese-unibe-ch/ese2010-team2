@@ -19,9 +19,15 @@ public class DisplayQuestionController extends Controller {
 	private static Calendar calendar = Calendar.getInstance();
 	private static DbManager manager = DbManager.getInstance();
 	
-	public static void questions() {
-		ArrayList<Question> questions = manager.getQuestionsSortedByScore();
-		render(questions);
+	public static void questions(String mod) {
+		ArrayList<Question> questions = null;
+		if (mod.equals("recent")) {
+			questions = manager.getRecentQuestionsByNumber(25);
+			render(questions, mod);
+		} else if (mod.equals("all")) {
+			questions = manager.getQuestionsSortedByScore();
+			render(questions, mod);
+		}
 	}
 	
 	public static void showAnswers(String id, String newAnswer,
@@ -71,9 +77,8 @@ public class DisplayQuestionController extends Controller {
 	 * Renders the preferred amount of newest questions
 	 */
 	public static void showRecentQuestionsByNumber() {
-		final int number = 25; // The number of questions rendered
 		ArrayList<Question> recentQuestionsByNumber = manager
-				.getRecentQuestionsByNumber(number);
+				.getRecentQuestionsByNumber(25);
 
 		render(recentQuestionsByNumber);
 	}

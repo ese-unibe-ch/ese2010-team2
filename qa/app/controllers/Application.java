@@ -23,6 +23,7 @@ public class Application extends Controller {
 	public static void index() {
 		String userName = session.get("username");
 		int score = 0;
+
 		boolean isChanged = true;
 		if (userName != null) {
 			User user = manager.getUserByName(userName);
@@ -86,9 +87,9 @@ public class Application extends Controller {
 			// If query has no results
 			if (results.size() == 0) {
 				String message = "No Results";
-				render(message);
+				render(message, menu, text);
 			} else {
-				render(results, isQuestion, isUser);
+				render(results, isQuestion, isUser, menu, text);
 			}
 		}
 	}

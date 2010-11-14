@@ -1,25 +1,38 @@
-<form action="javascript:search()">
+%{
+	session.put("state", "search");
+	session.put("menu", menu);
+	session.put("text", text);
+}%
+
+<script type="text/javascript" charset="utf-8">
+		<!--
+			setHeadline('#questions_headline', 'Search results for <em>${session.text}</em>');
+		-->
+</script>
+
+<form action="javascript:resubmit_search()">
 	<span style="font-size:60%">Search for a whole sentence by embracing two or more words by double quotes!</span></p>
 
-	<select name="menu" id="search_mode">
+	<select name="menu" id="search_mode2">
 		<option value="similarQuestion">Find Question</option>
 		<option value="similarUser">Find User</option>
 	</select>
 
-	<input size="15" type="text" name="text" id="search_text" value="${params.get('text')}">
+	<input size="15" type="text" name="text" id="search_text2" value="${params.get('text')}">
 	<input type="submit" value="search" />
 </form>
 
-<h3>${message}</h3>
+<p>${message}</p>
+
 #{if results}
-<h3>Search results for "${params.get('text')}":</h3>
-#{list items:results, as:'searchresult'}
-#{if isQuestion}
-	#{short_post post:searchresult.getQuestion() /}
-#{/if}
-#{if isUser}
-	<p>#{avatar user:searchresult.getOwner() /}
-	<a href="@{UserController.showUser(searchresult.getOwner())}">${searchresult.getOwner()}</a></p>
-#{/if}
-#{/list}
+	#{list items:results, as:'searchresult'}
+		#{if isQuestion}
+		#{short_post post:searchresult.getQuestion() /}
+		#{/if}
+
+		#{if isUser}
+		<p>#{avatar user:searchresult.getOwner() /}
+		<a href="@{UserController.showUser(searchresult.getOwner())}">${searchresult.getOwner()}</a></p>
+		#{/if}
+	#{/list}
 #{/if}

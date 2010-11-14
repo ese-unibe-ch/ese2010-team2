@@ -1,5 +1,11 @@
+#{extends 'main.html' /}
+
+%{session.put("state", "recent");}%
+
 <h3>${message}</h3>
 
 #{list items:recentQuestionsByNumber, as:'question'}
 	#{short_post post:question /}
 #{/list}
+
+

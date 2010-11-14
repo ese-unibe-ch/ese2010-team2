@@ -289,3 +289,15 @@ div.form ul li {
 div.form input[type="text"], input[type="password"] {
 	float: right;
 }
+
+/*
+ * Tables
+ */
+table > tr {
+	border: thin solid #000;
+}
+
+table tr td {
+	margin: 0;
+	padding: .5em;
+}

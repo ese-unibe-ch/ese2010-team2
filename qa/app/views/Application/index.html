@@ -1,6 +1,8 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Home' /}
 
+%{ session.put("state", "all"); }%
+
 ${message}
 
 <p>Choose a question from the left.</p>

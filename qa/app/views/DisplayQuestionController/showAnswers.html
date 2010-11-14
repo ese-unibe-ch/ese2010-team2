@@ -1,3 +1,11 @@
+#{extends 'main.html' /}
+
+<script type="text/javascript" charset="utf-8">
+		<!--
+			setHeadline('#details_headline', 'Question #${question.getId()}');
+		-->
+</script>
+
 #{question question:question /}
 
 <h2>Answers</h2>
@@ -6,6 +14,10 @@
 #{list items:answers, as:'answer'}
 #{answer answer:answer, question:question /}
 #{/list}
+
+#{if answers == null}
+	<p>none yet.</p>
+#{/if}
 
 <!--Answer form-->
 <h2>Add your answer</h2>

@@ -11,81 +11,29 @@
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon2.png'}">
         <script src="@{'/public/javascripts/jquery-1.4.2.min.js'}" type="text/javascript" charset="utf-8"></script>
         #{get 'moreScripts' /}
+		#{script 'kb.js' /}
 
-		<script type="text/javascript">
-        <!--
-			$(document).ready(function() {
-				$('#questions').height($(window).height()-140);
-				$('#details').height($(window).height()-140);
-			});
+		<script type="text/javascript" charset="utf-8">
+		<!--
+			var state = "${session.state}";
 
-			if ( $('#questions').html() == null ) {
-				resetLayout();
-				$.get("/questions", function(response, status, request) {
-						$("#questions").html(response);
-				});
+			if ( state == "recent" ) {
+				setHeadline('#questions_headline', 'test');
+				showRecent();
+			} else if ( state == "search" ) {
+				var text = "${session.text}";
+				var menu = "${session.menu}";
+				search(text, menu);
+			} else {
+				showAll();
 			}
-
-			function showRecent() {
-				resetLayout();
-				$('#questions_headline').text('Recent questions');
-
-				$.get("/recent", function(response, status, request) {
-					$('#questions').html(response);
-				});
-			}
-
-			function showDetails(url, title) {
-				resetLayout();
-				$('#details_headline').text(title);
-
-				$.get(url, function(response, status, request) {
-					$('#details').html(response);
-				});
-			}
-
-			function showProfile(name) {
-				$('#questions_box').hide();
-				$('#details_box').width(1000);
-				$('#details_headline').text('Your profile');
-				$.get("/showUser/" + name, function(response, status, request) {
-					$('#details').html(response);
-				});
-			}
-
-			function resetLayout() {
-				$('#questions_box').show();
-				$('#details_box').width(560);
-			}
-
-			function search() {
-				var text = $('#search_text')[0].value;
-				var menu = $('#search_mode')[0].value;
-
-				$('#questions_headline').html('Search results for <em>' + text + '</em>');
-				$.get("/search?text=" + text + "&menu=" + menu, function(response, status, request) {
-						$("#questions").html(response);
-				});
-			}
-        -->
+		-->
 		</script>
     </head>
     <body>
     	<div id="root">
     		<div id="head">
-				<div id="search">
-					<form action="javascript:search()" method="GET">
-							<select name="menu" id="search_mode">
-								<option value="similarQuestion">Find Question</option>
-								<option value="similarUser">Find User</option>
-							</select>
-
-							<input size="15" type="text" name="text" id="search_text" value="" />
-							<input type="submit" value="search" />
-					</form>
-                </div>
-
-                <div id="statusbox">
+			   <div id="statusbox">
                     #{if session.uid}
                         Logged in as: ${session.get("username")}
                         <a href="@{Secure.logout()}">logout</a>
@@ -96,14 +44,26 @@
                     #{/else}
                 </div>
 
+				<div id="search">
+					<form action="javascript:submit_search()">
+							<select name="menu" id="search_mode">
+								<option value="similarQuestion">Find Question</option>
+								<option value="similarUser">Find User</option>
+							</select>
+
+							<input size="15" type="text" name="text" id="search_text" value="" />
+							<input type="submit" value="search" />
+					</form>
+                </div>
+
                 #{if session.uid}
                 <div id="menu">
 					<a href="/"><img src="/public/images/home.png" /></a>
                     <ul>
-                    <li><a href="javascript:showDetails('@{MutateQuestionController.showQuestionForm()}', 'Add Question')">add question</a></li>
+                    <li><a href="@{MutateQuestionController.showQuestionForm()}">add question</a></li>
                     <li><a href="javascript:showRecent()">recent questions</a></li>
-                    <li><a href="javascript:showProfile('${session.username}')">my profile</a></li>
-                    <li><a href="javascript:showDetails('@{Application.showState()}', 'Your statistics')">statistics</a></li>
+                    <li><a href="@{UserController.showUser(session.username)}">my profile</a></li>
+                    <li><a href="@{Application.showState()}">statistics</a></li>
                     #{if isChanged}
                     <li><a href="@{ExtendedUserController.showNotifications()}">something happened</a></li>
                     #{/if}
@@ -114,7 +74,7 @@
 
             <div id="content">
                 <div id="questions_box">
-					<h2 id="questions_headline">All questions</h2>
+					<h2 id="questions_headline"></h2>
 
 					<div id="questions">
 					</div>

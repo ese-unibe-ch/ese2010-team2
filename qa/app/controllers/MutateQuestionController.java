@@ -1,16 +1,10 @@
 package controllers;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
-import models.Answer;
-import models.Comment;
 import models.DbManager;
-import models.Notification;
-import models.Post;
 import models.Question;
 import models.User;
-import models.UserGroups;
 import play.mvc.Controller;
 import play.mvc.With;
 
@@ -88,7 +82,6 @@ public class MutateQuestionController extends Controller {
 			showQuestionForm(newQuestion, tags, message);
 		}
 		else {
-			@SuppressWarnings("unused")
 			Question question = new Question(true, newQuestion, user);
 			question.addTags(tags);
 			redirect("/question/" + question.getId() + "/answers/");

@@ -1,3 +1,17 @@
+<script type="text/javascript" charset="utf-8">
+		<!--
+			var text;
+			if ( "${mod}" == "recent") {
+				text = "Recent questions";
+			} else {
+				text = "All questions";
+			}
+			setHeadline('#questions_headline', text);
+		-->
+</script>
+
+%{session.put("state", mod);}%
+
 #{list items:questions, as:'question'}
 	#{short_post post:question /}
 #{/list}

@@ -29,7 +29,7 @@ GET                /showUser/{userName}                                   UserCo
 GET				   /{type}/{id}/history									  PostController.showVersionHistory
 
 #DisplayQuestionController
-GET				   /questions											  DisplayQuestionController.questions
+GET				   /questions/{mod}									  	  DisplayQuestionController.questions
 GET                /question/{id}/answers/                          	  DisplayQuestionController.showAnswers
 GET			       /recent												  DisplayQuestionController.showRecentQuestionsByNumber
 

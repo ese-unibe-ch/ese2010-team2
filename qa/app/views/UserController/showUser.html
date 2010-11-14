@@ -1,10 +1,16 @@
-#{avatar user:profileOwner /}
+#{extends 'main.html' /}
+
+<script type="text/javascript" charset="utf-8">
+		<!--
+			setOneColumnView();
+		    $('#detals_headline').text('Your profile');
+		-->
+</script>
 
 #{if session.get("username") == profileOwner.getName()}
-	<fieldset>
-		<a href="@{UserController.showUserProfile()}">edit Profile</a>
-	</fieldset>
+	&raquo; <a href="@{UserController.showUserProfile()}">edit Profile</a>
 #{/if}
+
 #{if isAdmin}
 	#{if session.get("username") != profileOwner.getName()}
 		<fieldset>
@@ -13,24 +19,52 @@
 		#{/if}
 #{/if}
 
-<fieldset>
-	About me<hr/>
-	Birthdate: ${profileOwner.getBirthdate()}<br>
-	Moto: ${profileOwner.getMoto()}<br>
-	Background: ${profileOwner.getBackground()}<br>
-	Hobbies: ${profileOwner.getHobbies()}<br>
-	Quote: ${profileOwner.getQuote()}<br>
-</fieldset>
+<h3>About me</h3>
+<table>
+	<tr>
+		<td>Birthdate:</td>
+		<td>${profileOwner.getBirthdate()}</td>
+	</tr>
+	<tr>
+		<td>Moto:</td>
+		<td>${profileOwner.getMoto()}</td>
+	</tr>
+	<tr>
+		<td>Background:</td>
+		<td>${profileOwner.getBackground()}</td>
+	</tr>
+	<tr>
+		<td>Hobbies:</td>
+		<td>${profileOwner.getHobbies()}</td>
+	</tr>
+	<tr>
+		<td>Quote:</td>
+		<td>${profileOwner.getQuote()}</td>
+	</tr>
+</table>
 
-<fieldset>
-	Contact Information<hr/>
-	Town: ${profileOwner.getTown()}<br>
-	Street: ${profileOwner.getStreet()}<br>
-	Phone: ${profileOwner.getPhone()}<br>
-	E-Mail: ${profileOwner.getEmail()}<br>
-</fieldset>
+<h3>Contact Information</h3>
+<table>
+	<tr>
+		<td>Town:</td>
+		<td>${profileOwner.getTown()}</td>
+	</tr>
+	<tr>
+		<td>Street:</td>
+		<td>${profileOwner.getStreet()}</td>
+	</tr>
+	<tr>
+		<td>Phone:</td>
+		<td>${profileOwner.getPhone()}</td>
+	</tr>
+	<tr>
+		<td>E-Mail:</td>
+		<td>${profileOwner.getEmail()}</td>
+	</tr>
+</table>
 
-Current Reputation: ${profileOwner.getScore()}<br>
+<p>Current Reputation: ${profileOwner.getScore()}</p>
+
 <img src="http://chart.apis.google.com/chart
 	?chxt=y
 	&chbh=a
@@ -71,75 +105,62 @@ Current Reputation: ${profileOwner.getScore()}<br>
 	width="700" height="225"
 	alt="Reputation over Time" />
 
-	#{if userQuestions}
-		<fieldset>
-			<a id="da1" style="display:inline" href="javascript:show1()">Show my questions</a><a id="nd1" style="display:none" href="javascript:weg1()">My questions (close)</a>
-			<div id="ve1" style="display:none"><br>
-				<hr/>
-				#{list items:userQuestions, as:'question'}
-					#{short_post post:question /}
-				#{/list}
-			</div>&nbsp;
-		</fieldset>
-	#{/if}
+#{if userQuestions}
+<h3>My questions
+	<a href="javascript:toggle('my_questions', 'tquestions')">
+	<img id="tquestions" src="/public/images/more.png" alt="more" />
+	</a>
+</h3>
+<div>
+	<div id="my_questions" style="display: none">
+		#{list items:userQuestions, as:'question'}
+			#{short_post post:question /}
+		#{/list}
+	</div>
+</div>
+#{/if}
 
-	#{if userAnswers}
-		<fieldset>
-			<a id="da2" style="display:inline" href="javascript:show2()">Show my answers</a><a id="nd2" style="display:none" href="javascript:weg2()">My answers (close)</a>
-			<div id="ve2" style="display:none"><br>
-				<hr/>
-				#{list items:userAnswers, as:'answer'}
-					#{short_answer post:answer /}
-				#{/list}
-			</div>&nbsp;
-		</fieldset>
-	#{/if}
+#{if userAnswers}
+<h3>My answers
+	<a href="javascript:toggle('my_answers', 'tanswers')">
+	<img id="tanswers" src="/public/images/more.png" alt="more" />
+	</a>
+</h3>
+<div>
+	<div id="my_answers" style="display: none">
+		#{list items:userAnswers, as:'answer'}
+			#{short_answer post:answer /}
+		#{/list}
+	</div>
+</div>
+#{/if}
 
-	#{if userLog}
-		<fieldset>
-			<a id="da3" style="display:inline" href="javascript:show3()">Show my activities</a><a id="nd3" style="display:none" href="javascript:weg3()">My activities (close)</a>
-			<div id="ve3" style="display:none"><br>
-				<hr/>
-				#{list items:userLog, as:'log'}
-					#{log_entry post:log /}
-				#{/list}
-			</div>&nbsp;
-		</fieldset>
-	#{/if}
+#{if userLog}
+<h3>My activities
+	<a href="javascript:toggle('my_activities', 'tactivities')">
+	<img id="tactivities" src="/public/images/more.png" alt="more" />
+	</a>
+</h3>
 
+<div>
+	<div id="my_activities" style="display: none">
+		#{list items:userLog, as:'log'}
+			#{log_entry post:log /}
+		#{/list}
+	</div>
+</div>
+#{/if}
 
-	<script language="JavaScript" type="text/javascript">
-		function show1() {
-			if(document.getElementById) document.getElementById("ve1").style.display = "inline";
-			if(document.getElementById) document.getElementById("da1").style.display = "none";
-			if(document.getElementById) document.getElementById("nd1").style.display = "inline";
-		}
-
-		function weg1() {
-			if(document.getElementById) document.getElementById("ve1").style.display = "none";
-			if(document.getElementById) document.getElementById("da1").style.display = "inline";
-			if(document.getElementById) document.getElementById("nd1").style.display = "none";
-		}
-		function show2() {
-			if(document.getElementById) document.getElementById("ve2").style.display = "inline";
-			if(document.getElementById) document.getElementById("da2").style.display = "none";
-			if(document.getElementById) document.getElementById("nd2").style.display = "inline";
-		}
-
-		function weg2() {
-			if(document.getElementById) document.getElementById("ve2").style.display = "none";
-			if(document.getElementById) document.getElementById("da2").style.display = "inline";
-			if(document.getElementById) document.getElementById("nd2").style.display = "none";
-		}
-		function show3() {
-			if(document.getElementById) document.getElementById("ve3").style.display = "inline";
-			if(document.getElementById) document.getElementById("da3").style.display = "none";
-			if(document.getElementById) document.getElementById("nd3").style.display = "inline";
-		}
-
-		function weg3() {
-			if(document.getElementById) document.getElementById("ve3").style.display = "none";
-			if(document.getElementById) document.getElementById("da3").style.display = "inline";
-			if(document.getElementById) document.getElementById("nd3").style.display = "none";
-		}
-	</script>
+<script type="text/javascript" charset="utf-8">
+		<!--
+			function toggle(id, a) {
+				$('#'+id).toggle();
+				var v = $('#'+id).css('display');
+				if ( v == "block" ) {
+					$('#'+a).replaceWith('<img id="' + a + '" src="/public/images/less.png" alt="less" />');
+				} else {
+					$('#'+a).replaceWith('<img id="' + a + '" src="/public/images/more.png" alt="more" />');
+				}
+			}
+		-->
+</script>
