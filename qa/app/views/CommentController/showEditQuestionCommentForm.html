@@ -1,7 +1,10 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Edit comment' /}
-<a href="/question/${qid}/answers/"">back</a>
-
+<script type="text/javascript" charset="utf-8">
+		<!--
+			setHeadline('#details_headline', 'Edit comment');
+		-->
+</script>
 <div class="form">
 	<form action="@{CommentController.editQuestionComment(qid, cid, comment)}" method="GET">
 		<ul>

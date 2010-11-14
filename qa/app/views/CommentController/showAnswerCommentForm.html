@@ -1,9 +1,11 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Add a new Comment' /}
 
-<a href="/">back</a>
-
-<h2>Add a new Comment</h2>
+<script type="text/javascript" charset="utf-8">
+		<!--
+			setHeadline('#details_headline', 'Add new comment');
+		-->
+</script>
 
 <div class="form">
 	<form action="@{CommentController.addCommentToAnswer(answerId, qid)}" method="GET">

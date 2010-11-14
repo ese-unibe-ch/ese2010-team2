@@ -1,5 +1,11 @@
 #{extends 'main.html' /}
 
+<script type="text/javascript" charset="utf-8">
+		<!--
+			setHeadline('#details_headline', 'Add new question');
+		-->
+</script>
+
 <h4 style="color:#c00">${message}</h4>
 
 <div class="form">
@@ -12,7 +18,7 @@
 
 		<li>
 			<label for="tags">Add tags (separated by spaces):</label>
-			<input id="tags" name="tags" type="text" size="40" maxlength="200" value="${tags}">
+			<input id="tags" name="tags" type="text" size="48" value="${tags}" />
 		</li>
 
 		<li>

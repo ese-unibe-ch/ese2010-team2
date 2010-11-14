@@ -1,10 +1,12 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Edit comment' /}
 
-<a href="javascript:history.back()">back</a>
-
 #{if comment.ownerIs(session.uid)}
-<h2>Edit comment</h2>
+<script type="text/javascript" charset="utf-8">
+		<!--
+			setHeadline('#details_headline', 'edit comment');
+		-->
+</script>
 
 <div class="form">
 	<form action="@{MutateAnswerController.editAnswerComment(qid, aid, cid, comment)}" method="GET">

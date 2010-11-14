@@ -19,50 +19,68 @@
 		#{/if}
 #{/if}
 
-<h3>About me</h3>
-<table>
-	<tr>
-		<td>Birthdate:</td>
-		<td>${profileOwner.getBirthdate()}</td>
-	</tr>
-	<tr>
-		<td>Moto:</td>
-		<td>${profileOwner.getMoto()}</td>
-	</tr>
-	<tr>
-		<td>Background:</td>
-		<td>${profileOwner.getBackground()}</td>
-	</tr>
-	<tr>
-		<td>Hobbies:</td>
-		<td>${profileOwner.getHobbies()}</td>
-	</tr>
-	<tr>
-		<td>Quote:</td>
-		<td>${profileOwner.getQuote()}</td>
-	</tr>
-</table>
+<h3>About me
+<a href="javascript:toggle('about_me', 'about')">
+	<img id="about" src="/public/images/more.png" alt="more" />
+	</a>
+</h3>
+<div id="about_me" style="display: none">
+	<table>
+		<tr>
+			<td>Birthdate:</td>
+			<td>${profileOwner.getBirthdate()}</td>
+		</tr>
+		<tr>
+			<td>Moto:</td>
+			<td>${profileOwner.getMoto()}</td>
+		</tr>
+		<tr>
+			<td>Background:</td>
+			<td>${profileOwner.getBackground()}</td>
+		</tr>
+		<tr>
+			<td>Hobbies:</td>
+			<td>${profileOwner.getHobbies()}</td>
+		</tr>
+		<tr>
+			<td>Quote:</td>
+			<td>${profileOwner.getQuote()}</td>
+		</tr>
+	</table>
+</div>
 
-<h3>Contact Information</h3>
-<table>
-	<tr>
-		<td>Town:</td>
-		<td>${profileOwner.getTown()}</td>
-	</tr>
-	<tr>
-		<td>Street:</td>
-		<td>${profileOwner.getStreet()}</td>
-	</tr>
-	<tr>
-		<td>Phone:</td>
-		<td>${profileOwner.getPhone()}</td>
-	</tr>
-	<tr>
-		<td>E-Mail:</td>
-		<td>${profileOwner.getEmail()}</td>
-	</tr>
-</table>
+<h3>Contact Information
+<a href="javascript:toggle('contact_information', 'contact')">
+	<img id="contact" src="/public/images/more.png" alt="more" />
+	</a>
+</h3>
+<div  id="contact_information" style="display: none">
+	<table>
+		<tr>
+			<td>Town:</td>
+			<td>${profileOwner.getTown()}</td>
+		</tr>
+		<tr>
+			<td>Street:</td>
+			<td>${profileOwner.getStreet()}</td>
+		</tr>
+		<tr>
+			<td>Phone:</td>
+			<td>${profileOwner.getPhone()}</td>
+		</tr>
+		<tr>
+			<td>E-Mail:</td>
+			<td>${profileOwner.getEmail()}</td>
+		</tr>
+	</table>
+</div>
 
+<h3>My reputation
+<a href="javascript:toggle('reputation', 'rep')">
+	<img id="rep" src="/public/images/more.png" alt="more" />
+	</a>
+</h3>
+<div id="reputation" style="display: none">
 <p>Current Reputation: ${profileOwner.getScore()}</p>
 
 <img src="http://chart.apis.google.com/chart
@@ -104,6 +122,7 @@
 	&chtt=Reputation+over+Time"
 	width="700" height="225"
 	alt="Reputation over Time" />
+</div>
 
 #{if userQuestions}
 <h3>My questions
@@ -111,7 +130,7 @@
 	<img id="tquestions" src="/public/images/more.png" alt="more" />
 	</a>
 </h3>
-<div>
+<div class="log">
 	<div id="my_questions" style="display: none">
 		#{list items:userQuestions, as:'question'}
 			#{short_post post:question /}
@@ -126,7 +145,7 @@
 	<img id="tanswers" src="/public/images/more.png" alt="more" />
 	</a>
 </h3>
-<div>
+<div class="log">
 	<div id="my_answers" style="display: none">
 		#{list items:userAnswers, as:'answer'}
 			#{short_answer post:answer /}
@@ -142,7 +161,7 @@
 	</a>
 </h3>
 
-<div>
+<div class="log">
 	<div id="my_activities" style="display: none">
 		#{list items:userLog, as:'log'}
 			#{log_entry post:log /}

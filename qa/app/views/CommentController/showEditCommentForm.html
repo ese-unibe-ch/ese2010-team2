@@ -1,7 +1,11 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Edit question' /}
 
-<a href="javascript:history.back()">back</a>
+<script type="text/javascript" charset="utf-8">
+		<!--
+			setHeadline('#details_headline', 'Edit comment');
+		-->
+</script>
 
 <div class="form">
 	<form action="@{Admin.editComment(comment, qid, cid)}" method="GET">
