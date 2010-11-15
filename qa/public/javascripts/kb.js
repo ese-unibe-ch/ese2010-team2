@@ -1,7 +1,10 @@
-$(document).ready(function() {
+$(document).ready(resize);
+window.onresize = resize;
+
+function resize() {
     $('#questions').height($(window).height()-140);
     $('#details').height($(window).height()-140);
-});
+};
 
 function showAll() {
     resetLayout();
