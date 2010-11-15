@@ -7,6 +7,11 @@
 <script type="text/javascript" charset="utf-8">
 		<!--
 			setHeadline('#questions_headline', 'Search results for <em>${session.text}</em>');
+
+			var tokens = '${session.text}'.split(' ');
+			for ( var i = 0; i < tokens.length; i++ ) {
+				$('.short_post_text p').highlight(tokens[i]);
+			}
 		-->
 </script>
 

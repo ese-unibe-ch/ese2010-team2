@@ -274,6 +274,10 @@ span.tag {
 	color: #FFF;
 }
 
+span.highlight {
+	background: red;
+}
+
 /*
  * form stuff
  */
