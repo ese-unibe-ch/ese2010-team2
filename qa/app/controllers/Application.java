@@ -58,8 +58,7 @@ public class Application extends Controller {
 		}
 
 		boolean isQuestion = menu.equals("search");
-		boolean isUserByTag = menu.equals("similarUserByTag");
-		boolean isUserByContent = menu.equals("similarUserByContent");
+		boolean isUser = menu.equals("similarUser");
 		User currentUser = manager.getUserByName(session.get("username"));
 
 		// If no query is typed in
@@ -69,19 +68,10 @@ public class Application extends Controller {
 		}
 		// If a query is typed in differentiate between searchtypes
 		if (!text.equals("")) {
-			SearchManager searchManager;
-			if (isUserByContent) {
-				searchManager = new SearchManager(text, "similarUserByContent");
-			} else {
-				if (isUserByTag) {
-					searchManager = new SearchManager(text, "similarUserByTag");
-				} else {
-					searchManager = new SearchManager(text, "search");
-				}
-			}
+			SearchManager searchManager = new SearchManager(text);
 
 			ArrayList<SearchResult> results = searchManager.getSearchResults();
-			if (isUserByTag || isUserByContent) {
+			if (isUser) {
 				// returns list of users without duplicates or user logged
 				// into
 				// session
@@ -101,8 +91,7 @@ public class Application extends Controller {
 				String message = "No Results";
 				render(message, menu, text);
 			} else {
-				render(results, isQuestion, isUserByTag, isUserByContent, menu,
-						text);
+				render(results, isQuestion, isUser, menu, text);
 			}
 		}
 	}

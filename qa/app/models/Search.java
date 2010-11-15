@@ -39,18 +39,14 @@ public class Search {
 	private int numberOfAnswers;
 	private int numberOfComments;
 
-	private String searchType;
-
 	/** Store the results of the search, grouped after their type. */
 	private ArrayList<Answer> answerResults;
 	private ArrayList<Comment> commentResults;
 	private ArrayList<Question> questionResults;
 
-	public Search(ArrayList<String> soundexCodes, ArrayList<String> sentences,
-			String searchType) {
+	public Search(ArrayList<String> soundexCodes, ArrayList<String> sentences) {
 		this.soundexCodes = soundexCodes;
 		this.sentences = sentences;
-		this.searchType = searchType;
 		this.manager = DbManager.getInstance();
 
 		doASoundexSearch = false;
@@ -77,11 +73,8 @@ public class Search {
 		doASoundexSearch = true;
 		for (int i = 0; i < soundexCodes.size(); i++) {
 			String query = soundexCodes.get(i);
-			if (searchType == "similarUserByTag" || searchType == "search") {
-				searchQuestionTags(query);
-			}
-			if (searchType == "similarUserByContent" || searchType == "search")
-				searchQuestionContent(query);
+			searchQuestionTags(query);
+			searchQuestionContent(query);
 			searchAnswerContent(query);
 			searchComments(query);
 		}
@@ -90,11 +83,9 @@ public class Search {
 		doASoundexSearch = false;
 		for (int i = 0; i < sentences.size(); i++) {
 			String query = sentences.get(i);
-			if (searchType == "similarUserByContent" || searchType == "search") {
-				searchQuestionContent(query);
-				searchAnswerContent(query);
-				searchComments(query);
-			}
+			searchQuestionContent(query);
+			searchAnswerContent(query);
+			searchComments(query);
 		}
 		removeDuplicatedQuestions();
 	}

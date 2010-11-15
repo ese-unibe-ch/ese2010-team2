@@ -35,7 +35,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 		// Init Parser and Search
 		SearchQueryParser parser = new SearchQueryParser("Test1");
 		Search search = new Search(parser.getSoundexCodes(),
-				parser.getSentences(), "search");
+				parser.getSentences());
 
 		// Be sure only a answer was found by search
 		assertEquals(0, search.getQuestionResults().size());
@@ -75,7 +75,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 		// Init Parser Search and Assembler
 		SearchQueryParser parser = new SearchQueryParser("question1Test");
 		Search search = new Search(parser.getSoundexCodes(),
-				parser.getSentences(), "search");
+				parser.getSentences());
 		SearchResultAssembler assembler = new SearchResultAssembler(
 				search.getAnswerResults(), search.getCommentResults(),
 				search.getQuestionResults());
@@ -116,7 +116,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 		// Init parser and search
 		SearchQueryParser parser = new SearchQueryParser("schopenhauer");
 		Search search = new Search(parser.getSoundexCodes(),
-				parser.getSentences(), "search");
+				parser.getSentences());
 
 		// Be sure only a comment was found by search
 		assertEquals(0, search.getQuestionResults().size());

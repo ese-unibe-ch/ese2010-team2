@@ -29,7 +29,7 @@ public class SearchResultSorterTest extends UnitTest {
 		Comment commentQuestion = new Comment(admin, question1, "question1");
 		Comment commentAnswer = new Comment(admin, answer1, "question1");
 
-		SearchManager searchManager = new SearchManager("question1", "search");
+		SearchManager searchManager = new SearchManager("question1");
 
 		// 4 content count + 1 tag counts double
 		assertEquals(6, searchManager.getSearchResults().get(0).getTotalCount());
@@ -46,7 +46,7 @@ public class SearchResultSorterTest extends UnitTest {
 				"question1 is the best");
 
 		SearchManager searchManager = new SearchManager(
-				"\"question1 is the best\"", "search");
+				"\"question1 is the best\"");
 
 		assertEquals(4, searchManager.getSearchResults().get(0).getTotalCount());
 
@@ -65,7 +65,7 @@ public class SearchResultSorterTest extends UnitTest {
 				"question1 is the best");
 
 		SearchManager searchManager = new SearchManager(
-				"\"question1 is the best\"", "search");
+				"\"question1 is the best\"");
 
 		assertEquals(9, searchManager.getSearchResults().get(0).getTotalScore());
 	}
@@ -82,7 +82,7 @@ public class SearchResultSorterTest extends UnitTest {
 				"question1 is the best");
 
 		SearchManager searchManager = new SearchManager(
-				"\"question1 is the best\"", "search");
+				"\"question1 is the best\"");
 
 		// 3 (content counts, content count in best answer will not be counted)
 		// + 5 (has a best answer) = 9

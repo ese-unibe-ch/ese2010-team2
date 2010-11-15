@@ -17,11 +17,9 @@ public class SearchManager {
 	private Search search;
 	private SearchResultAssembler assembler;
 	private SearchResultSorter sorter;
-	private String searchType;
 
-	public SearchManager(String query, String searchType) {
+	public SearchManager(String query) {
 		this.query = query;
-		this.searchType = searchType;
 
 		initSearch();
 	}
@@ -32,8 +30,7 @@ public class SearchManager {
 
 		// Get parsed query and search fulltext and tag in Questions, Answers
 		// and Comments.
-		search = new Search(parser.getSoundexCodes(), parser.getSentences(),
-				searchType);
+		search = new Search(parser.getSoundexCodes(), parser.getSentences());
 
 		// Take the results from the search and assemble them together in
 		// searchResults, they will be used for counting in Search Result

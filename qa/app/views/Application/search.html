@@ -20,8 +20,7 @@
 
 	<select name="menu" id="search_mode2">
 		<option value="search"#{if isQuestion} selected="selected"#{/if}> Find Question</option>
-		<option value="similarUserByTag" #{if isUserByTag} selected="selected"#{/if}>Find User by Tag</option>
-		<option value="similarUserByContent" #{if isUserByContent} selected="selected"#{/if}>Find User by Content</option>
+		<option value="similarUser" #{if isUser} selected="selected"#{/if}>Find User</option>
 	</select>
 
 	<input size="15" type="text" name="text" id="search_text2" value="${params.get('text')}">
