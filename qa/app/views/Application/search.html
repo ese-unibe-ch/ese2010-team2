@@ -19,8 +19,9 @@
 	<span style="font-size:60%">Search for a whole sentence by embracing two or more words by double quotes!</span></p>
 
 	<select name="menu" id="search_mode2">
-		<option value="similarQuestion">Find Question</option>
-		<option value="similarUser">Find User</option>
+		<option value="similarQuestion"#{if isQuestion} selected="selected"#{/if}> Find Question</option>
+		<option value="similarUserByTag" #{if isUserByTag} selected="selected"#{/if}>Find User by Tag</option>
+		<option value="similarUserByContent" #{if isUserByContent} selected="selected"#{/if}>Find User by Content</option>
 	</select>
 
 	<input size="15" type="text" name="text" id="search_text2" value="${params.get('text')}">
@@ -35,9 +36,10 @@
 		#{short_post post:searchresult.getQuestion() /}
 		#{/if}
 
-		#{if isUser}
+		#{else}
 		<p>#{avatar user:searchresult.getOwner() /}
 		<a href="@{UserController.showUser(searchresult.getOwner())}">${searchresult.getOwner()}</a></p>
-		#{/if}
+		#{/else}
+
 	#{/list}
 #{/if}

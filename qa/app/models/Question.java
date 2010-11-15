@@ -138,8 +138,8 @@ public class Question extends Post {
 		String existingTags = new String();
 		for (String newTag : tags.split(delimiter)) {
 			for (String existingTag : manager.getTagList()) {
-				if (models.algorithms.Levenshtein.getLevenshteinDistance(newTag
-						.toLowerCase(), existingTag) <= minDistance
+				if (models.algorithms.Levenshtein.getLevenshteinDistance(
+						newTag.toLowerCase(), existingTag) <= minDistance
 						&& !manager.getTagList().contains(newTag)) {
 					existingTags = existingTags + "#" + existingTag + " ";
 				}
@@ -159,7 +159,7 @@ public class Question extends Post {
 		ArrayList<Post> similar = new ArrayList<Post>();
 		// Search similar questions
 		SearchManager searchManager = new SearchManager(this.getTagsString()
-				+ " " + this.getContent());
+				+ " " + this.getContent(), "similarQuestion");
 
 		// Fill the list of similar questions with different search results.
 		int i = 0;
@@ -207,7 +207,7 @@ public class Question extends Post {
 		addVersion(oldContent, oldTags, uname);
 	}
 
-	/** 
+	/**
 	 * Notifies the owner of this question about its change.
 	 */
 	public void notifyChange() {

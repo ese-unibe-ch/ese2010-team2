@@ -48,10 +48,10 @@
 				<div id="search">
 					<form action="javascript:submit_search()">
 							<select name="menu" id="search_mode">
-								<option value="similarQuestion">Find Question</option>
-								<option value="similarUser">Find User</option>
+								<option value="similarQuestion"#{if isQuestion} selected="selected"#{/if}> Find Question</option>
+								<option value="similarUserByTag" #{if isUserByTag} selected="selected"#{/if}>Find User by Tag</option>
+								<option value="similarUserByContent" #{if isUserByContent} selected="selected"#{/if}>Find User by Content</option>
 							</select>
-
 							<input size="15" type="text" name="text" id="search_text" value="" />
 							<input type="submit" value="search" />
 					</form>

@@ -38,7 +38,7 @@ public class Application extends Controller {
 		}
 	}
 
-	/** 
+	/**
 	 * Renders some general informations about the application
 	 */
 	public static void showState() {
@@ -58,7 +58,8 @@ public class Application extends Controller {
 		}
 
 		boolean isQuestion = menu.equals("similarQuestion");
-		boolean isUser = menu.equals("similarUser");
+		boolean isUserByTag = menu.equals("similarUserByTag");
+		boolean isUserByContent = menu.equals("similarUserByContent");
 		User currentUser = manager.getUserByName(session.get("username"));
 
 		// If no query is typed in
@@ -68,10 +69,21 @@ public class Application extends Controller {
 		}
 		// If a query is typed in
 		if (!text.equals("")) {
-			SearchManager searchManager = new SearchManager(text);
+			SearchManager searchManager;
+			if (isUserByContent) {
+				searchManager = new SearchManager(text, "similarUserByContent");
+			} else {
+				if (isUserByTag) {
+					searchManager = new SearchManager(text, "similarUserByTag");
+				} else {
+					searchManager = new SearchManager(text, "similarQuestion");
+				}
+			}
+
 			ArrayList<SearchResult> results = searchManager.getSearchResults();
-			if (isUser) {
-				// returns list of users without duplicates or user logged into
+			if (isUserByTag || isUserByContent) {
+				// returns list of users without duplicates or user logged
+				// into
 				// session
 				ArrayList<SearchResult> newList = new ArrayList();
 				Set set = new HashSet();
@@ -87,9 +99,9 @@ public class Application extends Controller {
 			// If query has no results
 			if (results.size() == 0) {
 				String message = "No Results";
-				render(message, menu, text);
+				render(message);
 			} else {
-				render(results, isQuestion, isUser, menu, text);
+				render(results, isQuestion, isUserByTag, isUserByContent, menu);
 			}
 		}
 	}

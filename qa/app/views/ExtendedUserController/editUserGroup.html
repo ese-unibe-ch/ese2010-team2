@@ -40,9 +40,9 @@
 		</td>
 		<td>
 		#{if user.getName() != "admin"}
-			<a href="@{Admin.showAdminUserProfile(user.getName())}">edit ${user.getName()}</a>
-			<a href="@{ExtendedUserController.deleteUser(user.getName())}">delete ${user.getName()}</a>
-			
+			<a href="@{Admin.showAdminUserProfile(user.getName())}" title="edit user"><img src="/public/images/edit.png" alt="edit ${user.getName()}" /></a>
+			<a href="@{ExtendedUserController.deleteUser(user.getName())}" title="delete user"><img src="/public/images/delete.png" alt="delete ${user.getName()}" /></a>		
+
 		#{/if}
 	</tr>
 #{/list}
