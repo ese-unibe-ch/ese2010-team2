@@ -99,9 +99,10 @@ public class Application extends Controller {
 			// If query has no results
 			if (results.size() == 0) {
 				String message = "No Results";
-				render(message);
+				render(message, menu, text);
 			} else {
-				render(results, isQuestion, isUserByTag, isUserByContent, menu);
+				render(results, isQuestion, isUserByTag, isUserByContent, menu,
+						text);
 			}
 		}
 	}

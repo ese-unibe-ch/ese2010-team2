@@ -22,15 +22,14 @@ img {
 /*
  *
  */
-
-#menu ul li a {
+#menu ul li a, #statusbox a {
 	color: #AA00A2;
 	background: #D460CF;
 	padding: 0 .2em 0 .2em;
 	font-size: small;
 }
 
-#menu ul li a:hover {
+#menu ul li a:hover, #statusbox a:hover {
 	color: #D460CF;
 	background: #AA00A2;
 	padding: 0 .2em 0 .2em;
@@ -284,7 +283,7 @@ span.highlight {
  */
 
 div.form label {
-	display:block;
+	display: block;
 }
 
 div.form ul {

@@ -6,6 +6,7 @@
 	border-bottom: thick solid #D460CF;
 	padding: .5em;
 	min-height: 1.8em;
+	color: #FFF;
 }
 
 #content {
@@ -41,7 +42,7 @@
 }
 
 #search {
-	width: 25%;
+	width: 30%;
 	float: right;
 }
 
