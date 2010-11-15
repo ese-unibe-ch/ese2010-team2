@@ -1,7 +1,13 @@
 package controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import org.apache.commons.io.IOUtils;
 
 import models.Answer;
 import models.Comment;
@@ -11,6 +17,7 @@ import models.Post;
 import models.Question;
 import models.User;
 import models.UserGroups;
+import play.Play;
 import play.mvc.Controller;
 import play.mvc.With;
 
@@ -22,7 +29,7 @@ public class Admin extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
 	private static Calendar calendar = Calendar.getInstance();
-	
+
 	/** renders user profile to admin */
 	public static void showAdminUserProfile(String message) {
 		ArrayList<User> informationOwner = new ArrayList<User>();
@@ -55,7 +62,8 @@ public class Admin extends Controller {
 			if (email.contains("@") || email.contains(".")) {
 				manager.getUserByName(username).setEmail(email);
 			} else {
-				Admin.showAdminUserProfile("Please re-check your email address!");
+				Admin
+						.showAdminUserProfile("Please re-check your email address!");
 			}
 		}
 		// Checks if two similar password were typed in.
@@ -76,5 +84,32 @@ public class Admin extends Controller {
 			redirect("/");
 		else
 			render(uname);
+	}
+
+	public static void importData() {
+		render();
+	}
+
+	public static void loadData(File data){
+		File xmlDir= new File(Play.applicationPath.getAbsolutePath() + "/public/data");
+		if(!xmlDir.exists()){
+			xmlDir.mkdir();
+		}
+		
+		File newData= new File(xmlDir.getPath()+"/data/data.xml");
+
+		try{
+			xmlDir.createNewFile();
+			FileInputStream in= new FileInputStream(data);
+			FileOutputStream out= new FileOutputStream(newData);
+			IOUtils.copy(in, out);
+			out.close();
+			in.close();
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+		
+		render();
+		
 	}
 }

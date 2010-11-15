@@ -41,6 +41,8 @@ GET                /question/{qid}/edit_comment                     	  Admin.sho
 GET				   /editInformation										  Admin.editInformation
 GET				   /showAdminUserProfile								  Admin.showAdminUserProfile
 GET				   /admin												  Admin.showAdminPage
+GET				   /importData										 	  Admin.importData
+POST			   /loadData											  Admin.loadData
 
 #ExtendedUserController
 GET                /users                                           	  ExtendedUserController.showUsers
