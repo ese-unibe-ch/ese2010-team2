@@ -1,8 +1,11 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - Edit question' /}
-<a href="javascript:history.back()">back</a>
 
-<h2>Edit Question</h2>
+<script type="text/javascript" charset="utf-8">
+		<!--
+		    $('#details_headline').text('Edit question');
+		-->
+</script>
 
 <div class="form">
 	<form action="@{MutateQuestionController.editQuestion(question.getId())}" method="GET">

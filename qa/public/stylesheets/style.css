@@ -275,7 +275,8 @@ span.tag {
 }
 
 span.highlight {
-	background: red;
+	background: #F00;
+	color: #FFF;
 }
 
 /*

@@ -1,8 +1,10 @@
 #{extends 'main.html' /}
-#{set title:'ESE KB - Edit question' /}
-<a href="javascript:history.back()">back</a>
 
-<h2>Edit answer</h2>
+<script type="text/javascript" charset="utf-8">
+		<!--
+		    $('#details_headline').text('Edit answer');
+		-->
+</script>
 
 #{if message}
 <h4 style="color:#c00">${message}</h4>
@@ -13,7 +15,7 @@
 		<ul>
 			<li>
 				<label for="newContent">Answer:</label>
-				<textarea id="newContent" name="newContent" cols="70" rows="5">${answer.getContent()}</textarea>
+				<textarea id="newContent" name="newContent" cols="50" rows="5">${answer.getContent()}</textarea>
 			</li>
 			<li>
 				<input type="submit" value="Save!" />
