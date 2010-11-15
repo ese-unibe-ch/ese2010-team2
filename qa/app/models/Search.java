@@ -73,6 +73,7 @@ public class Search {
 	 */
 	private void doTheSearchForEveryQuery() {
 
+		// Depending on searchType, search tags or content or both
 		doASoundexSearch = true;
 		for (int i = 0; i < soundexCodes.size(); i++) {
 			String query = soundexCodes.get(i);
@@ -85,6 +86,7 @@ public class Search {
 			searchComments(query);
 		}
 
+		// Search only content, ommit tags
 		doASoundexSearch = false;
 		for (int i = 0; i < sentences.size(); i++) {
 			String query = sentences.get(i);

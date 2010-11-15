@@ -67,7 +67,7 @@ public class Application extends Controller {
 			String message = "Nothing to search";
 			render(message);
 		}
-		// If a query is typed in
+		// If a query is typed in differentiate between searchtypes
 		if (!text.equals("")) {
 			SearchManager searchManager;
 			if (isUserByContent) {
