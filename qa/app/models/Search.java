@@ -76,12 +76,10 @@ public class Search {
 		doASoundexSearch = true;
 		for (int i = 0; i < soundexCodes.size(); i++) {
 			String query = soundexCodes.get(i);
-			if (searchType == "similarUserByTag"
-					|| searchType == "similarQuestion") {
+			if (searchType == "similarUserByTag" || searchType == "search") {
 				searchQuestionTags(query);
 			}
-			if (searchType == "similarUserByContent"
-					|| searchType == "similarQuestion")
+			if (searchType == "similarUserByContent" || searchType == "search")
 				searchQuestionContent(query);
 			searchAnswerContent(query);
 			searchComments(query);
@@ -90,8 +88,7 @@ public class Search {
 		doASoundexSearch = false;
 		for (int i = 0; i < sentences.size(); i++) {
 			String query = sentences.get(i);
-			if (searchType == "similarUserByContent"
-					|| searchType == "similarQuestion") {
+			if (searchType == "similarUserByContent" || searchType == "search") {
 				searchQuestionContent(query);
 				searchAnswerContent(query);
 				searchComments(query);

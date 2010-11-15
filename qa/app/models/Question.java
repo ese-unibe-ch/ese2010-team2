@@ -159,7 +159,7 @@ public class Question extends Post {
 		ArrayList<Post> similar = new ArrayList<Post>();
 		// Search similar questions
 		SearchManager searchManager = new SearchManager(this.getTagsString()
-				+ " " + this.getContent(), "similarQuestion");
+				+ " " + this.getContent(), "search");
 
 		// Fill the list of similar questions with different search results.
 		int i = 0;

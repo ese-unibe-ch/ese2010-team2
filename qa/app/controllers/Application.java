@@ -57,7 +57,7 @@ public class Application extends Controller {
 			render();
 		}
 
-		boolean isQuestion = menu.equals("similarQuestion");
+		boolean isQuestion = menu.equals("search");
 		boolean isUserByTag = menu.equals("similarUserByTag");
 		boolean isUserByContent = menu.equals("similarUserByContent");
 		User currentUser = manager.getUserByName(session.get("username"));
@@ -76,7 +76,7 @@ public class Application extends Controller {
 				if (isUserByTag) {
 					searchManager = new SearchManager(text, "similarUserByTag");
 				} else {
-					searchManager = new SearchManager(text, "similarQuestion");
+					searchManager = new SearchManager(text, "search");
 				}
 			}
 

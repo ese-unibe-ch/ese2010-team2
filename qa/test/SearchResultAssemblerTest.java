@@ -18,7 +18,6 @@ public class SearchResultAssemblerTest extends UnitTest {
 	private User admin;
 	private static DbManager manager;
 
-
 	@Before
 	public void setUp() {
 		manager = DbManager.getInstance();
@@ -36,7 +35,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 		// Init Parser and Search
 		SearchQueryParser parser = new SearchQueryParser("Test1");
 		Search search = new Search(parser.getSoundexCodes(),
-				parser.getSentences());
+				parser.getSentences(), "search");
 
 		// Be sure only a answer was found by search
 		assertEquals(0, search.getQuestionResults().size());
@@ -44,8 +43,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 		assertEquals(1, search.getAnswerResults().size());
 
 		// Check that the answer was found
-		assertEquals("Test1", search.getAnswerResults().get(0)
-				.getContent());
+		assertEquals("Test1", search.getAnswerResults().get(0).getContent());
 
 		SearchResultAssembler assembler = new SearchResultAssembler(
 				search.getAnswerResults(), search.getCommentResults(),
@@ -58,8 +56,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 		assertEquals("Test1", result.getAnswers().get(0).getContent());
 		assertEquals("blabla", result.getAnswers().get(1).getContent());
 		assertEquals("comment2", result.getComments().get(0).getContent());
-		assertEquals("comment1", result.getComments().get(1)
-				.getContent());
+		assertEquals("comment1", result.getComments().get(1).getContent());
 
 		// Check everything was assembled
 		assertEquals(0, assembler.getAnswerResults().size());
@@ -78,7 +75,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 		// Init Parser Search and Assembler
 		SearchQueryParser parser = new SearchQueryParser("question1Test");
 		Search search = new Search(parser.getSoundexCodes(),
-				parser.getSentences());
+				parser.getSentences(), "search");
 		SearchResultAssembler assembler = new SearchResultAssembler(
 				search.getAnswerResults(), search.getCommentResults(),
 				search.getQuestionResults());
@@ -89,7 +86,8 @@ public class SearchResultAssemblerTest extends UnitTest {
 		assertEquals(0, search.getAnswerResults().size());
 
 		// Check that the right question was found
-		assertEquals("question1Test", search.getQuestionResults().get(0).getContent());
+		assertEquals("question1Test", search.getQuestionResults().get(0)
+				.getContent());
 
 		// Check if assembling is correct
 		assertEquals(1, assembler.getSearchResults().size());
@@ -118,7 +116,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 		// Init parser and search
 		SearchQueryParser parser = new SearchQueryParser("schopenhauer");
 		Search search = new Search(parser.getSoundexCodes(),
-				parser.getSentences());
+				parser.getSentences(), "search");
 
 		// Be sure only a comment was found by search
 		assertEquals(0, search.getQuestionResults().size());
