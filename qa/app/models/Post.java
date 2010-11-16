@@ -23,7 +23,7 @@ public abstract class Post {
 	protected User editedBy;
 	// Posts in the history can't be voted any longer, therefore set isVoteable 'false'.
 	protected boolean isVoteable=true;
- 
+
 	protected static MarkdownProcessor markdownProcessor = new MarkdownProcessor();
 	protected static DbManager manager = DbManager.getInstance();
 	protected Calendar calendar = Calendar.getInstance();
@@ -36,7 +36,7 @@ public abstract class Post {
 
 	/**
 	 * Vote for a votable.
-	 * 
+	 *
 	 * @param - The vote you want to add. This is an String-object
 	 *            containing an integer number.
 	 *        - The user who votes for this post
@@ -49,28 +49,28 @@ public abstract class Post {
 	}
 
 	/**
-	 * Checks if the user with the id #uid is the owner of the votable. 
-	 * 
+	 * Checks if the user with the id #uid is the owner of the votable.
+	 *
 	 * @param uid
 	 *            numeric user id as string
 	 * @return true, if successful and false if either the uid isn't the owner of the post or if the uid can't be parsed to an integer value.
 	 */
 	public boolean ownerIs(String uid) {
-		
+
 		try {
 			return owner.getId() == Integer.parseInt(uid);
 		} catch (NumberFormatException e) {
 			return false;
 		}
 	}
-	
+
 	public boolean ownerIs(int uid) {
 		return owner.getId() == uid;
 	}
 
 	/**
 	 * Checks if a certain user already voted for this question.
-	 * 
+	 *
 	 * @param user
 	 *            - The user you want to check if he has alrady voted for this
 	 *            question.
@@ -89,7 +89,7 @@ public abstract class Post {
 	/**
 	 * Adds a user to the list of all users who already voted for this question
 	 * but only if the user isn't already in the list.
-	 * 
+	 *
 	 * @param user
 	 *            - that voted for the question.
 	 */
@@ -102,7 +102,7 @@ public abstract class Post {
 	public boolean isModerator(String username) {
 		return manager.getUserByName(username).isModerator();
 	}
-	
+
 	public void updateScore(){
 		if(this.votes.isEmpty()==false){
 			this.score = 0;
@@ -111,11 +111,11 @@ public abstract class Post {
 			}
 		}
 	}
-	
+
 	/**
 	 * Gets the Vote for a user if he already has voted the post. If he hasn't already voted for
 	 * this post it creates a new vote with value 0.
-	 * 
+	 *
 	 * @param user
 	 * @return the vote for a user
 	 */
@@ -151,11 +151,11 @@ public abstract class Post {
 	/**
 	 * Gives an approximative measure of the amount of time passed since this
 	 * post has been created.
-	 * 
+	 *
 	 * The measure is given using the largest time unit where the amount is >=
 	 * 1. I.e. if it was posted 9 months and 3 weeks ago, the measure will be
 	 * "about 9 months ago". 1 week, 5 days => "about 1 week ago".
-	 * 
+	 *
 	 * @return String representing the time difference
 	 */
 	public String getTimePassedSincePosting() {
@@ -164,9 +164,9 @@ public abstract class Post {
 		long now = new Date().getTime();
 		long diff = now - posted;
 		diff /= 1000; // convert to seconds
-		
+
 		StringBuffer s = new StringBuffer();
-		
+
 		if ( diff < 60 ) {
 			s.append(diff + " seconds ");
 		} else if ( diff > 60 && diff < 60 * 60 ) {
@@ -194,7 +194,7 @@ public abstract class Post {
 			s.append(years);
 			s.append(years > 1 ? " years " : " year ");
 		}
-		
+
 		return s.toString();
 	}
 
@@ -206,19 +206,19 @@ public abstract class Post {
 	public User getOwner() {
 		return owner;
 	}
-	
+
 	public ArrayList<Post> getOldVersions(){
 		return this.oldVersions;
 	}
-	
+
 	public User getEditor(){
 		return this.editedBy;
 	}
-	
+
 	public ArrayList<Vote> getVotes(){
 		return this.votes;
 	}
-	
+
 	public int getcurrentVote(String username){
 		for(Vote each : this.votes){
 			if(each.getUser().getName().equals(username))
@@ -227,7 +227,7 @@ public abstract class Post {
 		return this.currentVote = 0;
 	}
 
-	/** Setter methods */	
+	/** Setter methods */
 	protected void setContent(String content, String uname) {
 		this.editedBy=manager.getUserByName(uname);
 		this.content = content;
@@ -238,13 +238,13 @@ public abstract class Post {
 	}
 
 	public void setDate(Date date) {
-		this.date = date; 
+		this.date = date;
 	}
-	
+
 	public void setScore(int value){
 		this.score = value;
 	}
-	
+
 	public void setNewReputation(){
 		manager.updateReputation(this.getOwner());
 	}
@@ -252,7 +252,7 @@ public abstract class Post {
 	/**
 	 * Invokes the method setLastChangedDate of the question the post relates to
 	 * (also itself) to set the date of the last change.
-	 * 
+	 *
 	 * @param date
 	 *            - the date when the question was last changed.
 	 */
@@ -264,7 +264,7 @@ public abstract class Post {
 			manager.getQuestionById(questionId).setLastChangedDate(date);
 		}
 	}
-	
+
 	public void setEditor(String uname){
 		this.editedBy=manager.getUserByName(uname);
 	}

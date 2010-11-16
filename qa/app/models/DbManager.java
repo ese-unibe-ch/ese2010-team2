@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
-import annotations.Unused;
-
 import comparators.ChangedDateComparator;
 import comparators.DateComparator;
 import comparators.ScoreComparator;
@@ -100,6 +98,7 @@ public class DbManager {
 		return false;
 	}
 
+
 	/**
 	 * Deletes a user and all entries he or she wrote. Posts which the user
 	 * edited are anonymized.
@@ -161,35 +160,6 @@ public class DbManager {
 	}
 
 	/**
-	 * Anonymizes the edited by-list by removing the deleted user and adding an
-	 * anonymous user.
-	 * 
-	 * @param uname
-	 *            - The username of the user to be deleted
-	 * @param list
-	 *            - The list to be anonymized
-	 * @return - The anonymized list
-	 */
-	@Unused
-	private ArrayList<User> anonymize(String uname, ArrayList<User> list) {
-		if (!checkUserNameIsOccupied("anonymous"))
-			new User("anonymous", "a@nonymous", "anonymous");
-
-		ArrayList<User> updatedEditedBy = new ArrayList<User>();
-		for (User u : list) {
-			if (!u.getName().equals(uname)) {
-				updatedEditedBy.add(u);
-			} else {
-				updatedEditedBy.add(getUserByName("anonymous"));
-			}
-
-		}
-		if (list.contains(getUserByName(uname)))
-			updatedEditedBy.add(getUserByName("anonymous"));
-		return updatedEditedBy;
-	}
-
-	/**
 	 * Deletes a certain question and all its answers
 	 * 
 	 * @param question
@@ -240,6 +210,18 @@ public class DbManager {
 	}
 
 	/**
+	 * Adds a tag to the list of all tags that have been used.
+	 * 
+	 * @param singleTag
+	 *            - the tag that has to be added.
+	 */
+	public void addTag(String singleTag) {
+		if (!this.tags.contains(singleTag))
+			this.tags.add(singleTag);
+	}
+
+
+	/**
 	 * Gets a user by his name.
 	 * 
 	 * @param name
@@ -249,6 +231,21 @@ public class DbManager {
 	public User getUserByName(String name) {
 		for (User user : users) {
 			if (user.getName().equals(name))
+				return user;
+		}
+		return null;
+	}
+
+	/**
+	 * Gets a user by his id.
+	 * 
+	 * @param uid
+	 *            - the id of the user you are looking for.
+	 * @return - the user with the user id 'uid'.
+	 */
+	public User getUserById(int uid) {
+		for (User user : users) {
+			if (user.getId() == uid)
 				return user;
 		}
 		return null;
@@ -490,17 +487,6 @@ public class DbManager {
 	}
 
 	/**
-	 * Adds a tag to the list of all tags that have been used.
-	 * 
-	 * @param singleTag
-	 *            - the tag that has to be added.
-	 */
-	public void addTag(String singleTag) {
-		if (!this.tags.contains(singleTag))
-			this.tags.add(singleTag);
-	}
-
-	/**
 	 * Gets the #count newest questions in the knowledgeBase.
 	 * 
 	 * @param count
@@ -543,6 +529,12 @@ public class DbManager {
 		question.setId(questionIdCounter);
 		questions.add(question);
 		questionIdCounter++;
+	}
+
+	// ------------------------------------------------------------------------------------------------------
+	public void addQuestion(Question question, int id) {
+		question.setId(id);
+		questions.add(question);
 	}
 
 	/**
@@ -591,11 +583,11 @@ public class DbManager {
 	 * Gets the reputation from a user to a specific date.
 	 * 
 	 * @param user
-	 * 				- the specific user.
+	 *            - the specific user.
 	 * @param date
-	 * 				- the specific date.
+	 *            - the specific date.
 	 * 
-	 * @return	- the reputation as an integer.
+	 * @return - the reputation as an integer.
 	 */
 	@SuppressWarnings("deprecation")
 	public int getReputationByUserAndDate(User user, Date date) {
@@ -619,9 +611,9 @@ public class DbManager {
 	 * Gets all reputations from a user in a specific time range.
 	 * 
 	 * @param user
-	 * 				- the specific user.
+	 *            - the specific user.
 	 * @param days
-	 * 				- the number of day the reputations are from.
+	 *            - the number of day the reputations are from.
 	 * 
 	 * @return - a list of reputations as integers sorted by date
 	 */
@@ -635,7 +627,7 @@ public class DbManager {
 		}
 		return reputations;
 	}
-	
+
 	/**
 	 * Updates the reputations of an user
 	 * 
