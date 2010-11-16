@@ -255,6 +255,21 @@ public class DbManager {
 	}
 
 	/**
+	 * Gets a user by his id.
+	 * 
+	 * @param uid
+	 *            - the id of the user you are looking for.
+	 * @return - the user with the user id 'uid'.
+	 */
+	public User getUserById(int uid) {
+		for (User user : users) {
+			if (user.getId() == uid)
+				return user;
+		}
+		return null;
+	}
+
+	/**
 	 * Gets the all answers to the question with a certain id.
 	 * 
 	 * @param id
@@ -545,6 +560,12 @@ public class DbManager {
 		questionIdCounter++;
 	}
 
+	// ------------------------------------------------------------------------------------------------------
+	public void addQuestion(Question question, int id) {
+		question.setId(id);
+		questions.add(question);
+	}
+
 	/**
 	 * Ads a new created answer to answer ArrayList, sets the id in the answer
 	 * and increments the answerIdCounter.
@@ -591,11 +612,11 @@ public class DbManager {
 	 * Gets the reputation from a user to a specific date.
 	 * 
 	 * @param user
-	 * 				- the specific user.
+	 *            - the specific user.
 	 * @param date
-	 * 				- the specific date.
+	 *            - the specific date.
 	 * 
-	 * @return	- the reputation as an integer.
+	 * @return - the reputation as an integer.
 	 */
 	@SuppressWarnings("deprecation")
 	public int getReputationByUserAndDate(User user, Date date) {
@@ -619,9 +640,9 @@ public class DbManager {
 	 * Gets all reputations from a user in a specific time range.
 	 * 
 	 * @param user
-	 * 				- the specific user.
+	 *            - the specific user.
 	 * @param days
-	 * 				- the number of day the reputations are from.
+	 *            - the number of day the reputations are from.
 	 * 
 	 * @return - a list of reputations as integers sorted by date
 	 */
@@ -635,7 +656,7 @@ public class DbManager {
 		}
 		return reputations;
 	}
-	
+
 	/**
 	 * Updates the reputations of an user
 	 * 

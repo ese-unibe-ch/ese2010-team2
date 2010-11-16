@@ -20,6 +20,7 @@ import models.UserGroups;
 import play.Play;
 import play.mvc.Controller;
 import play.mvc.With;
+import xml.XML_Parser;
 
 /**
  * This Controller manages administration
@@ -90,26 +91,42 @@ public class Admin extends Controller {
 		render();
 	}
 
-	public static void loadData(File data){
-		File xmlDir= new File(Play.applicationPath.getAbsolutePath() + "/public/data");
-		if(!xmlDir.exists()){
-			xmlDir.mkdir();
-		}
-		
-		File newData= new File(xmlDir.getPath()+"/data/data.xml");
+	public static void loadData(File data) throws Exception {
+		ArrayList<String> message = new ArrayList<String>();
+		if (data != null) {
+			File xmlDir = new File(Play.applicationPath.getAbsolutePath()
+					+ "/public/data");
+			if (!xmlDir.exists()) {
+				xmlDir.mkdir();
+			} else {
+				File existingData = new File(xmlDir + "/data");
+				if (existingData.exists())
+					existingData.delete();
+			}
 
-		try{
-			xmlDir.createNewFile();
-			FileInputStream in= new FileInputStream(data);
-			FileOutputStream out= new FileOutputStream(newData);
-			IOUtils.copy(in, out);
-			out.close();
-			in.close();
-		} catch(IOException e){
-			e.printStackTrace();
+			File newData = new File(xmlDir.getPath() + "/data");
+
+			try {
+				newData.createNewFile();
+				FileInputStream in = new FileInputStream(data);
+				FileOutputStream out = new FileOutputStream(newData);
+				IOUtils.copy(in, out);
+				out.close();
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			XML_Parser.main();
+			message = XML_Parser.getMessage();
+		} else
+			message.add("An error occured. No Data was imported.");
+
+		if (message.isEmpty()) {
+			message.add("All data imported. No errors occured.");
+			message.addAll(XML_Parser.getReport());
 		}
-		
-		render();
-		
+
+		render(message);
+
 	}
 }

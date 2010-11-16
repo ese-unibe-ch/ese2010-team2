@@ -12,7 +12,7 @@ import com.petebevin.markdown.MarkdownProcessor;
  */
 public abstract class Post {
 
-	protected int currentVote = -2;
+	protected int currentVote=0;
 	protected int currentScore;
 	protected int tempVote = 0;
 	protected Date voteSetTime;
