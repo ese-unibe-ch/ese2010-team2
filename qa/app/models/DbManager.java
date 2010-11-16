@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
-import annotations.Unused;
-
 import comparators.ChangedDateComparator;
 import comparators.DateComparator;
 import comparators.ScoreComparator;
@@ -65,6 +63,25 @@ public class DbManager {
 	}
 
 	/**
+	 * Resets all counters to 0
+	 */
+	public void resetAllIdCounts() {
+		this.userCounterIdCounter = 0;
+		this.questionIdCounter = 0;
+		this.answerIdCounter = 0;
+		this.commentIdCounter = 0;
+	}
+
+	/**
+	 * Updates the reputations of an user
+	 * 
+	 * @param reputatedUser
+	 */
+	public void updateReputation(User reputatedUser) {
+		reputatedUser.updateReputation();
+	}
+
+	/**
 	 * Checks if a username is already occupied.
 	 * 
 	 * @param name
@@ -99,6 +116,7 @@ public class DbManager {
 		}
 		return false;
 	}
+
 
 	/**
 	 * Deletes a user and all entries he or she wrote. Posts which the user
@@ -161,35 +179,6 @@ public class DbManager {
 	}
 
 	/**
-	 * Anonymizes the edited by-list by removing the deleted user and adding an
-	 * anonymous user.
-	 * 
-	 * @param uname
-	 *            - The username of the user to be deleted
-	 * @param list
-	 *            - The list to be anonymized
-	 * @return - The anonymized list
-	 */
-	@Unused
-	private ArrayList<User> anonymize(String uname, ArrayList<User> list) {
-		if (!checkUserNameIsOccupied("anonymous"))
-			new User("anonymous", "a@nonymous", "anonymous");
-
-		ArrayList<User> updatedEditedBy = new ArrayList<User>();
-		for (User u : list) {
-			if (!u.getName().equals(uname)) {
-				updatedEditedBy.add(u);
-			} else {
-				updatedEditedBy.add(getUserByName("anonymous"));
-			}
-
-		}
-		if (list.contains(getUserByName(uname)))
-			updatedEditedBy.add(getUserByName("anonymous"));
-		return updatedEditedBy;
-	}
-
-	/**
 	 * Deletes a certain question and all its answers
 	 * 
 	 * @param question
@@ -237,6 +226,124 @@ public class DbManager {
 	 */
 	public void deleteComment(Comment comment) {
 		DbManager.comments.remove(comment);
+	}
+
+	/**
+	 * Ads a new created user to user ArrayList, sets the id in the user and
+	 * increments the userIdCounter.
+	 * 
+	 * @param user
+	 */
+	public void addUser(User user) {
+		user.setId(userCounterIdCounter);
+		users.add(user);
+		userCounterIdCounter++;
+	}
+
+	/**
+	 * Adds a tag to the list of all tags that have been used.
+	 * 
+	 * @param singleTag
+	 *            - the tag that has to be added.
+	 */
+	public void addTag(String singleTag) {
+		if (!this.tags.contains(singleTag))
+			this.tags.add(singleTag);
+	}
+
+	/**
+	 * Ads a new created question to question ArrayList, sets the id in the
+	 * question and increments the questionIdCounter.
+	 * 
+	 * @param question
+	 */
+	public void addQuestion(Question question) {
+		question.setId(questionIdCounter);
+		questions.add(question);
+		questionIdCounter++;
+	}
+
+	/**
+	 * Ads a new created answer to answer ArrayList, sets the id in the answer
+	 * and increments the answerIdCounter.
+	 * 
+	 * @param answer
+	 */
+	public void addAnswer(Answer answer) {
+		answer.setId(answerIdCounter);
+		answers.add(answer);
+		answerIdCounter++;
+		this.getQuestionById(answer.getQuestionId()).notifyChange();
+	}
+
+	/**
+	 * Ads a new created comment to comment ArrayList, sets the id in the
+	 * comment and increments the commentIdCounter.
+	 * 
+	 * @param comment
+	 */
+	public void addComment(Comment comment) {
+		comment.setId(commentIdCounter);
+		comments.add(comment);
+		commentIdCounter++;
+	}
+
+	/**
+	 * Saves a reputation from a specific user and day
+	 */
+	public void addReputation(User user, int reputation) {
+		user.addReputation(reputation);
+	}
+
+	/** Getters */
+
+	/**
+	 * Gets the reputation from a user to a specific date.
+	 * 
+	 * @param user
+	 *            - the specific user.
+	 * @param date
+	 *            - the specific date.
+	 * 
+	 * @return - the reputation as an integer.
+	 */
+	@SuppressWarnings("deprecation")
+	public int getReputationByUserAndDate(User user, Date date) {
+		ArrayList<Integer> allReputations = user.getReputations();
+		int result = 0;
+		int counter = 1;
+		Date currentDate = new Date();
+		while ((counter <= allReputations.size())
+				&& ((date.getYear() != currentDate.getYear())
+						|| (date.getMonth() != currentDate.getMonth()) || (date
+						.getDate() != currentDate.getDate()))) {
+			currentDate = new Date(currentDate.getTime() - 86400000);
+			counter++;
+		}
+		if (counter <= allReputations.size())
+			result = allReputations.get(counter - 1);
+		return result;
+	}
+
+	/**
+	 * Gets all reputations from a user in a specific time range.
+	 * 
+	 * @param user
+	 *            - the specific user.
+	 * @param days
+	 *            - the number of day the reputations are from.
+	 * 
+	 * @return - a list of reputations as integers sorted by date
+	 */
+	public ArrayList<Integer> getReputations(User user, int days) {
+		ArrayList<Integer> reputations = user.getReputations();
+		while (reputations.size() < days) {
+			reputations.add(0);
+		}
+		while (reputations.size() > days) {
+			reputations.remove(reputations.size() - 1);
+		}
+		return reputations;
 	}
 
 	/**
@@ -490,17 +597,6 @@ public class DbManager {
 	}
 
 	/**
-	 * Adds a tag to the list of all tags that have been used.
-	 * 
-	 * @param singleTag
-	 *            - the tag that has to be added.
-	 */
-	public void addTag(String singleTag) {
-		if (!this.tags.contains(singleTag))
-			this.tags.add(singleTag);
-	}
-
-	/**
 	 * Gets the #count newest questions in the knowledgeBase.
 	 * 
 	 * @param count
@@ -521,132 +617,7 @@ public class DbManager {
 		return recentQuestions;
 	}
 
-	/**
-	 * Ads a new created user to user ArrayList, sets the id in the user and
-	 * increments the userIdCounter.
-	 * 
-	 * @param user
-	 */
-	public void addUser(User user) {
-		user.setId(userCounterIdCounter);
-		users.add(user);
-		userCounterIdCounter++;
-	}
-
-	/**
-	 * Ads a new created question to question ArrayList, sets the id in the
-	 * question and increments the questionIdCounter.
-	 * 
-	 * @param question
-	 */
-	public void addQuestion(Question question) {
-		question.setId(questionIdCounter);
-		questions.add(question);
-		questionIdCounter++;
-	}
-
-	/**
-	 * Ads a new created answer to answer ArrayList, sets the id in the answer
-	 * and increments the answerIdCounter.
-	 * 
-	 * @param answer
-	 */
-	public void addAnswer(Answer answer) {
-		answer.setId(answerIdCounter);
-		answers.add(answer);
-		answerIdCounter++;
-		this.getQuestionById(answer.getQuestionId()).notifyChange();
-	}
-
-	/**
-	 * Ads a new created comment to comment ArrayList, sets the id in the
-	 * comment and increments the commentIdCounter.
-	 * 
-	 * @param comment
-	 */
-	public void addComment(Comment comment) {
-		comment.setId(commentIdCounter);
-		comments.add(comment);
-		commentIdCounter++;
-	}
-
-	/**
-	 * Resets all counters to 0
-	 */
-	public void resetAllIdCounts() {
-		this.userCounterIdCounter = 0;
-		this.questionIdCounter = 0;
-		this.answerIdCounter = 0;
-		this.commentIdCounter = 0;
-	}
-
-	/**
-	 * Saves a reputation from a specific user and day
-	 */
-	public void addReputation(User user, int reputation) {
-		user.addReputation(reputation);
-	}
-
-	/**
-	 * Gets the reputation from a user to a specific date.
-	 * 
-	 * @param user
-	 * 				- the specific user.
-	 * @param date
-	 * 				- the specific date.
-	 * 
-	 * @return	- the reputation as an integer.
-	 */
-	@SuppressWarnings("deprecation")
-	public int getReputationByUserAndDate(User user, Date date) {
-		ArrayList<Integer> allReputations = user.getReputations();
-		int result = 0;
-		int counter = 1;
-		Date currentDate = new Date();
-		while ((counter <= allReputations.size())
-				&& ((date.getYear() != currentDate.getYear())
-						|| (date.getMonth() != currentDate.getMonth()) || (date
-						.getDate() != currentDate.getDate()))) {
-			currentDate = new Date(currentDate.getTime() - 86400000);
-			counter++;
-		}
-		if (counter <= allReputations.size())
-			result = allReputations.get(counter - 1);
-		return result;
-	}
-
-	/**
-	 * Gets all reputations from a user in a specific time range.
-	 * 
-	 * @param user
-	 * 				- the specific user.
-	 * @param days
-	 * 				- the number of day the reputations are from.
-	 * 
-	 * @return - a list of reputations as integers sorted by date
-	 */
-	public ArrayList<Integer> getReputations(User user, int days) {
-		ArrayList<Integer> reputations = user.getReputations();
-		while (reputations.size() < days) {
-			reputations.add(0);
-		}
-		while (reputations.size() > days) {
-			reputations.remove(reputations.size() - 1);
-		}
-		return reputations;
-	}
 	
-	/**
-	 * Updates the reputations of an user
-	 * 
-	 * @param reputatedUser
-	 */
-
-	public void updateReputation(User reputatedUser) {
-		reputatedUser.updateReputation();
-	}
-
-	/** Getters */
 	public ArrayList<User> getUsers() {
 		return users;
 	}

@@ -58,19 +58,6 @@ public class Answer extends Post {
 	}
 
 	/**
-	 * Gets the ID of the question the answer belongs to.
-	 * 
-	 * @return - the ID of the question the answer belongs to.
-	 */
-	public int getQuestionId() {
-		return questionId;
-	}
-
-	public Post getQuestion() {
-		return manager.getQuestionById(questionId);
-	}
-
-	/**
 	 * Checks if this is the best Answer to the question. The best answer is
 	 * selected by the user that asked the question.
 	 * 
@@ -106,29 +93,6 @@ public class Answer extends Post {
 	}
 
 	/**
-	 * Gets all Comments which belongs to this answer
-	 * 
-	 * @return - a sorted list of comments
-	 */
-	public ArrayList<Comment> getComments() {
-		return manager.getAllCommentsByAnswerIdSortedByDate(this.getId());
-	}
-
-	/**
-	 * Gets a comment to this answer by the id - cid
-	 * 
-	 * @param cid
-	 *            - The id of the comment.
-	 * @return - The comment to this answer with the id 'cid'.
-	 */
-	public Comment getCommentbyId(int cid) {
-		if (manager.getCommentById(cid).getCommentedPost().equals(this)) {
-			return manager.getCommentById(cid);
-		}
-		return null;
-	}
-
-	/**
 	 * Adds a new version to the question and moves the current version to the
 	 * history.
 	 * 
@@ -153,5 +117,42 @@ public class Answer extends Post {
 
 	public void restoreOldVersion(String oldContent, String uname) {
 		addVersion(oldContent, uname);
+	}
+
+	/** Getters */
+	/**
+	 * Gets the ID of the question the answer belongs to.
+	 * 
+	 * @return - the ID of the question the answer belongs to.
+	 */
+	public int getQuestionId() {
+		return questionId;
+	}
+
+	public Post getQuestion() {
+		return manager.getQuestionById(questionId);
+	}
+
+	/**
+	 * Gets all Comments which belongs to this answer
+	 * 
+	 * @return - a sorted list of comments
+	 */
+	public ArrayList<Comment> getComments() {
+		return manager.getAllCommentsByAnswerIdSortedByDate(this.getId());
+	}
+
+	/**
+	 * Gets a comment to this answer by the id - cid
+	 * 
+	 * @param cid
+	 *            - The id of the comment.
+	 * @return - The comment to this answer with the id 'cid'.
+	 */
+	public Comment getCommentbyId(int cid) {
+		if (manager.getCommentById(cid).getCommentedPost().equals(this)) {
+			return manager.getCommentById(cid);
+		}
+		return null;
 	}
 }

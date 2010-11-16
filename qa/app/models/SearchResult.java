@@ -12,7 +12,7 @@ public class SearchResult {
 	private boolean hasABestAnswer;
 
 	/**
-	 * The value of the matches with the search query in tags on Questio,
+	 * The value of the matches with the search query in tags on Question,
 	 * Answer, Comment content.
 	 */
 	private int totalCount;
