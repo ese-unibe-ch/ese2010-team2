@@ -87,6 +87,7 @@ public class Admin extends Controller {
 			render(uname);
 	}
 
+	/** Form for uploading and importing XML-Data files. */
 	public static void importData() {
 		render();
 	}

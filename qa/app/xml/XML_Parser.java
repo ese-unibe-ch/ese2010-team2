@@ -43,15 +43,13 @@ import play.Play;
  */
 public class XML_Parser extends DefaultHandler {
 	// The fields of a user
-	private int uId, uScore;
-	private String phone, street, town, birthdate, background, hobbies, moto,
-			quote, uname, email, password;
+	private int uId;
+	private String town, background, hobbies, uname, email, password;
 	private UserGroups userGroup = UserGroups.user;
-	private File avatar;
 
 	// The fields for a post
-	private int pScore, pId;
-	private User owner, editedBy;
+	private int pId;
+	private User owner;
 	private String content;
 	private Date creationDate = new Date();
 	private Date lastChangedDate = new Date();
@@ -62,7 +60,6 @@ public class XML_Parser extends DefaultHandler {
 
 	// The fields for a question
 	private ArrayList<String> tags = new ArrayList<String>();
-	private Answer bestAnswer;
 
 	// counters
 	static int questions = 0;
@@ -70,18 +67,16 @@ public class XML_Parser extends DefaultHandler {
 	static int users = 0;
 
 	private String mode = "init";
-	private StringBuilder builder;
 	private static ArrayList<String> message = new ArrayList<String>();
 	private static ArrayList<String> report = new ArrayList<String>();
-	String tempValue = new String();
+	StringBuilder tempValue = new StringBuilder();
 
 	/**
-	 * This method is called when a new element begins. It resets the
-	 * StringBuilder and adds the element name to the string
+	 * This method is called when a new element begins. It sets the current
+	 * parsing mode and gets the attributes of the xml-tags.
 	 */
 	public void startElement(String uri, String localName, String qName,
 			Attributes atts) {
-		builder = new StringBuilder();
 		if (mode.equals("init")) {
 			if (qName.equalsIgnoreCase("users")) {
 				mode = "users";
@@ -108,13 +103,10 @@ public class XML_Parser extends DefaultHandler {
 
 	/**
 	 * This method is called when the parser encounters plain text (not XML
-	 * elements). This method stores the text in the StringBuilder
+	 * elements). This method stores the text in the String.
 	 */
 	public void characters(char[] ch, int start, int length) {
-		tempValue = new String(ch, start, length);
-		// for(char c:ch){
-		// tempValue.append(c);
-		// }
+		tempValue.append(ch, start, length);
 	}
 
 	/**
@@ -127,26 +119,38 @@ public class XML_Parser extends DefaultHandler {
 			mode = "init";
 		if (mode.equalsIgnoreCase("users")) {
 
-			if (qName.equalsIgnoreCase("displayname"))
+			if (qName.equalsIgnoreCase("displayname")) {
 				uname = tempValue.toString();
-
-			else if (qName.equalsIgnoreCase("ismoderator")) {
-				if (tempValue.toString().equalsIgnoreCase("true"))
+				tempValue = new StringBuilder();
+			} else if (qName.equalsIgnoreCase("ismoderator")) {
+				if (tempValue.toString().equalsIgnoreCase("true")) {
 					userGroup = UserGroups.moderator;
-			} else if (qName.equalsIgnoreCase("email"))
+				}
+				tempValue = new StringBuilder();
+			} else if (qName.equalsIgnoreCase("email")) {
 				email = tempValue.toString();
+				tempValue = new StringBuilder();
+			}
 
-			else if (qName.equalsIgnoreCase("password"))
+			else if (qName.equalsIgnoreCase("password")) {
 				password = tempValue.toString();
+				tempValue = new StringBuilder();
+			}
 
-			else if (qName.equalsIgnoreCase("aboutme"))
+			else if (qName.equalsIgnoreCase("aboutme")) {
 				hobbies = tempValue.toString();
+				tempValue = new StringBuilder();
+			}
 
-			else if (qName.equalsIgnoreCase("location"))
+			else if (qName.equalsIgnoreCase("location")) {
 				town = tempValue.toString();
+				tempValue = new StringBuilder();
+			}
 
-			else if (qName.equalsIgnoreCase("website"))
+			else if (qName.equalsIgnoreCase("website")) {
 				background = tempValue.toString();
+				tempValue = new StringBuilder();
+			}
 
 			else if (qName.equalsIgnoreCase("user")) {
 				if (uname.isEmpty() || password.isEmpty()) {
@@ -175,17 +179,26 @@ public class XML_Parser extends DefaultHandler {
 			if (qName.equalsIgnoreCase("ownerid")) {
 				int oId = Integer.parseInt(tempValue.toString());
 				owner = DbManager.getInstance().getUserById(oId);
-			} else if (qName.equalsIgnoreCase("creationdate"))
+				tempValue = new StringBuilder();
+			} else if (qName.equalsIgnoreCase("creationdate")) {
 				creationDate.setTime(Integer.parseInt(tempValue.toString()));
+				tempValue = new StringBuilder();
+			}
 
-			else if (qName.equalsIgnoreCase("lastactivity"))
+			else if (qName.equalsIgnoreCase("lastactivity")) {
 				lastChangedDate.setTime(Integer.parseInt(tempValue.toString()));
+				tempValue = new StringBuilder();
+			}
 
-			else if (qName.equalsIgnoreCase("body"))
-				content = tempValue;
+			else if (qName.equalsIgnoreCase("body")) {
+				content = tempValue.toString();
+				tempValue = new StringBuilder();
+			}
 
-			else if (qName.equalsIgnoreCase("tag"))
+			else if (qName.equalsIgnoreCase("tag")) {
 				tags.add(tempValue.toString());
+				tempValue = new StringBuilder();
+			}
 
 			else if (qName.equalsIgnoreCase("question")) {
 				if (content.isEmpty() || owner == null) {
@@ -213,21 +226,31 @@ public class XML_Parser extends DefaultHandler {
 			if (qName.equalsIgnoreCase("ownerid")) {
 				owner = DbManager.getInstance().getUserById(
 						Integer.parseInt(tempValue.toString()));
-			} else if (qName.equalsIgnoreCase("questionid"))
+				tempValue = new StringBuilder();
+			} else if (qName.equalsIgnoreCase("questionid")) {
 				qId = Integer.parseInt(tempValue.toString());
+				tempValue = new StringBuilder();
+			}
 
-			else if (qName.equalsIgnoreCase("creationdate"))
+			else if (qName.equalsIgnoreCase("creationdate")) {
 				creationDate.setTime(Integer.parseInt(tempValue.toString()));
+				tempValue = new StringBuilder();
+			}
 
-			else if (qName.equalsIgnoreCase("lastactivity"))
+			else if (qName.equalsIgnoreCase("lastactivity")) {
 				lastChangedDate.setTime(Integer.parseInt(tempValue.toString()));
+				tempValue = new StringBuilder();
+			}
 
-			else if (qName.equalsIgnoreCase("body"))
+			else if (qName.equalsIgnoreCase("body")) {
 				content = tempValue.toString();
+				tempValue = new StringBuilder();
+			}
 
 			else if (qName.equalsIgnoreCase("accepted")) {
 				if (tempValue.toString().equals("true"))
 					isBestAnswer = true;
+				tempValue = new StringBuilder();
 			}
 
 			else if (qName.equalsIgnoreCase("answer")) {
@@ -247,11 +270,10 @@ public class XML_Parser extends DefaultHandler {
 				}
 			}
 
-			else if (qName.equalsIgnoreCase("answers"))
+			else if (qName.equalsIgnoreCase("answers")) {
 				mode = "init";
-
+			}
 		}
-		tempValue = new String();
 	}
 
 	private void cleanUser() {
