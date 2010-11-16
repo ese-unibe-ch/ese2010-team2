@@ -81,7 +81,12 @@ public class MutateAnswerController extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		Vote oldVote = answer.getVoteForUser(user);
 		boolean check = oldVote.voteChangeable();
+		if(oldVote.getUpdatedReputation()==false){
+			manager.updateReputation(answer.getOwner());
+			oldVote.setUpdatedReputation(true);
+		}
 		if(answer.checkUserVotedForPost(user)==true && check == false){
+			manager.updateReputation(answer.getOwner());
 			String message = "You already voted for this post !";
 			render(message, aid, qid);
 		}

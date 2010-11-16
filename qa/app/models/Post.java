@@ -45,7 +45,6 @@ public abstract class Post {
 		this.updateScore();
 		this.userVotedForPost.add(user);
 		this.setLastChanged(new Date());
-		manager.updateReputation(this.getOwner());
 	}
 
 	/**
@@ -228,6 +227,7 @@ public abstract class Post {
 	}
 
 	/** Setter methods */
+	
 	protected void setContent(String content, String uname) {
 		this.editedBy=manager.getUserByName(uname);
 		this.content = content;

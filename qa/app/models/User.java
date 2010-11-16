@@ -290,7 +290,6 @@ public class User {
 	}
 
 	/** Setters */
-
 	public void setName(String name) {
 		this.name = name;
 	}
