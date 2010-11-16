@@ -1,14 +1,14 @@
 #{secure.check ''}
 <div class="votebox">        
         #{if _mode == 'answer'}
-        	#{if _post.getcurrentVote() == 1}
+        	#{if _post.getcurrentVote(session.get("username")) == 1}
         		<a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/up"><img src="/public/images/VotedUp.png" alt="Vote Up" title="Vote Up"/></a>
         	#{/if}
         	#{else}
         		<a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/up"><img src="/public/images/up.png" alt="Vote Up" title="Vote Up"/></a>
         	#{/else}
         	<p class="score">${_post.getScore()}</p>
-        	#{if _post.getcurrentVote() == -1}
+        	#{if _post.getcurrentVote(session.get("username")) == -1}
         		<a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/up"><img src="/public/images/VotedDown.png" alt="Vote Down" title="Vote Down"/></a>
         	#{/if}
         	#{else}
@@ -16,14 +16,14 @@
        		#{/else}
        	#{/if}
         #{else}
-        	#{if _post.getcurrentVote() == 1}
+        	#{if _post.getcurrentVote(session.get("username")) == 1}
         		<a href="/question/${_post.getId()}/answer/${_post.getId()}/vote/up"><img src="/public/images/VotedUp.png" alt="Vote Up" title="Vote Up"/></a>
         	#{/if}
         	#{else}
         		<a href="/question/${_post.getId()}/vote/up"><img src="/public/images/up.png" alt="Vote Up" title="Vote Up"/></a>
         	#{/else}
         	<p class="score">${_post.getScore()}</p>
-        	#{if _post.getcurrentVote() == -1}
+        	#{if _post.getcurrentVote(session.get("username")) == -1}
         		<a href="/question/${_post.getId()}/answer/${_post.getId()}/vote/up"><img src="/public/images/VotedDown.png" alt="Vote Down" title="Vote Down"/></a>
         	#{/if}
         	#{else}

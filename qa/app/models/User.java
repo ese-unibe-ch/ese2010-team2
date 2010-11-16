@@ -45,12 +45,6 @@ public class User {
 	
 	/** A list of recent changes */
 	private ArrayList<Notification> notifications;
-
-	/** A list of voted questions */
-	public ArrayList<Question> votedQuestions;
-	
-	/** A list of voted answers */
-	public ArrayList<Answer> votedAnswers;
 	
 	/**
 	 * Instantiates a new user.
@@ -74,8 +68,6 @@ public class User {
 		this.lastReputationUpdate = new GregorianCalendar();
 		this.lastScore = 0;
 		notifications = new ArrayList<Notification>();
-		votedQuestions = new ArrayList<Question>();
-		votedAnswers = new ArrayList<Answer>();
 	}
 
 	/**
@@ -201,32 +193,6 @@ public class User {
 		return !notifications.isEmpty();
 	}
 
-	/**
-	 * Adds a new question similar to the old question to the list of voted
-	 * questions if it isn't already in it
-	 * 
-	 * @param post
-	 */
-	public void addvotedQuestion(Question question) {
-		Question newQuestion = question;
-		if (this.votedQuestions.contains(question) != true) {
-			this.votedQuestions.add(newQuestion);
-		}
-	}
-
-	/**
-	 * Adds a new answer similar to the old answer to the list of voted answer
-	 * if it isn't already in it
-	 * 
-	 * @param post
-	 */
-	public void addvotedAnswer(Answer answer) {
-		Answer newAnswer = answer;
-		if (this.votedAnswers.contains(answer) != true) {
-			this.votedAnswers.add(newAnswer);
-		}
-	}
-
 	/** Getters */
 	public String getName() {
 		return name;
@@ -321,30 +287,6 @@ public class User {
 
 	public ArrayList<Notification> getAllNotifications() {
 		return this.notifications;
-	}
-
-	public Question getVotedQuestion(Question question) {
-		if (this.votedQuestions.contains(question)) {
-			int x = this.votedQuestions.indexOf(question);
-			return this.votedQuestions.get(x);
-		}
-		return null;
-	}
-
-	public Answer getVotedAnswer(Answer answer) {
-		if (this.votedAnswers.contains(answer)) {
-			int x = this.votedAnswers.indexOf(answer);
-			return this.votedAnswers.get(x);
-		}
-		return null;
-	}
-
-	public ArrayList<Question> getVotedQuetions() {
-		return this.votedQuestions;
-	}
-
-	public ArrayList<Answer> getVotedAnswers() {
-		return this.votedAnswers;
 	}
 
 	/** Setters */

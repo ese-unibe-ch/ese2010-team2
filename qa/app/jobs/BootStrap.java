@@ -13,6 +13,7 @@ import models.Post;
 import models.Question;
 import models.User;
 import models.UserGroups;
+import models.Vote;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,7 +58,6 @@ public class BootStrap extends Job {
 		Question q1 = new Question(true, "How small is the fish?", manager
 				.getUserByName("user-1"));
 		q1.addTags("fish size");
-		q1.vote(1);
 		Answer a11= new Answer(true, "see www.smallfish.com", manager.getUserByName("user-2"), q1);
 
 		Question q2 = new Question(
@@ -66,8 +66,6 @@ public class BootStrap extends Job {
 		q2.addTags("man road");
 		new Answer(true, "The answer my friend is blowin in the wind", manager
 				.getUserByName("user-3"), q2);
-		q1.vote(1);
-		q1.vote(1);
 		
 		// add avatars
 		File avatar1= new File("qa/public/images/avatars/casper.jpg");
@@ -102,22 +100,32 @@ public class BootStrap extends Job {
 				cal.add(Calendar.DAY_OF_MONTH, -random.nextInt(380));
 				a.setDate(cal.getTime());
 				cal.setTime(new Date());
-			} else {
-				q.vote(-1);
 			}
 		}
 		
 		//a question just to test best answer
+		User user1 = manager.getUserByName("user-1");
+		User user2 = manager.getUserByName("user-2");
+		User user3 = manager.getUserByName("user-3");
 		Question goodQuestion = new Question(true, "This is actually a good question", manager.getUserByName("user-1"));
 		Date aWeekAgo = new Date(goodQuestion.getDate().getTime()-604800000);
 		goodQuestion.setDate(aWeekAgo);
-		goodQuestion.vote(2);
+		Vote voteUp0 = new Vote(goodQuestion, 1, user1);
+		goodQuestion.vote(voteUp0, user1);
 		Answer stupidAnswer = new Answer(true, "This is a stupid answer", manager.getUserByName("user-2"), goodQuestion);
 		Answer anotherstupidAnswer = new Answer(true, "This is just another stupid answer", manager.getUserByName("user-3"), goodQuestion);
 		Answer goodAnswer = new Answer(true, "Finally a good answer", manager.getUserByName("user-4"), goodQuestion);
-		goodAnswer.vote(3);
+		Vote voteUp1 = new Vote(goodAnswer, 1, user1);
+		Vote voteUp2 = new Vote(goodAnswer, 1, user2);
+		goodAnswer.vote(voteUp1, user1);
+		goodAnswer.vote(voteUp2, user2);
 		Answer bestAnswer = new Answer(true, "This is the best answer ever", manager.getUserByName("user-5"), goodQuestion);
-		bestAnswer.vote(7);
+		Vote voteUp3 = new Vote(bestAnswer, 1, user1);
+		Vote voteUp4 = new Vote(bestAnswer, 1, user2);
+		Vote voteUp5 = new Vote(bestAnswer, 1, user3);
+		bestAnswer.vote(voteUp3, user1);
+		bestAnswer.vote(voteUp4, user2);
+		bestAnswer.vote(voteUp5, user3);
 		Comment aComment = new Comment(manager.getUserByName("user-4"), bestAnswer, "Wow! Best answer, even better than mine");
 		
 		// set user-1 be moderator

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.mail.Session;
+
 import com.petebevin.markdown.MarkdownProcessor;
 
 /**
@@ -12,11 +14,8 @@ import com.petebevin.markdown.MarkdownProcessor;
  */
 public abstract class Post {
 
-	protected int currentVote = -2;
-	protected int currentScore;
-	protected int tempVote = 0;
-	protected Date voteSetTime;
 	protected int id;
+	protected int currentVote;
 	protected String content;
 	protected User owner;
 	protected int score = 0;
@@ -31,45 +30,22 @@ public abstract class Post {
 	protected Date date;
 
 	/** All users that already voted for the question. */
-	private ArrayList<User> userVotedForPost = new ArrayList<User>();
+	protected ArrayList<User> userVotedForPost = new ArrayList<User>();
+	/** All votes for the post*/
+	protected ArrayList<Vote> votes = new ArrayList<Vote>();
 
 	/**
 	 * Vote for a votable.
 	 * 
-	 * @param vote2
-	 *            - The vote you want to add. This is an String-object
+	 * @param - The vote you want to add. This is an String-object
 	 *            containing an integer number.
+	 *        - The user who votes for this post
 	 */
-	public void vote(int vote) {
-		score = score + vote;
+	public void vote(Vote vote, User user) {
+		this.updateScore();
+		this.userVotedForPost.add(user);
 		this.setLastChanged(new Date());
 		manager.updateReputation(this.getOwner());
-		voteSetTime = new Date();
-	}
-	
-	/**
-	 * Checks if a vote for this post is changeable
-	 * 
-	 * @return true if the vote can changed
-	 * 		   false otherwise
-	 */
-	public boolean voteChangeable(){		
-		long then;
-		long now = new Date().getTime();
-		
-		if(voteSetTime==null){
-			then = now;
-		}else{
-			then = voteSetTime.getTime();
-		}
-		
-		long diff = now - then;
-		
-		if((diff / (1000 * 60)) < 1){
-			return true;
-		}else{
-			return false;
-		}
 	}
 
 	/**
@@ -87,14 +63,7 @@ public abstract class Post {
 			return false;
 		}
 	}
-
-	/**
-	 * Checks if the user with the id #uid is the owner of the votable.
-	 * 
-	 * @param uid
-	 *            the uid
-	 * @return true, if successful
-	 */
+	
 	public boolean ownerIs(int uid) {
 		return owner.getId() == uid;
 	}
@@ -125,14 +94,38 @@ public abstract class Post {
 	 *            - that voted for the question.
 	 */
 	public void userVotedForPost(User user) {
-		User newUser = user;
 		if (this.userVotedForPost.contains(user) != true) {
-			userVotedForPost.add(newUser);
+			userVotedForPost.add(user);
 		}
 	}
 
 	public boolean isModerator(String username) {
 		return manager.getUserByName(username).isModerator();
+	}
+	
+	public void updateScore(){
+		if(this.votes.isEmpty()==false){
+			this.score = 0;
+			for(Vote each : this.votes){
+				this.score = this.score + each.getVoteToAddToScore();
+			}
+		}
+	}
+	
+	/**
+	 * Gets the Vote for a user if he already has voted the post. If he hasn't already voted for
+	 * this post it creates a new vote with value 0.
+	 * 
+	 * @param user
+	 * @return the vote for a user
+	 */
+	public Vote getVoteForUser(User user){
+		for(int i=0; i<=this.votes.size()-1; i++){
+			if(user.getName().equals(this.votes.get(i).getUser().getName()))
+				return this.votes.get(i);
+		}
+		Vote tempVote = new Vote(this, 0, user);
+		return tempVote;
 	}
 
 	/** Getter methods */
@@ -141,7 +134,7 @@ public abstract class Post {
 	}
 
 	public int getScore() {
-		return this.score+tempVote;
+		return this.score;
 	}
 
 	public Date getDate() {
@@ -204,29 +197,6 @@ public abstract class Post {
 		
 		return s.toString();
 	}
-	
-
-	/**
-	 * Gets the current vote from the user who voted for this question
-	 * 
-	 * @param name of user
-	 * @return
-	 */
-	public int getCurrentVoteFromUser(String name, Question question){
-		User user = manager.getUserByName(name);
-		return user.getVotedQuestion(question).getcurrentVote();
-	}
-	
-	/**
-	 * Gets the current vote from the user who voted for this question
-	 * 
-	 * @param name of user
-	 * @return
-	 */
-	public int getCurrentVoteFromUser(String name, Answer answer){
-		User user = manager.getUserByName(name);
-		return user.getVotedAnswer(answer).getcurrentVote();
-	}
 
 	/** Getters */
 	public String getContent() {
@@ -245,31 +215,19 @@ public abstract class Post {
 		return this.editedBy;
 	}
 	
-	public int getcurrentVote(){
-		return this.currentVote;
+	public ArrayList<Vote> getVotes(){
+		return this.votes;
 	}
 	
-	public Date getVoteSetTime(){
-		return this.voteSetTime;
-	}
-	
-	public int getTempVote(){
-		return this.tempVote;
+	public int getcurrentVote(String username){
+		for(Vote each : this.votes){
+			if(each.getUser().getName().equals(username))
+				return this.currentVote = each.getVote();
+		}
+		return this.currentVote = 0;
 	}
 
-	/** Setter methods */
-	public void setTempVote(int value){
-		this.tempVote = value;
-	}
-	
-	/**
-	 * Sets the current vote
-	 */
-	public void setcurrentVote(int vote) {
-		this.setLastChanged(new Date());
-		this.currentVote = vote;
-	}
-
+	/** Setter methods */	
 	protected void setContent(String content, String uname) {
 		this.editedBy=manager.getUserByName(uname);
 		this.content = content;
@@ -285,10 +243,6 @@ public abstract class Post {
 	
 	public void setScore(int value){
 		this.score = value;
-	}
-	
-	public void setvoteSetTime(){
-		voteSetTime = new Date();
 	}
 	
 	public void setNewReputation(){

@@ -5,6 +5,7 @@ import java.util.Calendar;
 import models.DbManager;
 import models.Question;
 import models.User;
+import models.Vote;
 import play.mvc.Controller;
 import play.mvc.With;
 
@@ -99,29 +100,34 @@ public class MutateQuestionController extends Controller {
 	public static void voteQuestion(int qid, int vote) {
 		Question question = manager.getQuestionById(qid);
 		User user = manager.getUserByName(session.get("username"));
-		user.addvotedQuestion(question);
-		Question userquestion = user.getVotedQuestion(question);
-		if(userquestion.getVoteSetTime()==null){
-			userquestion.setvoteSetTime();
-		}
-		if(userquestion.voteChangeable()==false){
-			String message = "You already voted for this post!";
+		Vote oldVote = question.getVoteForUser(user);
+		boolean check = oldVote.voteChangeable();
+		if(question.checkUserVotedForPost(user)==true && check == false){
+			String message = "You already voted for this post !";
 			render(message, qid);
 		}
-		if (vote==1&&userquestion.getcurrentVote()!=1) {
-			userquestion.setcurrentVote(vote);
-			question.setTempVote(1);
-			question.setcurrentVote(vote);
-			String message = "Your current vote is +1";
-			question.userVotedForPost(user);
+		if(vote == 1 && check == true && oldVote.getVote()==0){
+			oldVote.setVote(1);
+			question.vote(oldVote, user);
+			String message = "You're current vote is "+oldVote.getVote();
 			render(message, qid);
 		}
-		if (vote==-1&&userquestion.getcurrentVote()!=-1){
-			userquestion.setcurrentVote(vote);
-			question.setTempVote(-1);
-			question.setcurrentVote(vote);
-			String message = "Your current vote is -1";
-			question.userVotedForPost(user);
+		if(vote == 1 && check == true && oldVote.getVote()==-1){
+			oldVote.setVote(0);
+			question.vote(oldVote, user);
+			String message = "You're current vote is "+oldVote.getVote();
+			render(message, qid);
+		}
+		if(vote == -1 && check == true && oldVote.getVote()==0){
+			oldVote.setVote(-1);
+			question.vote(oldVote, user);
+			String message = "You're current vote is "+oldVote.getVote();
+			render(message, qid);
+		}
+		if(vote == -1 && check == true && oldVote.getVote()==1){
+			oldVote.setVote(0);
+			question.vote(oldVote, user);
+			String message = "You're current vote is "+oldVote.getVote();
 			render(message, qid);
 		}
 		redirect("/question/" + qid + "/answers/");
