@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
-import annotations.Unused;
-
 import comparators.ChangedDateComparator;
 import comparators.DateComparator;
 import comparators.ScoreComparator;
@@ -100,6 +98,7 @@ public class DbManager {
 		return false;
 	}
 
+
 	/**
 	 * Deletes a user and all entries he or she wrote. Posts which the user
 	 * edited are anonymized.
@@ -161,35 +160,6 @@ public class DbManager {
 	}
 
 	/**
-	 * Anonymizes the edited by-list by removing the deleted user and adding an
-	 * anonymous user.
-	 * 
-	 * @param uname
-	 *            - The username of the user to be deleted
-	 * @param list
-	 *            - The list to be anonymized
-	 * @return - The anonymized list
-	 */
-	@Unused
-	private ArrayList<User> anonymize(String uname, ArrayList<User> list) {
-		if (!checkUserNameIsOccupied("anonymous"))
-			new User("anonymous", "a@nonymous", "anonymous");
-
-		ArrayList<User> updatedEditedBy = new ArrayList<User>();
-		for (User u : list) {
-			if (!u.getName().equals(uname)) {
-				updatedEditedBy.add(u);
-			} else {
-				updatedEditedBy.add(getUserByName("anonymous"));
-			}
-
-		}
-		if (list.contains(getUserByName(uname)))
-			updatedEditedBy.add(getUserByName("anonymous"));
-		return updatedEditedBy;
-	}
-
-	/**
 	 * Deletes a certain question and all its answers
 	 * 
 	 * @param question
@@ -238,6 +208,18 @@ public class DbManager {
 	public void deleteComment(Comment comment) {
 		DbManager.comments.remove(comment);
 	}
+
+	/**
+	 * Adds a tag to the list of all tags that have been used.
+	 * 
+	 * @param singleTag
+	 *            - the tag that has to be added.
+	 */
+	public void addTag(String singleTag) {
+		if (!this.tags.contains(singleTag))
+			this.tags.add(singleTag);
+	}
+
 
 	/**
 	 * Gets a user by his name.
@@ -502,17 +484,6 @@ public class DbManager {
 			}
 		}
 		return usersVotables;
-	}
-
-	/**
-	 * Adds a tag to the list of all tags that have been used.
-	 * 
-	 * @param singleTag
-	 *            - the tag that has to be added.
-	 */
-	public void addTag(String singleTag) {
-		if (!this.tags.contains(singleTag))
-			this.tags.add(singleTag);
 	}
 
 	/**

@@ -2,14 +2,12 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import models.Answer;
 import models.DbManager;
 import models.Post;
 import models.Question;
 import play.mvc.Controller;
-import annotations.Unused;
 
 /**
  * This Controller manages the view of questions
@@ -48,29 +46,6 @@ public class DisplayQuestionController extends Controller {
 			String message = newMessage;
 			render(answers, question, newAnswer, message, similar);
 		}
-	}
-	
-	@Unused
-	public static void showRecentQuestionsByDate() {
-		// "recent" shall mean 5 days
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.add(Calendar.DAY_OF_MONTH, -5);
-		Date oldest = cal.getTime();
-
-		ArrayList<Question> recentQuestionsByDate = new ArrayList<Question>();
-
-		for (Question q : manager.getQuestions()) {
-			if (q.getDate().compareTo(oldest) >= 0)
-				recentQuestionsByDate.add(q);
-
-		}
-		if (recentQuestionsByDate.size() == 0) {
-			String message = "recently no questions asked";
-			render(message);
-		} else
-			render(recentQuestionsByDate);
-
 	}
 
 	/**
