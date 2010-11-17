@@ -55,10 +55,10 @@ public class SearchResultSorterTest extends UnitTest {
 	@Test
 	public void shouldCountScores() {
 		Question question3 = new Question(true, "question1 is the best", admin);
-		question3.vote(4);
+		question3.setScore(4);
 		Answer answer3 = new Answer(true, "question1 is the best", admin,
 				question3);
-		answer3.vote(5);
+		answer3.setScore(5);
 		Comment commentQuestion = new Comment(admin, question3,
 				"question1 is the best");
 		Comment commentAnswer = new Comment(admin, answer3,

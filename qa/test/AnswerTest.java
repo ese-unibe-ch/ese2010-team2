@@ -2,6 +2,7 @@ import models.Answer;
 import models.DbManager;
 import models.Question;
 import models.User;
+import models.Vote;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -34,10 +35,12 @@ public class AnswerTest extends UnitTest {
 		Answer answer = new Answer(true, "content of answer", admin, question);
 		assertEquals(0, answer.getScore());
 		// Vote Up
-		answer.vote(1);
+		Vote vote1 = new Vote(answer, 1, admin);
+		answer.vote(vote1, admin);
 		assertEquals(1, answer.getScore());
 		// Vote down
-		answer.vote(-1);
+		Vote vote2 = new Vote(answer, -1, admin);
+		answer.vote(vote2, admin);
 		assertEquals(0, answer.getScore());
 	}
 	

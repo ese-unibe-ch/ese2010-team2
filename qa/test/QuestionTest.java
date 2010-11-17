@@ -3,6 +3,7 @@ import models.DbManager;
 import models.Post;
 import models.Question;
 import models.User;
+import models.Vote;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -83,10 +84,12 @@ public class QuestionTest extends UnitTest {
 		Post question = new Question(true, "content of question", admin);
 		assertEquals(0, question.getScore());
 		// Vote Up
-		question.vote(1);
+		Vote vote1 = new Vote(question, 1, admin);
+		question.vote(vote1, admin);
 		assertEquals(1, question.getScore());
 		// Vote down
-		question.vote(-1);
+		Vote vote2 = new Vote(question, -1, admin);
+		question.vote(vote2, admin);
 		assertEquals(0, question.getScore());
 	}
 

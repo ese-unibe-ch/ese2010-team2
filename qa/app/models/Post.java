@@ -35,14 +35,14 @@ public abstract class Post {
 	protected ArrayList<Vote> votes = new ArrayList<Vote>();
 
 	/**
-	 * Vote for a votable.
+	 * Votes a post with a certain vote
 	 *
-	 * @param - The vote you want to add. This is an String-object
-	 *            containing an integer number.
+	 * @param - The vote you want to add.
 	 *        - The user who votes for this post
 	 */
 	public void vote(Vote vote, User user) {
 		this.updateScore();
+		manager.updateReputation(this.getOwner());
 		this.userVotedForPost.add(user);
 		this.setLastChanged(new Date());
 	}
@@ -112,8 +112,8 @@ public abstract class Post {
 	}
 
 	/**
-	 * Gets the Vote for a user if he already has voted the post. If he hasn't already voted for
-	 * this post it creates a new vote with value 0.
+	 * Gets the Vote for a user if he already has voted the post. If he hasn't voted for
+	 * this post it creates a new vote with vote = 0.
 	 *
 	 * @param user
 	 * @return the vote for a user
@@ -132,7 +132,7 @@ public abstract class Post {
 		return id;
 	}
 
-	public int getScore() {
+	public int getScore(){
 		return this.score;
 	}
 

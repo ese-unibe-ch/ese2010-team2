@@ -3,8 +3,10 @@ import java.util.GregorianCalendar;
 import models.Answer;
 import models.DbManager;
 import models.Notification;
+import models.Post;
 import models.Question;
 import models.User;
+import models.Vote;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -27,8 +29,8 @@ public class UserTest extends UnitTest {
 		User topScorer = new User("scorer", "user@champion", "password");
 		Question question = new Question(true, "Good Question", topScorer);
 		Answer answer = new Answer(true, "Good Answer", topScorer, question);
-		question.vote(1);
-		answer.vote(2);
+		question.setScore(1);
+		answer.setScore(2);
 		assertEquals(3, topScorer.getScore());
 	}
 
@@ -58,8 +60,9 @@ public class UserTest extends UnitTest {
 	public void shouldUpdateLastReputation() {
 		User reputatedUser = new User("reputatedUser", "rep.user@ese.ch", "1234");
 		Question question = new Question(true,"question", reputatedUser);
+		Vote vote1 = new Vote(question, 3, admin);
 		assertEquals(0,reputatedUser.getLastReputation());
-		question.vote(3);
+		question.vote(vote1, admin);
 		assertEquals(3,reputatedUser.getLastReputation());
 	}
 	

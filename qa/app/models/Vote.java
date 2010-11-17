@@ -7,16 +7,12 @@ public class Vote {
 	protected User user;
 	protected Date voteSetTime;
 	protected int voteToAddToScore[] = new int[1];
-	
-	/** boolean to check while voting if the reputation can be incremented */
-	protected boolean updatedReputation;
 
 	public Vote(Post post, int vote, User user){
 		this.post = post;
 		this.vote = vote;
 		this.user = user;
-		this.post.votes.add(this);
-		this.updatedReputation = false;
+		post.votes.add(this);
 		voteToAddToScore[0] = vote;
 		voteSetTime = new Date();
 	}
@@ -66,16 +62,8 @@ public class Vote {
 	public Post getPost(){
 		return this.post;
 	}
-	
-	public boolean getUpdatedReputation(){
-		return this.updatedReputation;
-	}
 
-	/** Setters */
-	public void setUpdatedReputation(boolean value){
-		this.updatedReputation = value;
-	}
-	
+	/** Setters */	
 	public void setVote(int value){
 		this.vote = value;
 		this.voteToAddToScore[0] = value;

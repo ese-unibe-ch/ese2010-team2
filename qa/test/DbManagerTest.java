@@ -8,6 +8,7 @@ import models.DbManager;
 import models.Post;
 import models.Question;
 import models.User;
+import models.Vote;
 
 import org.junit.After;
 import org.junit.Before;
@@ -180,10 +181,10 @@ public class DbManagerTest extends UnitTest {
 		Post question3 = new Question(true, "content3", admin);
 		Post question4 = new Question(true, "content4", admin);
 
-		question1.vote(2);
-		question2.vote(3);
-		question3.vote(4);
-		question4.vote(5);
+		question1.setScore(2);
+		question2.setScore(3);
+		question3.setScore(4);
+		question4.setScore(5);
 
 		assertEquals(question4, manager.getQuestionsSortedByScore().get(0));
 		assertEquals(question3, manager.getQuestionsSortedByScore().get(1));
@@ -201,10 +202,10 @@ public class DbManagerTest extends UnitTest {
 		Answer answer3 = new Answer(true, "content3", admin, question1);
 		Answer answer4 = new Answer(true, "content4", admin, question1);
 
-		answer1.vote(2);
-		answer2.vote(3);
-		answer3.vote(4);
-		answer4.vote(5);
+		answer1.setScore(2);
+		answer2.setScore(3);
+		answer3.setScore(4);
+		answer4.setScore(5);
 
 		assertEquals(answer4, manager
 				.getAnswersSortedByScore(question1.getId()).get(0));
