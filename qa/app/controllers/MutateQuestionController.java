@@ -102,31 +102,32 @@ public class MutateQuestionController extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		Vote oldVote = question.getVoteForUser(user);
 		boolean check = oldVote.voteChangeable();
+		question.userVotedForPost(user);
 		if(question.checkUserVotedForPost(user)==true && check == false){
 			String message = "You already voted for this post !";
 			render(message, qid);
 		}
 		if(vote == 1 && check == true && oldVote.getVote()==0){
 			oldVote.setVote(1);
-			question.vote(oldVote, user);
+			question.vote(oldVote);
 			String message = "You're current vote is "+oldVote.getVote();
 			render(message, qid);
 		}
 		if(vote == 1 && check == true && oldVote.getVote()==-1){
 			oldVote.setVote(0);
-			question.vote(oldVote, user);
+			question.vote(oldVote);
 			String message = "You're current vote is "+oldVote.getVote();
 			render(message, qid);
 		}
 		if(vote == -1 && check == true && oldVote.getVote()==0){
 			oldVote.setVote(-1);
-			question.vote(oldVote, user);
+			question.vote(oldVote);
 			String message = "You're current vote is "+oldVote.getVote();
 			render(message, qid);
 		}
 		if(vote == -1 && check == true && oldVote.getVote()==1){
 			oldVote.setVote(0);
-			question.vote(oldVote, user);
+			question.vote(oldVote);
 			String message = "You're current vote is "+oldVote.getVote();
 			render(message, qid);
 		}

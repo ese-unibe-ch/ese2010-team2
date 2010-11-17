@@ -85,11 +85,11 @@ public class QuestionTest extends UnitTest {
 		assertEquals(0, question.getScore());
 		// Vote Up
 		Vote vote1 = new Vote(question, 1, admin);
-		question.vote(vote1, admin);
+		question.vote(vote1);
 		assertEquals(1, question.getScore());
 		// Vote down
 		Vote vote2 = new Vote(question, -1, admin);
-		question.vote(vote2, admin);
+		question.vote(vote2);
 		assertEquals(0, question.getScore());
 	}
 

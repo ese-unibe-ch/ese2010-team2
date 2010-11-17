@@ -62,7 +62,7 @@ public class UserTest extends UnitTest {
 		Question question = new Question(true,"question", reputatedUser);
 		Vote vote1 = new Vote(question, 3, admin);
 		assertEquals(0,reputatedUser.getLastReputation());
-		question.vote(vote1, admin);
+		question.vote(vote1);
 		assertEquals(3,reputatedUser.getLastReputation());
 	}
 	

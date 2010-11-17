@@ -40,10 +40,9 @@ public abstract class Post {
 	 * @param - The vote you want to add.
 	 *        - The user who votes for this post
 	 */
-	public void vote(Vote vote, User user) {
+	public void vote(Vote vote) {
 		this.updateScore();
 		manager.updateReputation(this.getOwner());
-		this.userVotedForPost.add(user);
 		this.setLastChanged(new Date());
 	}
 

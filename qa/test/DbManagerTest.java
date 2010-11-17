@@ -201,11 +201,16 @@ public class DbManagerTest extends UnitTest {
 		Answer answer2 = new Answer(true, "content2", admin, question1);
 		Answer answer3 = new Answer(true, "content3", admin, question1);
 		Answer answer4 = new Answer(true, "content4", admin, question1);
+		
+		Vote voteUp1 = new Vote(answer1, 2, admin);
+		Vote voteUp2 = new Vote(answer2, 3, admin);
+		Vote voteUp3 = new Vote(answer3, 4, admin);
+		Vote voteUp4 = new Vote(answer4, 5, admin);
 
-		answer1.setScore(2);
-		answer2.setScore(3);
-		answer3.setScore(4);
-		answer4.setScore(5);
+		answer1.vote(voteUp1);
+		answer2.vote(voteUp2);
+		answer3.vote(voteUp3);
+		answer4.vote(voteUp4);
 
 		assertEquals(answer4, manager
 				.getAnswersSortedByScore(question1.getId()).get(0));

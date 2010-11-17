@@ -81,6 +81,7 @@ public class MutateAnswerController extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		Vote oldVote = answer.getVoteForUser(user);
 		boolean check = oldVote.voteChangeable();
+		answer.userVotedForPost(user);
 		if(answer.checkUserVotedForPost(user)==true && check == false){
 			manager.updateReputation(answer.getOwner());
 			String message = "You already voted for this post !";
@@ -88,25 +89,25 @@ public class MutateAnswerController extends Controller {
 		}
 		if(vote == 1 && check == true && oldVote.getVote()==0){
 			oldVote.setVote(1);
-			answer.vote(oldVote, user);
+			answer.vote(oldVote);
 			String message = "You're current vote is "+oldVote.getVote();
 			render(message, aid, qid);
 		}
 		if(vote == 1 && check == true && oldVote.getVote()==-1){
 			oldVote.setVote(0);
-			answer.vote(oldVote, user);
+			answer.vote(oldVote);
 			String message = "You're current vote is "+oldVote.getVote();
 			render(message, aid, qid);
 		}
 		if(vote == -1 && check == true && oldVote.getVote()==0){
 			oldVote.setVote(-1);
-			answer.vote(oldVote, user);
+			answer.vote(oldVote);
 			String message = "You're current vote is "+oldVote.getVote();
 			render(message, aid, qid);
 		}
 		if(vote == -1 && check == true && oldVote.getVote()==1){
 			oldVote.setVote(0);
-			answer.vote(oldVote, user);
+			answer.vote(oldVote);
 			String message = "You're current vote is "+oldVote.getVote();
 			render(message, aid, qid);
 		}

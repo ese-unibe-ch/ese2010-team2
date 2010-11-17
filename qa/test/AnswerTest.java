@@ -36,11 +36,11 @@ public class AnswerTest extends UnitTest {
 		assertEquals(0, answer.getScore());
 		// Vote Up
 		Vote vote1 = new Vote(answer, 1, admin);
-		answer.vote(vote1, admin);
+		answer.vote(vote1);
 		assertEquals(1, answer.getScore());
 		// Vote down
 		Vote vote2 = new Vote(answer, -1, admin);
-		answer.vote(vote2, admin);
+		answer.vote(vote2);
 		assertEquals(0, answer.getScore());
 	}
 	

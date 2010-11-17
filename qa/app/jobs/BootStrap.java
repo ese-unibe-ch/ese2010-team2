@@ -111,21 +111,21 @@ public class BootStrap extends Job {
 		Date aWeekAgo = new Date(goodQuestion.getDate().getTime()-604800000);
 		goodQuestion.setDate(aWeekAgo);
 		Vote voteUp0 = new Vote(goodQuestion, 1, user1);
-		goodQuestion.vote(voteUp0, user1);
+		goodQuestion.vote(voteUp0);
 		Answer stupidAnswer = new Answer(true, "This is a stupid answer", manager.getUserByName("user-2"), goodQuestion);
 		Answer anotherstupidAnswer = new Answer(true, "This is just another stupid answer", manager.getUserByName("user-3"), goodQuestion);
 		Answer goodAnswer = new Answer(true, "Finally a good answer", manager.getUserByName("user-4"), goodQuestion);
 		Vote voteUp1 = new Vote(goodAnswer, 1, user1);
 		Vote voteUp2 = new Vote(goodAnswer, 1, user2);
-		goodAnswer.vote(voteUp1, user1);
-		goodAnswer.vote(voteUp2, user2);
+		goodAnswer.vote(voteUp1);
+		goodAnswer.vote(voteUp2);
 		Answer bestAnswer = new Answer(true, "This is the best answer ever", manager.getUserByName("user-5"), goodQuestion);
 		Vote voteUp3 = new Vote(bestAnswer, 1, user1);
 		Vote voteUp4 = new Vote(bestAnswer, 1, user2);
 		Vote voteUp5 = new Vote(bestAnswer, 1, user3);
-		bestAnswer.vote(voteUp3, user1);
-		bestAnswer.vote(voteUp4, user2);
-		bestAnswer.vote(voteUp5, user3);
+		bestAnswer.vote(voteUp3);
+		bestAnswer.vote(voteUp4);
+		bestAnswer.vote(voteUp5);
 		Comment aComment = new Comment(manager.getUserByName("user-4"), bestAnswer, "Wow! Best answer, even better than mine");
 		
 		// set user-1 be moderator
