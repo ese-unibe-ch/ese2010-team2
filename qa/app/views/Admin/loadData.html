@@ -1,10 +1,10 @@
 #{extends 'main.html' /}
-#{set title:'ESE KB - import report' /}
+#{set title:'ESE KB - loaded data' /}
 
 
 <p style="color:#c00">
-#{list items:message, as:'error'}
-	${error}<br />
+#{list items:message, as:'message'}
+	${message}<br />
 #{/list}
 </p>
 	

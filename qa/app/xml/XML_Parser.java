@@ -177,15 +177,19 @@ public class XML_Parser extends DefaultHandler {
 
 		} else if (mode.equalsIgnoreCase("questions")) {
 			if (qName.equalsIgnoreCase("ownerid")) {
-				int oId = Integer.parseInt(tempValue.toString());
+				removeInvalid();
+				int oId = Integer.parseInt(tempValue.toString().replace("\n",
+						"").replace(" ", ""));
 				owner = DbManager.getInstance().getUserById(oId);
 				tempValue = new StringBuilder();
 			} else if (qName.equalsIgnoreCase("creationdate")) {
+				removeInvalid();
 				creationDate.setTime(Integer.parseInt(tempValue.toString()));
 				tempValue = new StringBuilder();
 			}
 
 			else if (qName.equalsIgnoreCase("lastactivity")) {
+				removeInvalid();
 				lastChangedDate.setTime(Integer.parseInt(tempValue.toString()));
 				tempValue = new StringBuilder();
 			}
@@ -224,20 +228,24 @@ public class XML_Parser extends DefaultHandler {
 
 		} else if (mode.equalsIgnoreCase("answers")) {
 			if (qName.equalsIgnoreCase("ownerid")) {
+				removeInvalid();
 				owner = DbManager.getInstance().getUserById(
 						Integer.parseInt(tempValue.toString()));
 				tempValue = new StringBuilder();
 			} else if (qName.equalsIgnoreCase("questionid")) {
+				removeInvalid();
 				qId = Integer.parseInt(tempValue.toString());
 				tempValue = new StringBuilder();
 			}
 
 			else if (qName.equalsIgnoreCase("creationdate")) {
+				removeInvalid();
 				creationDate.setTime(Integer.parseInt(tempValue.toString()));
 				tempValue = new StringBuilder();
 			}
 
 			else if (qName.equalsIgnoreCase("lastactivity")) {
+				removeInvalid();
 				lastChangedDate.setTime(Integer.parseInt(tempValue.toString()));
 				tempValue = new StringBuilder();
 			}
@@ -275,7 +283,17 @@ public class XML_Parser extends DefaultHandler {
 			}
 		}
 	}
+	
+	/** Deletes all leading chars that are not a number in the StringBuilder.*/
+	private void removeInvalid(){
+		// Alle Zeichen ausser Zahlen vor der Nummmer löschen.
+		while (tempValue.charAt(0) < 48 || tempValue.charAt(0) > 57)
+			tempValue.deleteCharAt(0);
+	}
 
+	/**
+	 * Resets the variables changed by generating a user to initial values.
+	 */
 	private void cleanUser() {
 		uname = new String();
 		email = new String();
@@ -286,6 +304,9 @@ public class XML_Parser extends DefaultHandler {
 		background = new String();
 	}
 
+	/**
+	 * Resets the variables changed by generating a question to initial values.
+	 */
 	private void cleanQuestion() {
 		owner = null;
 		creationDate = new Date();
@@ -294,6 +315,9 @@ public class XML_Parser extends DefaultHandler {
 		tags.clear();
 	}
 
+	/**
+	 * Resets the variables changed by generating a answer to initial values.
+	 */
 	private void cleanAnswer() {
 		owner = null;
 		content = new String();
@@ -347,6 +371,7 @@ public class XML_Parser extends DefaultHandler {
 		saxParser.parse(input, handler);
 
 		// Generate report
+		report.clear();
 		report.add("Imported " + users + " users, " + questions
 				+ " questions and " + answers + " answers.");
 

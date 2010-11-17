@@ -119,6 +119,7 @@ public class Admin extends Controller {
 			}
 			XML_Parser.main();
 			message = XML_Parser.getMessage();
+			message.addAll(XML_Parser.getReport());
 		} else
 			message.add("An error occured. No Data was imported.");
 
