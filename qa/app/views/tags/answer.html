@@ -65,7 +65,7 @@
 			<p class="comment_text">
 				${comment.getContent()}
 				%{ likes = comment.likes() }%
-				<span class="#{if likes==0}no #{/if}likes">${likes} people like this</span>
+				<span class="#{if likes==0}no #{/if}likes">${likes} ${likes>1 ? 'people like' : 'person likes'} this</span>
 			</p>
 
 		</div>
