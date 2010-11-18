@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import comparators.ChangedDateComparator;
@@ -29,6 +30,8 @@ public class DbManager {
 
 	/** All tags that have been used so far. */
 	private static ArrayList<String> tags;
+
+	private static ArrayList<Like> likes;
 
 	/** 4 Counters for the Id's */
 	private int userCounterIdCounter;
@@ -97,7 +100,6 @@ public class DbManager {
 		}
 		return false;
 	}
-
 
 	/**
 	 * Deletes a user and all entries he or she wrote. Posts which the user
@@ -219,7 +221,6 @@ public class DbManager {
 		if (!this.tags.contains(singleTag))
 			this.tags.add(singleTag);
 	}
-
 
 	/**
 	 * Gets a user by his name.
@@ -453,6 +454,55 @@ public class DbManager {
 		return sortedComments;
 	}
 
+	public void likeComment(User user, int commentId) {
+		Comment comment = getCommentById(commentId);
+		if (!canLikeComment(user, commentId))
+			this.likes.add(new Like(user, comment));
+	}
+
+	private Like getLike(User user, Comment comment) {
+		for (Like l : likes) {
+			if (l.getUser().equals(user) && l.getComment().equals(comment))
+				return l;
+		}
+		return null;
+	}
+
+	public boolean canLikeComment(User user, int commentId) {
+
+		Comment comment = getCommentById(commentId);
+
+		if (getLike(user, comment) != null)
+			return true;
+
+		return false;
+	}
+
+	public void unlikeComment(User user, int commentId) {
+
+		Comment comment = getCommentById(commentId);
+		Like like = getLike(user, comment);
+		this.likes.remove(like);
+	}
+
+	public List<Like> getLikes(int commentId) {
+
+		List<Like> likeList = new ArrayList<Like>();
+		Comment comment = getCommentById(commentId);
+		for (Like l : likes) {
+			if (l.getComment().equals(comment)) {
+				likeList.add(l);
+			}
+		}
+
+		return likeList;
+	}
+
+	public int numberOfLike(int commentId) {
+
+		return getLikes(commentId).size();
+	}
+
 	/**
 	 * Gets the user log of a certain user by his/her username.
 	 * 
@@ -659,6 +709,10 @@ public class DbManager {
 		return tags;
 	}
 
+	private ArrayList<Like> getLikeList() {
+		return likes;
+	}
+
 	/** Count Methods */
 	public int countOfUsers() {
 		return this.getUsers().size();
@@ -679,4 +733,9 @@ public class DbManager {
 	public int countOfTags() {
 		return this.getTagList().size();
 	}
+
+	public int countOfLikes() {
+		return this.getLikeList().size();
+	}
+
 }
