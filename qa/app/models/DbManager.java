@@ -457,8 +457,9 @@ public class DbManager {
 
 	public void likeComment(User user, int commentId) {
 		Comment comment = getCommentById(commentId);
-		if (!userCanLikeComment(user, commentId))
+		if (userCanLikeComment(user, commentId)) {
 			this.likes.add(new Like(user, comment));
+		}
 	}
 
 	public Like getLike(User user, int commentId) {
@@ -470,7 +471,7 @@ public class DbManager {
 
 	public Like getLike(User user, Comment comment) {
 		for (Like l : likes) {
-			if (l.getUser().equals(user) && l.getComment().equals(comment))
+			if (l.getUser() == user && l.getComment() == comment)
 				return l;
 		}
 		return null;
@@ -481,9 +482,9 @@ public class DbManager {
 		Comment comment = getCommentById(commentId);
 
 		if (getLike(user, comment) != null)
-			return true;
+			return false;
 
-		return false;
+		return true;
 	}
 
 	public void unlikeComment(User user, int commentId) {

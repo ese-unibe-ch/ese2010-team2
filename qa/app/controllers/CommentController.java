@@ -142,7 +142,7 @@ public class CommentController extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		Like like = manager.getLike(user, id);
 
-		if (user != null && like != null ) {
+		if (user != null && like != null) {
 			manager.unlikeComment(user, id);
 		}
 
