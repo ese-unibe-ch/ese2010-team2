@@ -28,6 +28,9 @@
 			} else {
 				showAll();
 			}
+			
+			var likeComment = #{jsAction @CommentController.like(':id') /};
+			var unlikeComment = #{jsAction @CommentController.unlike(':id') /};
 		-->
 		</script>
     </head>

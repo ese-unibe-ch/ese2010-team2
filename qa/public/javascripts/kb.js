@@ -73,3 +73,19 @@ function setOneColumnView() {
     $('#questions_box').hide();
     $('#details_box').width(1000);
 }
+
+$(function() {
+	$(".like").click(function() {
+		var comment = $(this).parents('div.comment');
+		$.getJSON(likeComment({id: this.hash.substr(1)}), function(data) {
+			comment.find('a.like').removeClass('like').addClass('like').attr('title', 'unlike');
+			comment.find('span.likes').text(data.likes + ' people like this');
+		});
+		return false;
+	});
+	
+	$(".unlike").click(function() {
+		alert("unlike");
+		return false;
+	});
+});

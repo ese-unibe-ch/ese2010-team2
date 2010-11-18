@@ -132,5 +132,13 @@ public class CommentController extends Controller {
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
+	
+	public static void like(long id) {
+		renderJSON("{\"success\": 1, \"likes\": 25}");
+	}
+	
+	public static void unlike(long id) {
+		renderJSON("{\"success\": 1, \"likes\": 25}");
+	}
 
 }
