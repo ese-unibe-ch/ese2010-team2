@@ -74,18 +74,29 @@ function setOneColumnView() {
     $('#details_box').width(1000);
 }
 
-$(function() {
-	$(".like").click(function() {
-		var comment = $(this).parents('div.comment');
-		$.getJSON(likeComment({id: this.hash.substr(1)}), function(data) {
-			comment.find('a.like').removeClass('like').addClass('like').attr('title', 'unlike');
-			comment.find('span.likes').text(data.likes + ' people like this');
-		});
-		return false;
-	});
+function like() {
+	if($(this).hasClass('like')) {
+		var was = 'like';
+		var now = 'unlike';
+		var url = likeComment({id: this.hash.substr(1)});
+	} else {
+		var was = 'unlike';
+		var now = 'like';
+		var url = unlikeComment({id: this.hash.substr(1)});
+	}
 	
-	$(".unlike").click(function() {
-		alert("unlike");
-		return false;
+	var comment = $(this).parents('div.comment');
+	$.getJSON(url, function(data) {
+		comment.find('a.'+was).removeClass(was).addClass(now).attr('title', now);
+		comment.find('a.' + now + ' img').attr('src', function(index, attr) { 
+			return attr.replace(was, now);
+		}).attr('alt', now);
+		comment.find('span.likes').text(data.likes + ' people like this');
 	});
+	return false;
+}
+
+
+$(function() {
+	$(".like, .unlike").click(like);
 });

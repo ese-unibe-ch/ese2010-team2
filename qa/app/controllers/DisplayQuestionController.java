@@ -7,6 +7,7 @@ import models.Answer;
 import models.DbManager;
 import models.Post;
 import models.Question;
+import models.User;
 import play.mvc.Controller;
 
 /**

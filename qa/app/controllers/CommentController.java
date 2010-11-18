@@ -134,7 +134,7 @@ public class CommentController extends Controller {
 		if (user != null && manager.userCanLikeComment(user, id)) {
 			manager.likeComment(user, id);
 		}
-		renderJSON("{\"success\": 1, \"likes\": " + manager.getLikes(id) + "}");
+		renderJSON("{\"likes\": " + manager.getLikes(id).size() + "}");
 	}
 
 	public static void unlike(int id) {
@@ -142,11 +142,11 @@ public class CommentController extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		Like like = manager.getLike(user, id);
 
-		if (user != null && like.getUser() != null && like.getUser() == user) {
+		if (user != null && like != null ) {
 			manager.unlikeComment(user, id);
 		}
 
-		renderJSON("{\"success\": 1, \"likes\": " + manager.getLikes(id) + "}");
+		renderJSON("{\"likes\": " + manager.getLikes(id).size() + "}");
 	}
 
 }

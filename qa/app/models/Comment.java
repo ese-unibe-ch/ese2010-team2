@@ -53,4 +53,13 @@ public class Comment extends Post {
 		this.setEditor(uname);
 		this.content = content;
 	}
+	
+	public int likes() {
+		return manager.getLikes(this.id).size();
+	}
+	
+	public boolean isLiked(String username) {
+		User user = manager.getUserByName(username);
+		return user != null && manager.getLike(user, id) != null;
+	}
 }
