@@ -59,6 +59,7 @@ public class DbManager {
 		comments = new ArrayList<Comment>();
 		users = new ArrayList<User>();
 		tags = new ArrayList<String>();
+		likes = new ArrayList<Like>();
 		this.userCounterIdCounter = 0;
 		this.questionIdCounter = 0;
 		this.answerIdCounter = 0;
