@@ -1,16 +1,13 @@
 package controllers;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import models.Answer;
 import models.Comment;
 import models.DbManager;
-import models.Notification;
+import models.Like;
 import models.Post;
-import models.Question;
 import models.User;
-import models.UserGroups;
 import play.mvc.Controller;
 import play.mvc.With;
 
@@ -23,12 +20,12 @@ public class CommentController extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
 	private static Calendar calendar = Calendar.getInstance();
-	
+
 	public static void showEditQuestionCommentForm(int qid, int cid) {
 		Comment comment = manager.getCommentById(cid);
 		render(qid, cid, comment);
 	}
-	
+
 	public static void showEditAnswerCommentForm(int qid, int cid) {
 		Comment comment = manager.getCommentById(cid);
 		render(qid, cid, comment);
@@ -40,31 +37,31 @@ public class CommentController extends Controller {
 	 * @param comment
 	 * @param newContent
 	 */
-	public static void editQuestionComment(int qid, int cid,
-			String newContent, Comment comment) {
+	public static void editQuestionComment(int qid, int cid, String newContent,
+			Comment comment) {
 		Comment QComment = manager.getCommentById(cid);
 		QComment.setContent(newContent, session.get("Username"));
 		redirect("/question/" + qid + "/answers/");
 	}
-	
+
 	/**
 	 * Sets the content of the comment to the new value
 	 * 
 	 * @param comment
 	 * @param newContent
 	 */
-	public static void editAnswerComment(int qid, int cid,
-			String newContent, Comment comment) {
+	public static void editAnswerComment(int qid, int cid, String newContent,
+			Comment comment) {
 		Comment AComment = manager.getCommentById(cid);
 		AComment.setContent(newContent, session.get("Username"));
 		redirect("/question/" + qid + "/answers/");
 	}
 
-	/** 
+	/**
 	 * Shows the form to comment a question.
 	 * 
 	 * @param qid
-	 * 				- the question id of the commented question.
+	 *            - the question id of the commented question.
 	 */
 	public static void showQuestionCommentForm(String qid) {
 		render(qid);
@@ -74,28 +71,27 @@ public class CommentController extends Controller {
 	 * Shows the form to comment an answer.
 	 * 
 	 * @param answerId
-	 * 				- the answer id of the commented answer.
+	 *            - the answer id of the commented answer.
 	 * @param qid
-	 * 				- the questions id from the question
-	 * 				the answer belongs to.
+	 *            - the questions id from the question the answer belongs to.
 	 */
 	public static void showAnswerCommentForm(int answerId, String qid) {
 		render(answerId, qid);
 	}
-	
-	public static void deleteComment(int qid, int cid){
+
+	public static void deleteComment(int qid, int cid) {
 		Comment comment = manager.getCommentById(cid);
 		manager.deleteComment(comment);
 		redirect("/question/" + qid + "/answers/");
 	}
-	
+
 	/**
 	 * Adds a comment to a question.
 	 * 
 	 * @param qid
-	 * 				- the question id of the commented question.
+	 *            - the question id of the commented question.
 	 * @param newComment
-	 * 				- the new comment as a String.
+	 *            - the new comment as a String.
 	 */
 	public static void addCommentToQuestion(int qid, String newComment) {
 		User user = manager.getUserByName(session.get("username"));
@@ -113,12 +109,11 @@ public class CommentController extends Controller {
 	 * Adds a comment to an answer.
 	 * 
 	 * @param answerId
-	 * 				- the answer id of the commented answer.
+	 *            - the answer id of the commented answer.
 	 * @param qid
-	 * 				- the question id of the question the 
-	 * 				answer belongs to.
+	 *            - the question id of the question the answer belongs to.
 	 * @param newComment
-	 * 				- the new comment as a String.
+	 *            - the new comment as a String.
 	 */
 	public static void addCommentToAnswer(int answerId, int qid,
 			String newComment) {
@@ -132,13 +127,26 @@ public class CommentController extends Controller {
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
-	
-	public static void like(long id) {
-		renderJSON("{\"success\": 1, \"likes\": 25}");
+
+	public static void like(int id) {
+
+		User user = manager.getUserByName(session.get("username"));
+		if (user != null && manager.userCanLikeComment(user, id)) {
+			manager.likeComment(user, id);
+		}
+		renderJSON("{\"success\": 1, \"likes\": " + manager.getLikes(id) + "}");
 	}
-	
-	public static void unlike(long id) {
-		renderJSON("{\"success\": 1, \"likes\": 25}");
+
+	public static void unlike(int id) {
+
+		User user = manager.getUserByName(session.get("username"));
+		Like like = manager.getLike(user, id);
+
+		if (user != null && like.getUser() != null && like.getUser() == user) {
+			manager.unlikeComment(user, id);
+		}
+
+		renderJSON("{\"success\": 1, \"likes\": " + manager.getLikes(id) + "}");
 	}
 
 }
