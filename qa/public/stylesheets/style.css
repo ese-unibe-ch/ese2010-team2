@@ -278,6 +278,15 @@ span.highlight {
 	color: #FFF;
 }
 
+span.likes {
+	display: block;
+	margin-top: 7px;
+}
+
+span.no.likes {
+	display: none;
+}
+
 /*
  * form stuff
  */

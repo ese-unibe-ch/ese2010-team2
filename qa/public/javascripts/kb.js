@@ -91,7 +91,7 @@ function like() {
 		comment.find('a.' + now + ' img').attr('src', function(index, attr) { 
 			return attr.replace(was, now);
 		}).attr('alt', now);
-		comment.find('span.likes').text(data.likes + ' people like this');
+		comment.find('span.likes').text(data.likes + ' people like this').removeClass('no');
 	});
 	return false;
 }

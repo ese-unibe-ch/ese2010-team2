@@ -56,11 +56,9 @@
 				<a href="@{CommentController.showEditAnswerCommentForm(_question.getId(), comment.getId())}"><img src="/public/images/edit.png" alt="edit comment" /></a>
 				<a href="@{CommentController.deleteComment(_question.getId(), comment.getId())}"><img src="/public/images/delete.png" alt="delete comment" /></a>
 				#{/if}
-				#{if comment.isLiked(session.get("username"))}
-					<a class="unlike" href="#${comment.getId()}"><img src="@{'/public/images/unlike.png'}" alt="unlike" /></a>
-				#{/if}#{else}
-					<a class="like" href="#${comment.getId()}"><img src="@{'/public/images/like.png'}" alt="like" /></a>
-				#{/else}
+				
+				%{ like = comment.isLiked(session.get("username")) ? 'unlike' : 'like' }%
+				<a class="${like}" title="${like}" href="#${comment.getId()}"><img src="@{'/public/images/'+like+'.png'}" alt="${like}" /></a>
 			</div>
 			#{/if}
 
