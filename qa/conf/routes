@@ -83,6 +83,7 @@ GET                /question/{qid}/comment_question                 	  CommentCo
 GET                /question/{qid}/comment_answer                   	  CommentController.showAnswerCommentForm
 GET                /question/{qid}/addQuestionComment               	  CommentController.addCommentToQuestion
 GET                /question/{qid}/addAnswerComment/{answerId}      	  CommentController.addCommentToAnswer
-
+GET				   /comment/{id}/like									  CommentController.like
+GET				   /comment/{id}/unlike									  CommentController.unlike
 
 POST				/setAvatar											  UserController.setAvatar

@@ -56,10 +56,14 @@
 				<a href="@{CommentController.showEditAnswerCommentForm(_question.getId(), comment.getId())}"><img src="/public/images/edit.png" alt="edit comment" /></a>
 				<a href="@{CommentController.deleteComment(_question.getId(), comment.getId())}"><img src="/public/images/delete.png" alt="delete comment" /></a>
 				#{/if}
+				<a class="like" href="#${comment.getId()}"><img src="@{'/public/images/like.png'}" alt="like" /></a>
 			</div>
 			#{/if}
 
-			<p class="comment_text">${comment.getContent()}</p>
+			<p class="comment_text">
+				${comment.getContent()}
+				<span class="likes">3 people like this</span>
+			</p>
 
 		</div>
 
