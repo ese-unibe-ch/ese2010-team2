@@ -86,7 +86,7 @@ function like() {
 	}
 	
 	var comment = $(this).parents('div.comment');
-	$.getJSON(url, function(data) {
+	$.post(url, function(data) {
 		comment.find('a.'+was).removeClass(was).addClass(now).attr('title', now);
 		comment.find('a.' + now + ' img').attr('src', function(index, attr) { 
 			return attr.replace(was, now);
@@ -95,7 +95,7 @@ function like() {
 			comment.find('span.likes').text(data.likes>1 ? data.likes+' people like this' : data.likes+' person likes this').removeClass('no');
 		else
 			comment.find('span.likes').addClass('no');
-	});
+	}, "json");
 	return false;
 }
 
