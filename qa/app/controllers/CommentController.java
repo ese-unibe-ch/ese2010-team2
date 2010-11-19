@@ -129,6 +129,7 @@ public class CommentController extends Controller {
 	}
 
 	public static void like(int id) {
+		checkAuthenticity();
 
 		User user = manager.getUserByName(session.get("username"));
 		if (user != null && manager.userCanLikeComment(user, id)) {
@@ -138,7 +139,8 @@ public class CommentController extends Controller {
 	}
 
 	public static void unlike(int id) {
-
+		checkAuthenticity();
+		
 		User user = manager.getUserByName(session.get("username"));
 		Like like = manager.getLike(user, id);
 

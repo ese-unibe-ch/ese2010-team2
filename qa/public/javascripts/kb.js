@@ -86,7 +86,7 @@ function like() {
 	}
 	
 	var comment = $(this).parents('div.comment');
-	$.post(url, function(data) {
+	$.post(url, {authenticityToken: token()}, function(data) {
 		comment.find('a.'+was).removeClass(was).addClass(now).attr('title', now);
 		comment.find('a.' + now + ' img').attr('src', function(index, attr) { 
 			return attr.replace(was, now);
@@ -97,6 +97,10 @@ function like() {
 			comment.find('span.likes').addClass('no');
 	}, "json");
 	return false;
+}
+
+function token() {
+	return $('#footer input').val();
 }
 
 
