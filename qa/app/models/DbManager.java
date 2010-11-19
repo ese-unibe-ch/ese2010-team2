@@ -31,6 +31,7 @@ public class DbManager {
 	/** All tags that have been used so far. */
 	private static ArrayList<String> tags;
 
+	/** All likes have been set by users on different comments. */
 	private static ArrayList<Like> likes;
 
 	/** 4 Counters for the Id's */
@@ -455,6 +456,14 @@ public class DbManager {
 		return sortedComments;
 	}
 
+	/**
+	 * Like comment.
+	 * 
+	 * @param user
+	 *            the user
+	 * @param commentId
+	 *            the comment id
+	 */
 	public void likeComment(User user, int commentId) {
 		Comment comment = getCommentById(commentId);
 		if (userCanLikeComment(user, commentId)) {
@@ -462,6 +471,15 @@ public class DbManager {
 		}
 	}
 
+	/**
+	 * Get the like object of a user for a given commentId from the like list.
+	 * 
+	 * @param user
+	 *            the user
+	 * @param commentId
+	 *            the comment id
+	 * @return the like object
+	 */
 	public Like getLike(User user, int commentId) {
 
 		Comment comment = getCommentById(commentId);
@@ -469,6 +487,15 @@ public class DbManager {
 		return getLike(user, comment);
 	}
 
+	/**
+	 * Get the like object of a user for a given comment from the like list.
+	 * 
+	 * @param user
+	 *            the user
+	 * @param comment
+	 *            the comment
+	 * @return the like
+	 */
 	public Like getLike(User user, Comment comment) {
 		for (Like l : likes) {
 			if (l.getUser() == user && l.getComment() == comment)
@@ -477,6 +504,15 @@ public class DbManager {
 		return null;
 	}
 
+	/**
+	 * Returns if a user is allowed to like a comment.
+	 * 
+	 * @param user
+	 *            the user
+	 * @param commentId
+	 *            the comment id
+	 * @return true, if allowed
+	 */
 	public boolean userCanLikeComment(User user, int commentId) {
 
 		Comment comment = getCommentById(commentId);
@@ -487,6 +523,14 @@ public class DbManager {
 		return true;
 	}
 
+	/**
+	 * Delete a given like from a user to a comment in the list.
+	 * 
+	 * @param user
+	 *            the user
+	 * @param commentId
+	 *            the comment id
+	 */
 	public void unlikeComment(User user, int commentId) {
 
 		Comment comment = getCommentById(commentId);
@@ -494,6 +538,13 @@ public class DbManager {
 		this.likes.remove(like);
 	}
 
+	/**
+	 * Gets all likes to a given commentId.
+	 * 
+	 * @param commentId
+	 *            the comment id
+	 * @return the likes
+	 */
 	public List<Like> getLikes(int commentId) {
 
 		List<Like> likeList = new ArrayList<Like>();
@@ -507,6 +558,13 @@ public class DbManager {
 		return likeList;
 	}
 
+	/**
+	 * Number of like for a given commentId.
+	 * 
+	 * @param commentId
+	 *            the comment id
+	 * @return the int
+	 */
 	public int numberOfLike(int commentId) {
 
 		return getLikes(commentId).size();
