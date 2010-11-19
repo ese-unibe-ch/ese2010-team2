@@ -26,9 +26,9 @@ public class DbManagerTest extends UnitTest {
 		manager = DbManager.getInstance();
 		admin = new User("admin", "admin@admin.ch", "admin");
 	}
-	
+
 	@Test
-	public void shoulfindCommentbyId(){
+	public void shoulfindCommentbyId() {
 		Question Question1 = new Question(true, "question1", admin);
 		Answer answer1 = new Answer(true, "answer1", admin, Question1);
 		Comment comment1 = new Comment(admin, Question1, "hallo1");
@@ -37,42 +37,43 @@ public class DbManagerTest extends UnitTest {
 		assertEquals(3, manager.getComments().size());
 		assertEquals(comment1, manager.getCommentById(comment1.getId()));
 		assertEquals(comment3, manager.getCommentById(comment3.getId()));
-		assert(manager.getCommentById(comment2.getId()).getContent()=="hallo2");
-		assert(manager.getCommentById(comment3.getId()).getContent()=="hallo3");
+		assert (manager.getCommentById(comment2.getId()).getContent() == "hallo2");
+		assert (manager.getCommentById(comment3.getId()).getContent() == "hallo3");
 	}
-	
+
 	@Test
-	public void shouldDeleteComment(){
+	public void shouldDeleteComment() {
 		Question Question1 = new Question(true, "question1", admin);
 		Comment comment = new Comment(admin, Question1, "hallo");
-		
-		assert(manager.getComments().size()>0&&manager.getCommentById(0).equals(comment));
+
+		assert (manager.getComments().size() > 0 && manager.getCommentById(0)
+				.equals(comment));
 		assertEquals(comment, Question1.getCommentbyId(comment.getId()));
 		manager.deleteComment(comment);
-		assert(manager.getComments().size()==0);
-	}	
-	
+		assert (manager.getComments().size() == 0);
+	}
+
 	@Test
-	public void shouldDeleteAnswerandhisComments(){
+	public void shouldDeleteAnswerandhisComments() {
 		Question question1 = new Question(true, "question1", admin);
 		Answer answer1 = new Answer(true, "answer1", admin, question1);
 		Comment comment = new Comment(admin, answer1, "hallo");
 		Comment comment2 = new Comment(admin, question1, "hallo2");
-		
+
 		assertEquals(comment, answer1.getCommentbyId(comment.getId()));
-		assertFalse(comment2==answer1.getCommentbyId(comment2.getId()));
+		assertFalse(comment2 == answer1.getCommentbyId(comment2.getId()));
 		assertEquals(answer1, manager.getAnswerById(answer1.getId()));
-		assertTrue(manager.getAnswers().size()==1);
-		assertTrue(manager.getComments().size()==2);
-		
+		assertTrue(manager.getAnswers().size() == 1);
+		assertTrue(manager.getComments().size() == 2);
+
 		manager.deleteAnswer(answer1);
-		
-		assertTrue(manager.getAnswers().size()==0);
-		assertTrue(manager.getComments().size()==1);
+
+		assertTrue(manager.getAnswers().size() == 0);
+		assertTrue(manager.getComments().size() == 1);
 	}
-	
+
 	@Ignore
-	public void shoulDeleteQuestionandallhisPost(){
+	public void shoulDeleteQuestionandallhisPost() {
 		Question question1 = new Question(true, "question1", admin);
 		Question question2 = new Question(true, "question2", admin);
 		Answer answer1 = new Answer(true, "answer1", admin, question1);
@@ -80,23 +81,23 @@ public class DbManagerTest extends UnitTest {
 		Comment comment = new Comment(admin, answer1, "hallo");
 		Comment comment2 = new Comment(admin, question1, "hallo2");
 		Comment comment3 = new Comment(admin, question1, "hallo3");
-		
+
 		assertEquals(question1, manager.getQuestionById(question1.getId()));
-		assertTrue(manager.getQuestions().size()==2);
-		assertTrue(manager.getComments().size()==3);
-		assertTrue(manager.getAnswers().size()==2);
-		assertTrue(question1.getComments().size()==2);
+		assertTrue(manager.getQuestions().size() == 2);
+		assertTrue(manager.getComments().size() == 3);
+		assertTrue(manager.getAnswers().size() == 2);
+		assertTrue(question1.getComments().size() == 2);
 		assertEquals(comment3, question1.getCommentbyId(comment3.getId()));
 		assertEquals(comment2.getCommentedPost(), question1);
 		assertEquals(comment3.getCommentedPost(), question1);
-		assertFalse(question1.getCommentbyId(comment.getId())==comment);
+		assertFalse(question1.getCommentbyId(comment.getId()) == comment);
 		assertFalse(question1.getComments().contains(comment));
-		
+
 		manager.deleteQuestion(question1);
-		
-		assertTrue(manager.getQuestions().size()==1);
+
+		assertTrue(manager.getQuestions().size() == 1);
 		assertTrue(manager.getComments().isEmpty());
-		assertTrue(manager.getAnswers().size()==1);
+		assertTrue(manager.getAnswers().size() == 1);
 		assertFalse(manager.getComments().contains(comment3));
 		assertFalse(manager.getComments().contains(comment2));
 		assertFalse(manager.getComments().contains(comment));
@@ -201,7 +202,7 @@ public class DbManagerTest extends UnitTest {
 		Answer answer2 = new Answer(true, "content2", admin, question1);
 		Answer answer3 = new Answer(true, "content3", admin, question1);
 		Answer answer4 = new Answer(true, "content4", admin, question1);
-		
+
 		Vote voteUp1 = new Vote(answer1, 2, admin);
 		Vote voteUp2 = new Vote(answer2, 3, admin);
 		Vote voteUp3 = new Vote(answer3, 4, admin);
@@ -221,7 +222,7 @@ public class DbManagerTest extends UnitTest {
 		assertEquals(answer1, manager
 				.getAnswersSortedByScore(question1.getId()).get(3));
 	}
-	
+
 	@Test
 	public void shouldGetQuestionsSortedByDate() {
 		Question firstQuestion = new Question(true, "", admin);
@@ -229,39 +230,41 @@ public class DbManagerTest extends UnitTest {
 		ArrayList<Question> list = manager.getQuestionsSortedByDate();
 		assertTrue(list.indexOf(firstQuestion) < list.indexOf(secondQuestion));
 	}
-	
+
 	@Test
 	public void shouldGetAnswersSortedByDate() {
-		Question question = new Question(true,"",admin);
+		Question question = new Question(true, "", admin);
 		Answer firstAnswer = new Answer(true, "", admin, question);
 		Answer secondAnswer = new Answer(true, "", admin, question);
 		ArrayList<Answer> list = manager.getAnswersSortedByDate();
 		assertTrue(list.indexOf(firstAnswer) < list.indexOf(secondAnswer));
 	}
-	
+
 	@Test
 	public void shouldGetQuestionsByUserSortedByDate() {
 		User user = new User("", "", "");
 		Question firstQuestion = new Question(true, "", user);
 		Question secondQuestion = new Question(true, "", user);
-		ArrayList<Question> list = manager.getQuestionsByUserIdSortedByDate(user.getId());
-		assertEquals(2,list.size());
-		assertEquals(firstQuestion,list.get(0));
-		assertEquals(secondQuestion,list.get(1));
+		ArrayList<Question> list = manager
+				.getQuestionsByUserIdSortedByDate(user.getId());
+		assertEquals(2, list.size());
+		assertEquals(firstQuestion, list.get(0));
+		assertEquals(secondQuestion, list.get(1));
 	}
-	
+
 	@Test
 	public void shouldGetAnswersByUserSortedByDate() {
 		User user = new User("", "", "");
-		Question question = new Question(true,"",admin);
+		Question question = new Question(true, "", admin);
 		Answer firstAnswer = new Answer(true, "", user, question);
 		Answer secondAnswer = new Answer(true, "", user, question);
-		ArrayList<Answer> list = manager.getAnswersByUserIdSortedByDate(user.getId());
-		assertEquals(2,list.size());
-		assertEquals(firstAnswer,list.get(0));
-		assertEquals(secondAnswer,list.get(1));
+		ArrayList<Answer> list = manager.getAnswersByUserIdSortedByDate(user
+				.getId());
+		assertEquals(2, list.size());
+		assertEquals(firstAnswer, list.get(0));
+		assertEquals(secondAnswer, list.get(1));
 	}
-	
+
 	@Test
 	public void shouldGetVotablesByUser() {
 		Question question1 = new Question(true, "question1", admin);
@@ -353,8 +356,8 @@ public class DbManagerTest extends UnitTest {
 				.getContent());
 		assertEquals(admin.getName(), manager.getAnswers().get(0).getOwner()
 				.getName());
-		assertEquals(manager.getQuestions().get(0).getId(),
-				(manager.getAnswers()).get(0).getQuestionId());
+		assertEquals(manager.getQuestions().get(0).getId(), (manager
+				.getAnswers()).get(0).getQuestionId());
 	}
 
 	@Test
@@ -381,8 +384,8 @@ public class DbManagerTest extends UnitTest {
 	@Test
 	public void shouldGetQuestionById() {
 		Post question = new Question(true, "content of question", admin);
-		assertEquals(question.getContent(),
-				manager.getQuestionById(question.getId()).getContent());
+		assertEquals(question.getContent(), manager.getQuestionById(
+				question.getId()).getContent());
 		assertNull(manager.getQuestionById(-1));
 	}
 
@@ -408,14 +411,15 @@ public class DbManagerTest extends UnitTest {
 		assertTrue(list.contains(answer2));
 		assertFalse(list.contains(answer1));
 	}
-	
+
 	@Test
-	public void shouldRemoveUser(){
-		User user1= new User("user1", "user@1", "password");
-		Question question1= new Question(true, "Question to be deleted", user1);
-		Post question2= new Question(true, "question not to be deleted", admin);
-		Answer answer1= new Answer(true, "answer to be deleted", user1, question1);
-		Comment comm1= new Comment(user1, answer1, "comment to be deleted");
+	public void shouldRemoveUser() {
+		User user1 = new User("user1", "user@1", "password");
+		Question question1 = new Question(true, "Question to be deleted", user1);
+		Post question2 = new Question(true, "question not to be deleted", admin);
+		Answer answer1 = new Answer(true, "answer to be deleted", user1,
+				question1);
+		Comment comm1 = new Comment(user1, answer1, "comment to be deleted");
 		assertTrue(manager.getQuestions().contains(question1));
 		assertTrue(manager.getAnswers().contains(answer1));
 		assertTrue(manager.getComments().contains(comm1));
@@ -425,69 +429,98 @@ public class DbManagerTest extends UnitTest {
 		assertFalse(manager.getComments().contains(comm1));
 		assertTrue(manager.getQuestions().contains(question2));
 	}
-	
+
 	@Test
 	public void shouldSortCommentsByDate() {
 		Post question = new Question(true, "some content", admin);
 		Comment firstComment = new Comment(admin, question, "first comment");
 		Comment secondComment = new Comment(admin, question, "second comment");
 		Comment thirdComment = new Comment(admin, question, "third comment");
-		ArrayList<Comment> comments = manager.getAllCommentsByQuestionIdSortedByDate(question.getId());
+		ArrayList<Comment> comments = manager
+				.getAllCommentsByQuestionIdSortedByDate(question.getId());
 		assertEquals(firstComment, comments.get(0));
 		assertEquals(secondComment, comments.get(1));
 		assertEquals(thirdComment, comments.get(2));
 	}
-	
+
 	@Test
 	public void shouldCorrectlyAddAndAccessReputation() {
 		User reputatedUser = new User("user", "user@ese.ch", "user");
 		manager.addReputation(reputatedUser, 50);
-		assertEquals(50, manager.getReputationByUserAndDate(reputatedUser, new Date()));
+		assertEquals(50, manager.getReputationByUserAndDate(reputatedUser,
+				new Date()));
 	}
-	
+
 	@Test
 	public void shouldCorrectlyAccessReputationsOfTheLast5Days() {
 		User reputatedUser = new User("user", "user@ese.ch", "user");
-		int[] reputations = {10,20,30,40,50};
-		for(int i = 0; i < 5; i++) {
+		int[] reputations = { 10, 20, 30, 40, 50 };
+		for (int i = 0; i < 5; i++) {
 			manager.addReputation(reputatedUser, reputations[i]);
 		}
 		ArrayList<Integer> reps = manager.getReputations(reputatedUser, 5);
-		assertEquals((Integer)50, reps.get(0));
-		assertEquals((Integer)40, reps.get(1));
-		assertEquals((Integer)30, reps.get(2));
-		assertEquals((Integer)20, reps.get(3));
-		assertEquals((Integer)10, reps.get(4));
+		assertEquals((Integer) 50, reps.get(0));
+		assertEquals((Integer) 40, reps.get(1));
+		assertEquals((Integer) 30, reps.get(2));
+		assertEquals((Integer) 20, reps.get(3));
+		assertEquals((Integer) 10, reps.get(4));
 	}
-	
-    @Test(expected=NoSuchElementException.class)
-    public void shouldntFindUserToDelete() {
-    	manager.deleteUser("userDoesNotExist");
-    }
-    
-    @Test
-    public void shouldAnonymizeEditedBy(){
-    	User u1= new User("u1","u@u","u");
-    	User u2= new User("u2","u@u","u");
-    	
-    	Question question= new Question("question", admin);
-    	Question q=manager.getQuestionById(question.getId());
-    	q.addVersion("question edited", "edited", "u1");
-    	q.addVersion("ques", "edited ques", "u2");
-    	q.addVersion("quess", "", "admin");
-    	
-    	Answer answer= new Answer("answer", u1, q);
-    	Answer a=manager.getAnswerById(answer.getId());
-    	a.addVersion("djs", "u1");
-    	a.addVersion("version2","u2");
-    	
-    	manager.deleteUser("u2");
-    	
-    	assertTrue(q.getEditor().equals(manager.getUserByName("admin")));
-    	
-    	assertTrue(a.getEditor().equals(manager.getUserByName("anonymous")));
-    }
 
+	@Test(expected = NoSuchElementException.class)
+	public void shouldntFindUserToDelete() {
+		manager.deleteUser("userDoesNotExist");
+	}
+
+	@Test
+	public void shouldAnonymizeEditedBy() {
+		User u1 = new User("u1", "u@u", "u");
+		User u2 = new User("u2", "u@u", "u");
+
+		Question question = new Question("question", admin);
+		Question q = manager.getQuestionById(question.getId());
+		q.addVersion("question edited", "edited", "u1");
+		q.addVersion("ques", "edited ques", "u2");
+		q.addVersion("quess", "", "admin");
+
+		Answer answer = new Answer("answer", u1, q);
+		Answer a = manager.getAnswerById(answer.getId());
+		a.addVersion("djs", "u1");
+		a.addVersion("version2", "u2");
+
+		manager.deleteUser("u2");
+
+		assertTrue(q.getEditor().equals(manager.getUserByName("admin")));
+
+		assertTrue(a.getEditor().equals(manager.getUserByName("anonymous")));
+	}
+
+	@Test
+	public void shouldCreateCommentLike() {
+
+		User u1 = new User("u1", "u@u", "u");
+		User u2 = new User("u2", "u@u", "u");
+
+		Question question = new Question("question", admin);
+		Comment comment = new Comment(u1, question, "test comment");
+		// user 1 & 2 should be able to like the comment
+		assertTrue(manager.userCanLikeComment(u1, comment.getId()));
+		assertTrue(manager.userCanLikeComment(u2, comment.getId()));
+		// user 1 like the comment
+		assertTrue(manager.likeComment(u1, comment.getId()));
+		assertFalse(manager.likeComment(u1, comment.getId()));
+		// return number of likes
+		assertEquals(1, manager.numberOfLike(comment.getId()));
+		assertFalse(manager.userCanLikeComment(u1, comment.getId()));
+		assertTrue(manager.userCanLikeComment(u2, comment.getId()));
+		// user 2 also like the comment
+		assertTrue(manager.likeComment(u2, comment.getId()));
+
+		// user 1 unlike the comment
+		manager.unlikeComment(u1, comment.getId());
+		assertEquals(1, manager.getLikes(comment.getId()).size());
+		assertNotNull(manager.getLike(u2, comment.getId()));
+
+	}
 
 	@After
 	public void tearDown() {

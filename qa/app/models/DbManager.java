@@ -457,18 +457,21 @@ public class DbManager {
 	}
 
 	/**
-	 * Like comment.
+	 * Set a comment as liked for a given user.
 	 * 
 	 * @param user
 	 *            the user
 	 * @param commentId
 	 *            the comment id
+	 * @return true, if successful
 	 */
-	public void likeComment(User user, int commentId) {
+	public boolean likeComment(User user, int commentId) {
 		Comment comment = getCommentById(commentId);
 		if (userCanLikeComment(user, commentId)) {
 			this.likes.add(new Like(user, comment));
+			return true;
 		}
+		return false;
 	}
 
 	/**
