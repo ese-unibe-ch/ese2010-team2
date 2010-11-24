@@ -8,3 +8,4 @@ eclipse/
 cobertura.ser*
 *.log
 logs/
+qa/public/data/data
