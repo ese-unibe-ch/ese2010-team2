@@ -23,6 +23,13 @@
 			<td>Password again</td>
 			<td><input type="password" name="password2" value="${password2}" /></td>
 		</tr>
+		<tr
+			<td>Please type the code below</td>
+			<td>
+				<img src="@{Application.captcha(randomID)}" />
+				<input type="text" name="code" id="code" size="18" value="" />
+    			<input type="hidden" name="randomID" value="${randomID}" />
+			</td>
 		<tr>
 			<td></td>
 			<td><input type="submit" value="Register" /></td>

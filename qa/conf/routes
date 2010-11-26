@@ -17,6 +17,8 @@ GET     /public/                                staticDir:public
 #Application
 GET                /showState                                       	  Application.showState
 GET				   /search												  Application.search
+GET     		   /captcha				                                  Application.captcha
+
 
 #UserController
 GET                /showRegister                                    	  UserController.showRegister

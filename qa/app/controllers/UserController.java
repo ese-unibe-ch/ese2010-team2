@@ -15,26 +15,32 @@ import models.User;
 import org.apache.commons.io.IOUtils;
 
 import play.Play;
+import play.cache.Cache;
+import play.libs.Codec;
+import play.libs.Images;
 import play.mvc.Controller;
-/** 
- * This Controller manages some basic actions about User which do not
- * include the Security Annotation.
- *
+
+/**
+ * This Controller manages some basic actions about User which do not include
+ * the Security Annotation.
+ * 
  */
 public class UserController extends Controller {
 
 	private static Calendar calendar = Calendar.getInstance();
 	private static DbManager manager = DbManager.getInstance();
-	
+
 	/**
-	 * Check wehen a new User is registered if the User's Input is correct
+	 * Check when a new User is registered if the User's Input is correct
 	 * according to the rules mentioned in the method.
 	 */
 	public static void register(String name, String password, String password2,
-			String email) throws Throwable {
+			String email, String code, String randomID) throws Throwable {
+		
+		validation.equals(code, Cache.get(randomID));
 		if (name.equals(""))
-			UserController.showRegister("Please insert a name!", name, password,
-					password2, email);
+			UserController.showRegister("Please insert a name!", name,
+					password, password2, email);
 		else if (manager.checkUserNameIsOccupied(name))
 			UserController.showRegister("Sorry, this user already exists", "",
 					password, password2, email);
@@ -45,20 +51,24 @@ public class UserController extends Controller {
 		else if (password.equals("") || !password.equals(password2))
 			UserController.showRegister("Please check your password!", name,
 					password, password2, email);
-		else {
+		else if(validation.hasErrors())
+			UserController.showRegister("Please check the code", name, password, password2, email);
+		else{
 			@SuppressWarnings("unused")
 			User user = new User(name, email, password);
+			Cache.delete(randomID);
 			Secure.logout();
 		}
 	}
-
+	
 	/**
 	 * Renders the registration form with the proper error message to the user
 	 * due to is wrong input.
 	 */
 	public static void showRegister(String message, String name,
 			String password, String password2, String email) {
-		render(message, name, password, password2, email);
+		String randomID = Codec.UUID();
+		render(message, name, password, password2, email, randomID);
 	}
 
 	/** renders the current user profile */
@@ -67,7 +77,7 @@ public class UserController extends Controller {
 		currentUser.add(manager.getUserByName(session.get("username")));
 		render(message, currentUser);
 	}
-	
+
 	/** shows a specific User */
 	public static void showUser(String userName) {
 		User profileOwner = manager.getUserByName(userName);
@@ -105,7 +115,7 @@ public class UserController extends Controller {
 		// to determine if the user name was changed.
 		String username;
 		boolean passwordChanged = false;
-		//When username doesn't change
+		// When username doesn't change
 		if (name.equals("")) {
 			username = session.get("username");
 		} else {
@@ -115,12 +125,14 @@ public class UserController extends Controller {
 		// Checks if user name is already occupied
 		if (!name.equals("")) {
 			if (!manager.checkUserNameIsOccupied(username)) {
-				manager.getUserByName(session.get("username")).setName(username);
+				manager.getUserByName(session.get("username"))
+						.setName(username);
 			} else if (!username.equals(session.get("username"))
 					&& manager.checkUserNameIsOccupied(username)) {
-				UserController.showUserProfile("Sorry, this user already exists!");
+				UserController
+						.showUserProfile("Sorry, this user already exists!");
 			}
-	
+
 		}
 		// Checks if the email has a @ and a dot
 		if (!email.equals("")) {
@@ -183,7 +195,7 @@ public class UserController extends Controller {
 			redirect("/showUser/" + session.get("username"));
 		}
 	}
-	
+
 	/**
 	 * Update or set user's avatar.
 	 * 

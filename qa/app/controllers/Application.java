@@ -10,6 +10,8 @@ import models.Question;
 import models.SearchManager;
 import models.SearchResult;
 import models.User;
+import play.cache.Cache;
+import play.libs.Images;
 import play.mvc.Controller;
 
 /**
@@ -94,5 +96,16 @@ public class Application extends Controller {
 				render(results, isQuestion, isUser, menu, text);
 			}
 		}
+	}
+	
+	/**
+	 * Creates a captcha given a certain id. 
+	 * @param id - the id of the captcha.
+	 */
+	public static void captcha(String id) {
+	    Images.Captcha captcha = Images.captcha();
+	    String code = captcha.getText("#E4EAFD");
+	    Cache.set(id, code, "30mn");
+	    renderBinary(captcha);
 	}
 }
