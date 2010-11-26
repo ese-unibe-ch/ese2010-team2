@@ -17,8 +17,6 @@ import play.mvc.With;
 public class MutateQuestionController extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
-	private static Calendar calendar = Calendar.getInstance();
-	
 	public static void showEditQuestionForm(int qid, String newContent,
 			String tags, String message) {
 		Question question = manager.getQuestionById(qid);
@@ -36,7 +34,6 @@ public class MutateQuestionController extends Controller {
 			String newContentTag) {
 		String copyTags = "" + newContentTag;
 
-		User user = manager.getUserByName(session.get("username"));
 		if (newContentQuestion.equals("") || newContentQuestion.equals(" ")) {
 			String message = "Your question is empty!";
 			showEditQuestionForm(qid, newContentQuestion, newContentTag, message);

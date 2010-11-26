@@ -42,58 +42,65 @@ public class UserTest extends UnitTest {
 		assertEquals(3, logTester.getActivities().size());
 		assertEquals("Activity2", logTester.getActivities().get(0));
 	}
-	
+
 	@Test
 	public void shouldUpdateReputation() {
-		User reputatedUser = new User("reputatedUser", "rep.user@ese.ch", "1234");
+		User reputatedUser = new User("reputatedUser", "rep.user@ese.ch",
+				"1234");
 		GregorianCalendar twoDaysAgo = new GregorianCalendar();
-		twoDaysAgo.setTimeInMillis(twoDaysAgo.getTimeInMillis()-2*24*60*60*1000);
+		twoDaysAgo.setTimeInMillis(twoDaysAgo.getTimeInMillis() - 2 * 24 * 60
+				* 60 * 1000);
 		reputatedUser.setLastTimeOfReputation(twoDaysAgo);
 		reputatedUser.addReputation(3);
 		reputatedUser.setLastReputation(4);
-		assertEquals(2,reputatedUser.getReputations().size());
-		assertEquals(4,(int)reputatedUser.getReputations().get(0)); //yesterday
-		assertEquals(3,(int)reputatedUser.getReputations().get(1)); //the day before yesterday
+		assertEquals(2, reputatedUser.getReputations().size());
+		assertEquals(4, (int) reputatedUser.getReputations().get(0)); // yesterday
+		assertEquals(3, (int) reputatedUser.getReputations().get(1)); // the day
+																		// before
+																		// yesterday
 	}
-	
+
 	@Test
 	public void shouldUpdateLastReputation() {
-		User reputatedUser = new User("reputatedUser", "rep.user@ese.ch", "1234");
-		Question question = new Question(true,"question", reputatedUser);
+		User reputatedUser = new User("reputatedUser", "rep.user@ese.ch",
+				"1234");
+		Question question = new Question(true, "question", reputatedUser);
 		Vote vote1 = new Vote(question, 3, admin);
-		assertEquals(0,reputatedUser.getLastReputation());
+		assertEquals(0, reputatedUser.getLastReputation());
 		question.vote(vote1);
-		assertEquals(3,reputatedUser.getLastReputation());
+		assertEquals(3, reputatedUser.getLastReputation());
 	}
-	
+
 	@Test
 	public void shouldAddNotification() {
 		User notifiedUser = new User("notifiedUser", "note.user@ese.ch", "1234");
 		Question changedQuestion = new Question("some question", notifiedUser);
-		Notification notification = new Notification("something changed", notifiedUser, changedQuestion);
+		Notification notification = new Notification("something changed",
+				notifiedUser, changedQuestion);
 		assertEquals(1, notifiedUser.getAllNotifications().size());
 		assertEquals(notification, notifiedUser.getAllNotifications().get(0));
 	}
-	
+
 	@Test
 	public void shouldRemoveNotification() {
 		User notifiedUser = new User("notifiedUser", "note.user@ese.ch", "1234");
 		Question changedQuestion = new Question("some question", notifiedUser);
-		Notification notification = new Notification("something changed", notifiedUser, changedQuestion);
+		Notification notification = new Notification("something changed",
+				notifiedUser, changedQuestion);
 		notifiedUser.removeNotification(notification);
 		assertTrue(notifiedUser.getAllNotifications().isEmpty());
 	}
-	
+
 	@Test
 	public void shouldClearNotification() {
 		User notifiedUser = new User("notifiedUser", "note.user@ese.ch", "1234");
 		Question changedQuestion = new Question("some question", notifiedUser);
-		Notification firstNotification = new Notification("something changed", notifiedUser, changedQuestion);
-		Notification secondNotification = new Notification("something changed", notifiedUser, changedQuestion);
+		new Notification("something changed", notifiedUser, changedQuestion);
+		new Notification("something changed", notifiedUser, changedQuestion);
 		notifiedUser.clearAllNotifications();
 		assertTrue(notifiedUser.getAllNotifications().isEmpty());
 	}
-	
+
 	@AfterClass
 	public static void tearDown() {
 		manager.getUsers().clear();

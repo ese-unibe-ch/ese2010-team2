@@ -77,7 +77,7 @@ public class DbManagerTest extends UnitTest {
 		Question question1 = new Question(true, "question1", admin);
 		Question question2 = new Question(true, "question2", admin);
 		Answer answer1 = new Answer(true, "answer1", admin, question1);
-		Answer answer2 = new Answer(true, "answer1", admin, question2);
+		new Answer(true, "answer1", admin, question2);
 		Comment comment = new Comment(admin, answer1, "hallo");
 		Comment comment2 = new Comment(admin, question1, "hallo2");
 		Comment comment3 = new Comment(admin, question1, "hallo3");
@@ -125,7 +125,7 @@ public class DbManagerTest extends UnitTest {
 		assertEquals("Asked question <question1>", manager.getUserLog("user")
 				.get(0));
 
-		Answer newAnswer = new Answer(true, "answer1", newUser, newQuestion);
+		new Answer(true, "answer1", newUser, newQuestion);
 		assertEquals(3, manager.getUserLog("user").size());
 		assertEquals("Answered question <question1> by writing: <answer1>",
 				manager.getUserLog("user").get(0));
@@ -133,13 +133,13 @@ public class DbManagerTest extends UnitTest {
 
 	@Test
 	public void userNameShouldBeOccupied() {
-		User user1 = new User("user1user1user1user1user1", "user@ese", "user1");
+		new User("user1user1user1user1user1", "user@ese", "user1");
 		assertTrue(manager.checkUserNameIsOccupied("user1user1user1user1user1"));
 	}
 
 	@Test
 	public void shouldRemarkQuestionDuplication() {
-		Post question1 = new Question(true, "question1<question1<question1",
+		new Question(true, "question1<question1<question1",
 				admin);
 		assertTrue(manager
 				.checkQuestionDuplication("question1<question1<question1"));
@@ -348,9 +348,8 @@ public class DbManagerTest extends UnitTest {
 
 	@Test
 	public void shouldCreateAnswer() {
-		@SuppressWarnings("unused")
 		Question question = new Question(true, "content of question", admin);
-		Answer answer = new Answer(true, "content of answer", admin, question);
+		new Answer(true, "content of answer", admin, question);
 
 		assertEquals("content of answer", manager.getAnswers().get(0)
 				.getContent());
@@ -474,7 +473,7 @@ public class DbManagerTest extends UnitTest {
 	@Test
 	public void shouldAnonymizeEditedBy() {
 		User u1 = new User("u1", "u@u", "u");
-		User u2 = new User("u2", "u@u", "u");
+		new User("u2", "u@u", "u");
 
 		Question question = new Question("question", admin);
 		Question q = manager.getQuestionById(question.getId());

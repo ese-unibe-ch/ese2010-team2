@@ -23,7 +23,7 @@ public class NotificationTest extends UnitTest {
 	
 	@Test
 	public void shouldNotifiyChange() {
-		Answer answer = new Answer(true, "answer", notifiedUser, changingQuestion);
+		new Answer(true, "answer", notifiedUser, changingQuestion);
 		assertTrue(!notifiedUser.getAllNotifications().isEmpty());
 	}
 

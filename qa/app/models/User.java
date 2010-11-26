@@ -182,7 +182,7 @@ public class User {
 	 * @param changedQuestion
 	 */
 	public void notifyChange(String message, Question changedQuestion) {
-		Notification change = new Notification(message, this, changedQuestion);
+		new Notification(message, this, changedQuestion);
 	}
 
 	/**

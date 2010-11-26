@@ -112,8 +112,8 @@ public class BootStrap extends Job {
 		goodQuestion.setDate(aWeekAgo);
 		Vote voteUp0 = new Vote(goodQuestion, 1, user1);
 		goodQuestion.vote(voteUp0);
-		Answer stupidAnswer = new Answer(true, "This is a stupid answer", manager.getUserByName("user-2"), goodQuestion);
-		Answer anotherstupidAnswer = new Answer(true, "This is just another stupid answer", manager.getUserByName("user-3"), goodQuestion);
+		new Answer(true, "This is a stupid answer", manager.getUserByName("user-2"), goodQuestion);
+		new Answer(true, "This is just another stupid answer", manager.getUserByName("user-3"), goodQuestion);
 		Answer goodAnswer = new Answer(true, "Finally a good answer", manager.getUserByName("user-4"), goodQuestion);
 		Vote voteUp1 = new Vote(goodAnswer, 1, user1);
 		Vote voteUp2 = new Vote(goodAnswer, 1, user2);
@@ -126,7 +126,7 @@ public class BootStrap extends Job {
 		bestAnswer.vote(voteUp3);
 		bestAnswer.vote(voteUp4);
 		bestAnswer.vote(voteUp5);
-		Comment aComment = new Comment(manager.getUserByName("user-4"), bestAnswer, "Wow! Best answer, even better than mine");
+		new Comment(manager.getUserByName("user-4"), bestAnswer, "Wow! Best answer, even better than mine");
 		
 		// set user-1 be moderator
 		manager.getUserByName("user-1").setGroup(UserGroups.moderator);

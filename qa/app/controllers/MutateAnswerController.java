@@ -23,8 +23,6 @@ import play.mvc.With;
 public class MutateAnswerController extends Controller {
 	
 	private static DbManager manager = DbManager.getInstance();
-	private static Calendar calendar = Calendar.getInstance();
-	
 	public static void showEditAnswerForm(int answerId, int qid,
 			String newContent, String message) {
 		Answer answer = manager.getAnswerById(answerId);

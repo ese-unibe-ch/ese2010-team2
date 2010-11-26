@@ -19,8 +19,6 @@ import play.mvc.With;
 public class CommentController extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
-	private static Calendar calendar = Calendar.getInstance();
-
 	public static void showEditQuestionCommentForm(int qid, int cid) {
 		Comment comment = manager.getCommentById(cid);
 		render(qid, cid, comment);
@@ -100,7 +98,7 @@ public class CommentController extends Controller {
 			String message = "Your comment is empty!";
 			render(message);
 		} else {
-			Comment comment = new Comment(user, question, newComment);
+			new Comment(user, question, newComment);
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
@@ -123,7 +121,7 @@ public class CommentController extends Controller {
 			String message = "Your comment is empty!";
 			render(message);
 		} else {
-			Comment comment = new Comment(user, answer, newComment);
+			new Comment(user, answer, newComment);
 			redirect("/question/" + qid + "/answers/");
 		}
 	}

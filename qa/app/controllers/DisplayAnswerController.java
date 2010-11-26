@@ -30,7 +30,6 @@ import annotations.Unused;
  */
 public class DisplayAnswerController extends Controller {
 
-	private static Calendar calendar = Calendar.getInstance();
 	private static DbManager manager = DbManager.getInstance();
 	
 	/**

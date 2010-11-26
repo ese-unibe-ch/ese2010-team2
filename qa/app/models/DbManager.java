@@ -124,8 +124,6 @@ public class DbManager {
 		if (!checkUserNameIsOccupied("anonymous"))
 			new User("anonymous", "a@nonymous", "anonymous");
 
-		ArrayList<Question> updatedQuestions = new ArrayList<Question>();
-		ArrayList<Answer> updatedAnswers = new ArrayList<Answer>();
 		ArrayList<Comment> updatedComments = new ArrayList<Comment>();
 		users.remove(deleteUser);
 

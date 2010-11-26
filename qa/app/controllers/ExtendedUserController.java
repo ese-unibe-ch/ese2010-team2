@@ -22,8 +22,6 @@ import play.mvc.With;
 public class ExtendedUserController extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
-	private static Calendar calendar = Calendar.getInstance();
-	
 	public static void deleteUser(String uname){
 		manager.deleteUser(uname);
 		redirect("/editUserGroup");

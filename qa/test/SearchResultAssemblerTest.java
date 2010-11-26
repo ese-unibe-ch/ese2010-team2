@@ -28,9 +28,9 @@ public class SearchResultAssemblerTest extends UnitTest {
 	public void shouldAssembleBasedOnAAnswer() {
 		Question question1 = new Question(true, "question1", admin);
 		Answer answer1 = new Answer(true, "Test1", admin, question1);
-		Answer answer2 = new Answer(true, "blabla", admin, question1);
-		Comment commentQuestion1 = new Comment(admin, question1, "comment1");
-		Comment commentAnswer1 = new Comment(admin, answer1, "comment2");
+		new Answer(true, "blabla", admin, question1);
+		new Comment(admin, question1, "comment1");
+		new Comment(admin, answer1, "comment2");
 
 		// Init Parser and Search
 		SearchQueryParser parser = new SearchQueryParser("Test1");
@@ -67,10 +67,10 @@ public class SearchResultAssemblerTest extends UnitTest {
 	public void shouldAssembleBasedOnAQuestion() {
 		Question question1 = new Question(true, "question1Test", admin);
 		Answer answer1 = new Answer(true, "answer1Test", admin, question1);
-		Answer answer2 = new Answer(true, "answer2Test", admin, question1);
-		Comment commentQuestion1 = new Comment(admin, question1,
+		new Answer(true, "answer2Test", admin, question1);
+		new Comment(admin, question1,
 				"commentQuestion1");
-		Comment commentAnswer1 = new Comment(admin, answer1, "commentAnswer1");
+		new Comment(admin, answer1, "commentAnswer1");
 
 		// Init Parser Search and Assembler
 		SearchQueryParser parser = new SearchQueryParser("question1Test");
@@ -109,9 +109,9 @@ public class SearchResultAssemblerTest extends UnitTest {
 	public void shouldAssembleBasedOnAComment() {
 		Question question1 = new Question(true, "question1", admin);
 		Answer answer1 = new Answer(true, "Test1", admin, question1);
-		Answer answer2 = new Answer(true, "Test2", admin, question1);
-		Comment commentQuestion1 = new Comment(admin, question1, "schopenhauer");
-		Comment commentAnswer1 = new Comment(admin, answer1, "blabla");
+		new Answer(true, "Test2", admin, question1);
+		new Comment(admin, question1, "schopenhauer");
+		new Comment(admin, answer1, "blabla");
 
 		// Init parser and search
 		SearchQueryParser parser = new SearchQueryParser("schopenhauer");

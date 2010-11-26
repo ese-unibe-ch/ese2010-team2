@@ -29,8 +29,6 @@ import xml.XML_Parser;
 public class Admin extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
-	private static Calendar calendar = Calendar.getInstance();
-
 	/** renders user profile to admin */
 	public static void showAdminUserProfile(String message) {
 		ArrayList<User> informationOwner = new ArrayList<User>();

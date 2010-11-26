@@ -26,8 +26,8 @@ public class SearchResultSorterTest extends UnitTest {
 		Question question1 = new Question(true, "question1", admin);
 		question1.addTags("question1");
 		Answer answer1 = new Answer(true, "question1", admin, question1);
-		Comment commentQuestion = new Comment(admin, question1, "question1");
-		Comment commentAnswer = new Comment(admin, answer1, "question1");
+		new Comment(admin, question1, "question1");
+		new Comment(admin, answer1, "question1");
 
 		SearchManager searchManager = new SearchManager("question1");
 
@@ -40,10 +40,8 @@ public class SearchResultSorterTest extends UnitTest {
 		Question question2 = new Question(true, "question1 is the best", admin);
 		Answer answer2 = new Answer(true, "question1 is the best", admin,
 				question2);
-		Comment commentQuestion = new Comment(admin, question2,
-				"question1 is the best");
-		Comment commentAnswer = new Comment(admin, answer2,
-				"question1 is the best");
+		new Comment(admin, question2, "question1 is the best");
+		new Comment(admin, answer2, "question1 is the best");
 
 		SearchManager searchManager = new SearchManager(
 				"\"question1 is the best\"");
@@ -59,10 +57,8 @@ public class SearchResultSorterTest extends UnitTest {
 		Answer answer3 = new Answer(true, "question1 is the best", admin,
 				question3);
 		answer3.setScore(5);
-		Comment commentQuestion = new Comment(admin, question3,
-				"question1 is the best");
-		Comment commentAnswer = new Comment(admin, answer3,
-				"question1 is the best");
+		new Comment(admin, question3, "question1 is the best");
+		new Comment(admin, answer3, "question1 is the best");
 
 		SearchManager searchManager = new SearchManager(
 				"\"question1 is the best\"");
@@ -76,10 +72,8 @@ public class SearchResultSorterTest extends UnitTest {
 		Answer answer4 = new Answer(true, "question1 is the best", admin,
 				question4);
 		question4.setBestAnswer(answer4);
-		Comment commentQuestion = new Comment(admin, question4,
-				"question1 is the best");
-		Comment commentAnswer = new Comment(admin, answer4,
-				"question1 is the best");
+		new Comment(admin, question4, "question1 is the best");
+		new Comment(admin, answer4, "question1 is the best");
 
 		SearchManager searchManager = new SearchManager(
 				"\"question1 is the best\"");

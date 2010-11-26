@@ -32,7 +32,6 @@ import annotations.Unused;
  */
 public class PostController extends Controller {
 
-	private static Calendar calendar = Calendar.getInstance();
 	private static DbManager manager = DbManager.getInstance();
 	
 	public static void showVersionHistory(String type, String id) {

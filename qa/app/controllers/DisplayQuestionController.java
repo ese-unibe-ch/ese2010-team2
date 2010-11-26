@@ -15,7 +15,6 @@ import play.mvc.Controller;
  */
 public class DisplayQuestionController extends Controller {
 
-	private static Calendar calendar = Calendar.getInstance();
 	private static DbManager manager = DbManager.getInstance();
 	
 	public static void questions(String mod) {

@@ -27,7 +27,6 @@ import play.mvc.Controller;
  */
 public class UserController extends Controller {
 
-	private static Calendar calendar = Calendar.getInstance();
 	private static DbManager manager = DbManager.getInstance();
 
 	/**

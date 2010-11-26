@@ -19,7 +19,6 @@ import play.mvc.Controller;
  */
 public class Application extends Controller {
 
-	private static Calendar calendar = Calendar.getInstance();
 	private static DbManager manager = DbManager.getInstance();
 
 	public static void index() {
