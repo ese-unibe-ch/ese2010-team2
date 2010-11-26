@@ -104,7 +104,7 @@ public class Application extends Controller {
 	 */
 	public static void captcha(String id) {
 	    Images.Captcha captcha = Images.captcha();
-	    String code = captcha.getText("#E4EAFD");
+	    String code = captcha.getText("#AA00A2");
 	    Cache.set(id, code, "30mn");
 	    renderBinary(captcha);
 	}

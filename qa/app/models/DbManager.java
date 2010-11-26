@@ -28,6 +28,9 @@ public class DbManager {
 	/** All registered users. */
 	private static ArrayList<User> users;
 
+	/** All registered email-adresses */
+	private static ArrayList<String> emailAddresses= new ArrayList<String>();
+
 	/** All tags that have been used so far. */
 	private static ArrayList<String> tags;
 
@@ -114,6 +117,10 @@ public class DbManager {
 			throw new NoSuchElementException();
 
 		User deleteUser = getUserByName(username);
+
+		// Delete the user's email-address from the list of registered addresses.
+		emailAddresses.remove(deleteUser.getEmail());
+
 		if (!checkUserNameIsOccupied("anonymous"))
 			new User("anonymous", "a@nonymous", "anonymous");
 
@@ -222,6 +229,10 @@ public class DbManager {
 	public void addTag(String singleTag) {
 		if (!this.tags.contains(singleTag))
 			this.tags.add(singleTag);
+	}
+
+	public boolean isEmailRegistered(String email) {
+		return this.emailAddresses.contains(email);
 	}
 
 	/**
@@ -636,6 +647,7 @@ public class DbManager {
 	public void addUser(User user) {
 		user.setId(userCounterIdCounter);
 		users.add(user);
+		emailAddresses.add(user.getEmail());
 		userCounterIdCounter++;
 	}
 
@@ -680,6 +692,16 @@ public class DbManager {
 		comment.setId(commentIdCounter);
 		comments.add(comment);
 		commentIdCounter++;
+	}
+
+	/**
+	 * Adds a eMail-address to the list of registered eMail-addresses.
+	 * 
+	 * @param email
+	 *            - the email-address to add
+	 */
+	public void addEMail(String email) {
+		this.emailAddresses.add(email);
 	}
 
 	/**

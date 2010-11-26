@@ -36,7 +36,7 @@ public class UserController extends Controller {
 	 */
 	public static void register(String name, String password, String password2,
 			String email, String code, String randomID) throws Throwable {
-		
+
 		validation.equals(code, Cache.get(randomID));
 		if (name.equals(""))
 			UserController.showRegister("Please insert a name!", name,
@@ -51,16 +51,21 @@ public class UserController extends Controller {
 		else if (password.equals("") || !password.equals(password2))
 			UserController.showRegister("Please check your password!", name,
 					password, password2, email);
-		else if(validation.hasErrors())
-			UserController.showRegister("Please check the code", name, password, password2, email);
-		else{
+		else if (DbManager.getInstance().isEmailRegistered(email))
+			UserController.showRegister(
+					"This eMail-address is already registered.", name,
+					password, password2, email);
+		else if (validation.hasErrors())
+			UserController.showRegister("Please check the code", name,
+					password, password2, email);
+		else {
 			@SuppressWarnings("unused")
 			User user = new User(name, email, password);
 			Cache.delete(randomID);
 			Secure.logout();
 		}
 	}
-	
+
 	/**
 	 * Renders the registration form with the proper error message to the user
 	 * due to is wrong input.
