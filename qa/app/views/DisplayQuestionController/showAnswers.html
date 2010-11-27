@@ -29,7 +29,13 @@
 		<ul>
 			<li>
 				<label for="newAnswer">Your answer</label>
-				<textarea id="newAnswer" name="newAnswer" cols="40" rows="5"></textarea>
+				<textarea id="newAnswer" name="newAnswer" cols="40" rows="5">${newAnswer}</textarea>
+			</li>
+			<li>
+				Please type the code below <br />
+				<img src="@{Application.captcha(randomID)}" /> <br />
+				<input type="text" name="code" id="code" size="18" value="" />
+    			<input type="hidden" name="randomID" value="${randomID}" />
 			</li>
 			<li>
 				<input type="submit" value="Post your answer!" />

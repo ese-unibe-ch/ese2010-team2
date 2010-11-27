@@ -20,6 +20,12 @@
 			<label for="tags">Add tags (separated by spaces):</label>
 			<input id="tags" name="tags" type="text" size="48" value="${tags}" />
 		</li>
+		<li>
+			Please type the code below <br />
+				<img src="@{Application.captcha(randomID)}" /> <br />
+				<input type="text" name="code" id="code" size="18" value="" />
+    			<input type="hidden" name="randomID" value="${randomID}" />
+		</li>
 
 		<li>
 			<input type="submit" value="Post your question!" />

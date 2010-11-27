@@ -6,6 +6,8 @@ import models.DbManager;
 import models.Question;
 import models.User;
 import models.Vote;
+import play.cache.Cache;
+import play.libs.Codec;
 import play.mvc.Controller;
 import play.mvc.With;
 
@@ -52,7 +54,8 @@ public class MutateQuestionController extends Controller {
 	
 	public static void showQuestionForm(String newQuestion, String tags,
 			String message) {
-		render(newQuestion, tags, message);
+		String randomID = Codec.UUID();
+		render(newQuestion, tags, message, randomID);
 	}
 	
 	public static void deleteQuestion(int qid){
@@ -61,11 +64,12 @@ public class MutateQuestionController extends Controller {
 		redirect("/");
 	}
 	
-	public static void addQuestion(String newQuestion, String tags) {
+	public static void addQuestion(String newQuestion, String tags, String code, String randomID) {
 		// Store the overgiven tags in another object to prevent information
 		// loss due to splitting the tag list.
 		String copyTags = "" + tags;
 
+		validation.equals(code, Cache.get(randomID));
 		User user = manager.getUserByName(session.get("username"));
 		if (newQuestion.equals("") || newQuestion.equals(" ")) {
 			String message = "Your question is empty!";
@@ -77,6 +81,9 @@ public class MutateQuestionController extends Controller {
 			String message = "The following tags already exist: "
 					+ Question.checkTags(copyTags)
 					+ ". Please review your tags.";
+			showQuestionForm(newQuestion, tags, message);
+		} else if(validation.hasErrors()){
+			String message= "Please check the code";
 			showQuestionForm(newQuestion, tags, message);
 		}
 		else {

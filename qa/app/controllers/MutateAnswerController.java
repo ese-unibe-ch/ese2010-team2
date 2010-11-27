@@ -12,6 +12,8 @@ import models.Question;
 import models.User;
 import models.UserGroups;
 import models.Vote;
+import play.cache.Cache;
+import play.libs.Codec;
 import play.mvc.Controller;
 import play.mvc.With;
 
@@ -52,11 +54,15 @@ public class MutateAnswerController extends Controller {
 		redirect("/question/" + qid + "/answers/");
 	}
 	
-	public static void addAnswer(String qid, String newAnswer) {
+	public static void addAnswer(String qid, String newAnswer, String code, String randomID) {
 		int intId = Integer.parseInt(qid);
 		User user = manager.getUserByName(session.get("username"));
+		validation.equals(code, Cache.get(randomID));
 		if (newAnswer.equals("") || newAnswer.equals(" ")) {
 			String message = "Your answer is empty!";
+			DisplayQuestionController.showAnswers(qid, newAnswer, message);
+		} else if(validation.hasErrors()){
+			String message = "Please check your code";
 			DisplayQuestionController.showAnswers(qid, newAnswer, message);
 		} else {
 			@SuppressWarnings("unused")
@@ -114,9 +120,10 @@ public class MutateAnswerController extends Controller {
 
 	public static void showAnswerForm(String qid) {
 		int intId = Integer.parseInt(qid);
+		String randomID = Codec.UUID();
 		ArrayList<Answer> answers = manager.getAllAnswersByQuestionId(intId);
 		Post question = manager.getQuestionById(intId);
-		render(answers, question);
+		render(answers, question, randomID);
 	}
 	
 	public static void restoreAnswer(int actualId, String oldContent) {

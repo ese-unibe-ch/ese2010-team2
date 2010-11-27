@@ -11,6 +11,14 @@
 			<td><textarea id="newAnswer" name="newAnswer"></textarea></td>
 		</tr>
 		<tr>
+			<td>Please type the code below</td>
+			<td>
+				<img src="@{Application.captcha(randomID)}" />
+				<input type="text" name="code" id="code" size="18" value="" />
+    			<input type="hidden" name="randomID" value="${randomID}" />
+			</td>
+		<tr>
+		<tr>
 			<td></td>
 			<td><input type="submit" value="Post your Answers!" /></td>
 		</tr>

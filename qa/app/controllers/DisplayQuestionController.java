@@ -8,6 +8,7 @@ import models.DbManager;
 import models.Post;
 import models.Question;
 import models.User;
+import play.libs.Codec;
 import play.mvc.Controller;
 
 /**
@@ -31,6 +32,7 @@ public class DisplayQuestionController extends Controller {
 	public static void showAnswers(String id, String newAnswer,
 			String newMessage) {
 		int intId = Integer.parseInt(id);
+		String randomID = Codec.UUID();
 		ArrayList<Answer> answers = manager.getAnswersSortedByScore(intId);
 		Question question = manager.getQuestionById(intId);
 
@@ -41,10 +43,10 @@ public class DisplayQuestionController extends Controller {
 			String message = new String();
 			if (newMessage != null)
 				message = newMessage;
-			render(message, question, newAnswer, similar);
+			render(message, question, newAnswer, similar, randomID);
 		} else {
 			String message = newMessage;
-			render(answers, question, newAnswer, message, similar);
+			render(answers, question, newAnswer, message, similar, randomID);
 		}
 	}
 
