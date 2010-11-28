@@ -144,7 +144,6 @@ public class BootStrap extends Job {
 		// ****** Loading small.xml sample data *******
 		File data = new File(Play.applicationPath.getAbsolutePath()
 				+ "/bootstrap/small.xml");
-		ArrayList<String> message = new ArrayList<String>();
 		File xmlDir = new File(Play.applicationPath.getAbsolutePath()
 				+ "/public/data");
 		if (!xmlDir.exists()) {
