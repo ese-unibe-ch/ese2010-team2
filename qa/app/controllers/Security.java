@@ -1,7 +1,7 @@
 package controllers;
 
-import models.User;
 import models.DbManager;
+import models.User;
 
 public class Security extends Secure.Security {
 
@@ -15,6 +15,10 @@ public class Security extends Secure.Security {
 			return true;
 		}
 		return false;
+	}
+
+	static void onDisconnected() {
+		Application.index();
 	}
 
 }
