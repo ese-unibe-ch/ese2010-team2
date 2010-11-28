@@ -1,11 +1,10 @@
 import models.Answer;
 import models.Comment;
 import models.DbManager;
-import models.Post;
 import models.Question;
 import models.Search;
-import models.SearchQueryParser;
 import models.User;
+import models.algorithms.SearchQueryParser;
 
 import org.junit.After;
 import org.junit.Before;

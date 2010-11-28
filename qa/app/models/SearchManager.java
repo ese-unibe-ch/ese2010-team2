@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 
+import models.algorithms.SearchQueryParser;
 import models.algorithms.SearchResultAssembler;
 import models.algorithms.SearchResultSorter;
 

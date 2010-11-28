@@ -1,4 +1,4 @@
-import models.SearchQueryParser;
+import models.algorithms.SearchQueryParser;
 
 import org.junit.After;
 import org.junit.Before;

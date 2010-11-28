@@ -3,9 +3,9 @@ import models.Comment;
 import models.DbManager;
 import models.Question;
 import models.Search;
-import models.SearchQueryParser;
 import models.SearchResult;
 import models.User;
+import models.algorithms.SearchQueryParser;
 import models.algorithms.SearchResultAssembler;
 
 import org.junit.After;
