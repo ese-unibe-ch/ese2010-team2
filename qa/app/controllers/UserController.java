@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import models.Answer;
 import models.DbManager;
@@ -17,7 +16,6 @@ import org.apache.commons.io.IOUtils;
 import play.Play;
 import play.cache.Cache;
 import play.libs.Codec;
-import play.libs.Images;
 import play.mvc.Controller;
 
 /**
@@ -61,7 +59,9 @@ public class UserController extends Controller {
 			@SuppressWarnings("unused")
 			User user = new User(name, email, password);
 			Cache.delete(randomID);
-			Secure.logout();
+			session.put("uid", user.getId());
+			session.put("username", name);
+			Secure.redirectToOriginalURL();
 		}
 	}
 
@@ -190,12 +190,12 @@ public class UserController extends Controller {
 			manager.getUserByName(username).setQuote(quote);
 		}
 
-		// Automatically logout when password and/or username changed
+		// If username changed, put new username as session name.
 		if (!username.equals(session.get("username"))) {
-			Secure.logout();
-		} else if (passwordChanged) {
-			Secure.logout();
-		} else {
+			session.put("username", username);
+			redirect("/showUser/" + session.get("username"));
+		}
+		else {
 			redirect("/showUser/" + session.get("username"));
 		}
 	}
