@@ -16,7 +16,6 @@ public class Security extends Secure.Security {
 		}
 		return false;
 	}
-
 	static void onDisconnected() {
 		Application.index();
 	}

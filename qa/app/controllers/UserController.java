@@ -109,7 +109,8 @@ public class UserController extends Controller {
 	 * @throws Throwable
 	 */
 	public static void editUserProfile(String name, String birthdate,
-			String email, String phone, String password, String password2,
+			String email, String phone, String oldPassword, String password,
+			String password2,
 			String street, String town, String hobbies, String moto,
 			String background, String quote) throws Throwable {
 
@@ -138,6 +139,7 @@ public class UserController extends Controller {
 			}
 
 		}
+
 		// Checks if the email has a @ and a dot
 		if (!email.equals("")) {
 			if (email.contains("@") || email.contains(".")) {
@@ -147,19 +149,37 @@ public class UserController extends Controller {
 						.showUserProfile("Please re-check your email address!");
 			}
 		}
-		// Checks if two similar password were typed in.
-		if (!password.equals("") && !password2.equals("")) {
-			if (password.equals(password2)) {
-				manager.getUserByName(username).setPassword(password);
-				passwordChanged = true;
+
+		// Only check password if not all 3 fields are empty
+		if (!(password.equals("") && password2.equals("") && oldPassword
+				.equals(""))) {
+			// Only when old password is correct new password will be changed.
+			if (manager.getUserByName(username).getPassword().equals(oldPassword)) {
+				// Checks if the new password is similar in both fields
+				if (!password.equals("") && !password2.equals("")) {
+					if (password.equals(password2)) {
+						manager.getUserByName(username).setPassword(password);
+						passwordChanged = true;
+					} else {
+						UserController
+						.showUserProfile("Passwords are not identical!");
+					}
+				}
+			} else if (oldPassword.equals("")) {
+				UserController.showUserProfile("No old Password typed in!");
 			} else {
-				UserController.showUserProfile("Passwords are not identical!");
+				UserController.showUserProfile("Old Password incorrect!");
+			}
+			if (password.equals("") && password2.equals("")) {
+				UserController.showUserProfile("No new Password typed in!");
 			}
 		}
+
 		// Checks if two similar password were typed in.
 		if (password.equals("") && !password2.equals("")) {
 			UserController.showUserProfile("Passwords are not identical!");
 		}
+
 		// Checks if two similar password were typed in.
 		if (!password.equals("") && password2.equals("")) {
 			UserController.showUserProfile("Passwords are not identical!");

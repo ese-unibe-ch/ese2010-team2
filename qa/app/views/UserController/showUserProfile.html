@@ -12,20 +12,27 @@
 
 #{list items:currentUser, as:'user'}
 <div class="form">
-	<form action="@{UserController.editUserProfile()}" method="GET">
+  <form action="@{UserController.editUserProfile()}" method="GET">
 	<ul>
 		<li>
 			<label for="name">Username:</label>
 			<input type="text" name="name" value="${user.getName()}" />
-		<li>
-		<li>
-			<label for="password">Password:</label>
-			<input type="password" name="password" value="" />
 		</li>
-		<li>
-			<label for="password2">Repeat password:</label>
-			<input type="password" name="password2" value="" />
-		</li>
+		<li>Change your Password:</li>
+		<div style="padding-left: 30pt;"> 
+			<li>
+				<label for="oldPassword">Old Password:</label>
+				<input type="password" name="oldPassword" value="" />
+			</li>
+			<li>
+				<label for="password">New Password:</label>
+				<input type="password" name="password" value="" />
+			</li>
+			<li>
+				<label for="password2">Repeat new Password:</label>
+				<input type="password" name="password2" value="" />
+			</li>
+		</div>
 		<li>
 			<label for="email">Email:</label>
 			<input type="text" id="email" name="email" value="${user.getEmail()}" />
@@ -65,8 +72,8 @@
 		<li>
 			<input type="submit" value="Save" />
 		</li>
-	</table>
-	</form>
+	</ul>
+  </form>
 </div>
 <fieldset>
 	<legend>Avatar</legend>
