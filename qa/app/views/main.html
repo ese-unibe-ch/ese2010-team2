@@ -59,9 +59,9 @@
 					</form>
                 </div>
 
-                #{if session.uid}
                 <div id="menu">
 					<a href="/"><img src="/public/images/home.png" /></a>
+                #{if session.uid}
                     <ul>
                     <li><a href="@{MutateQuestionController.showQuestionForm()}">add question</a></li>
                     <li><a href="javascript:showRecent()">recent questions</a></li>
@@ -71,8 +71,8 @@
                     <li><a href="@{ExtendedUserController.showNotifications()}">something happened</a></li>
                     #{/if}
                     </ul>
-                </div>
                 #{/if}
+                </div>
             </div>
 
             <div id="content">
