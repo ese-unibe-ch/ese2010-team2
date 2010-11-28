@@ -359,9 +359,8 @@ public class XMLParser extends DefaultHandler {
 		SAXParser saxParser = saxParserFactory.newSAXParser();
 
 		// Create a SAX input source for the file argument
-		InputSource input = new InputSource(new FileReader(Play.applicationPath
-				.getAbsolutePath()
-				+ "/public/data/data"));
+		InputSource input = new InputSource(new FileReader(
+				Play.applicationPath.getAbsolutePath() + "/public/data/data"));
 
 		// Create an instance of this class; it defines all the handler methods
 		XMLParser handler = new XMLParser();
