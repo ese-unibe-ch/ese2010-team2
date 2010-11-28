@@ -6,9 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import comparators.ChangedDateComparator;
-import comparators.DateComparator;
-import comparators.ScoreComparator;
+import models.comparators.ChangedDateComparator;
+import models.comparators.DateComparator;
+import models.comparators.ScoreComparator;
 
 /**
  * The Class UserQuestionAnswerManager delivers functionality to coordinate the

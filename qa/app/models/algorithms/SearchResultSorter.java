@@ -7,10 +7,9 @@ import models.Answer;
 import models.Comment;
 import models.Question;
 import models.SearchResult;
+import models.comparators.SearchResultComparator;
 
 import org.apache.commons.codec.language.Soundex;
-
-import comparators.SearchResultComparator;
 
 /**
  * This class gatters the information needed for sorting, like counting how many

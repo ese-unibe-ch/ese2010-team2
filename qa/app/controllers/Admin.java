@@ -5,22 +5,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
+
+import models.DbManager;
+import models.User;
 
 import org.apache.commons.io.IOUtils;
 
-import models.Answer;
-import models.Comment;
-import models.DbManager;
-import models.Notification;
-import models.Post;
-import models.Question;
-import models.User;
-import models.UserGroups;
 import play.Play;
 import play.mvc.Controller;
 import play.mvc.With;
-import xml.XML_Parser;
+import xml.XMLParser;
 
 /**
  * This Controller manages administration
@@ -115,15 +109,15 @@ public class Admin extends Controller {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			XML_Parser.main();
-			message = XML_Parser.getMessage();
-			message.addAll(XML_Parser.getReport());
+			XMLParser.main();
+			message = XMLParser.getMessage();
+			message.addAll(XMLParser.getReport());
 		} else
 			message.add("An error occured. No Data was imported.");
 
 		if (message.isEmpty()) {
 			message.add("All data imported. No errors occured.");
-			message.addAll(XML_Parser.getReport());
+			message.addAll(XMLParser.getReport());
 		}
 
 		render(message);

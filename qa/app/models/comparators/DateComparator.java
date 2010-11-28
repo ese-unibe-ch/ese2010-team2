@@ -1,4 +1,4 @@
-package comparators;
+package models.comparators;
 
 import java.util.Comparator;
 import java.util.Date;
