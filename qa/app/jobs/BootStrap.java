@@ -27,10 +27,9 @@ import org.xml.sax.SAXException;
 
 import play.Play;
 import play.jobs.Job;
-import play.jobs.OnApplicationStart;
 import xml.XMLParser;
 
-@OnApplicationStart
+//@OnApplicationStart
 public class BootStrap extends Job {
 
 	private static final Log log = LogFactory.getLog(BootStrap.class);
@@ -55,7 +54,7 @@ public class BootStrap extends Job {
 			User u = new User("user-" + i, "user-" + i + "@ese.ch", "user-" + i);
 			// 5 questions per user
 			for (int j = 1; j <= questionsPerUser; j++) {
-				Post q = new Question(true, "question " + j, u);
+				Post q = new Question(true, "question " + j, "title " + j, u);
 				cal.add(Calendar.DAY_OF_MONTH, -random.nextInt(380));
 				q.setDate(cal.getTime());
 				cal.setTime(new Date());
@@ -65,14 +64,16 @@ public class BootStrap extends Job {
 		ArrayList<Question> questions = manager.getQuestions();
 
 		// add questions with tags
-		Question q1 = new Question(true, "How small is the fish?", manager
+		Question q1 = new Question(true, "How small is the fish?",
+				"about fish", manager
 				.getUserByName("user-1"));
 		q1.addTags("fish size");
 		Answer a11= new Answer(true, "see www.smallfish.com", manager.getUserByName("user-2"), q1);
 
 		Question q2 = new Question(
-				true, "How many roads must a man walk down before you can call him a man?",
-				manager.getUserByName("user-5"));
+				true,
+				"How many roads must a man walk down before you can call him a man?",
+				"42", manager.getUserByName("user-5"));
 		q2.addTags("man road");
 		new Answer(true, "The answer my friend is blowin in the wind", manager
 				.getUserByName("user-3"), q2);
@@ -117,7 +118,9 @@ public class BootStrap extends Job {
 		User user1 = manager.getUserByName("user-1");
 		User user2 = manager.getUserByName("user-2");
 		User user3 = manager.getUserByName("user-3");
-		Question goodQuestion = new Question(true, "This is actually a good question", manager.getUserByName("user-1"));
+		Question goodQuestion = new Question(true,
+				"This is actually a good question", "I am a liar",
+				manager.getUserByName("user-1"));
 		Date aWeekAgo = new Date(goodQuestion.getDate().getTime()-604800000);
 		goodQuestion.setDate(aWeekAgo);
 		Vote voteUp0 = new Vote(goodQuestion, 1, user1);

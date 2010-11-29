@@ -18,7 +18,7 @@ public class NotificationTest extends UnitTest {
 	public void setUp() {
 		manager = DbManager.getInstance();
 		notifiedUser = new User("notifiedUser", "note.user@ese.ch", "1234");
-		changingQuestion = new Question(true, "question", notifiedUser);
+		changingQuestion = new Question(true, "question", "title", notifiedUser);
 	}
 	
 	@Test

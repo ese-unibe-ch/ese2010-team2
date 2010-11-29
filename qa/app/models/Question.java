@@ -19,6 +19,7 @@ public class Question extends Post {
 	private ArrayList<String> tags = new ArrayList<String>();
 
 	private Date lastChangedDate;
+	private String title;
 
 	/**
 	 * Instantiates a new question.
@@ -31,12 +32,13 @@ public class Question extends Post {
 	 *            - true if the new Question shall be added to the Answer list
 	 *            and false otherwise.
 	 */
-	public Question(Boolean addQuestionToList, String content,
+	public Question(Boolean addQuestionToList, String content, String title,
 			User questionOwner) {
 		this.owner = questionOwner;
 		this.editedBy = questionOwner;
 		this.content = content;
 		this.score = 0;
+		this.title = title;
 
 		date = new Date();
 		lastChangedDate = new Date();
@@ -55,8 +57,8 @@ public class Question extends Post {
 	 * @param questionOwner
 	 *            - The user who asked the question.
 	 */
-	public Question(String content, User questionOwner) {
-		new Question(true, content, questionOwner);
+	public Question(String content, String title, User questionOwner) {
+		new Question(true, content, title, questionOwner);
 	}
 
 	/**
@@ -188,7 +190,8 @@ public class Question extends Post {
 	 *            - the name of the user who adds the new version.
 	 */
 	public void addVersion(String content, String tags, String uname) {
-		Question question = new Question(false, this.content, this.owner);
+		Question question = new Question(false, this.content, this.title,
+				this.owner);
 		question.addTags(this.getTags());
 		question.setEditor(this.getEditor().getName());
 		question.isVoteable = false;
@@ -215,6 +218,10 @@ public class Question extends Post {
 	}
 
 	/** Getters */
+	public String getTitle() {
+		return title;
+	}
+
 	public String getTagByIndex(int i) {
 		return tags.get(i);
 	}

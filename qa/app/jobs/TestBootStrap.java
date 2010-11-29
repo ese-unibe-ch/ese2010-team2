@@ -15,9 +15,10 @@ import org.xml.sax.SAXException;
 
 import play.Play;
 import play.jobs.Job;
+import play.jobs.OnApplicationStart;
 import xml.XMLParser;
 
-//@OnApplicationStart
+@OnApplicationStart
 public class TestBootStrap extends Job {
 	
 

@@ -26,7 +26,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 
 	@Test
 	public void shouldAssembleBasedOnAAnswer() {
-		Question question1 = new Question(true, "question1", admin);
+		Question question1 = new Question(true, "question1", "title", admin);
 		Answer answer1 = new Answer(true, "Test1", admin, question1);
 		new Answer(true, "blabla", admin, question1);
 		new Comment(admin, question1, "comment1");
@@ -65,7 +65,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 
 	@Test
 	public void shouldAssembleBasedOnAQuestion() {
-		Question question1 = new Question(true, "question1Test", admin);
+		Question question1 = new Question(true, "question1Test", "title", admin);
 		Answer answer1 = new Answer(true, "answer1Test", admin, question1);
 		new Answer(true, "answer2Test", admin, question1);
 		new Comment(admin, question1,
@@ -107,7 +107,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 
 	@Test
 	public void shouldAssembleBasedOnAComment() {
-		Question question1 = new Question(true, "question1", admin);
+		Question question1 = new Question(true, "question1", "title", admin);
 		Answer answer1 = new Answer(true, "Test1", admin, question1);
 		new Answer(true, "Test2", admin, question1);
 		new Comment(admin, question1, "schopenhauer");

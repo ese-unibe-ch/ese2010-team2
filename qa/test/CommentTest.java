@@ -21,7 +21,8 @@ public class CommentTest extends UnitTest {
 	public void setUp() {
 		manager = DbManager.getInstance();
 		admin = new User("admin", "admin@ese.ch", "admin");
-		question = new Question(true, "just another stupid question", admin);
+		question = new Question(true, "just another stupid question", "title",
+				admin);
 		answer = new Answer(true, "and a jet more stupid answer", admin,
 				question);
 	}

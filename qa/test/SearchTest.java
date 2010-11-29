@@ -25,7 +25,8 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void sentenceSearchShouldNotBeCaseSensitive() {
-		Question question3 = new Question(true, "question1 is the best", admin);
+		Question question3 = new Question(true, "question1 is the best",
+				"title", admin);
 		new Answer(true, "answer1 is the best", admin, question3);
 		new Comment(admin, question3, "kant is the best");
 
@@ -50,7 +51,7 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void shouldSearchQuestionTags() {
-		Question question1 = new Question(true, "question1", admin);
+		Question question1 = new Question(true, "question1", "title", admin);
 		question1.addTags("test");
 
 		// Only soundex based search will be done on tags
@@ -63,7 +64,7 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void shouldSearchQuestionContentSoundexBased() {
-		new Question(true, "question1", admin);
+		new Question(true, "question1", "title", admin);
 
 		parser = new SearchQueryParser("question1");
 		Search search = new Search(parser.getSoundexCodes(), parser
@@ -74,7 +75,8 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void shouldSearchQuestionContentSentenceBased() {
-		new Question(true, "Should find only this phrase question1", admin);
+		new Question(true, "Should find only this phrase question1", "title",
+				admin);
 
 		parser = new SearchQueryParser(
 				"\"Should find only this phrase question1\"");
@@ -87,7 +89,7 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void shouldSearchAnswerContentSoundexBased() {
-		Question question1 = new Question(true, "question1", admin);
+		Question question1 = new Question(true, "question1", "title", admin);
 		new Answer(true, "answer1", admin, question1);
 
 		parser = new SearchQueryParser("answer1");
@@ -99,7 +101,7 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void shouldSearchAnswerContentSentenceBased() {
-		Question question1 = new Question(true, "question1", admin);
+		Question question1 = new Question(true, "question1", "title", admin);
 		new Answer(true, "Search this text answer1", admin, question1);
 
 		parser = new SearchQueryParser("\"Search this text answer1\"");
@@ -112,7 +114,7 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void shouldSearchCommentsSoundexBased() {
-		Question question1 = new Question(true, "question1", admin);
+		Question question1 = new Question(true, "question1", "title", admin);
 		Answer answer1 = new Answer(true, "answer1", admin, question1);
 
 		new Comment(admin, question1, "comment1");
@@ -131,7 +133,7 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void shouldSearchCommentsSentenceBased() {
-		Question question1 = new Question(true, "question1", admin);
+		Question question1 = new Question(true, "question1", "title", admin);
 		Answer answer1 = new Answer(true, "answer1", admin, question1);
 
 		new Comment(admin, question1, "comment To Question 1");
@@ -152,7 +154,7 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void shouldAddNotingWhenNoMatches() {
-		Question question1 = new Question(true, "question1", admin);
+		Question question1 = new Question(true, "question1", "title", admin);
 		Answer answer1 = new Answer(true, "answer1", admin, question1);
 		question1.addTags("test");
 		new Comment(admin, question1, "commentToQuestion1");
@@ -169,11 +171,11 @@ public class SearchTest extends UnitTest {
 
 	@Test
 	public void shouldAddQuestionOnlyOnceWhenMoreThanOneTagMatches() {
-		Question question1 = new Question(true, "question1", admin);
+		Question question1 = new Question(true, "question1", "title", admin);
 		question1.addTags("testA");
 		question1.addTags("test");
 
-		Question question2 = new Question(true, "question2", admin);
+		Question question2 = new Question(true, "question2", "title", admin);
 		question2.addTags("testA");
 		question2.addTags("test");
 

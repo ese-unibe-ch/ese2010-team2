@@ -1,15 +1,7 @@
 <div class="short_post" id="question-${_post.getId()}">
-    <div class="short_post_info">
-        Posted ${_post.getTimePassedSincePosting()} ago
-        <br />
-        #{by post:_post /}
-        <br />
-        <strong>Score:</strong> ${_post.getScore()}
-    </div>
 
     <div class="short_post_text">
-        ${_post.getHtml().raw()}
-        <a class="readmore" href="/question/${_post.getId()}/answers/">&raquo; read more</a>
+        <a class="readmore" href="/question/${_post.getId()}/answers/">${_post.getTitle()}</a>
     </div>
     #{tagbox post:_post /}
 </div>

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.mail.Session;
-
 import com.petebevin.markdown.MarkdownProcessor;
 
 /**
@@ -144,6 +142,14 @@ public abstract class Post {
 	 */
 	public String getHtml() {
 		return markdownProcessor.markdown(content);
+	}
+
+	/**
+	 * 
+	 * @return parsed markdown string, so either plain text or HTML.
+	 */
+	public String getTeaserHtml() {
+		return markdownProcessor.markdown(content.substring(0, 50));
 	}
 
 	/**

@@ -1,13 +1,11 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import models.Answer;
 import models.DbManager;
 import models.Post;
 import models.Question;
-import models.User;
 import play.libs.Codec;
 import play.mvc.Controller;
 

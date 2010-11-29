@@ -22,7 +22,8 @@ public class AnswerTest extends UnitTest {
 
 	@Test
 	public void shouldCheckUserAlreadyVotedAnswer() {
-		Question question = new Question(true, "content of question", admin);
+		Question question = new Question(true, "content of question", "title",
+				admin);
 		Answer answer = new Answer(true, "content of answer", admin, question);
 		assertFalse(answer.checkUserVotedForPost(admin));
 		answer.userVotedForPost(admin);
@@ -31,7 +32,8 @@ public class AnswerTest extends UnitTest {
 
 	@Test
 	public void shouldVoteAnswer() {
-		Question question = new Question(true, "content of question", admin);
+		Question question = new Question(true, "content of question", "title",
+				admin);
 		Answer answer = new Answer(true, "content of answer", admin, question);
 		assertEquals(0, answer.getScore());
 		// Vote Up
@@ -46,7 +48,7 @@ public class AnswerTest extends UnitTest {
 	
 	@Test
 	public void shouldAddVersionAndRestore(){
-		Question q= new Question("content", admin);
+		Question q = new Question("content", "title", admin);
 		Answer a= new Answer("content of", admin, q);
 		a.addVersion("content of answer", "admin");
 		assertEquals(1, a.getOldVersions().size());

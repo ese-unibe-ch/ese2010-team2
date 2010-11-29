@@ -12,6 +12,10 @@
 	<form action="@{MutateQuestionController.addQuestion()}" method="GET">
 	<ul>
 		<li>
+			<label for="title">Enter a title summarizing your question</label>
+			<input id="title" name="title" type="title" size="48" value="${title}" />
+		</li>
+		<li>
 			<label for="newQuestion">Your Question</label>
 			<textarea id="newQuestion" name="newQuestion" cols="50" rows="5"></textarea>
 		</li>

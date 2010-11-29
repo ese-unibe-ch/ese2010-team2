@@ -59,6 +59,7 @@ public class XMLParser extends DefaultHandler {
 
 	// The fields for a question
 	private ArrayList<String> tags = new ArrayList<String>();
+	private String title;
 
 	// counters
 	static int questions = 0;
@@ -203,18 +204,24 @@ public class XMLParser extends DefaultHandler {
 				tempValue = new StringBuilder();
 			}
 
+			else if (qName.equalsIgnoreCase("title")) {
+				title = tempValue.toString();
+				tempValue = new StringBuilder();
+			}
+
 			else if (qName.equalsIgnoreCase("question")) {
 				if (content.isEmpty() || owner == null) {
 					message.add("ERROR: question " + pId
 							+ " couldn't be imported.");
 					this.cleanQuestion();
 				} else {
-					Question question = new Question(false, content, owner);
+					Question question = new Question(false, content, title,
+							owner);
 					question.addTags(tags);
 					question.setDate(creationDate);
-					question.setLastChanged(lastChangedDate);
 					question.setId(pId);
 					DbManager.getInstance().addQuestion(question, pId);
+					question.setLastChanged(lastChangedDate);
 					questions++;
 					this.cleanQuestion();
 				}
@@ -281,6 +288,7 @@ public class XMLParser extends DefaultHandler {
 				mode = "init";
 			}
 		}
+			tempValue = new StringBuilder();
 	}
 	
 	/** Deletes all leading chars that are not a number in the StringBuilder.*/

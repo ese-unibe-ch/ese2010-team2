@@ -23,7 +23,7 @@ public class SearchResultSorterTest extends UnitTest {
 
 	@Test
 	public void shouldCountTagAndContentMatchesBasedOnSoundexCodes() {
-		Question question1 = new Question(true, "question1", admin);
+		Question question1 = new Question(true, "question1", "title", admin);
 		question1.addTags("question1");
 		Answer answer1 = new Answer(true, "question1", admin, question1);
 		new Comment(admin, question1, "question1");
@@ -37,7 +37,8 @@ public class SearchResultSorterTest extends UnitTest {
 
 	@Test
 	public void shouldCountContentMatchesBasedOnSentences() {
-		Question question2 = new Question(true, "question1 is the best", admin);
+		Question question2 = new Question(true, "question1 is the best",
+				"title", admin);
 		Answer answer2 = new Answer(true, "question1 is the best", admin,
 				question2);
 		new Comment(admin, question2, "question1 is the best");
@@ -52,7 +53,8 @@ public class SearchResultSorterTest extends UnitTest {
 
 	@Test
 	public void shouldCountScores() {
-		Question question3 = new Question(true, "question1 is the best", admin);
+		Question question3 = new Question(true, "question1 is the best",
+				"title", admin);
 		question3.setScore(4);
 		Answer answer3 = new Answer(true, "question1 is the best", admin,
 				question3);
@@ -68,7 +70,8 @@ public class SearchResultSorterTest extends UnitTest {
 
 	@Test
 	public void shouldCheckIfHasABestAnswerAndIncreaseCountAndScoreFive() {
-		Question question4 = new Question(true, "question1 is the best", admin);
+		Question question4 = new Question(true, "question1 is the best",
+				"title", admin);
 		Answer answer4 = new Answer(true, "question1 is the best", admin,
 				question4);
 		question4.setBestAnswer(answer4);

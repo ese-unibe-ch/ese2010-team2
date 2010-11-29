@@ -21,7 +21,7 @@ public class QuestionTest extends UnitTest {
 	@Before
 	public void setUp() {
 		u = new User("haha", "hah@ha.com", "");
-		question = new Question(true, "what", u);
+		question = new Question(true, "what", "title", u);
 		a1 = new Answer(true, "hah", u, question);
 		a2 = new Answer(true, "hah", u, question);
 		manager = DbManager.getInstance();
@@ -30,7 +30,8 @@ public class QuestionTest extends UnitTest {
 
 	@Test
 	public void shouldNotAllowToSetArbitrayAnswerAsBestAnswer() {
-		Answer a3 = new Answer(true, "haha", u, new Question(true, "", u));
+		Answer a3 = new Answer(true, "haha", u, new Question(true, "", "title",
+				u));
 		question.setBestAnswer(a3);
 		assertFalse(question.hasBestAnswer());
 	}
@@ -73,7 +74,8 @@ public class QuestionTest extends UnitTest {
 
 	@Test
 	public void shouldCheckUserAlreadyVotedQuestion() {
-		Post question = new Question(true, "content of question", admin);
+		Post question = new Question(true, "content of question", "title",
+				admin);
 		assertFalse(question.checkUserVotedForPost(admin));
 		question.userVotedForPost(admin);
 		assertTrue(question.checkUserVotedForPost(admin));
@@ -81,7 +83,8 @@ public class QuestionTest extends UnitTest {
 
 	@Test
 	public void shouldVoteQuestion() {
-		Post question = new Question(true, "content of question", admin);
+		Post question = new Question(true, "content of question", "title",
+				admin);
 		assertEquals(0, question.getScore());
 		// Vote Up
 		Vote vote1 = new Vote(question, 1, admin);
@@ -95,7 +98,7 @@ public class QuestionTest extends UnitTest {
 
 	@Test
 	public void shouldAddVersionAndRestore(){
-		Question q = new Question(true, "question", admin);
+		Question q = new Question(true, "question", "title", admin);
 		q.addVersion("hallo velo", "hallo velo", "admin");
 		assertEquals(1, q.getOldVersions().size());
 		q.restoreOldVersion("question", "hallo velo", "admin");

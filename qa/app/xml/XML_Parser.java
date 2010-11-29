@@ -10,7 +10,6 @@ package xml;
  * visit http://www.davidflanagan.com/javaexamples2.
  */
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -210,7 +209,7 @@ public class XML_Parser extends DefaultHandler {
 							+ " couldn't be imported.");
 					this.cleanQuestion();
 				} else {
-					Question question = new Question(false, content, owner);
+					Question question = new Question(false, content, "", owner);
 					question.addTags(tags);
 					question.setDate(creationDate);
 					question.setLastChanged(lastChangedDate);

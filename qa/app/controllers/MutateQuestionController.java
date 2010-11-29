@@ -1,7 +1,5 @@
 package controllers;
 
-import java.util.Calendar;
-
 import models.DbManager;
 import models.Question;
 import models.User;
@@ -64,7 +62,8 @@ public class MutateQuestionController extends Controller {
 		redirect("/");
 	}
 	
-	public static void addQuestion(String newQuestion, String tags, String code, String randomID) {
+	public static void addQuestion(String newQuestion, String title,
+			String tags, String code, String randomID) {
 		// Store the overgiven tags in another object to prevent information
 		// loss due to splitting the tag list.
 		String copyTags = "" + tags;
@@ -87,7 +86,7 @@ public class MutateQuestionController extends Controller {
 			showQuestionForm(newQuestion, tags, message);
 		}
 		else {
-			Question question = new Question(true, newQuestion, user);
+			Question question = new Question(true, newQuestion, title, user);
 			question.addTags(tags);
 			redirect("/question/" + question.getId() + "/answers/");
 		}

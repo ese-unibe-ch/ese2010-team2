@@ -3,7 +3,6 @@ import java.util.GregorianCalendar;
 import models.Answer;
 import models.DbManager;
 import models.Notification;
-import models.Post;
 import models.Question;
 import models.User;
 import models.Vote;
@@ -27,7 +26,8 @@ public class UserTest extends UnitTest {
 	@Test
 	public void shouldGetRightScore() {
 		User topScorer = new User("scorer", "user@champion", "password");
-		Question question = new Question(true, "Good Question", topScorer);
+		Question question = new Question(true, "Good Question", "title",
+				topScorer);
 		Answer answer = new Answer(true, "Good Answer", topScorer, question);
 		question.setScore(1);
 		answer.setScore(2);
@@ -64,7 +64,8 @@ public class UserTest extends UnitTest {
 	public void shouldUpdateLastReputation() {
 		User reputatedUser = new User("reputatedUser", "rep.user@ese.ch",
 				"1234");
-		Question question = new Question(true, "question", reputatedUser);
+		Question question = new Question(true, "question", "title",
+				reputatedUser);
 		Vote vote1 = new Vote(question, 3, admin);
 		assertEquals(0, reputatedUser.getLastReputation());
 		question.vote(vote1);
@@ -74,7 +75,8 @@ public class UserTest extends UnitTest {
 	@Test
 	public void shouldAddNotification() {
 		User notifiedUser = new User("notifiedUser", "note.user@ese.ch", "1234");
-		Question changedQuestion = new Question("some question", notifiedUser);
+		Question changedQuestion = new Question("some question", "title",
+				notifiedUser);
 		Notification notification = new Notification("something changed",
 				notifiedUser, changedQuestion);
 		assertEquals(1, notifiedUser.getAllNotifications().size());
@@ -84,7 +86,8 @@ public class UserTest extends UnitTest {
 	@Test
 	public void shouldRemoveNotification() {
 		User notifiedUser = new User("notifiedUser", "note.user@ese.ch", "1234");
-		Question changedQuestion = new Question("some question", notifiedUser);
+		Question changedQuestion = new Question("some question", "title",
+				notifiedUser);
 		Notification notification = new Notification("something changed",
 				notifiedUser, changedQuestion);
 		notifiedUser.removeNotification(notification);
@@ -94,7 +97,8 @@ public class UserTest extends UnitTest {
 	@Test
 	public void shouldClearNotification() {
 		User notifiedUser = new User("notifiedUser", "note.user@ese.ch", "1234");
-		Question changedQuestion = new Question("some question", notifiedUser);
+		Question changedQuestion = new Question("some question", "title",
+				notifiedUser);
 		new Notification("something changed", notifiedUser, changedQuestion);
 		new Notification("something changed", notifiedUser, changedQuestion);
 		notifiedUser.clearAllNotifications();
