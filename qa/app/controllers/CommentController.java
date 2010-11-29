@@ -1,7 +1,5 @@
 package controllers;
 
-import java.util.Calendar;
-
 import models.Answer;
 import models.Comment;
 import models.DbManager;
@@ -95,8 +93,8 @@ public class CommentController extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		Post question = manager.getQuestionById(qid);
 		if (newComment.equals("") || newComment.equals(" ")) {
-			String message = "Your comment is empty!";
-			render(message);
+			flash.error("Your comment is empty!");
+			render();
 		} else {
 			new Comment(user, question, newComment);
 			redirect("/question/" + qid + "/answers/");
@@ -118,8 +116,8 @@ public class CommentController extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		Answer answer = manager.getAnswerById(answerId);
 		if (newComment.equals("") || newComment.equals(" ")) {
-			String message = "Your comment is empty!";
-			render(message);
+			flash.error("Your comment is empty!");
+			render();
 		} else {
 			new Comment(user, answer, newComment);
 			redirect("/question/" + qid + "/answers/");

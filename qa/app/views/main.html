@@ -28,7 +28,7 @@
 			} else {
 				showAll();
 			}
-			
+
 			var likeComment = #{jsAction @CommentController.like(':id') /};
 			var unlikeComment = #{jsAction @CommentController.unlike(':id') /};
 		-->
@@ -60,7 +60,7 @@
                 </div>
 
                 <div id="menu">
-					<a href="/"><img src="/public/images/home.png" /></a>
+					<a href="/"><img src="/public/images/home.png" width="20" height="20" /></a>
                 #{if session.uid}
                     <ul>
                     <li><a href="@{MutateQuestionController.showQuestionForm()}">add question</a></li>
@@ -76,6 +76,20 @@
             </div>
 
             <div id="content">
+				#{if flash.error}
+				<div id="flash" class="flash error">
+					Error: ${flash.error}
+					<a href="javascript:$('#flash').hide()">[hide message]</a>
+				</div>
+				#{/if}
+
+				#{if flash.success}
+				<div id="flash" class="flash success">
+					${flash.success}
+					<a href="javascript:$('#flash').hide()">[hide message]</a>
+				</div>
+				#{/if}
+
                 <div id="questions_box">
 					<h2 id="questions_headline"></h2>
 

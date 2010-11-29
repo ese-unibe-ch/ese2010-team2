@@ -24,10 +24,10 @@ public class Admin extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
 	/** renders user profile to admin */
-	public static void showAdminUserProfile(String message) {
+	public static void showAdminUserProfile(String user) {
 		ArrayList<User> informationOwner = new ArrayList<User>();
-		informationOwner.add(manager.getUserByName(message));
-		render(message, informationOwner);
+		informationOwner.add(manager.getUserByName(user));
+		render(informationOwner);
 	}
 
 	/** Admin form for saving changes in user profiles */
@@ -46,7 +46,8 @@ public class Admin extends Controller {
 			if (!manager.checkUserNameIsOccupied(name)) {
 				manager.getUserByName(owner).setName(name);
 			} else {
-				Admin.showAdminUserProfile("Sorry, this user already exists!");
+				flash.error("Sorry, this user already exists!");
+				Admin.showAdminUserProfile("");
 			}
 
 		}
@@ -55,8 +56,8 @@ public class Admin extends Controller {
 			if (email.contains("@") || email.contains(".")) {
 				manager.getUserByName(username).setEmail(email);
 			} else {
-				Admin
-						.showAdminUserProfile("Please re-check your email address!");
+				flash.error("Please re-check your email address!");
+				Admin.showAdminUserProfile("");
 			}
 		}
 		// Checks if two similar password were typed in.
@@ -64,7 +65,8 @@ public class Admin extends Controller {
 			if (password.equals(password2)) {
 				manager.getUserByName(username).setPassword(password);
 			} else {
-				Admin.showAdminUserProfile("Passwords are not identical!");
+				flash.error("Passwords are not identical!");
+				Admin.showAdminUserProfile("");
 			}
 		}
 

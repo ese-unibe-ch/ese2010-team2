@@ -1,14 +1,9 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
-import models.Answer;
-import models.Comment;
 import models.DbManager;
 import models.Notification;
-import models.Post;
-import models.Question;
 import models.User;
 import models.UserGroups;
 import play.mvc.Controller;
@@ -78,8 +73,8 @@ public class ExtendedUserController extends Controller {
 					ugroup = UserGroups.user;
 					user.setGroup(ugroup);
 				}
-				String message = "Settings changed.";
-				render(users, message);
+				flash.success("Settings changed.");
+				render(users);
 			}
 		} else {
 			redirect("/");

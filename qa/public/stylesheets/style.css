@@ -216,6 +216,22 @@ div.short_post > div.tagbox {
 	border-top: thin solid #78E700;
 }
 
+div.flash {
+	border-radius: 7px;
+	padding: 0.5em;
+	margin: 1em 3em 0.2em 3em;
+}
+
+div.error {
+	border: medium solid #F00;
+	background: #FF7373;
+}
+
+div.success {
+	border: medium solid #0F0;
+	background: #67E46F;
+}
+
 /*
  * paragraphs
  */

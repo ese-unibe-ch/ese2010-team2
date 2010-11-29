@@ -18,9 +18,9 @@ public class MutateQuestionController extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
 	public static void showEditQuestionForm(int qid, String newContent,
-			String tags, String message) {
+			String tags) {
 		Question question = manager.getQuestionById(qid);
-		render(question, newContent, qid, message, tags);
+		render(question, newContent, qid, tags);
 	}
 	
 	/**
@@ -35,13 +35,13 @@ public class MutateQuestionController extends Controller {
 		String copyTags = "" + newContentTag;
 
 		if (newContentQuestion.equals("") || newContentQuestion.equals(" ")) {
-			String message = "Your question is empty!";
-			showEditQuestionForm(qid, newContentQuestion, newContentTag, message);
+			flash.error("Your question is empty!");
+			showEditQuestionForm(qid, newContentQuestion, newContentTag);
 		} else if (!Question.checkTags(copyTags).isEmpty()) {
-			String message = "The following tags already exist: "
+			flash.error("The following tags already exist: "
 					+ Question.checkTags(copyTags)
-					+ ". Please review your tags.";
-			showEditQuestionForm(qid, newContentQuestion, newContentTag, message);
+					+ ". Please review your tags.");
+			showEditQuestionForm(qid, newContentQuestion, newContentTag);
 		}
 		else {
 			manager.getQuestionById(qid).addVersion(newContentQuestion,
@@ -50,10 +50,9 @@ public class MutateQuestionController extends Controller {
 		}
 	}
 	
-	public static void showQuestionForm(String newQuestion, String tags,
-			String message) {
+	public static void showQuestionForm(String newQuestion, String tags) {
 		String randomID = Codec.UUID();
-		render(newQuestion, tags, message, randomID);
+		render(newQuestion, tags, randomID);
 	}
 	
 	public static void deleteQuestion(int qid){
@@ -71,19 +70,19 @@ public class MutateQuestionController extends Controller {
 		validation.equals(code, Cache.get(randomID));
 		User user = manager.getUserByName(session.get("username"));
 		if (newQuestion.equals("") || newQuestion.equals(" ")) {
-			String message = "Your question is empty!";
-			showQuestionForm(newQuestion, tags, message);
+			flash.error("Your question is empty!");
+			showQuestionForm(newQuestion, tags);
 		} else if (manager.checkQuestionDuplication(newQuestion)) {
-			String message = "Your question already exists!";
-			showQuestionForm(newQuestion, tags, message);
+			flash.error("Your question already exists!");
+			showQuestionForm(newQuestion, tags);
 		} else if (!Question.checkTags(copyTags).isEmpty()) {
-			String message = "The following tags already exist: "
+			flash.error("The following tags already exist: "
 					+ Question.checkTags(copyTags)
-					+ ". Please review your tags.";
-			showQuestionForm(newQuestion, tags, message);
+					+ ". Please review your tags.");
+			showQuestionForm(newQuestion, tags);
 		} else if(validation.hasErrors()){
-			String message= "Please check the code";
-			showQuestionForm(newQuestion, tags, message);
+			flash.error("Please check the CAPTCHA code");
+			showQuestionForm(newQuestion, tags);
 		}
 		else {
 			Question question = new Question(true, newQuestion, title, user);
@@ -107,8 +106,8 @@ public class MutateQuestionController extends Controller {
 		boolean check = oldVote.voteChangeable();
 		question.userVotedForPost(user);
 		if(question.checkUserVotedForPost(user)==true && check == false){
-			String message = "You already voted for this post !";
-			render(message, qid);
+			flash.error("You already voted for this post !");
+			render(qid);
 		}
 		if(vote == 1 && check == true && oldVote.getVote()==0){
 			oldVote.setVote(1);

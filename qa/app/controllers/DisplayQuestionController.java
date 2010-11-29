@@ -26,21 +26,16 @@ public class DisplayQuestionController extends Controller {
 		}
 	}
 	
-	public static void showAnswers(String id, String newAnswer,
-			String newMessage) {
+	public static void showAnswers(String id, String newAnswer) {
 		int intId = Integer.parseInt(id);
 		String randomID = Codec.UUID();
 		ArrayList<Answer> answers = manager.getAnswersSortedByScore(intId);
 		Question question = manager.getQuestionById(intId);
 
 		if (answers.size() == 0) {
-			String message = new String();
-			if (newMessage != null)
-				message = newMessage;
-			render(message, question, newAnswer, randomID);
+			render(question, newAnswer, randomID);
 		} else {
-			String message = newMessage;
-			render(answers, question, newAnswer, message, randomID);
+			render(answers, question, newAnswer, randomID);
 		}
 	}
 

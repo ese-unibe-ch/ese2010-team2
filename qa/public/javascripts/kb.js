@@ -58,7 +58,7 @@ function resubmit_search() {
 }
 
 function showSimilar(id) {
-	$("#similar").html("<img src=\"/public/images/loading.gif\" />");
+	$("#similar").html("<img src=\"/public/images/loading.gif\" alt=\"loading..\" width=\"16\" height=\"16\" />");
 	$.get("/similar/" + id, function(response, status, request) {
             $("#similar").html(response);
     });

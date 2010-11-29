@@ -1,16 +1,11 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import models.Answer;
-import models.Comment;
 import models.DbManager;
-import models.Notification;
 import models.Post;
-import models.Question;
 import models.User;
-import models.UserGroups;
 import models.Vote;
 import play.cache.Cache;
 import play.libs.Codec;
@@ -26,9 +21,9 @@ public class MutateAnswerController extends Controller {
 	
 	private static DbManager manager = DbManager.getInstance();
 	public static void showEditAnswerForm(int answerId, int qid,
-			String newContent, String message) {
+			String newContent) {
 		Answer answer = manager.getAnswerById(answerId);
-		render(answer, answerId, qid, newContent, message);
+		render(answer, answerId, qid, newContent);
 	}
 
 	/**
@@ -40,8 +35,8 @@ public class MutateAnswerController extends Controller {
 	public static void editAnswer(int answerId, int qid, String newContent,
 			User user) {
 		if (newContent.equals("") || newContent.equals(" ")) {
-			String message = "Your answer is empty.";
-			showEditAnswerForm(answerId, qid, newContent, message);
+			flash.error("Your answer is empty.");
+			showEditAnswerForm(answerId, qid, newContent);
 		}
 		manager.getAnswerById(answerId).addVersion(newContent,
 				session.get("username"));
@@ -59,11 +54,11 @@ public class MutateAnswerController extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		validation.equals(code, Cache.get(randomID));
 		if (newAnswer.equals("") || newAnswer.equals(" ")) {
-			String message = "Your answer is empty!";
-			DisplayQuestionController.showAnswers(qid, newAnswer, message);
+			flash.error("Your answer is empty.");
+			DisplayQuestionController.showAnswers(qid, newAnswer);
 		} else if(validation.hasErrors()){
-			String message = "Please check your code";
-			DisplayQuestionController.showAnswers(qid, newAnswer, message);
+			flash.error("Please check your code.");
+			DisplayQuestionController.showAnswers(qid, newAnswer);
 		} else {
 			@SuppressWarnings("unused")
 			Answer answer = new Answer(true, newAnswer, user, manager
@@ -88,8 +83,8 @@ public class MutateAnswerController extends Controller {
 		answer.userVotedForPost(user);
 		if(answer.checkUserVotedForPost(user)==true && check == false){
 			manager.updateReputation(answer.getOwner());
-			String message = "You already voted for this post !";
-			render(message, aid, qid);
+			flash.error("You already voted for this post !");
+			render(aid, qid);
 		}
 		if(vote == 1 && check == true && oldVote.getVote()==0){
 			oldVote.setVote(1);

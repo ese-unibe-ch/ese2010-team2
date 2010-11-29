@@ -1,7 +1,6 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -64,8 +63,8 @@ public class Application extends Controller {
 
 		// If no query is typed in
 		if (text != null && text.equals("")) {
-			String message = "Nothing to search";
-			render(message);
+			flash.error("Search query was empty.");
+			render();
 		}
 		// If a query is typed in differentiate between searchtypes
 		if (!text.equals("")) {

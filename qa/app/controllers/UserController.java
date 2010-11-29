@@ -35,28 +35,27 @@ public class UserController extends Controller {
 			String email, String code, String randomID) throws Throwable {
 
 		validation.equals(code, Cache.get(randomID));
-		if (name.equals(""))
-			UserController.showRegister("Please insert a name!", name,
+		if (name.equals("")) {
+			flash.error("Please insert a name!");
+			UserController.showRegister(name,
 					password, password2, email);
-		else if (manager.checkUserNameIsOccupied(name))
-			UserController.showRegister("Sorry, this user already exists", "",
-					password, password2, email);
-		else if (email.equals("") || !email.contains("@")
-				|| !email.contains("."))
-			UserController.showRegister("Please check your email!", name,
-					password, password2, email);
-		else if (password.equals("") || !password.equals(password2))
-			UserController.showRegister("Please check your password!", name,
-					password, password2, email);
-		else if (DbManager.getInstance().isEmailRegistered(email))
-			UserController.showRegister(
-					"This eMail-address is already registered.", name,
-					password, password2, email);
-		else if (validation.hasErrors())
-			UserController.showRegister("Please check the code", name,
-					password, password2, email);
-		else {
-			@SuppressWarnings("unused")
+		} else if (manager.checkUserNameIsOccupied(name)) {
+			flash.error("Sorry, this user already exists");
+			UserController.showRegister("",	password, password2, email);
+		} else if (email.equals("") || !email.contains("@")
+				|| !email.contains(".")) {
+			flash.error("Please enter a valid email address!");
+			UserController.showRegister(name, password, password2, email);
+		} else if (password.equals("") || !password.equals(password2)) {
+			flash.error("Passwords do not match!");
+			UserController.showRegister(name, password, password2, email);
+		} else if (DbManager.getInstance().isEmailRegistered(email)) {
+			flash.error("This eMail-address is already registered.");
+			UserController.showRegister(name, password, password2, email);
+		} else if (validation.hasErrors()) {
+			flash.error("Please check the CAPTCHA code");
+			UserController.showRegister(name, password, password2, email);
+		} else {
 			User user = new User(name, email, password);
 			Cache.delete(randomID);
 			session.put("uid", user.getId());
@@ -69,10 +68,10 @@ public class UserController extends Controller {
 	 * Renders the registration form with the proper error message to the user
 	 * due to is wrong input.
 	 */
-	public static void showRegister(String message, String name,
+	public static void showRegister(String name,
 			String password, String password2, String email) {
 		String randomID = Codec.UUID();
-		render(message, name, password, password2, email, randomID);
+		render(name, password, password2, email, randomID);
 	}
 
 	/** renders the current user profile */
@@ -134,8 +133,8 @@ public class UserController extends Controller {
 						.setName(username);
 			} else if (!username.equals(session.get("username"))
 					&& manager.checkUserNameIsOccupied(username)) {
-				UserController
-						.showUserProfile("Sorry, this user already exists!");
+				flash.error("Sorry, this user already exists!");
+				UserController.showUserProfile("");
 			}
 
 		}
@@ -145,8 +144,8 @@ public class UserController extends Controller {
 			if (email.contains("@") || email.contains(".")) {
 				manager.getUserByName(username).setEmail(email);
 			} else {
-				UserController
-						.showUserProfile("Please re-check your email address!");
+				flash.error("Please re-check your email address!");
+				UserController.showUserProfile("");
 			}
 		}
 
@@ -161,28 +160,33 @@ public class UserController extends Controller {
 						manager.getUserByName(username).setPassword(password);
 						passwordChanged = true;
 					} else {
-						UserController
-						.showUserProfile("Passwords are not identical!");
+						flash.error("Passwords do not match.");
+						UserController.showUserProfile("");
 					}
 				}
 			} else if (oldPassword.equals("")) {
-				UserController.showUserProfile("No old Password typed in!");
+				flash.error("No old Password typed in!");
+				UserController.showUserProfile("");
 			} else {
-				UserController.showUserProfile("Old Password incorrect!");
+				flash.error("Old Password incorrect!");
+				UserController.showUserProfile("");
 			}
 			if (password.equals("") && password2.equals("")) {
-				UserController.showUserProfile("No new Password typed in!");
+				flash.error("No new Password typed in!");
+				UserController.showUserProfile("");
 			}
 		}
 
 		// Checks if two similar password were typed in.
 		if (password.equals("") && !password2.equals("")) {
-			UserController.showUserProfile("Passwords are not identical!");
+			flash.error("Passwords do not match!");
+			UserController.showUserProfile("");
 		}
 
 		// Checks if two similar password were typed in.
 		if (!password.equals("") && password2.equals("")) {
-			UserController.showUserProfile("Passwords are not identical!");
+			flash.error("Passwords do not match!");
+			UserController.showUserProfile("");
 		}
 
 		if (!phone.equals("")) {

@@ -26,13 +26,17 @@
 			<a href="@{CommentController.showAnswerCommentForm(_answer.getId(), _question.getId())}" title="write comment"><img src="/public/images/comment.png" alt="write comment" /></a>
 
 			#{if _answer.ownerIs(session.uid) || session.get("username") == "admin" || _answer.isModerator(session.get("username"))}
-			<a href="@{MutateAnswerController.showEditAnswerForm(_answer.getId(), _question.getId())}"><img src="/public/images/edit.png" alt="edit answer" title="edit answer" /></a>
-			<a href="@{MutateAnswerController.deleteAnswer(_answer.getId(), _question.getId())}"><img src="/public/images/delete.png" alt="delete answer" title="delete answer" /></a>
+			<a href="@{MutateAnswerController.showEditAnswerForm(_answer.getId(), _question.getId())}" title="edit answer">
+				<img src="/public/images/edit.png" alt="edit answer" width="10" height="10" />
+			</a>
+			<a href="@{MutateAnswerController.deleteAnswer(_answer.getId(), _question.getId())}" title="delete answer">
+				<img src="/public/images/delete.png" alt="delete answer" width="10" height="10" />
+			</a>
 			#{/if}
 
 			#{if _question.ownerIs(session.uid) && _question.bestAnswerChangeable() && !_answer.isBestAnswer()}
 			<a href="/question/${_question.getId()}/setbestanswer/${_answer.getId()}" title="select as best answer">
-				<img src="/public/images/star.png" alt="select as best answer" />
+				<img src="/public/images/star.png" alt="select as best answer" width="10" height="10" />
 			</a>
 			#{/if}
 		</div>
@@ -53,12 +57,18 @@
 			#{if session.uid}
 			<div class="toolbox">
 				#{if comment.ownerIs(session.uid) || session.get("username")=="admin" || comment.isModerator(session.get("username"))}
-				<a href="@{CommentController.showEditAnswerCommentForm(_question.getId(), comment.getId())}"><img src="/public/images/edit.png" alt="edit comment" /></a>
-				<a href="@{CommentController.deleteComment(_question.getId(), comment.getId())}"><img src="/public/images/delete.png" alt="delete comment" /></a>
+				<a href="@{CommentController.showEditAnswerCommentForm(_question.getId(), comment.getId())}">
+					<img src="/public/images/edit.png" alt="edit comment" width="10" height="10" />
+				</a>
+				<a href="@{CommentController.deleteComment(_question.getId(), comment.getId())}">
+					<img src="/public/images/delete.png" alt="delete comment" width="10" height="10" />
+				</a>
 				#{/if}
-				
+
 				%{ like = comment.isLiked(session.get("username")) ? 'unlike' : 'like' }%
-				<a class="${like}" title="${like}" href="#${comment.getId()}"><img src="@{'/public/images/'+like+'.png'}" alt="${like}" /></a>
+				<a class="${like}" title="${like}" href="#${comment.getId()}">
+					<img src="@{'/public/images/'+like+'.png'}" alt="${like}" width="10" height="10" />
+				</a>
 			</div>
 			#{/if}
 
