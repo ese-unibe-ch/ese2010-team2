@@ -57,6 +57,13 @@ function resubmit_search() {
     search(text, menu);
 }
 
+function showSimilar(id) {
+	$("#similar").html("<img src=\"/public/images/loading.gif\" />");
+	$.get("/similar/" + id, function(response, status, request) {
+            $("#similar").html(response);
+    });
+}
+
 function search(text, menu) {
     resetLayout();
     $('#questions_headline').html('Search results for <em>' + text + '</em>');
@@ -84,11 +91,11 @@ function like() {
 		var now = 'like';
 		var url = unlikeComment({id: this.hash.substr(1)});
 	}
-	
+
 	var comment = $(this).parents('div.comment');
 	$.post(url, {authenticityToken: token()}, function(data) {
 		comment.find('a.'+was).removeClass(was).addClass(now).attr('title', now);
-		comment.find('a.' + now + ' img').attr('src', function(index, attr) { 
+		comment.find('a.' + now + ' img').attr('src', function(index, attr) {
 			return attr.replace(was, now);
 		}).attr('alt', now);
 		if(data.likes > 0)

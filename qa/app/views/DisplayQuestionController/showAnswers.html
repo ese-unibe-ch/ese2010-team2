@@ -44,12 +44,6 @@
 	</form>
 </div>
 
-<!-- show similar questions -->
-<hr />
-
-#{if similar}
-<h3>Similar questions:</h3>
-#{list items:similar, as:'similarQuestion'}
-	#{short_post post:similarQuestion /}
-#{/list}
-#{/if}
+<div id="similar">
+	<a href="javascript:showSimilar(${question.getId()})">Show similar questions</a>
+</div>

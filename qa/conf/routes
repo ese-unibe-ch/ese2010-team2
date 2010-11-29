@@ -34,6 +34,7 @@ GET				   /{type}/{id}/history									  PostController.showVersionHistory
 GET				   /questions/{mod}									  	  DisplayQuestionController.questions
 GET                /question/{id}/answers/                          	  DisplayQuestionController.showAnswers
 GET			       /recent												  DisplayQuestionController.showRecentQuestionsByNumber
+GET                /similar/{qid}                                         DisplayQuestionController.showSimilarQuestions
 
 #DisplayAnswerController
 GET                /question/{qid}/setbestanswer/{aid}              	  DisplayAnswerController.setBestAnswer

@@ -13,7 +13,6 @@ import play.mvc.Controller;
  * This Controller manages the view of questions
  */
 public class DisplayQuestionController extends Controller {
-
 	private static DbManager manager = DbManager.getInstance();
 	
 	public static void questions(String mod) {
@@ -34,18 +33,25 @@ public class DisplayQuestionController extends Controller {
 		ArrayList<Answer> answers = manager.getAnswersSortedByScore(intId);
 		Question question = manager.getQuestionById(intId);
 
-		ArrayList<Post> similar = new ArrayList<Post>();
-		similar.addAll(question.similarQuestions());
-
 		if (answers.size() == 0) {
 			String message = new String();
 			if (newMessage != null)
 				message = newMessage;
-			render(message, question, newAnswer, similar, randomID);
+			render(message, question, newAnswer, randomID);
 		} else {
 			String message = newMessage;
-			render(answers, question, newAnswer, message, similar, randomID);
+			render(answers, question, newAnswer, message, randomID);
 		}
+	}
+
+	/**
+	 * 
+	 * @param qid
+	 */
+	public static void showSimilarQuestions(int qid) {
+		Question question = manager.getQuestionById(qid);
+		ArrayList<Post> similar = question.similarQuestions();
+		render(similar);
 	}
 
 	/**
