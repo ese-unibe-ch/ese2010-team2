@@ -210,7 +210,7 @@ public class XMLParser extends DefaultHandler {
 			}
 
 			else if (qName.equalsIgnoreCase("question")) {
-				if (content.isEmpty() || owner == null) {
+				if (content.isEmpty() || owner == null || pId==0) {
 					message.add("ERROR: question " + pId
 							+ " couldn't be imported.");
 					this.cleanQuestion();
@@ -252,7 +252,8 @@ public class XMLParser extends DefaultHandler {
 
 			else if (qName.equalsIgnoreCase("lastactivity")) {
 				removeInvalid();
-				lastChangedDate.setTime(Integer.parseInt(tempValue.toString()));
+				lastChangedDate = new Date(
+						Long.parseLong(tempValue.toString()) * 1000);
 				tempValue = new StringBuilder();
 			}
 
@@ -278,6 +279,10 @@ public class XMLParser extends DefaultHandler {
 							.getInstance().getQuestionById(qId));
 					a.markAsBestAnswer(isBestAnswer);
 					a.setDate(creationDate);
+					// TODO: Wieso funktioniert dieser Aufruf und der untere
+					// nicht??
+					DbManager.getInstance().getQuestionById(qId).setLastChanged(lastChangedDate);
+//					 a.setLastChanged(lastChangedDate);
 					answers++;
 					this.cleanAnswer();
 				}
@@ -287,11 +292,11 @@ public class XMLParser extends DefaultHandler {
 				mode = "init";
 			}
 		}
-			tempValue = new StringBuilder();
+		tempValue = new StringBuilder();
 	}
-	
-	/** Deletes all leading chars that are not a number in the StringBuilder.*/
-	private void removeInvalid(){
+
+	/** Deletes all leading chars that are not a number in the StringBuilder. */
+	private void removeInvalid() {
 		// Alle Zeichen ausser Zahlen vor der Nummmer löschen.
 		while (tempValue.charAt(0) < 48 || tempValue.charAt(0) > 57)
 			tempValue.deleteCharAt(0);
@@ -318,6 +323,7 @@ public class XMLParser extends DefaultHandler {
 		creationDate = new Date();
 		lastChangedDate = new Date();
 		content = new String();
+		pId=0;
 		tags.clear();
 	}
 
@@ -328,6 +334,7 @@ public class XMLParser extends DefaultHandler {
 		owner = null;
 		content = new String();
 		isBestAnswer = false;
+		pId=0;
 	}
 
 	/** This method is called when warnings occur */
@@ -366,8 +373,9 @@ public class XMLParser extends DefaultHandler {
 		SAXParser saxParser = saxParserFactory.newSAXParser();
 
 		// Create a SAX input source for the file argument
-		InputSource input = new InputSource(new FileReader(
-				Play.applicationPath.getAbsolutePath() + "/public/data/data"));
+		InputSource input = new InputSource(new FileReader(Play.applicationPath
+				.getAbsolutePath()
+				+ "/public/data/data"));
 
 		// Create an instance of this class; it defines all the handler methods
 		XMLParser handler = new XMLParser();
