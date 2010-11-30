@@ -24,14 +24,15 @@ public class Application extends Controller {
 		String userName = session.get("username");
 		int score = 0;
 
-		boolean isNotUser = false;
-		if (userName != null) {
-			String userGroup = manager.getUserByName(userName).getGroup()
-					.toString();
-			if (userGroup.equals("moderator") || userGroup.equals("admin")) {
-				isNotUser = true;
-			}
-		}
+//		Hinfällig infolge Wechsel auf session.isAdmin
+//		boolean isNotUser = false;
+//		if (userName != null) {
+//			String userGroup = manager.getUserByName(userName).getGroup()
+//					.toString();
+//			if (userGroup.equals("moderator") || userGroup.equals("admin")) {
+//				isNotUser = true;
+//			}
+//		}
 
 		boolean isChanged = true;
 		if (userName != null) {
@@ -43,7 +44,7 @@ public class Application extends Controller {
 			render(message, userName, score);
 		} else {
 			ArrayList<Question> questions = manager.getQuestionsSortedByScore();
-			render(questions, userName, isChanged, isNotUser);
+			render(questions, userName, isChanged/*, isNotUser*/);
 		}
 	}
 

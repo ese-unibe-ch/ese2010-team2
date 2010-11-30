@@ -10,6 +10,9 @@ public class Security extends Secure.Security {
 
 	static boolean authenticate(String username, String password) {
 		User user = manager.getUserByName(username);
+		if(user!=null && user.isAdmin())
+			session.put("isAdmin", true);
+		
 		if (user != null && user.getPassword().equals(password)) {
 			session.put("uid", user.getId());
 			return true;
@@ -19,4 +22,6 @@ public class Security extends Secure.Security {
 	static void onDisconnected() {
 		Application.index();
 	}
+	
+
 }

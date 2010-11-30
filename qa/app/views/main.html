@@ -70,7 +70,7 @@
                     #{if isChanged}
                     <li><a href="@{ExtendedUserController.showNotifications()}">something happened</a></li>
                     #{/if}
-                    #{if isNotUser}
+                    #{if session.isAdmin}
                     <li><a href="@{Admin.showAdminPage()}">Admin Area</a></li>
                     #{/if}
                     </ul>
