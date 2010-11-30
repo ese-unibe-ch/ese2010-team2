@@ -75,7 +75,7 @@ public class Admin extends Controller {
 
 	public static void showAdminPage() {
 		String uname = session.get("username");
-		if (!manager.getUserByName(uname).isAdmin())
+		if (manager.getUserByName(uname).getGroup().toString().equals("user"))
 			redirect("/");
 		else
 			render(uname);
