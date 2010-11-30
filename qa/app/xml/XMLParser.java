@@ -278,7 +278,6 @@ public class XMLParser extends DefaultHandler {
 							.getInstance().getQuestionById(qId));
 					a.markAsBestAnswer(isBestAnswer);
 					a.setDate(creationDate);
-					a.setLastChanged(lastChangedDate);
 					answers++;
 					this.cleanAnswer();
 				}
