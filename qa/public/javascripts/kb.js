@@ -13,6 +13,10 @@ function showAll() {
     });
 }
 
+function hideFlash() {
+	$('#flash').hide();
+}
+
 function showRecent() {
     resetLayout();
     $.get("/questions/recent", function(response, status, request) {
