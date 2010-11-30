@@ -34,7 +34,7 @@ public class Answer extends Post {
 		this.editedBy = user;
 		isBestAnswer = false;
 		date = new Date();
-		question.setLastChangedDate(new Date());
+		question.setLastChanged(new Date());
 		if (addAnswerToList) {
 			oldVersions = new ArrayList<Post>();
 			user.addActivity("Answered question <" + question.getContent()
@@ -117,6 +117,10 @@ public class Answer extends Post {
 
 	public void restoreOldVersion(String oldContent, String uname) {
 		addVersion(oldContent, uname);
+	}
+	
+	public void setLastChanged(Date date){
+		this.getQuestion().setLastChanged(date);
 	}
 
 	/** Getters */

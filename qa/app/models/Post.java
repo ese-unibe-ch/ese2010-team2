@@ -261,14 +261,7 @@ public abstract class Post {
 	 * @param date
 	 *            - the date when the question was last changed.
 	 */
-	public void setLastChanged(Date date) {
-		if (this instanceof Question) {
-			manager.getQuestionById(this.id).setLastChangedDate(date);
-		} else if (this instanceof Answer) {
-			int questionId = manager.getAnswerById(id).getQuestionId();
-			manager.getQuestionById(questionId).setLastChangedDate(date);
-		}
-	}
+	public abstract void setLastChanged(Date date); 
 
 	public void setEditor(String uname){
 		this.editedBy=manager.getUserByName(uname);

@@ -184,7 +184,7 @@ public class XMLParser extends DefaultHandler {
 				tempValue = new StringBuilder();
 			} else if (qName.equalsIgnoreCase("creationdate")) {
 				removeInvalid();
-				creationDate.setTime(Integer.parseInt(tempValue.toString()));
+				creationDate.setTime((new Long(tempValue.toString())) * 1000);
 				tempValue = new StringBuilder();
 			}
 
@@ -246,7 +246,7 @@ public class XMLParser extends DefaultHandler {
 
 			else if (qName.equalsIgnoreCase("creationdate")) {
 				removeInvalid();
-				creationDate.setTime(Integer.parseInt(tempValue.toString()));
+				creationDate.setTime((new Long(tempValue.toString())) * 1000);
 				tempValue = new StringBuilder();
 			}
 
@@ -278,7 +278,6 @@ public class XMLParser extends DefaultHandler {
 							.getInstance().getQuestionById(qId));
 					a.markAsBestAnswer(isBestAnswer);
 					a.setDate(creationDate);
-					a.setLastChanged(lastChangedDate);
 					answers++;
 					this.cleanAnswer();
 				}

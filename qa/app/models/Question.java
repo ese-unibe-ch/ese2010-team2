@@ -289,7 +289,7 @@ public class Question extends Post {
 	 * @param date
 	 *            - the date when the answer has been changed.
 	 */
-	public void setLastChangedDate(Date date) {
+	public void setLastChanged(Date date) {
 		this.lastChangedDate = date;
 	}
 

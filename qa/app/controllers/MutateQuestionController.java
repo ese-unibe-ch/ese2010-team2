@@ -50,9 +50,9 @@ public class MutateQuestionController extends Controller {
 		}
 	}
 	
-	public static void showQuestionForm(String newQuestion, String tags) {
+	public static void showQuestionForm(String title, String newQuestion, String tags) {
 		String randomID = Codec.UUID();
-		render(newQuestion, tags, randomID);
+		render(title, newQuestion, tags, randomID);
 	}
 	
 	public static void deleteQuestion(int qid){
@@ -71,18 +71,18 @@ public class MutateQuestionController extends Controller {
 		User user = manager.getUserByName(session.get("username"));
 		if (newQuestion.equals("") || newQuestion.equals(" ")) {
 			flash.error("Your question is empty!");
-			showQuestionForm(newQuestion, tags);
+			showQuestionForm(title, newQuestion, tags);
 		} else if (manager.checkQuestionDuplication(newQuestion)) {
 			flash.error("Your question already exists!");
-			showQuestionForm(newQuestion, tags);
+			showQuestionForm(title, newQuestion, tags);
 		} else if (!Question.checkTags(copyTags).isEmpty()) {
 			flash.error("The following tags already exist: "
 					+ Question.checkTags(copyTags)
 					+ ". Please review your tags.");
-			showQuestionForm(newQuestion, tags);
+			showQuestionForm(title, newQuestion, tags);
 		} else if(validation.hasErrors()){
 			flash.error("Please check the CAPTCHA code");
-			showQuestionForm(newQuestion, tags);
+			showQuestionForm(title, newQuestion, tags);
 		}
 		else {
 			Question question = new Question(true, newQuestion, title, user);
