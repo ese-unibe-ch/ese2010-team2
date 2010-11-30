@@ -82,14 +82,14 @@
 				#{if flash.error}
 				<div id="flash" class="flash error">
 					Error: ${flash.error}
-					<a href="javascript:$('#flash').hide()">[hide message]</a>
+					<a href="javascript:hideFlash()">[hide message]</a>
 				</div>
 				#{/if}
 
 				#{if flash.success}
 				<div id="flash" class="flash success">
 					${flash.success}
-					<a href="javascript:$('#flash').hide()">[hide message]</a>
+					<a href="javascript:hideFlash()">[hide message]</a>
 				</div>
 				#{/if}
 
