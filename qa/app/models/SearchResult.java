@@ -30,7 +30,6 @@ public class SearchResult {
 		comments = new ArrayList<Comment>();
 	}
 
-
 	/** Getters */
 	public Question getQuestion() {
 		return question;
@@ -76,6 +75,7 @@ public class SearchResult {
 	public void setHasABestAnswer(boolean hasABestAnswer) {
 		this.hasABestAnswer = hasABestAnswer;
 	}
+
 	public void setTotalScore(int totalScore) {
 		this.totalScore = totalScore;
 	}

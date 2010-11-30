@@ -1,8 +1,6 @@
 package controllers;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import models.DbManager;
 import models.Question;
@@ -24,15 +22,15 @@ public class Application extends Controller {
 		String userName = session.get("username");
 		int score = 0;
 
-//		Hinfällig infolge Wechsel auf session.isAdmin
-//		boolean isNotUser = false;
-//		if (userName != null) {
-//			String userGroup = manager.getUserByName(userName).getGroup()
-//					.toString();
-//			if (userGroup.equals("moderator") || userGroup.equals("admin")) {
-//				isNotUser = true;
-//			}
-//		}
+		// Hinfällig infolge Wechsel auf session.isAdmin
+		// boolean isNotUser = false;
+		// if (userName != null) {
+		// String userGroup = manager.getUserByName(userName).getGroup()
+		// .toString();
+		// if (userGroup.equals("moderator") || userGroup.equals("admin")) {
+		// isNotUser = true;
+		// }
+		// }
 
 		boolean isChanged = true;
 		if (userName != null) {
@@ -44,7 +42,7 @@ public class Application extends Controller {
 			render(message, userName, score);
 		} else {
 			ArrayList<Question> questions = manager.getQuestionsSortedByScore();
-			render(questions, userName, isChanged/*, isNotUser*/);
+			render(questions, userName, isChanged/* , isNotUser */);
 		}
 	}
 
@@ -79,41 +77,48 @@ public class Application extends Controller {
 		// If a query is typed in differentiate between searchtypes
 		if (!text.equals("")) {
 			SearchManager searchManager = new SearchManager(text);
-
 			ArrayList<SearchResult> results = searchManager.getSearchResults();
+			ArrayList<User> userResult = new ArrayList<User>();
 			if (isUser) {
+				results.clear();
+				for (User user : manager.getUsers()) {
+					if (user.getName().toLowerCase()
+							.contains(text.toLowerCase())
+							&& !user.equals(currentUser))
+						userResult.add(user);
+				}
 				// returns list of users without duplicates or user logged
 				// into
 				// session
-				ArrayList<SearchResult> newList = new ArrayList();
-				Set set = new HashSet();
-				for (SearchResult result : results) {
-					if (set.add(result.getOwner())
-							&& !result.getOwner().equals(currentUser))
-						newList.add(result);
-				}
-				results.clear();
-				results.addAll(newList);
+				/**
+				 * ArrayList<SearchResult> newList = new ArrayList(); Set set =
+				 * new HashSet(); for (SearchResult result : results) { if
+				 * (set.add(result.getOwner()) &&
+				 * !result.getOwner().equals(currentUser)) newList.add(result);
+				 * } results.clear(); results.addAll(newList); }
+				 **/
 			}
 
 			// If query has no results
-			if (results.size() == 0) {
+			if (results.size() == 0 && userResult.size() == 0) {
 				String message = "No Results";
 				render(message, menu, text);
 			} else {
-				render(results, isQuestion, isUser, menu, text);
+				render(results, userResult, isQuestion, isUser, menu, text);
 			}
 		}
 	}
-	
+
 	/**
-	 * Creates a captcha given a certain id. 
-	 * @param id - the id of the captcha.
+	 * Creates a captcha given a certain id.
+	 * 
+	 * @param id
+	 *            - the id of the captcha.
 	 */
 	public static void captcha(String id) {
-	    Images.Captcha captcha = Images.captcha();
-	    String code = captcha.getText("#AA00A2");
-	    Cache.set(id, code, "30mn");
-	    renderBinary(captcha);
+		Images.Captcha captcha = Images.captcha();
+		String code = captcha.getText("#AA00A2");
+		Cache.set(id, code, "30mn");
+		renderBinary(captcha);
 	}
 }

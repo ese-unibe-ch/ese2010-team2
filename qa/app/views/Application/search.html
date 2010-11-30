@@ -34,11 +34,11 @@
 		#{if isQuestion}
 		#{short_post post:searchresult.getQuestion() /}
 		#{/if}
-
-		#{else}
-		<p>#{avatar user:searchresult.getOwner() /}
-		<a href="@{UserController.showUser(searchresult.getOwner())}">${searchresult.getOwner()}</a></p>
-		#{/else}
-
+	#{/list}
+#{/if}
+#{if userResult}
+	#{list items: userResult, as:'userResult'}
+	<p>#{avatar user: userResult /}
+	<a href="@{UserController.showUser(userResult)}">${userResult}</a></p>
 	#{/list}
 #{/if}
