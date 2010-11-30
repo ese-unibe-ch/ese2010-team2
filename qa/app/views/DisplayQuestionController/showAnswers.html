@@ -20,6 +20,7 @@
 #{/if}
 
 <!--Answer form-->
+#{if session.uid}
 <h2>Add your answer</h2>
 
 <h4 style="color:#c00">${message}</h4>
@@ -43,6 +44,7 @@
 		</ul>
 	</form>
 </div>
+#{/if}
 
 <div id="similar">
 	<a href="javascript:showSimilar(${question.getId()})">Show similar questions</a>
