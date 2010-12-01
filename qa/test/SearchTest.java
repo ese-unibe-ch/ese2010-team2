@@ -192,8 +192,8 @@ public class SearchTest extends UnitTest {
 	@After
 	public void tearDown() {
 		manager.getUsers().clear();
-		manager.getQuestions().clear();
-		manager.getAnswers().clear();
+		manager.clearQuestionsMap();
+		manager.clearAnswerMap();
 		manager.resetAllIdCounts();
 		manager.getComments().clear();
 		manager.getTagList().clear();

@@ -138,10 +138,15 @@ public class DbManagerTest extends UnitTest {
 	}
 
 	@Test
-	public void shouldRemarkQuestionDuplication() {
+	public void shouldDetectAndAvoidQuestionDuplication() {
 		new Question(true, "question1<question1<question1", "title", admin);
 		assertTrue(manager
 				.checkQuestionDuplication("question1<question1<question1"));
+		assertEquals(1, manager.getQuestions().size());
+
+		assertFalse(manager
+				.checkQuestionDuplication("question<question<question"));
+		assertEquals(1, manager.getQuestions().size());
 	}
 
 	@Test
@@ -370,16 +375,6 @@ public class DbManagerTest extends UnitTest {
 	}
 
 	@Test
-	public void shouldCheckQuestionDuplication() {
-		@SuppressWarnings("unused")
-		Post question = new Question(true, "content of question", "title",
-				admin);
-		assertTrue(manager.checkQuestionDuplication("content of question"));
-		assertFalse(manager
-				.checkQuestionDuplication("content of not registered question"));
-	}
-
-	@Test
 	public void shouldGetUserByName() {
 		assertEquals("admin", manager.getUserByName("admin").getName());
 		assertNull(manager.getUserByName("notRegistered"));
@@ -533,8 +528,8 @@ public class DbManagerTest extends UnitTest {
 	@After
 	public void tearDown() {
 		manager.getUsers().clear();
-		manager.getQuestions().clear();
-		manager.getAnswers().clear();
+		manager.clearQuestionsMap();
+		manager.clearAnswerMap();
 		manager.resetAllIdCounts();
 		manager.getComments().clear();
 		manager.getTagList().clear();

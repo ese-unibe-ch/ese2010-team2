@@ -63,8 +63,8 @@ public class CommentTest extends UnitTest {
 	@AfterClass
 	public static void tearDown() {
 		manager.getUsers().clear();
-		manager.getQuestions().clear();
-		manager.getAnswers().clear();
+		manager.clearQuestionsMap();
+		manager.clearAnswerMap();
 		manager.resetAllIdCounts();
 		manager.getComments().clear();
 		manager.getTagList().clear();

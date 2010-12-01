@@ -99,7 +99,7 @@ public class DbManager {
 	 *         false otherwise.
 	 */
 	public boolean checkQuestionDuplication(String content) {
-		if (questions.isEmpty()) {
+		if (!questions.isEmpty()) {
 			Iterator it = questions.values().iterator();
 			while (it.hasNext()) {
 				Question cur = (Question) it.next();
@@ -118,8 +118,9 @@ public class DbManager {
 	 * @param - The username of the user to be deleted as a string object.
 	 */
 	public void deleteUser(String username) {
-		if (!DbManager.users.contains(this.getUserByName(username)))
+		if (!DbManager.users.contains(this.getUserByName(username))) {
 			throw new NoSuchElementException();
+		}
 
 		User deleteUser = getUserByName(username);
 
@@ -134,11 +135,16 @@ public class DbManager {
 
 		// Delete all questions a user added
 		Iterator it = questions.values().iterator();
+		Question toDelete = null;
 		while (it.hasNext()) {
 			Question cur = (Question) it.next();
 			if (cur.getOwner().equals(deleteUser)) {
-				deleteQuestion(cur);
+				toDelete = cur;
 			}
+
+		}
+		if (toDelete != null) {
+		deleteQuestion(toDelete);
 		}
 
 		// Anonymize all questions a user edited
@@ -162,10 +168,11 @@ public class DbManager {
 		// Anonymize all answers a user edited
 		Iterator it3 = answers.values().iterator();
 		while (it3.hasNext()) {
-			Answer p = (Answer) it2.next();
+			Answer p = (Answer) it3.next();
 			if (p.getEditor() != p.getOwner()
-					&& p.getEditor().equals(deleteUser))
+					&& p.getEditor().equals(deleteUser)) {
 				p.setEditor("anonymous");
+			}
 		}
 
 		// Delete all comments a user added
@@ -845,6 +852,15 @@ public class DbManager {
 
 	public int countOfLikes() {
 		return this.getLikeList().size();
+	}
+
+	/** Clear Methods for Testing */
+	public void clearQuestionsMap() {
+		questions.clear();
+	}
+
+	public void clearAnswerMap() {
+		answers.clear();
 	}
 
 }
