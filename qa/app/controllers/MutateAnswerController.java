@@ -84,31 +84,31 @@ public class MutateAnswerController extends Controller {
 		if(answer.checkUserVotedForPost(user)==true && check == false){
 			manager.updateReputation(answer.getOwner());
 			flash.error("You already voted for this post !");
-			render(aid, qid);
+//			render(aid, qid);
 		}
 		if(vote == 1 && check == true && oldVote.getVote()==0){
 			oldVote.setVote(1);
 			answer.vote(oldVote);
-			String message = "You're current vote is "+oldVote.getVote();
-			render(message, aid, qid);
+			flash.success("You're current vote is "+oldVote.getVote());
+//			render(aid, qid);
 		}
 		if(vote == 1 && check == true && oldVote.getVote()==-1){
 			oldVote.setVote(0);
 			answer.vote(oldVote);
-			String message = "You're current vote is "+oldVote.getVote();
-			render(message, aid, qid);
+			flash.success("You're current vote is "+oldVote.getVote());
+//			render(aid, qid);
 		}
 		if(vote == -1 && check == true && oldVote.getVote()==0){
 			oldVote.setVote(-1);
 			answer.vote(oldVote);
-			String message = "You're current vote is "+oldVote.getVote();
-			render(message, aid, qid);
+			flash.success("You're current vote is "+oldVote.getVote());
+//			render(aid, qid);
 		}
 		if(vote == -1 && check == true && oldVote.getVote()==1){
 			oldVote.setVote(0);
 			answer.vote(oldVote);
-			String message = "You're current vote is "+oldVote.getVote();
-			render(message, aid, qid);
+			flash.success("You're current vote is "+oldVote.getVote());
+//			render(aid, qid);
 		}
 		redirect("/question/" + qid + "/answers/");
 	}
