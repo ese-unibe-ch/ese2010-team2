@@ -97,8 +97,6 @@ public class User {
 		ArrayList<Post> usersVotables = manager.getVotablesByUserId(this
 				.getId());
 		for (Post currentVotable : usersVotables) {
-			System.out.println("****" + currentVotable.getClass() + "******");
-
 			if (currentVotable.getClass().toString()
 					.equals("class models.Answer")) {
 				Answer curAnswer = (Answer) currentVotable;
@@ -106,10 +104,12 @@ public class User {
 						.getQuestionById(curAnswer.getQuestionId()).getOwner()
 						.getName();
 				String answerOwner = curAnswer.getOwner().getName();
-				System.out.println("Here");
 				if (!questionOwner.equals(answerOwner)) {
 					userScore += currentVotable.getScore();
-					System.out.println("Here too");
+				}
+				if (questionOwner.equals(answerOwner)
+						&& !curAnswer.isBestAnswer()) {
+					userScore += currentVotable.getScore();
 				}
 			} else {
 				userScore += currentVotable.getScore();
