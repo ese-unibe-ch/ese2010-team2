@@ -3,6 +3,8 @@ package models;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -17,10 +19,10 @@ import models.comparators.ScoreComparator;
 public class DbManager {
 
 	/** All questions stored. */
-	private static ArrayList<Question> questions;
+	private static HashMap<Integer, Question> questions;
 
 	/** All answers stored. */
-	private static ArrayList<Answer> answers;
+	private static HashMap<Integer, Answer> answers;
 
 	/** All comments stored. */
 	private static ArrayList<Comment> comments;
@@ -58,8 +60,9 @@ public class DbManager {
 	 * Instantiates a new UserQuestionAnswerManager.
 	 */
 	private DbManager() {
-		questions = new ArrayList<Question>();
-		answers = new ArrayList<Answer>();
+		questions = new HashMap<Integer, Question>();
+
+		answers = new HashMap<Integer, Answer>();
 		comments = new ArrayList<Comment>();
 		users = new ArrayList<User>();
 		tags = new ArrayList<String>();
@@ -96,9 +99,11 @@ public class DbManager {
 	 *         false otherwise.
 	 */
 	public boolean checkQuestionDuplication(String content) {
-		if (questions.size() != 0) {
-			for (int i = 0; i < questions.size(); i++) {
-				if (content.equals(questions.get(i).getContent())) {
+		if (questions.isEmpty()) {
+			Iterator it = questions.values().iterator();
+			while (it.hasNext()) {
+				Question cur = (Question) it.next();
+				if (content.equals(cur.getContent())) {
 					return true;
 				}
 			}
@@ -128,32 +133,36 @@ public class DbManager {
 		users.remove(deleteUser);
 
 		// Delete all questions a user added
-		int i = 0;
-		while (i < DbManager.questions.size()) {
-			if (questions.get(i).getOwner().equals(deleteUser))
-				deleteQuestion(questions.get(i));
-			else
-				i++;
+		Iterator it = questions.values().iterator();
+		while (it.hasNext()) {
+			Question cur = (Question) it.next();
+			if (cur.getOwner().equals(deleteUser)) {
+				deleteQuestion(cur);
+			}
 		}
 
 		// Anonymize all questions a user edited
-		for (Question p : DbManager.questions) {
+		Iterator it1 = questions.values().iterator();
+		while (it1.hasNext()) {
+			Question p = (Question) it1.next();
 			if (p.getEditor() != p.getOwner()
 					|| p.getEditor().equals(deleteUser))
 				p.setEditor("anonymous");
 		}
 
 		// Delete all answers a user added
-		i = 0;
-		while (i < DbManager.answers.size()) {
-			if (answers.get(i).getOwner().equals(deleteUser))
-				deleteAnswer(answers.get(i));
-			else
-				i++;
+		Iterator it2 = answers.values().iterator();
+		while (it2.hasNext()) {
+			Answer p = (Answer) it2.next();
+			if (p.getOwner().equals(deleteUser)) {
+				deleteAnswer(p);
+			}
 		}
 
 		// Anonymize all answers a user edited
-		for (Post p : DbManager.answers) {
+		Iterator it3 = answers.values().iterator();
+		while (it3.hasNext()) {
+			Answer p = (Answer) it2.next();
 			if (p.getEditor() != p.getOwner()
 					&& p.getEditor().equals(deleteUser))
 				p.setEditor("anonymous");
@@ -164,8 +173,8 @@ public class DbManager {
 			if (!c.getOwner().equals(deleteUser))
 				updatedComments.add(c);
 		}
-		DbManager.comments.clear();
-		DbManager.comments.addAll(updatedComments);
+		comments.clear();
+		comments.addAll(updatedComments);
 	}
 
 	/**
@@ -180,7 +189,9 @@ public class DbManager {
 			}
 		}
 
-		for (Answer a : this.answers) {
+		Iterator it = answers.values().iterator();
+		while (it.hasNext()) {
+			Answer a = (Answer) it.next();
 			if (question.getAnswers().contains(a)) {
 				for (int i = 0; i <= a.getComments().size() - 1; i++) {
 					this.comments.remove(i);
@@ -191,7 +202,7 @@ public class DbManager {
 		for (Answer a : question.getAnswers()) {
 			deleteAnswer(a);
 		}
-		DbManager.questions.remove(question);
+		questions.remove(question.getId());
 	}
 
 	/**
@@ -206,7 +217,7 @@ public class DbManager {
 				this.comments.remove(comments.get(i));
 		}
 
-		DbManager.answers.remove(answer);
+		answers.remove(answer.getId());
 	}
 
 	/**
@@ -215,7 +226,7 @@ public class DbManager {
 	 * @param comment
 	 */
 	public void deleteComment(Comment comment) {
-		DbManager.comments.remove(comment);
+		comments.remove(comment);
 	}
 
 	/**
@@ -272,7 +283,9 @@ public class DbManager {
 	 */
 	public ArrayList<Answer> getAllAnswersByQuestionId(int id) {
 		ArrayList<Answer> questionAnswers = new ArrayList<Answer>();
-		for (Answer answer : answers) {
+		Iterator it = answers.values().iterator();
+		while (it.hasNext()) {
+			Answer answer = (Answer) it.next();
 			if (answer.getQuestionId() == id) {
 				questionAnswers.add(answer);
 			}
@@ -288,11 +301,9 @@ public class DbManager {
 	 * @return - the question with the id #id.
 	 */
 	public Question getQuestionById(int id) {
-		for (Question question : questions)
-			if (question.getId() == id)
-				return question;
-		return null;
+		return questions.get(id);
 	}
+
 
 	/**
 	 * Gets the answer with a certain id.
@@ -302,10 +313,7 @@ public class DbManager {
 	 * @return - the answer with the id #id.
 	 */
 	public Answer getAnswerById(int id) {
-		for (Answer answer : answers)
-			if (answer.getId() == id)
-				return answer;
-		return null;
+		return answers.get(id);
 	}
 
 	/**
@@ -328,10 +336,11 @@ public class DbManager {
 	 * @return - the questions sorted by score
 	 */
 	public ArrayList<Question> getQuestionsSortedByScore() {
-		ArrayList<Question> sortedQuestions = questions;
+		ArrayList<Question> sortedQuestions = new ArrayList<Question>();
+		sortedQuestions.addAll(questions.values());
 
-		Collections.sort(sortedQuestions, Collections
-				.reverseOrder(new ScoreComparator()));
+		Collections.sort(sortedQuestions,
+				Collections.reverseOrder(new ScoreComparator()));
 
 		return sortedQuestions;
 	}
@@ -389,7 +398,8 @@ public class DbManager {
 	 * @return - all questions sorted by date.
 	 */
 	public ArrayList<Question> getQuestionsSortedByDate() {
-		ArrayList<Question> sortedQuestions = this.getQuestions();
+		ArrayList<Question> sortedQuestions = new ArrayList<Question>();
+		sortedQuestions.addAll(questions.values());
 
 		Collections.sort(sortedQuestions, new DateComparator());
 
@@ -401,7 +411,8 @@ public class DbManager {
 	 * of answers, comments, votes)
 	 */
 	public ArrayList<Question> getQuestionsSortedByLastChangedDate() {
-		ArrayList<Question> sortedQuestions = this.getQuestions();
+		ArrayList<Question> sortedQuestions = new ArrayList<Question>();
+		sortedQuestions.addAll(questions.values());
 
 		Collections.sort(sortedQuestions, new ChangedDateComparator());
 
@@ -424,7 +435,7 @@ public class DbManager {
 				usersQuestions.add(currentQuestion);
 		}
 		return usersQuestions;
-	}
+		}
 
 	/**
 	 * Gets all comments to a certain question sorted by date.
@@ -602,12 +613,17 @@ public class DbManager {
 	 */
 	public ArrayList<Post> getVotablesByUserId(int userId) {
 		ArrayList<Post> usersVotables = new ArrayList<Post>();
-		for (Post currentQuestion : questions) {
-			if (currentQuestion.getOwner().getId() == userId) {
-				usersVotables.add(currentQuestion);
+		Iterator it = questions.values().iterator();
+
+		while (it.hasNext()) {
+			Question cur = (Question) it.next();
+			if (cur.getOwner().getId() == userId) {
+				usersVotables.add(cur);
 			}
 		}
-		for (Answer currentAnswer : answers) {
+		Iterator it1 = answers.values().iterator();
+		while (it1.hasNext()) {
+			Answer currentAnswer = (Answer) it1.next();
 			if (currentAnswer.getOwner().getId() == userId) {
 				usersVotables.add(currentAnswer);
 			}
@@ -657,14 +673,13 @@ public class DbManager {
 	 */
 	public void addQuestion(Question question) {
 		question.setId(questionIdCounter);
-		questions.add(question);
+		questions.put(question.getId(), question);
 		questionIdCounter++;
 	}
 
-	// ------------------------------------------------------------------------------------------------------
 	public void addQuestion(Question question, int id) {
 		question.setId(id);
-		questions.add(question);
+		questions.put(id, question);
 	}
 
 	/**
@@ -675,7 +690,7 @@ public class DbManager {
 	 */
 	public void addAnswer(Answer answer) {
 		answer.setId(answerIdCounter);
-		answers.add(answer);
+		answers.put(answer.getId(), answer);
 		answerIdCounter++;
 		this.getQuestionById(answer.getQuestionId()).notifyChange();
 	}
@@ -784,11 +799,15 @@ public class DbManager {
 	}
 
 	public ArrayList<Question> getQuestions() {
-		return questions;
+		ArrayList<Question> returnedQuestions = new ArrayList<Question>();
+		returnedQuestions.addAll(questions.values());
+		return returnedQuestions;
 	}
 
 	public ArrayList<Answer> getAnswers() {
-		return answers;
+		ArrayList<Answer> returnedAnswers = new ArrayList<Answer>();
+		returnedAnswers.addAll(answers.values());
+		return returnedAnswers;
 	}
 
 	public ArrayList<Comment> getComments() {

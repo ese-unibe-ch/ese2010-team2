@@ -118,6 +118,7 @@ public class UserController extends Controller {
 		// email must be changed for the new user name not the old, so you have
 		// to determine if the user name was changed.
 		String username;
+		@SuppressWarnings("unused")
 		boolean passwordChanged = false;
 		// When username doesn't change
 		if (name.equals("")) {

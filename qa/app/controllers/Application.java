@@ -22,16 +22,6 @@ public class Application extends Controller {
 		String userName = session.get("username");
 		int score = 0;
 
-		// Hinfällig infolge Wechsel auf session.isAdmin
-		// boolean isNotUser = false;
-		// if (userName != null) {
-		// String userGroup = manager.getUserByName(userName).getGroup()
-		// .toString();
-		// if (userGroup.equals("moderator") || userGroup.equals("admin")) {
-		// isNotUser = true;
-		// }
-		// }
-
 		boolean isChanged = true;
 		if (userName != null) {
 			User user = manager.getUserByName(userName);
