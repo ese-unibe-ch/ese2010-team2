@@ -90,3 +90,9 @@ POST			   /comment/{id}/like									  CommentController.like
 POST			   /comment/{id}/unlike									  CommentController.unlike
 
 POST				/setAvatar											  UserController.setAvatar
+
+# Catch all
+* 					/ 													  module:secure
+* 					/{controller}/{action} 								  {controller}.{action}
+
+
