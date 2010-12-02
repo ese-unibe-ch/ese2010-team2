@@ -26,6 +26,13 @@ public class BootStrap extends Job {
 		User user = new User("admin", "admin@admin.ch", "admin");
 		user.setGroup(UserGroups.admin);
 
+		User user1 = new User("moderator", "moderator@moderator.ch",
+				"moderator");
+		user.setGroup(UserGroups.moderator);
+
+		User user2 = new User("user", "user@user.ch", "user");
+		user.setGroup(UserGroups.user);
+
 		// ****** Loading small.xml sample data *******
 		File data = new File(Play.applicationPath.getAbsolutePath()
 				+ "/bootstrap/small.xml");
