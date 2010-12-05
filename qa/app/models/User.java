@@ -1,10 +1,17 @@
 package models;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
+
+import org.apache.commons.io.IOUtils;
+
+import play.Play;
 
 /**
  * The Class User provides all functionality that users have.
@@ -355,11 +362,40 @@ public class User {
 	}
 
 	/**
-	 * @param avatar
-	 *            File instance representing new avatar
+	 * Update or set user's avatar.
+	 * 
+	 * Copy image file from play tmp directory to our avatar directory, delete
+	 * old avatar if exists, update filename.
+	 * 
+	 * @param avatarFile
+	 * @throws Exception
 	 */
-	public void setAvatar(File avatar) {
-		this.avatar = avatar;
+	public void setAvatar(File avatarFile) throws Exception {
+		File avatarDir = new File(Play.applicationPath.getAbsolutePath()
+				+ "/public/images/avatars");
+
+		if (!avatarDir.exists()) {
+			avatarDir.mkdir();
+		} else {
+			if (hasAvatar()) {
+				File old = getAvatar();
+				if (!old.delete())
+					throw new IOException("Could not delete old avatar.");
+			}
+		}
+
+		avatar = new File(avatarDir.getPath() + "/" + avatarFile.getName());
+
+		try {
+			avatar.createNewFile();
+			FileInputStream input = new FileInputStream(avatarFile);
+			FileOutputStream output = new FileOutputStream(avatar);
+			IOUtils.copy(input, output);
+			output.close();
+			input.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setId(int userId) {
