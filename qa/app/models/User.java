@@ -1,5 +1,8 @@
 package models;
 
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.io.IOUtils;
 
@@ -364,9 +369,6 @@ public class User {
 	/**
 	 * Update or set user's avatar.
 	 * 
-	 * Copy image file from play tmp directory to our avatar directory, delete
-	 * old avatar if exists, update filename.
-	 * 
 	 * @param avatarFile
 	 * @throws Exception
 	 */
@@ -386,16 +388,30 @@ public class User {
 
 		avatar = new File(avatarDir.getPath() + "/" + avatarFile.getName());
 
-		try {
-			avatar.createNewFile();
-			FileInputStream input = new FileInputStream(avatarFile);
-			FileOutputStream output = new FileOutputStream(avatar);
-			IOUtils.copy(input, output);
-			output.close();
-			input.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		// Copy file from tmp directory
+		avatar.createNewFile();
+		FileInputStream input = new FileInputStream(avatarFile);
+		FileOutputStream output = new FileOutputStream(avatar);
+		IOUtils.copy(input, output);
+		output.close();
+		input.close();
+
+		// Resize image to 50x50
+		BufferedImage img = ImageIO.read(avatar);
+		BufferedImage tmp = new BufferedImage(50, 50,
+				BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2 = tmp.createGraphics();
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+				RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+		g2.drawImage(img, 0, 0, 50, 50, null);
+		g2.dispose();
+
+		// Write resized image back to disk
+		String filename = avatar.getName();
+		int lastDot = filename.lastIndexOf('.');
+		String extension = filename.substring(lastDot + 1);
+
+		ImageIO.write(tmp, extension, avatar);
 	}
 
 	public void setId(int userId) {
