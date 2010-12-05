@@ -4,6 +4,7 @@ window.onresize = resize;
 function resize() {
     $('#questions').height($(window).height()-140);
     $('#details').height($(window).height()-140);
+    $('#content').width($(window).width()-40);
 };
 
 function showAll() {
@@ -44,7 +45,7 @@ function showProfile(name) {
 
 function resetLayout() {
     $('#questions_box').show();
-    $('#details_box').width(560);
+    resize();
 }
 
 function submit_search() {

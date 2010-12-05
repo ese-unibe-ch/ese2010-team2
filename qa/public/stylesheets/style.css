@@ -75,8 +75,14 @@ td {
  * divisions
  */
 
-div.userbox {
+
+div.post_sidebar {
+	width: 15%;
 	float: right;
+	word-wrap: break;
+}
+
+div.userbox {
 }
 
 div.question {
@@ -118,17 +124,17 @@ div.comment {
 }
 
 div.question_text {
-	width: 75%;
 	margin: .2em 0 .2em 0;
 	border-top: thin solid #78E700;
 	border-bottom: thin solid #78E700;
+	white-space: normal;
 }
 
 div.answer_text {
-	width: 75%;
-	margin: .5em 0 .5em 0;
+	margin: .2em 0 .2em 0;
 	border-top: thin solid #FFF100;
 	border-bottom: thin solid #FFF100;
+	white-space: normal;
 }
 
 div.short_post {
@@ -195,8 +201,8 @@ div.log_entry {
 }
 
 div.votebox {
+	margin-bottom: 1em;
 	margin-right: 1.4em;
-	float: right;
 }
 
 div.toolbox {
@@ -283,7 +289,7 @@ span.date {
 }
 
 span.tag {
-	padding: .1em .4em .1em .4em;
+	padding: 0 .3em 0 .3em;
 	background: #ED1C24;
 	color: #FFF;
 }
@@ -320,6 +326,19 @@ div.form ul li {
 }
 
 div.form input[type="text"], input[type="password"] {
+}
+
+code {
+	overflow: auto;
+	border: thin solid #CCC;
+	background: #EEE;
+	padding: .1em .3em .1em .3em;
+}
+
+pre > code {
+	display: block;
+	border-left: thick solid #F00;
+	padding: ;
 }
 
 /*

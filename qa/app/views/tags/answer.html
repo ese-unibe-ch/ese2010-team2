@@ -1,11 +1,13 @@
 <div "answerbox">
-	#{if !_answer.ownerIs(session.uid) && _answer.isVoteable}
-	#{votebox post:_answer, mode:'answer', question:_question /}
-	#{/if}
+	<div class="post_sidebar">
+		#{if !_answer.ownerIs(session.uid) && _answer.isVoteable}
+		#{votebox post:_answer, mode:'answer', question:_question /}
+		#{/if}
+
+		#{userbox user:_answer.getOwner() /}
+	</div>
 
 	<div class="answer" id="answer-${_answer.getId()}">
-		#{userbox user:_answer.getOwner() /}
-
 		<span class="date">
 			Posted ${_answer.getTimePassedSincePosting()} ago
 			#{if _answer.getEditor()!=_answer.getOwner()}

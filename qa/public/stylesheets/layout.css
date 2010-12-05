@@ -10,33 +10,29 @@
 }
 
 #content {
-	width: 1060px;
+	width: 98%;
 	margin: 0 auto;
 }
 
 #questions_box {
-	width: 480px;
+	width: 35%;
 	margin: 0;
 	padding: 0;
 	float: left;
 }
 
 #questions {
-	height: 510px;
-	padding: .6em;
+	padding: .3em;
 	overflow: auto;
 }
 
 #details_box {
-	width: 560px;
+	width: 63%;
 	margin: 0;
-	margin-left: .5em;
 	float: right;
-
 }
 
 #details {
-	height: 510px;
 	padding: .3em;
 	overflow: auto;
 }
