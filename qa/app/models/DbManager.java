@@ -38,6 +38,9 @@ public class DbManager {
 
 	/** All likes have been set by users on different comments. */
 	private static ArrayList<Like> likes;
+	
+	/** All admin warning. */
+	private static ArrayList<Warning> warnings;
 
 	/** 4 Counters for the Id's */
 	private int userCounterIdCounter;
@@ -724,6 +727,27 @@ public class DbManager {
 		this.emailAddresses.add(email);
 	}
 
+	public void addWarning(Warning newWarning) {
+		boolean isContained = false;
+		for (Warning currentWarning : warnings) {
+			if (currentWarning.getInappropriatePost().equals(newWarning.getInappropriatePost())) {
+				currentWarning.incrementCounter();
+				isContained = true;
+			}
+		}
+		if (!isContained){
+			warnings.add(newWarning);
+		}
+	}
+	
+	public ArrayList<Warning> getWarnings(){
+		return warnings;
+	}
+	
+	public void deleteWarning(Warning deletedWarning) {
+		warnings.remove(deletedWarning);
+	}
+	
 	/**
 	 * Resets all counters to 0
 	 */
