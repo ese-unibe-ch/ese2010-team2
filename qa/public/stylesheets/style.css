@@ -238,6 +238,15 @@ div.success {
 	background: #67E46F;
 }
 
+div.preview {
+	padding: .5em;
+	background: #CCC;
+	width: 100px;
+	height: 100px;
+	z-index: 999;
+	border: thin solid #000;
+}
+
 /*
  * paragraphs
  */

@@ -43,6 +43,19 @@ function showProfile(name) {
     });
 }
 
+function preview(a) {
+	var m = '<div class="preview" id="preview" \
+	style="position: absolute; top: ' + event.pageY + 'px; left: ' + event.pageX + 'px;"> \
+	<img src="' + a.href + '" width="100" height="100" /> \
+	</div>';
+
+	$(a).parent().append(m);
+}
+
+function hide_preview() {
+	$("#preview").detach();
+}
+
 function resetLayout() {
     $('#questions_box').show();
     resize();

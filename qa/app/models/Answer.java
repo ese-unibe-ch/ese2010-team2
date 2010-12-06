@@ -35,6 +35,9 @@ public class Answer extends Post {
 		isBestAnswer = false;
 		date = new Date();
 		question.setLastChanged(new Date());
+
+		stripImageTags();
+
 		if (addAnswerToList) {
 			oldVersions = new ArrayList<Post>();
 			user.addActivity("Answered question <" + question.getContent()
