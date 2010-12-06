@@ -251,7 +251,7 @@ p.hide { display: none; }
 p.score {
 	font-size: x-large;
 	font-weight: bold;
-	margin: .4em;
+	margin: .2em;
 	margin-left: .3em;
 	padding: 0;
 }
@@ -335,10 +335,15 @@ code {
 	padding: .1em .3em .1em .3em;
 }
 
+pre {
+	overflow: auto;
+}
+
 pre > code {
 	display: block;
 	border-left: thick solid #F00;
-	padding: ;
+	padding: .1em;
+	white-space: pre;
 }
 
 /*
