@@ -199,7 +199,7 @@ public abstract class Post {
 	/**
 	 * Remove img tags from content.
 	 */
-	private void stripImageTags() {
+	protected void stripImageTags() {
 		Pattern p = Pattern
 				.compile("<img[\\s]+src=([\"]?)([:\\w/._]+)([\"]?)[\\s\\w=\"/.-]+>");
 		Matcher m = p.matcher(content);
