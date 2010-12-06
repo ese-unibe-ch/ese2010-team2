@@ -70,6 +70,7 @@ public class DbManager {
 		users = new ArrayList<User>();
 		tags = new ArrayList<String>();
 		likes = new ArrayList<Like>();
+		warnings = new ArrayList<Warning>();
 		this.userCounterIdCounter = 0;
 		this.questionIdCounter = 0;
 		this.answerIdCounter = 0;
@@ -885,6 +886,10 @@ public class DbManager {
 
 	public void clearAnswerMap() {
 		answers.clear();
+	}
+	
+	public void clearWarnings() {
+		warnings.clear();
 	}
 
 }

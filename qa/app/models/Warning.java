@@ -2,12 +2,14 @@ package models;
 
 public class Warning {
 	
+	DbManager manager = DbManager.getInstance();
 	private Post inappropriatePost;
 	private int warningCounter;
 	
 	public Warning(Post inappropriatePost) {
 		this.inappropriatePost = inappropriatePost;
 		this.warningCounter = 1;
+		manager.addWarning(this);
 	}
 
 	public void incrementCounter() {
