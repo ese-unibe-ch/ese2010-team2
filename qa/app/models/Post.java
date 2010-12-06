@@ -3,6 +3,8 @@ package models;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.petebevin.markdown.MarkdownProcessor;
 
@@ -145,14 +147,6 @@ public abstract class Post {
 	}
 
 	/**
-	 * 
-	 * @return parsed markdown string, so either plain text or HTML.
-	 */
-	public String getTeaserHtml() {
-		return markdownProcessor.markdown(content.substring(0, 50));
-	}
-
-	/**
 	 * Gives an approximative measure of the amount of time passed since this
 	 * post has been created.
 	 *
@@ -202,6 +196,17 @@ public abstract class Post {
 		return s.toString();
 	}
 
+	/**
+	 * Remove img tags from content.
+	 */
+	protected void stripImageTags() {
+		Pattern p = Pattern
+				.compile("<img[\\s]+src=([\"]?)([:\\w/._]+)([\"]?)[\\s\\w=\"/.-]+>");
+		Matcher m = p.matcher(content);
+		content = m
+				.replaceAll("<a href='$2' onmouseover='preview(this)' onmouseout='hide_preview()'>$2</a>");
+	}
+
 	/** Getters */
 	public String getContent() {
 		return this.content;
@@ -236,6 +241,7 @@ public abstract class Post {
 	protected void setContent(String content, String uname) {
 		this.editedBy=manager.getUserByName(uname);
 		this.content = content;
+		stripImageTags();
 	}
 
 	public void setId(int id) {

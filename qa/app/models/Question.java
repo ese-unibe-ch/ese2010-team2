@@ -40,6 +40,8 @@ public class Question extends Post {
 		this.score = 0;
 		this.title = title;
 
+		stripImageTags();
+
 		date = new Date();
 		lastChangedDate = new Date();
 		if (addQuestionToList) {
