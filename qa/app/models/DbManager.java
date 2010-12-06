@@ -774,8 +774,8 @@ public class DbManager {
 	/**
 	 * Saves a reputation from a specific user and day
 	 */
-	public void addReputation(User user, int reputation) {
-		user.addReputation(reputation);
+	public void addReputation(User user, int reputation, String votingUser) {
+		user.addReputation(votingUser, reputation);
 	}
 
 	/**

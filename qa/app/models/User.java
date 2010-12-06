@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
@@ -27,16 +28,18 @@ public class User {
 	private String email;
 	private String password;
 	private int id;
-	
+
 	/** The current reputation. */
 	private int score;
-	
+	private HashMap reputation = new HashMap();
+
 	/** The last know reputation */
 	private int lastScore;
-	
+	private String lastScoreUserName="";
+
 	/** The reputation over time */
 	private LinkedList<Integer> reputations = new LinkedList<Integer>();
-	
+
 	/** The last time reputations were updated */
 	private GregorianCalendar lastReputationUpdate;
 
@@ -54,10 +57,10 @@ public class User {
 
 	/** The application-manager. */
 	private static DbManager manager = DbManager.getInstance();
-	
+
 	/** A list of recent changes */
 	private ArrayList<Notification> notifications;
-	
+
 	/**
 	 * Instantiates a new user.
 	 * 
@@ -109,12 +112,10 @@ public class User {
 		ArrayList<Post> usersVotables = manager.getVotablesByUserId(this
 				.getId());
 		for (Post currentVotable : usersVotables) {
-			if (currentVotable.getClass().toString()
-					.equals("class models.Answer")) {
+			if (currentVotable instanceof models.Answer) {
 				Answer curAnswer = (Answer) currentVotable;
-				String questionOwner = manager
-						.getQuestionById(curAnswer.getQuestionId()).getOwner()
-						.getName();
+				String questionOwner = manager.getQuestionById(
+						curAnswer.getQuestionId()).getOwner().getName();
 				String answerOwner = curAnswer.getOwner().getName();
 				if (!questionOwner.equals(answerOwner)) {
 					userScore += currentVotable.getScore();
@@ -160,25 +161,45 @@ public class User {
 		int counter = now.get(Calendar.DAY_OF_YEAR)
 				- this.lastReputationUpdate.get(Calendar.DAY_OF_YEAR) - 1;
 		for (int i = 0; i < counter; i++) {
-			this.addReputation(this.lastScore);
+			this.addReputation(this.lastScoreUserName, this.lastScore);
 		}
 		this.setLastTimeOfReputation(now);
 		this.lastScore = this.getScore();
-	}
-	 
-	/**
-	 * Adds a specific reputations to the reputations
-	 * of this user.
-	 * @param reputation
-	 * 				- the reputations as an integer.
-	 */
-	public void addReputation(int reputation) {
-		this.reputations.addFirst(reputation);
+		this.lastScoreUserName = "";
 	}
 
 	/**
-	 * Adds a notification to the notifications of
-	 * this user.
+	 * Adds a specific reputations to the reputations of this user given the
+	 * user of who's vote the increase or decrease of reputation results. If a
+	 * specific user exceeds the max percentage of points on the total
+	 * reputation, the additional reputation is being ignored.
+	 * 
+	 * @param username
+	 *            - the user who is responsible for the new reputation.
+	 * @param reputation
+	 *            - the reputations as an integer.
+	 */
+	public void addReputation(String username, int reputation) {
+		// Defines the percentage of points a user can add to the reputation of
+		// another user.
+		final double QUOTE = 0.5;
+		final int MIN_QUOTE=10;
+		if (this.reputation.containsKey(username)) {
+			int userPoints = Integer.parseInt(this.reputation.get(username)
+					.toString());
+			if (this.score<=MIN_QUOTE || userPoints / this.score < QUOTE ) {
+				this.reputation.put(username, userPoints + reputation);
+				this.reputations.addFirst(reputation);
+			}
+
+		} else if (!username.isEmpty()){
+			this.reputation.put(username, reputation);
+			this.reputations.addFirst(reputation);
+		}
+	}
+
+	/**
+	 * Adds a notification to the notifications of this user.
 	 * 
 	 * @param newChange
 	 */
@@ -187,8 +208,7 @@ public class User {
 	}
 
 	/**
-	 * Removes a specific notification from the notifictions
-	 * ot this user.
+	 * Removes a specific notification from the notifictions ot this user.
 	 * 
 	 * @param oldChange
 	 */
@@ -202,7 +222,7 @@ public class User {
 	public void clearAllNotifications() {
 		this.notifications.clear();
 	}
-	
+
 	/**
 	 * Notifies this user about a change
 	 * 
@@ -214,8 +234,8 @@ public class User {
 	}
 
 	/**
-	 * @return	-true if there is at least one notifiaction
-	 * 			-false if there aren't any notifications
+	 * @return -true if there is at least one notifiaction -false if there
+	 *         aren't any notifications
 	 */
 	public boolean isChanged() {
 		return !notifications.isEmpty();
@@ -274,8 +294,8 @@ public class User {
 		this.computeScore();
 		return score;
 	}
-	
-	public UserGroups getGroup(){
+
+	public UserGroups getGroup() {
 		return this.userGroup;
 	}
 
@@ -422,8 +442,9 @@ public class User {
 		this.lastReputationUpdate = date;
 	}
 
-	public void setLastReputation(int reputation) {
+	public void setLastReputation(String username, int reputation) {
 		this.lastScore = reputation;
+		this.lastScoreUserName=username;
 	}
 
 	/**

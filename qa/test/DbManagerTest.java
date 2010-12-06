@@ -449,7 +449,7 @@ public class DbManagerTest extends UnitTest {
 	@Test
 	public void shouldCorrectlyAddAndAccessReputation() {
 		User reputatedUser = new User("user", "user@ese.ch", "user");
-		manager.addReputation(reputatedUser, 50);
+		manager.addReputation(reputatedUser, 50, "admin");
 		assertEquals(50, manager.getReputationByUserAndDate(reputatedUser,
 				new Date()));
 	}
@@ -459,7 +459,7 @@ public class DbManagerTest extends UnitTest {
 		User reputatedUser = new User("user", "user@ese.ch", "user");
 		int[] reputations = { 10, 20, 30, 40, 50 };
 		for (int i = 0; i < 5; i++) {
-			manager.addReputation(reputatedUser, reputations[i]);
+			manager.addReputation(reputatedUser, reputations[i],"user"+i);
 		}
 		ArrayList<Integer> reps = manager.getReputations(reputatedUser, 5);
 		assertEquals((Integer) 50, reps.get(0));
