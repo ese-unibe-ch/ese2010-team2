@@ -131,6 +131,12 @@ public class Admin extends Controller {
 	}
 	
 	public static void showWarnings(){
-		render();
+		ArrayList<Warning> warnings = manager.getWarnings();
+		render(warnings);
+	}
+	
+	public static void deleteWarning(int wid) {
+		manager.deleteWarning(manager.getWarningById(wid));
+		redirect("/admin/showwarnings");
 	}
 }

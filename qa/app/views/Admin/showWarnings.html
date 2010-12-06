@@ -1,2 +1,30 @@
 #{extends 'main.html' /}
 #{set title:'ESE KB - reported problems' /}
+#{if warnings}
+	<table>
+		#{list items:warnings, as:'warning'}
+			<tr>
+				<td>
+					<a class="show" href="/question/${warning.getInappropriatePost().getId()}
+					/answers/">${warning.getInappropriatePost().getTitle()}</a>
+				</td>
+				<td>
+					${warning.getWarningCounter()}
+				</td>
+				<td>
+					<form action="@{Admin.deleteWarning(wid)}" method="GET">
+						<input type="hidden" name="wid" value="${warning.getId()}"></input>
+						<input type="submit" value="clear" />	
+					</form>
+					<form action="@{MutateQuestionController.deleteQuestion(qid)}" method="GET">
+						<input type="hidden" name="qid" value="${warning.getInappropriatePost().getId()}"></input>
+						<input type="submit" value="delete Question" />	
+					</form>
+				</td>
+			</tr>
+		#{/list}
+	</table>
+#{/if}
+#{else}
+	No complains yet...
+#{/else}

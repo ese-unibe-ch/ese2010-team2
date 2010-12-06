@@ -1,10 +1,11 @@
 package models;
 
-public class Warning {
+public class Warning implements Comparable<Warning>{
 	
 	DbManager manager = DbManager.getInstance();
 	private Post inappropriatePost;
 	private int warningCounter;
+	private int id;
 	
 	public Warning(Post inappropriatePost) {
 		this.inappropriatePost = inappropriatePost;
@@ -32,5 +33,17 @@ public class Warning {
 
 	public int getWarningCounter() {
 		return warningCounter;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public int compareTo(Warning comparedWarning) {
+		return comparedWarning.getWarningCounter() - this.getWarningCounter();
 	}
 }

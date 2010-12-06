@@ -47,6 +47,7 @@ public class DbManager {
 	private int questionIdCounter;
 	private int answerIdCounter;
 	private int commentIdCounter;
+	private int warningIdCounter;
 
 	private static final DbManager INSTANCE = new DbManager();
 
@@ -738,11 +739,22 @@ public class DbManager {
 		}
 		if (!isContained){
 			warnings.add(newWarning);
+			newWarning.setId(warningIdCounter);
+			warningIdCounter++;
 		}
 	}
 	
 	public ArrayList<Warning> getWarnings(){
+		Collections.sort(warnings);
 		return warnings;
+	}
+	
+	public Warning getWarningById(int wid) {
+		for (Warning currentWarning : warnings) {
+			if (currentWarning.getId() == wid)
+				return currentWarning;
+		}
+		return null;
 	}
 	
 	public void deleteWarning(Warning deletedWarning) {
