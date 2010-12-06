@@ -28,10 +28,10 @@ public class BootStrap extends Job {
 
 		User user1 = new User("moderator", "moderator@moderator.ch",
 				"moderator");
-		user.setGroup(UserGroups.moderator);
+		user1.setGroup(UserGroups.moderator);
 
 		User user2 = new User("user", "user@user.ch", "user");
-		user.setGroup(UserGroups.user);
+		user2.setGroup(UserGroups.user);
 
 		// ****** Loading small.xml sample data *******
 		File data = new File(Play.applicationPath.getAbsolutePath()

@@ -27,6 +27,7 @@
 			#{if _question.ownerIs(session.uid) || session.get("username")=="admin" || _question.isModerator(session.get("username"))}
 			<a href="@{MutateQuestionController.showEditQuestionForm(_question.getId())}" title="edit question"><img src="/public/images/edit.png" alt="edit question" /></a>
 			<a href="@{MutateQuestionController.deleteQuestion(_question.getId())}" title="delete question"><img src="/public/images/delete.png" alt="delete question" /></a>
+			<a href="@{Admin.reportQuestion(_question.getId())}" title="report question"><img src="/public/images/report.png" alt="report question" /></a>
 			#{/if}
 		</div>
 		#{/if}

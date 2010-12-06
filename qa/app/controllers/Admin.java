@@ -6,8 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import models.DbManager;
-import models.User;
+import models.*;
 
 import org.apache.commons.io.IOUtils;
 
@@ -124,5 +123,14 @@ public class Admin extends Controller {
 
 		render(message);
 
+	}
+	
+	public static void reportQuestion(int qid) {
+		new Warning(manager.getQuestionById(qid));
+		redirect("/question/" + qid + "/answers/");
+	}
+	
+	public static void showWarnings(){
+		render();
 	}
 }
