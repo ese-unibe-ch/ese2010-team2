@@ -360,12 +360,12 @@ public class DbManager {
 	/**
 	 * Gets the answers to a certain question sorted by their score.
 	 * 
-	 * @param id
+	 * @param userId
 	 *            - the id of the question you are looking for the answers to.
 	 * @return - all answers sorted by their score.
 	 */
-	public ArrayList<Answer> getAnswersSortedByScore(int id) {
-		ArrayList<Answer> sortedAnswers = this.getAllAnswersByQuestionId(id);
+	public ArrayList<Answer> getAnswersSortedByScore(int userId) {
+		ArrayList<Answer> sortedAnswers = this.getAllAnswersByQuestionId(userId);
 
 		Collections.sort(sortedAnswers, Collections
 				.reverseOrder(new ScoreComparator()));
@@ -385,6 +385,24 @@ public class DbManager {
 
 		return sortedAnswers;
 	}
+
+	/**
+	 * Gets all answers sorted by date and then sorted by score.
+	 * 
+	 * @return - all answers sorted by date and then by score.
+	 */
+	public ArrayList<Answer> getAnswersSortedByDateByScore(int userId) {
+		ArrayList<Answer> sortedAnswers = this
+				.getAllAnswersByQuestionId(userId);
+
+		Collections.sort(sortedAnswers,
+				Collections.reverseOrder(new DateComparator()));
+		Collections.sort(sortedAnswers,
+				Collections.reverseOrder(new ScoreComparator()));
+
+		return sortedAnswers;
+	}
+
 
 	/**
 	 * Gets all answers from a specific user sorted by Date

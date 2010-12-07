@@ -29,7 +29,8 @@ public class DisplayQuestionController extends Controller {
 	public static void showAnswers(String id, String newAnswer) {
 		int intId = Integer.parseInt(id);
 		String randomID = Codec.UUID();
-		ArrayList<Answer> answers = manager.getAnswersSortedByScore(intId);
+		ArrayList<Answer> answers = manager
+				.getAnswersSortedByDateByScore(intId);
 		Question question = manager.getQuestionById(intId);
 
 		if (answers.size() == 0) {
