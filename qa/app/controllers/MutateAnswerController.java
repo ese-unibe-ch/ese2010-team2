@@ -13,13 +13,14 @@ import play.mvc.Controller;
 import play.mvc.With;
 
 /**
- * This Controller manages the mutation of answers, like add,
- * edit and delete answers.
+ * This Controller manages the mutation of answers, like add, edit and delete
+ * answers.
  */
 @With(Secure.class)
 public class MutateAnswerController extends Controller {
-	
+
 	private static DbManager manager = DbManager.getInstance();
+
 	public static void showEditAnswerForm(int answerId, int qid,
 			String newContent) {
 		Answer answer = manager.getAnswerById(answerId);
@@ -42,21 +43,25 @@ public class MutateAnswerController extends Controller {
 				session.get("username"));
 		redirect("/question/" + qid + "/answers/");
 	}
-	
-	public static void deleteAnswer(int aid, int qid){
+
+	public static void deleteAnswer(int aid, int qid) {
 		Answer answer = manager.getAnswerById(aid);
 		manager.deleteAnswer(answer);
 		redirect("/question/" + qid + "/answers/");
 	}
-	
-	public static void addAnswer(String qid, String newAnswer, String code, String randomID) {
+
+	public static void addAnswer(String qid, String newAnswer, String code,
+			String randomID) {
 		int intId = Integer.parseInt(qid);
 		User user = manager.getUserByName(session.get("username"));
-		validation.equals(code, Cache.get(randomID));
+
+		// To disable captcha-check for answering questions, comment the line
+		// below
+		 validation.equals(code, Cache.get(randomID));
 		if (newAnswer.equals("") || newAnswer.equals(" ")) {
 			flash.error("Your answer is empty.");
 			DisplayQuestionController.showAnswers(qid, newAnswer);
-		} else if(validation.hasErrors()){
+		} else if (validation.hasErrors()) {
 			flash.error("Please check your code.");
 			DisplayQuestionController.showAnswers(qid, newAnswer);
 		} else {
@@ -81,34 +86,34 @@ public class MutateAnswerController extends Controller {
 		Vote oldVote = answer.getVoteForUser(user);
 		boolean check = oldVote.voteChangeable();
 		answer.userVotedForPost(user);
-		if(answer.checkUserVotedForPost(user)==true && check == false){
+		if (answer.checkUserVotedForPost(user) == true && check == false) {
 			manager.updateReputation(answer.getOwner());
 			flash.error("You already voted for this post !");
-//			render(aid, qid);
+			// render(aid, qid);
 		}
-		if(vote == 1 && check == true && oldVote.getVote()==0){
+		if (vote == 1 && check == true && oldVote.getVote() == 0) {
 			oldVote.setVote(1);
 			answer.vote(oldVote);
-			flash.success("You're current vote is "+oldVote.getVote());
-//			render(aid, qid);
+			flash.success("You're current vote is " + oldVote.getVote());
+			// render(aid, qid);
 		}
-		if(vote == 1 && check == true && oldVote.getVote()==-1){
+		if (vote == 1 && check == true && oldVote.getVote() == -1) {
 			oldVote.setVote(0);
 			answer.vote(oldVote);
-			flash.success("You're current vote is "+oldVote.getVote());
-//			render(aid, qid);
+			flash.success("You're current vote is " + oldVote.getVote());
+			// render(aid, qid);
 		}
-		if(vote == -1 && check == true && oldVote.getVote()==0){
+		if (vote == -1 && check == true && oldVote.getVote() == 0) {
 			oldVote.setVote(-1);
 			answer.vote(oldVote);
-			flash.success("You're current vote is "+oldVote.getVote());
-//			render(aid, qid);
+			flash.success("You're current vote is " + oldVote.getVote());
+			// render(aid, qid);
 		}
-		if(vote == -1 && check == true && oldVote.getVote()==1){
+		if (vote == -1 && check == true && oldVote.getVote() == 1) {
 			oldVote.setVote(0);
 			answer.vote(oldVote);
-			flash.success("You're current vote is "+oldVote.getVote());
-//			render(aid, qid);
+			flash.success("You're current vote is " + oldVote.getVote());
+			// render(aid, qid);
 		}
 		redirect("/question/" + qid + "/answers/");
 	}
@@ -120,7 +125,7 @@ public class MutateAnswerController extends Controller {
 		Post question = manager.getQuestionById(intId);
 		render(answers, question, randomID);
 	}
-	
+
 	public static void restoreAnswer(int actualId, String oldContent) {
 		String uname = session.get("username");
 		Answer actualAnswer = manager.getAnswerById(actualId);
