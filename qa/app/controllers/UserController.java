@@ -30,11 +30,10 @@ public class UserController extends Controller {
 		validation.equals(code, Cache.get(randomID));
 		if (name.equals("")) {
 			flash.error("Please insert a name!");
-			UserController.showRegister(name,
-					password, password2, email);
+			UserController.showRegister(name, password, password2, email);
 		} else if (manager.checkUserNameIsOccupied(name)) {
 			flash.error("Sorry, this user already exists");
-			UserController.showRegister("",	password, password2, email);
+			UserController.showRegister("", password, password2, email);
 		} else if (email.equals("") || !email.contains("@")
 				|| !email.contains(".")) {
 			flash.error("Please enter a valid email address!");
@@ -50,6 +49,7 @@ public class UserController extends Controller {
 			UserController.showRegister(name, password, password2, email);
 		} else {
 			User user = new User(name, email, password);
+			Mails.confirm(user);
 			Cache.delete(randomID);
 			session.put("uid", user.getId());
 			session.put("username", name);
@@ -61,8 +61,8 @@ public class UserController extends Controller {
 	 * Renders the registration form with the proper error message to the user
 	 * due to is wrong input.
 	 */
-	public static void showRegister(String name,
-			String password, String password2, String email) {
+	public static void showRegister(String name, String password,
+			String password2, String email) {
 		String randomID = Codec.UUID();
 		render(name, password, password2, email, randomID);
 	}
@@ -102,9 +102,8 @@ public class UserController extends Controller {
 	 */
 	public static void editUserProfile(String name, String birthdate,
 			String email, String phone, String oldPassword, String password,
-			String password2,
-			String street, String town, String hobbies, String moto,
-			String background, String quote) throws Throwable {
+			String password2, String street, String town, String hobbies,
+			String moto, String background, String quote) throws Throwable {
 
 		// This block will be used when changing the user name and one of the
 		// following attributes e.g. email
@@ -147,7 +146,8 @@ public class UserController extends Controller {
 		if (!(password.equals("") && password2.equals("") && oldPassword
 				.equals(""))) {
 			// Only when old password is correct new password will be changed.
-			if (manager.getUserByName(username).getPassword().equals(oldPassword)) {
+			if (manager.getUserByName(username).getPassword()
+					.equals(oldPassword)) {
 				// Checks if the new password is similar in both fields
 				if (!password.equals("") && !password2.equals("")) {
 					if (password.equals(password2)) {
@@ -212,8 +212,7 @@ public class UserController extends Controller {
 		if (!username.equals(session.get("username"))) {
 			session.put("username", username);
 			redirect("/showUser/" + session.get("username"));
-		}
-		else {
+		} else {
 			redirect("/showUser/" + session.get("username"));
 		}
 	}
