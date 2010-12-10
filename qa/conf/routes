@@ -20,7 +20,7 @@ GET				   /search												  Application.search
 GET     		   /captcha				                                  Application.captcha
 
 #UserController
-GET                /showRegister                                    	  UserController.showRegister
+GET                /register                                   	          UserController.showRegister
 GET				   /editUserProfile										  UserController.editUserProfile
 GET				   /showUserProfile										  UserController.showUserProfile
 GET                /showUser/{userName}                                   UserController.showUser
