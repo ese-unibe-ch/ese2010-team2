@@ -57,7 +57,7 @@ public class MutateAnswerController extends Controller {
 
 		// To disable captcha-check for answering questions, comment the line
 		// below
-		 validation.equals(code, Cache.get(randomID));
+//		 validation.equals(code, Cache.get(randomID));
 		if (newAnswer.equals("") || newAnswer.equals(" ")) {
 			flash.error("Your answer is empty.");
 			DisplayQuestionController.showAnswers(qid, newAnswer);
