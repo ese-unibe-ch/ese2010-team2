@@ -35,7 +35,7 @@ public class User {
 
 	/** The last know reputation */
 	private int lastScore;
-	private String lastScoreUserName="";
+	private String lastScoreUserName = "";
 
 	/** The reputation over time */
 	private LinkedList<Integer> reputations = new LinkedList<Integer>();
@@ -183,16 +183,16 @@ public class User {
 		// Defines the percentage of points a user can add to the reputation of
 		// another user.
 		final double QUOTE = 0.5;
-		final int MIN_QUOTE=10;
+		final int MIN_REPUTATION = 15;
 		if (this.reputation.containsKey(username)) {
 			int userPoints = Integer.parseInt(this.reputation.get(username)
 					.toString());
-			if (this.score<=MIN_QUOTE || userPoints / this.score < QUOTE ) {
+			if (this.score <= MIN_REPUTATION || userPoints / this.score < QUOTE) {
 				this.reputation.put(username, userPoints + reputation);
 				this.reputations.addFirst(reputation);
 			}
 
-		} else if (!username.isEmpty()){
+		} else if (!username.isEmpty()) {
 			this.reputation.put(username, reputation);
 			this.reputations.addFirst(reputation);
 		}
@@ -444,7 +444,7 @@ public class User {
 
 	public void setLastReputation(String username, int reputation) {
 		this.lastScore = reputation;
-		this.lastScoreUserName=username;
+		this.lastScoreUserName = username;
 	}
 
 	/**
