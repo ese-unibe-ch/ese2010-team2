@@ -19,6 +19,7 @@ import play.mvc.Controller;
 public class UserController extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
+	private static User userValidation;
 
 	/**
 	 * Check when a new User is registered if the User's Input is correct
@@ -50,11 +51,19 @@ public class UserController extends Controller {
 		} else {
 			User user = new User(name, email, password);
 			Mails.confirm(user);
+			flash.success("Please check your email");
 			Cache.delete(randomID);
-			session.put("uid", user.getId());
-			session.put("username", name);
+			// session.put("uid", user.getId());
+			// session.put("username", name);
+			userValidation = manager.getUserByName(name);
 			Secure.redirectToOriginalURL();
 		}
+	}
+
+	public static void finishRegistration() {
+		session.put("uid", userValidation.getId());
+		session.put("username", userValidation.getName());
+		redirect("/showUser/" + userValidation.getName());
 	}
 
 	/**
