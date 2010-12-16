@@ -13,7 +13,7 @@
         	#{/else}
         	<p class="score">${_post.getScore()}</p>
         	#{if _post.getcurrentVote(session.get("username")) == -1}
-        		<a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/up">
+        		<a href="/question/${_question.getId()}/answer/${_post.getId()}/vote/down">
                     <img src="/public/images/VotedDown.png" alt="Vote Down" title="vote down" width="30" height="15" />
                 </a>
         	#{/if}
@@ -36,7 +36,7 @@
         	#{/else}
         	<p class="score">${_post.getScore()}</p>
         	#{if _post.getcurrentVote(session.get("username")) == -1}
-        		<a href="/question/${_post.getId()}/vote/up">
+        		<a href="/question/${_post.getId()}/vote/down">
                     <img src="/public/images/VotedDown.png" alt="Vote Down" title="Vote Down" width="30" height="15" />
                 </a>
         	#{/if}
