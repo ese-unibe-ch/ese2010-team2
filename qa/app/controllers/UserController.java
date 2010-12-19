@@ -19,7 +19,6 @@ import play.mvc.Controller;
 public class UserController extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
-	private static User userValidation;
 
 	/**
 	 * Check when a new User is registered if the User's Input is correct
@@ -50,20 +49,24 @@ public class UserController extends Controller {
 			UserController.showRegister(name, password, password2, email);
 		} else {
 			User user = new User(name, email, password);
+			user.setFlag(manager.getUserByName(name));
 			Mails.confirm(user);
 			flash.success("Please check your email");
 			Cache.delete(randomID);
 			// session.put("uid", user.getId());
 			// session.put("username", name);
-			userValidation = manager.getUserByName(name);
 			Secure.redirectToOriginalURL();
 		}
 	}
 
-	public static void finishRegistration() {
-		session.put("uid", userValidation.getId());
-		session.put("username", userValidation.getName());
-		redirect("/showUser/" + userValidation.getName());
+	public static void finishRegistration(String flaggedUserName) {
+		if (manager.checkUserNameIsOccupied(flaggedUserName)) {
+			User user = manager.getUserByName(flaggedUserName);
+			user.unFlag(user);
+			session.put("uid", user.getId());
+			session.put("username", user.getName());
+			render(user);
+		}
 	}
 
 	/**

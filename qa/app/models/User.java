@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -114,8 +115,9 @@ public class User {
 		for (Post currentVotable : usersVotables) {
 			if (currentVotable instanceof models.Answer) {
 				Answer curAnswer = (Answer) currentVotable;
-				String questionOwner = manager.getQuestionById(
-						curAnswer.getQuestionId()).getOwner().getName();
+				String questionOwner = manager
+						.getQuestionById(curAnswer.getQuestionId()).getOwner()
+						.getName();
 				String answerOwner = curAnswer.getOwner().getName();
 				if (!questionOwner.equals(answerOwner)) {
 					userScore += currentVotable.getScore();
@@ -239,6 +241,16 @@ public class User {
 	 */
 	public boolean isChanged() {
 		return !notifications.isEmpty();
+	}
+
+	public void setFlag(User user) {
+		Random generator = new Random();
+		int randomId = generator.nextInt(899999999) + 100000000;
+		user.setName(name + Integer.toString(randomId));
+	}
+
+	public void unFlag(User user) {
+		user.setName(name.substring(0, name.length() - 9));
 	}
 
 	/** Getters */

@@ -24,7 +24,7 @@ GET                /register                                   	          UserCo
 GET				   /editUserProfile										  UserController.editUserProfile
 GET				   /showUserProfile										  UserController.showUserProfile
 GET                /showUser/{userName}                                   UserController.showUser
-GET				   /finishRegistration									  UserController.finishRegistration
+GET				   /finishRegistration/{flaggedUserName}				  UserController.finishRegistration
 
 #PostController
 GET				   /{type}/{id}/history									  PostController.showVersionHistory
