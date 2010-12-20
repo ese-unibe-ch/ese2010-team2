@@ -33,6 +33,7 @@ public class User {
 	/** The current reputation. */
 	private int score;
 	private HashMap reputation = new HashMap();
+	private HashMap blockedReputation = new HashMap();
 
 	/** The last know reputation */
 	private int lastScore;
@@ -115,9 +116,8 @@ public class User {
 		for (Post currentVotable : usersVotables) {
 			if (currentVotable instanceof models.Answer) {
 				Answer curAnswer = (Answer) currentVotable;
-				String questionOwner = manager
-						.getQuestionById(curAnswer.getQuestionId()).getOwner()
-						.getName();
+				String questionOwner = manager.getQuestionById(
+						curAnswer.getQuestionId()).getOwner().getName();
 				String answerOwner = curAnswer.getOwner().getName();
 				if (!questionOwner.equals(answerOwner)) {
 					userScore += currentVotable.getScore();
@@ -174,14 +174,44 @@ public class User {
 	 * Adds a specific reputations to the reputations of this user given the
 	 * user of who's vote the increase or decrease of reputation results. If a
 	 * specific user exceeds the max percentage of points on the total
-	 * reputation, the additional reputation is being ignored.
+	 * reputation, the additional reputation is being added to the list of
+	 * ignored points in order to be added later on.
 	 * 
 	 * @param username
 	 *            - the user who is responsible for the new reputation.
 	 * @param reputation
 	 *            - the reputations as an integer.
+	 * @return - true if the reputation has been added and false if the
+	 *         additional points were blocked due to the defined max ratio.
 	 */
-	public void addReputation(String username, int reputation) {
+	public boolean addReputation(String username, int reputation) {
+		if (checkReputationRatio(username, reputation)) {
+			int userPoints = Integer.parseInt(this.reputation.get(username)
+					.toString());
+			this.reputation.put(username, userPoints + reputation);
+			this.reputations.addFirst(reputation);
+			return true;
+		} else {
+			int blockedPoints = Integer.parseInt(this.blockedReputation.get(
+					username).toString());
+			this.blockedReputation.put(username, blockedPoints + reputation);
+			return false;
+		}
+	}
+
+	/**
+	 * Checks whether the reputation {@code reputation} of the given user
+	 * {@code username} can be added to this user's score.
+	 * 
+	 * @param username
+	 *            - the user who wants to increase the score.
+	 * @param reputation
+	 *            - the amount of points asked for being added to the
+	 *            reputation.
+	 * @return - true if the points can be added and false if the max ratio is
+	 *         being exceeded.
+	 */
+	private boolean checkReputationRatio(String username, int reputation) {
 		// Defines the percentage of points a user can add to the reputation of
 		// another user.
 		final double QUOTE = 0.5;
@@ -190,14 +220,14 @@ public class User {
 			int userPoints = Integer.parseInt(this.reputation.get(username)
 					.toString());
 			if (this.score <= MIN_REPUTATION || userPoints / this.score < QUOTE) {
-				this.reputation.put(username, userPoints + reputation);
-				this.reputations.addFirst(reputation);
-			}
+				return true;
+			} else
+				return false;
 
 		} else if (!username.isEmpty()) {
-			this.reputation.put(username, reputation);
-			this.reputations.addFirst(reputation);
-		}
+			return true;
+		} else
+			return false;
 	}
 
 	/**
