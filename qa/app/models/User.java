@@ -119,18 +119,92 @@ public class User {
 				String questionOwner = manager.getQuestionById(
 						curAnswer.getQuestionId()).getOwner().getName();
 				String answerOwner = curAnswer.getOwner().getName();
-				if (!questionOwner.equals(answerOwner)) {
-					userScore += currentVotable.getScore();
-				}
-				if (questionOwner.equals(answerOwner)
-						&& !curAnswer.isBestAnswer()) {
-					userScore += currentVotable.getScore();
+
+				for (Vote v : curAnswer.getVotes()) {
+					if (!questionOwner.equals(answerOwner))
+						userScore += addVoteToReputation(v);
+
+					if (questionOwner.equals(answerOwner)
+							&& !curAnswer.isBestAnswer())
+						userScore += addVoteToReputation(v);
 				}
 			} else {
-				userScore += currentVotable.getScore();
+				Question curQuestion = (Question) currentVotable;
+				for (Vote v : curQuestion.getVotes()) {
+					userScore += addVoteToReputation(v);
+				}
 			}
 		}
 		this.setScore(userScore);
+	}
+
+	/**
+	 * Checks whether the vote can be added to the user's reputation and returns
+	 * how much points have been added.
+	 * 
+	 * @param v
+	 *            - the vote to be added
+	 * @return - the amount of points that have been added to the users
+	 *         reputation.
+	 */
+	private int addVoteToReputation(Vote v) {
+		if (checkReputationRatio(v.getUser().getName(), v.getVote())) {
+			int previousUserRep = 0;
+//			Integer previousUserRep=new Integer(0);
+			try {
+				previousUserRep = Integer.parseInt(reputation.get(v.getUser().getName().toString()).toString());
+			} catch (NullPointerException e) {
+			}
+			reputation
+					.put(v.getUser().getName(), new Integer(previousUserRep + v.getVote()));
+			return v.getVote();
+		} else
+			blockedReputation.put(v.getUser().getName(), v.getVote());
+		return 0;
+	}
+
+	/**
+	 * Checks whether a user has exceeded the reputation-ratio by contributing
+	 * too much reputation-points for THIS user.
+	 * 
+	 * @param username
+	 *            - the user to check if he has contributed to much
+	 * @return - true if there are blocked points for the user {@code username}
+	 *         and false otherwise.
+	 */
+	public boolean exceededRatingRatio(String username) {
+		return blockedReputation.containsKey(username);
+	}
+
+	/**
+	 * Checks whether the reputation {@code reputation} of the given user
+	 * {@code username} can be added to this user's score.
+	 * 
+	 * @param username
+	 *            - the user who wants to increase the score.
+	 * @param reputation
+	 *            - the amount of points asked for being added to the
+	 *            reputation.
+	 * @return - true if the points can be added and false if the max ratio is
+	 *         being exceeded.
+	 */
+	private boolean checkReputationRatio(String username, int reputation) {
+		// Defines the percentage of points a user can add to the reputation of
+		// another user.
+		final double QUOTE = 0.5;
+		final int MIN_REPUTATION = 15;
+		if (this.reputation.containsKey(username)) {
+			int userPoints = Integer.parseInt(this.reputation.get(username)
+					.toString());
+			if (this.score <= MIN_REPUTATION || userPoints / this.score < QUOTE) {
+				return true;
+			} else
+				return false;
+
+		} else if (!username.isEmpty()) {
+			return true;
+		} else
+			return false;
 	}
 
 	public boolean hasAvatar() {
@@ -174,60 +248,33 @@ public class User {
 	 * Adds a specific reputations to the reputations of this user given the
 	 * user of who's vote the increase or decrease of reputation results. If a
 	 * specific user exceeds the max percentage of points on the total
-	 * reputation, the additional reputation is being added to the list of
-	 * ignored points in order to be added later on.
+	 * reputation, the additional reputation is being ignored.
 	 * 
 	 * @param username
 	 *            - the user who is responsible for the new reputation.
 	 * @param reputation
 	 *            - the reputations as an integer.
-	 * @return - true if the reputation has been added and false if the
-	 *         additional points were blocked due to the defined max ratio.
 	 */
-	public boolean addReputation(String username, int reputation) {
-		if (checkReputationRatio(username, reputation)) {
-			int userPoints = Integer.parseInt(this.reputation.get(username)
-					.toString());
-			this.reputation.put(username, userPoints + reputation);
-			this.reputations.addFirst(reputation);
-			return true;
-		} else {
-			int blockedPoints = Integer.parseInt(this.blockedReputation.get(
-					username).toString());
-			this.blockedReputation.put(username, blockedPoints + reputation);
-			return false;
-		}
-	}
-
-	/**
-	 * Checks whether the reputation {@code reputation} of the given user
-	 * {@code username} can be added to this user's score.
-	 * 
-	 * @param username
-	 *            - the user who wants to increase the score.
-	 * @param reputation
-	 *            - the amount of points asked for being added to the
-	 *            reputation.
-	 * @return - true if the points can be added and false if the max ratio is
-	 *         being exceeded.
-	 */
-	private boolean checkReputationRatio(String username, int reputation) {
-		// Defines the percentage of points a user can add to the reputation of
-		// another user.
-		final double QUOTE = 0.5;
-		final int MIN_REPUTATION = 15;
-		if (this.reputation.containsKey(username)) {
-			int userPoints = Integer.parseInt(this.reputation.get(username)
-					.toString());
-			if (this.score <= MIN_REPUTATION || userPoints / this.score < QUOTE) {
-				return true;
-			} else
-				return false;
-
-		} else if (!username.isEmpty()) {
-			return true;
-		} else
-			return false;
+	public void addReputation(String username, int reputation) {
+		// // Defines the percentage of points a user can add to the reputation
+		// of
+		// // another user.
+		// final double QUOTE = 0.5;
+		// final int MIN_REPUTATION = 15;
+		// if (this.reputation.containsKey(username)) {
+		// int userPoints = Integer.parseInt(this.reputation.get(username)
+		// .toString());
+		// if (this.score <= MIN_REPUTATION || userPoints / this.score < QUOTE)
+		// {
+		// this.reputation.put(username, userPoints + reputation);
+		// this.reputations.addFirst(reputation);
+		// }
+		//
+		// } else if (!username.isEmpty()) {
+		// this.reputation.put(username, reputation);
+		// this.reputations.addFirst(reputation);
+		// }
+		this.reputations.addFirst(reputation);
 	}
 
 	/**
