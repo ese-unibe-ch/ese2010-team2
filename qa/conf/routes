@@ -44,7 +44,9 @@ GET				   /editInformation										  Admin.editInformation
 GET				   /showAdminUserProfile								  Admin.showAdminUserProfile
 GET				   /admin												  Admin.showAdminPage
 GET				   /importData										 	  Admin.importData
-GET                /warnings                                              Admin.showWarnings	
+GET                /warnings                                              Admin.showWarnings
+GET				   /setServer										      Admin.setServer	
+POST			   /configureServer									      Admin.configureServer
 POST			   /loadData											  Admin.loadData
 
 #ExtendedUserController
@@ -88,6 +90,8 @@ GET                /question/{qid}/addQuestionComment               	  CommentCo
 GET                /question/{qid}/addAnswerComment/{answerId}      	  CommentController.addCommentToAnswer
 POST			   /comment/{id}/like									  CommentController.like
 POST			   /comment/{id}/unlike									  CommentController.unlike
+
+#Mails
 
 POST				/setAvatar											  UserController.setAvatar
 

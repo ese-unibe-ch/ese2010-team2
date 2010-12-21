@@ -6,7 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import models.*;
+import models.DbManager;
+import models.User;
+import models.Warning;
 
 import org.apache.commons.io.IOUtils;
 
@@ -22,6 +24,7 @@ import xml.XMLParser;
 public class Admin extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
+
 	/** renders user profile to admin */
 	public static void showAdminUserProfile(String user) {
 		ArrayList<User> informationOwner = new ArrayList<User>();
@@ -124,19 +127,29 @@ public class Admin extends Controller {
 		render(message);
 
 	}
-	
+
 	public static void reportQuestion(int qid) {
 		new Warning(manager.getQuestionById(qid));
 		redirect("/question/" + qid + "/answers/");
 	}
-	
-	public static void showWarnings(){
+
+	public static void showWarnings() {
 		ArrayList<Warning> warnings = manager.getWarnings();
 		render(warnings);
 	}
-	
+
 	public static void deleteWarning(int wid) {
 		manager.deleteWarning(manager.getWarningById(wid));
 		redirect("/admin/showwarnings");
+	}
+
+	public static void setServer() {
+		render();
+	}
+
+	public static void configureServer(String SMTP) {
+		Mails.configure(SMTP);
+		String message = SMTP;
+		render(message);
 	}
 }

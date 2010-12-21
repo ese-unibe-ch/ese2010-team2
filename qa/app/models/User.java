@@ -243,14 +243,18 @@ public class User {
 		return !notifications.isEmpty();
 	}
 
+	/** flags user so he can't login until email has been confirmed **/
 	public void setFlag(User user) {
 		Random generator = new Random();
 		int randomId = generator.nextInt(899999999) + 100000000;
 		user.setName(name + Integer.toString(randomId));
+		randomId = generator.nextInt(899999999) + 100000000;
+		user.setPassword(password + Integer.toString(randomId));
 	}
 
 	public void unFlag(User user) {
 		user.setName(name.substring(0, name.length() - 9));
+		user.setPassword(password.substring(0, password.length() - 9));
 	}
 
 	/** Getters */

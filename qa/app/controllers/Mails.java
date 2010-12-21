@@ -5,9 +5,8 @@ import play.mvc.Mailer;
 
 public class Mails extends Mailer {
 
-	public static void confirm(User user) {
-		setSubject("Confirmation mail %s",
-				user.getName().substring(0, user.getName().length() - 9));
+	public static void confirm(User user, String name) {
+		setSubject("Confirmation mail %s", name);
 		addRecipient(user.getEmail());
 		setFrom("noreply@ese.ch");
 		setReplyTo("help@ese.ch");
@@ -15,4 +14,8 @@ public class Mails extends Mailer {
 		send(user);
 	}
 
+	// set SMTP server
+	public static void configure(String server) {
+
+	}
 }

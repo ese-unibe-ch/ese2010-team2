@@ -49,8 +49,9 @@ public class UserController extends Controller {
 			UserController.showRegister(name, password, password2, email);
 		} else {
 			User user = new User(name, email, password);
+			String chosenName = user.getName();
 			user.setFlag(manager.getUserByName(name));
-			Mails.confirm(user);
+			Mails.confirm(user, chosenName);
 			flash.success("Please check your email");
 			Cache.delete(randomID);
 			// session.put("uid", user.getId());
@@ -59,6 +60,7 @@ public class UserController extends Controller {
 		}
 	}
 
+	/** unflags user once link in confirmation mail has been clicked **/
 	public static void finishRegistration(String flaggedUserName) {
 		if (manager.checkUserNameIsOccupied(flaggedUserName)) {
 			User user = manager.getUserByName(flaggedUserName);
