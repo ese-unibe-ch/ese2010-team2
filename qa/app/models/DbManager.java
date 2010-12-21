@@ -31,14 +31,14 @@ public class DbManager {
 	private static ArrayList<User> users;
 
 	/** All registered email-adresses */
-	private static ArrayList<String> emailAddresses= new ArrayList<String>();
+	private static ArrayList<String> emailAddresses = new ArrayList<String>();
 
 	/** All tags that have been used so far. */
 	private static ArrayList<String> tags;
 
 	/** All likes have been set by users on different comments. */
 	private static ArrayList<Like> likes;
-	
+
 	/** All admin warning. */
 	private static ArrayList<Warning> warnings;
 
@@ -129,7 +129,8 @@ public class DbManager {
 
 		User deleteUser = getUserByName(username);
 
-		// Delete the user's email-address from the list of registered addresses.
+		// Delete the user's email-address from the list of registered
+		// addresses.
 		emailAddresses.remove(deleteUser.getEmail());
 
 		if (!checkUserNameIsOccupied("anonymous"))
@@ -149,7 +150,7 @@ public class DbManager {
 
 		}
 		if (toDelete != null) {
-		deleteQuestion(toDelete);
+			deleteQuestion(toDelete);
 		}
 
 		// Anonymize all questions a user edited
@@ -316,7 +317,6 @@ public class DbManager {
 		return questions.get(id);
 	}
 
-
 	/**
 	 * Gets the answer with a certain id.
 	 * 
@@ -365,10 +365,11 @@ public class DbManager {
 	 * @return - all answers sorted by their score.
 	 */
 	public ArrayList<Answer> getAnswersSortedByScore(int userId) {
-		ArrayList<Answer> sortedAnswers = this.getAllAnswersByQuestionId(userId);
+		ArrayList<Answer> sortedAnswers = this
+				.getAllAnswersByQuestionId(userId);
 
-		Collections.sort(sortedAnswers, Collections
-				.reverseOrder(new ScoreComparator()));
+		Collections.sort(sortedAnswers,
+				Collections.reverseOrder(new ScoreComparator()));
 
 		return sortedAnswers;
 	}
@@ -402,7 +403,6 @@ public class DbManager {
 
 		return sortedAnswers;
 	}
-
 
 	/**
 	 * Gets all answers from a specific user sorted by Date
@@ -465,7 +465,7 @@ public class DbManager {
 				usersQuestions.add(currentQuestion);
 		}
 		return usersQuestions;
-		}
+	}
 
 	/**
 	 * Gets all comments to a certain question sorted by date.
@@ -750,23 +750,24 @@ public class DbManager {
 	public void addWarning(Warning newWarning) {
 		boolean isContained = false;
 		for (Warning currentWarning : warnings) {
-			if (currentWarning.getInappropriatePost().equals(newWarning.getInappropriatePost())) {
+			if (currentWarning.getInappropriatePost().equals(
+					newWarning.getInappropriatePost())) {
 				currentWarning.incrementCounter();
 				isContained = true;
 			}
 		}
-		if (!isContained){
+		if (!isContained) {
 			warnings.add(newWarning);
 			newWarning.setId(warningIdCounter);
 			warningIdCounter++;
 		}
 	}
-	
-	public ArrayList<Warning> getWarnings(){
+
+	public ArrayList<Warning> getWarnings() {
 		Collections.sort(warnings);
 		return warnings;
 	}
-	
+
 	public Warning getWarningById(int wid) {
 		for (Warning currentWarning : warnings) {
 			if (currentWarning.getId() == wid)
@@ -774,11 +775,11 @@ public class DbManager {
 		}
 		return null;
 	}
-	
+
 	public void deleteWarning(Warning deletedWarning) {
 		warnings.remove(deletedWarning);
 	}
-	
+
 	/**
 	 * Resets all counters to 0
 	 */
@@ -917,7 +918,7 @@ public class DbManager {
 	public void clearAnswerMap() {
 		answers.clear();
 	}
-	
+
 	public void clearWarnings() {
 		warnings.clear();
 	}

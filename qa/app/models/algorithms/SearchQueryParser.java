@@ -18,8 +18,7 @@ public class SearchQueryParser {
 	 * http://armandbrahaj.blog.al/2009/04/14/list-of-english-stop-words/
 	 */
 	private String[] englishStopwordsDatabase = { "a", "a's", "able", "about",
-			"above",
-			"according", "accordingly", "across", "actually", "after",
+			"above", "according", "accordingly", "across", "actually", "after",
 			"afterwards", "again", "against", "ain't", "all", "allow",
 			"allows", "almost", "alone", "along", "already", "also",
 			"although", "always", "am", "among", "amongst", "an", "and",
@@ -127,7 +126,7 @@ public class SearchQueryParser {
 	public SearchQueryParser(String query) {
 		// Make query case insensitive.
 		originalQuery = query.toLowerCase();
-		
+
 		// Get original query an split in words and store in ArrayList.
 		words = new ArrayList<String>(java.util.Arrays.asList(originalQuery
 				.split(" ")));
@@ -229,9 +228,11 @@ public class SearchQueryParser {
 	public ArrayList<String> getSoundexCodes() {
 		return soundexCodes;
 	}
+
 	public ArrayList<String> getWords() {
 		return words;
 	}
+
 	public ArrayList<String> getSentences() {
 		return sentences;
 	}

@@ -37,16 +37,19 @@ public class CommentTest extends UnitTest {
 	public void shouldCommentQuestion() {
 		Comment comment = new Comment(admin, question, "another comment");
 		assertEquals(question, comment.getCommentedPost());
-		assertEquals(comment, manager.getAllCommentsByQuestionIdSortedByDate(
-				question.getId()).get(0));
+		assertEquals(
+				comment,
+				manager.getAllCommentsByQuestionIdSortedByDate(question.getId())
+						.get(0));
 	}
 
 	@Test
 	public void shouldCommentAnswer() {
 		Comment comment = new Comment(admin, answer, "one more comment");
 		assertEquals(answer, comment.getCommentedPost());
-		assertEquals(comment, manager.getAllCommentsByAnswerIdSortedByDate(
-				answer.getId()).get(0));
+		assertEquals(comment,
+				manager.getAllCommentsByAnswerIdSortedByDate(answer.getId())
+						.get(0));
 	}
 
 	@Test

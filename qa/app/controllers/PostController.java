@@ -27,13 +27,13 @@ import play.mvc.Controller;
 import annotations.Unused;
 
 /**
- * This Controller manages general actions about posts
- * like questions answers and comments. 
+ * This Controller manages general actions about posts like questions answers
+ * and comments.
  */
 public class PostController extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
-	
+
 	public static void showVersionHistory(String type, String id) {
 		Post post;
 		int intId = Integer.parseInt(id);

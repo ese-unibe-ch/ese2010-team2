@@ -1,4 +1,5 @@
 package models;
+
 import java.util.Date;
 
 public class Vote {
@@ -8,7 +9,7 @@ public class Vote {
 	protected Date voteSetTime;
 	protected int voteToAddToScore[] = new int[1];
 
-	public Vote(Post post, int vote, User user){
+	public Vote(Post post, int vote, User user) {
 		this.post = post;
 		this.vote = vote;
 		this.user = user;
@@ -19,57 +20,56 @@ public class Vote {
 
 	/**
 	 * Checks if a vote is changeable
-	 *
-	 * @return true if the vote can be changed,
-	 * 		   false otherwise
+	 * 
+	 * @return true if the vote can be changed, false otherwise
 	 */
-	public boolean voteChangeable(){
+	public boolean voteChangeable() {
 		long then;
 		long now = new Date().getTime();
 
-		if(voteSetTime==null){
+		if (voteSetTime == null) {
 			then = now;
-		}else{
+		} else {
 			then = voteSetTime.getTime();
 		}
 
 		long diff = now - then;
 
-		if((diff / (1000 * 60)) < 1){
+		if ((diff / (1000 * 60)) < 1) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
 
 	/** Getters */
-	public int getVote(){
+	public int getVote() {
 		return this.vote;
 	}
 
-	public User getUser(){
+	public User getUser() {
 		return this.user;
 	}
 
-	public int getVoteToAddToScore(){
+	public int getVoteToAddToScore() {
 		return this.voteToAddToScore[0];
 	}
 
-	public Date getvoteSetTime(){
+	public Date getvoteSetTime() {
 		return this.voteSetTime;
 	}
 
-	public Post getPost(){
+	public Post getPost() {
 		return this.post;
 	}
 
-	/** Setters */	
-	public void setVote(int value){
+	/** Setters */
+	public void setVote(int value) {
 		this.vote = value;
 		this.voteToAddToScore[0] = value;
 	}
 
-	public void setUser(User user){
+	public void setUser(User user) {
 		this.user = user;
 	}
 

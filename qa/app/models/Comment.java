@@ -52,8 +52,8 @@ public class Comment extends Post {
 		this.setEditor(uname);
 		this.content = content;
 	}
-	
-	public void setLastChanged(Date date){
+
+	public void setLastChanged(Date date) {
 		this.getCommentedPost().setLastChanged(date);
 	}
 

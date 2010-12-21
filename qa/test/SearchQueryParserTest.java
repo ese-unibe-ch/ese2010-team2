@@ -26,7 +26,7 @@ public class SearchQueryParserTest extends UnitTest {
 		assertEquals("friend", parser.getWords().get(1));
 		assertEquals("fredi", parser.getWords().get(2));
 	}
-	
+
 	@Test
 	public void shouldNotSplitDoubleQuotetQuery() {
 		query = "\"fredi house friend\"";

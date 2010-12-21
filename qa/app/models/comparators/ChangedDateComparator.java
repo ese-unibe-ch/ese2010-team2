@@ -11,7 +11,7 @@ import models.Question;
 public class ChangedDateComparator implements Comparator<Question> {
 
 	public final int compare(Question a, Question b) {
-		
+
 		Date valueA = a.getLastChangedDate();
 		Date valueB = b.getLastChangedDate();
 

@@ -68,8 +68,7 @@ public class SearchResultAssemblerTest extends UnitTest {
 		Question question1 = new Question(true, "question1Test", "title", admin);
 		Answer answer1 = new Answer(true, "answer1Test", admin, question1);
 		new Answer(true, "answer2Test", admin, question1);
-		new Comment(admin, question1,
-				"commentQuestion1");
+		new Comment(admin, question1, "commentQuestion1");
 		new Comment(admin, answer1, "commentAnswer1");
 
 		// Init Parser Search and Assembler

@@ -104,8 +104,8 @@ public class Answer extends Post {
 	 *            - The name of the user who adds the version.
 	 */
 	public void addVersion(String content, String uname) {
-		Answer answer = new Answer(false, this.content, this.owner, manager
-				.getQuestionById(this.questionId));
+		Answer answer = new Answer(false, this.content, this.owner,
+				manager.getQuestionById(this.questionId));
 		if (this.getEditor() != null)
 			answer.setEditor(this.getEditor().getName());
 		answer.isVoteable = false;
@@ -120,8 +120,8 @@ public class Answer extends Post {
 	public void restoreOldVersion(String oldContent, String uname) {
 		addVersion(oldContent, uname);
 	}
-	
-	public void setLastChanged(Date date){
+
+	public void setLastChanged(Date date) {
 		this.getQuestion().setLastChanged(date);
 	}
 

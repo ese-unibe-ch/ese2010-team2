@@ -97,7 +97,7 @@ public class QuestionTest extends UnitTest {
 	}
 
 	@Test
-	public void shouldAddVersionAndRestore(){
+	public void shouldAddVersionAndRestore() {
 		Question q = new Question(true, "question", "title", admin);
 		q.addVersion("hallo velo", "hallo velo", "admin");
 		assertEquals(1, q.getOldVersions().size());
@@ -106,7 +106,7 @@ public class QuestionTest extends UnitTest {
 		assertEquals("question", q.getContent());
 		assertTrue(q.getTags().contains("hallo"));
 		assertTrue(q.getTags().contains("velo"));
-		assertEquals(2,q.getTags().size());
+		assertEquals(2, q.getTags().size());
 	}
 
 	@AfterClass

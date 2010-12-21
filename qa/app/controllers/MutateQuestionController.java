@@ -10,19 +10,20 @@ import play.mvc.Controller;
 import play.mvc.With;
 
 /**
- * This Controller manages mutations of questions, like add, 
- * edit and delete question.
+ * This Controller manages mutations of questions, like add, edit and delete
+ * question.
  */
 @With(Secure.class)
 public class MutateQuestionController extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
+
 	public static void showEditQuestionForm(int qid, String newContent,
 			String tags) {
 		Question question = manager.getQuestionById(qid);
 		render(question, newContent, qid, tags);
 	}
-	
+
 	/**
 	 * Sets the content of the question to the new value
 	 * 
@@ -42,25 +43,25 @@ public class MutateQuestionController extends Controller {
 					+ Question.checkTags(copyTags)
 					+ ". Please review your tags.");
 			showEditQuestionForm(qid, newContentQuestion, newContentTag);
-		}
-		else {
+		} else {
 			manager.getQuestionById(qid).addVersion(newContentQuestion,
 					newContentTag, session.get("username"));
 			redirect("/question/" + qid + "/answers/");
 		}
 	}
-	
-	public static void showQuestionForm(String title, String newQuestion, String tags) {
+
+	public static void showQuestionForm(String title, String newQuestion,
+			String tags) {
 		String randomID = Codec.UUID();
 		render(title, newQuestion, tags, randomID);
 	}
-	
-	public static void deleteQuestion(int qid){
+
+	public static void deleteQuestion(int qid) {
 		Question question = manager.getQuestionById(qid);
 		manager.deleteQuestion(question);
 		redirect("/");
 	}
-	
+
 	public static void addQuestion(String newQuestion, String title,
 			String tags, String code, String randomID) {
 		// Store the overgiven tags in another object to prevent information
@@ -80,17 +81,16 @@ public class MutateQuestionController extends Controller {
 					+ Question.checkTags(copyTags)
 					+ ". Please review your tags.");
 			showQuestionForm(title, newQuestion, tags);
-		} else if(validation.hasErrors()){
+		} else if (validation.hasErrors()) {
 			flash.error("Please check the CAPTCHA code");
 			showQuestionForm(title, newQuestion, tags);
-		}
-		else {
+		} else {
 			Question question = new Question(true, newQuestion, title, user);
 			question.addTags(tags);
 			redirect("/question/" + question.getId() + "/answers/");
 		}
 	}
-	
+
 	public static void voteQuestionUp(int qid) {
 		voteQuestion(qid, 1);
 	}
@@ -105,32 +105,32 @@ public class MutateQuestionController extends Controller {
 		Vote oldVote = question.getVoteForUser(user);
 		boolean check = oldVote.voteChangeable();
 		question.userVotedForPost(user);
-		if(question.checkUserVotedForPost(user)==true && check == false){
+		if (question.checkUserVotedForPost(user) == true && check == false) {
 			flash.error("You already voted for this post !");
 		}
-		if(vote == 1 && check == true && oldVote.getVote()==0){
+		if (vote == 1 && check == true && oldVote.getVote() == 0) {
 			oldVote.setVote(1);
 			question.vote(oldVote);
-			flash.success("You're current vote is "+oldVote.getVote());
+			flash.success("You're current vote is " + oldVote.getVote());
 		}
-		if(vote == 1 && check == true && oldVote.getVote()==-1){
+		if (vote == 1 && check == true && oldVote.getVote() == -1) {
 			oldVote.setVote(0);
 			question.vote(oldVote);
-			flash.success("You're current vote is "+oldVote.getVote());
+			flash.success("You're current vote is " + oldVote.getVote());
 		}
-		if(vote == -1 && check == true && oldVote.getVote()==0){
+		if (vote == -1 && check == true && oldVote.getVote() == 0) {
 			oldVote.setVote(-1);
 			question.vote(oldVote);
-			flash.success("You're current vote is "+oldVote.getVote());
+			flash.success("You're current vote is " + oldVote.getVote());
 		}
-		if(vote == -1 && check == true && oldVote.getVote()==1){
+		if (vote == -1 && check == true && oldVote.getVote() == 1) {
 			oldVote.setVote(0);
 			question.vote(oldVote);
-			flash.success("You're current vote is "+oldVote.getVote());
+			flash.success("You're current vote is " + oldVote.getVote());
 		}
 		redirect("/question/" + qid + "/answers/");
 	}
-	
+
 	public static void restoreQuestion(int actualId, String oldContent,
 			String oldTags) {
 		String uname = session.get("username");

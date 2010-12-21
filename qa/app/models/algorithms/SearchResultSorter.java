@@ -65,13 +65,13 @@ public class SearchResultSorter {
 			countTagMatches(query);
 			countContentMatches(query);
 		}
-		
+
 		doASoundexBasedCount = false;
 		for (int i = 0; i < sentences.size(); i++) {
 			String query = sentences.get(i);
 			countContentMatches(query);
 		}
-		
+
 		checkIfHasABestAnswer();
 		summarizeScores();
 		sort();
@@ -112,7 +112,8 @@ public class SearchResultSorter {
 		for (int i = 0; i < searchResults.size(); i++) {
 			int contentCount = 0;
 			Question curQuestion = searchResults.get(i).getQuestion();
-			String[] splitedQuestionContent = curQuestion.getContent().split("\\s");
+			String[] splitedQuestionContent = curQuestion.getContent().split(
+					"\\s");
 
 			// Go through question content word by word count every match.
 			if (doASoundexBasedCount) {
@@ -134,7 +135,8 @@ public class SearchResultSorter {
 			// Go Through all answers belonging to question
 			for (int j = 0; j < searchResults.get(i).getAnswers().size(); j++) {
 				Answer curAnswer = searchResults.get(i).getAnswers().get(j);
-				String[] splitedAnswerContent = curAnswer.getContent().split("\\s");
+				String[] splitedAnswerContent = curAnswer.getContent().split(
+						"\\s");
 
 				if (doASoundexBasedCount) {
 					for (int x = 0; x < splitedAnswerContent.length; x++) {
@@ -165,7 +167,8 @@ public class SearchResultSorter {
 			// Go through all comments
 			for (int k = 0; k < searchResults.get(i).getComments().size(); k++) {
 				Comment curComment = searchResults.get(i).getComments().get(k);
-				String[] splitedCommentContent = curComment.getContent().split("\\s");
+				String[] splitedCommentContent = curComment.getContent().split(
+						"\\s");
 
 				if (doASoundexBasedCount) {
 
@@ -202,7 +205,7 @@ public class SearchResultSorter {
 			}
 		}
 	}
-	
+
 	/** Summarizes all Scores (Question, Answer) in a composite. */
 	private void summarizeScores() {
 		for (int i = 0; i < searchResults.size(); i++) {
