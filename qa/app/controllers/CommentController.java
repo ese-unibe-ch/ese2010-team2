@@ -17,6 +17,7 @@ import play.mvc.With;
 public class CommentController extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
+
 	public static void showEditQuestionCommentForm(int qid, int cid) {
 		Comment comment = manager.getCommentById(cid);
 		render(qid, cid, comment);
@@ -136,7 +137,7 @@ public class CommentController extends Controller {
 
 	public static void unlike(int id) {
 		checkAuthenticity();
-		
+
 		User user = manager.getUserByName(session.get("username"));
 		Like like = manager.getLike(user, id);
 

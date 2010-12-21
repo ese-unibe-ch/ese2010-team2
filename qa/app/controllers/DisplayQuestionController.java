@@ -14,7 +14,7 @@ import play.mvc.Controller;
  */
 public class DisplayQuestionController extends Controller {
 	private static DbManager manager = DbManager.getInstance();
-	
+
 	public static void questions(String mod) {
 		ArrayList<Question> questions = null;
 		if (mod.equals("recent")) {
@@ -25,7 +25,7 @@ public class DisplayQuestionController extends Controller {
 			render(questions, mod);
 		}
 	}
-	
+
 	public static void showAnswers(String id, String newAnswer) {
 		int intId = Integer.parseInt(id);
 		String randomID = Codec.UUID();

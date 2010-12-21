@@ -17,9 +17,9 @@ public class ScoreComparator implements Comparator<Post> {
 		int scoreA = a.getScore();
 		int scoreB = b.getScore();
 
-		if ( scoreA == scoreB )
+		if (scoreA == scoreB)
 			return 0;
-		else if ( scoreA < scoreB ) 
+		else if (scoreA < scoreB)
 			return -1;
 		else
 			return 1;

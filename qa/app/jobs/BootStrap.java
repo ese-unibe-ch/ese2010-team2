@@ -20,7 +20,6 @@ import xml.XMLParser;
 
 @OnApplicationStart
 public class BootStrap extends Job {
-	
 
 	public void doJob() {
 		User user = new User("admin", "admin@admin.ch", "admin");

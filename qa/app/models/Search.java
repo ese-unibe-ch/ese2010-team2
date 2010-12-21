@@ -56,8 +56,10 @@ public class Search {
 		commentResults = new ArrayList<Comment>();
 		questionResults = new ArrayList<Question>();
 
-		numberOfQuestions = manager.getQuestions().size();
-		numberOfAnswers = manager.getAnswers().size();
+		ArrayList<Question> questions = manager.getQuestions();
+		numberOfQuestions = questions.size();
+		ArrayList<Answer> answers = manager.getAnswers();
+		numberOfAnswers = answers.size();
 		numberOfComments = manager.getComments().size();
 
 		doTheSearchForEveryQuery();

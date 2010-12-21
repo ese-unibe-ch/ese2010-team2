@@ -10,14 +10,15 @@ import play.mvc.Controller;
 import play.mvc.With;
 
 /**
- * This Controller manages some extended actions about users
- * which need the Security Annotation
+ * This Controller manages some extended actions about users which need the
+ * Security Annotation
  */
 @With(Secure.class)
 public class ExtendedUserController extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
-	public static void deleteUser(String uname){
+
+	public static void deleteUser(String uname) {
 		manager.deleteUser(uname);
 		redirect("/editUserGroup");
 	}
@@ -31,7 +32,7 @@ public class ExtendedUserController extends Controller {
 			render(users);
 		}
 	}
-	
+
 	/**
 	 * Shows all notifications of the current user.
 	 */
@@ -51,7 +52,7 @@ public class ExtendedUserController extends Controller {
 		}
 		render(userLog);
 	}
-	
+
 	public static void editUserGroup(String uname, String group) {
 		ArrayList<User> users = manager.getUsers();
 		User user = manager.getUserByName(uname);

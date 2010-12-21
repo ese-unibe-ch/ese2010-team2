@@ -45,9 +45,9 @@ public class AnswerTest extends UnitTest {
 		answer.vote(vote2);
 		assertEquals(0, answer.getScore());
 	}
-	
+
 	@Test
-	public void shouldAddVersionAndRestore(){
+	public void shouldAddVersionAndRestore() {
 		Question q = new Question("content", "title", admin);
 		Answer a = new Answer("content of", admin, q);
 		a.addVersion("content of answer", "admin");

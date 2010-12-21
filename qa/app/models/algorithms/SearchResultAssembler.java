@@ -23,9 +23,9 @@ public class SearchResultAssembler {
 	/** ArrayList for the assembled results */
 	private ArrayList<SearchResult> searchResults;
 
-
 	public SearchResultAssembler(ArrayList<Answer> answerResults,
-			ArrayList<Comment> commentResults, ArrayList<Question> questionResults) {
+			ArrayList<Comment> commentResults,
+			ArrayList<Question> questionResults) {
 
 		this.answerResults = answerResults;
 		this.commentResults = commentResults;
@@ -97,8 +97,7 @@ public class SearchResultAssembler {
 		result.setQuestion(curQuestion);
 
 		// Determine answers which belong to question
-		result.setAnswers(manager.getAllAnswersByQuestionId(curQuestion
-				.getId()));
+		result.setAnswers(manager.getAllAnswersByQuestionId(curQuestion.getId()));
 
 		// Determine Comments who belong to Answers
 		for (int i = 0; i < result.getAnswers().size(); i++) {
@@ -120,8 +119,7 @@ public class SearchResultAssembler {
 		// questions
 		for (int j = 0; j < commentResults.size(); j++) {
 			Comment curComment1 = commentResults.get(j);
-			if (curComment1.getCommentedPost().getId() == curQuestion
-					.getId()) {
+			if (curComment1.getCommentedPost().getId() == curQuestion.getId()) {
 				commentResults.remove(j);
 			}
 		}

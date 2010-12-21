@@ -11,7 +11,7 @@ import play.mvc.Controller;
 public class DisplayAnswerController extends Controller {
 
 	private static DbManager manager = DbManager.getInstance();
-	
+
 	/**
 	 * 
 	 * @param qid

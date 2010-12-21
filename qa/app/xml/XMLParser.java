@@ -154,9 +154,7 @@ public class XMLParser extends DefaultHandler {
 
 			else if (qName.equalsIgnoreCase("user")) {
 				if (uname.isEmpty() || password.isEmpty()) {
-					message
-							.add("ERROR: User " + uId
-									+ " couldn't be imported.");
+					message.add("ERROR: User " + uId + " couldn't be imported.");
 					this.cleanUser();
 				} else {
 					User user = new User(uname, email, password);
@@ -178,8 +176,8 @@ public class XMLParser extends DefaultHandler {
 		} else if (mode.equalsIgnoreCase("questions")) {
 			if (qName.equalsIgnoreCase("ownerid")) {
 				removeInvalid();
-				int oId = Integer.parseInt(tempValue.toString().replace("\n",
-						"").replace(" ", ""));
+				int oId = Integer.parseInt(tempValue.toString()
+						.replace("\n", "").replace(" ", ""));
 				owner = DbManager.getInstance().getUserById(oId);
 				tempValue = new StringBuilder();
 			} else if (qName.equalsIgnoreCase("creationdate")) {
@@ -210,7 +208,7 @@ public class XMLParser extends DefaultHandler {
 			}
 
 			else if (qName.equalsIgnoreCase("question")) {
-				if (content.isEmpty() || owner == null || pId==0) {
+				if (content.isEmpty() || owner == null || pId == 0) {
 					message.add("ERROR: question " + pId
 							+ " couldn't be imported.");
 					this.cleanQuestion();
@@ -279,7 +277,8 @@ public class XMLParser extends DefaultHandler {
 							.getInstance().getQuestionById(qId));
 					a.markAsBestAnswer(isBestAnswer);
 					a.setDate(creationDate);
-					DbManager.getInstance().getQuestionById(qId).setLastChanged(lastChangedDate);
+					DbManager.getInstance().getQuestionById(qId)
+							.setLastChanged(lastChangedDate);
 					answers++;
 					this.cleanAnswer();
 				}
@@ -320,7 +319,7 @@ public class XMLParser extends DefaultHandler {
 		creationDate = new Date();
 		lastChangedDate = new Date();
 		content = new String();
-		pId=0;
+		pId = 0;
 		tags.clear();
 	}
 
@@ -331,7 +330,7 @@ public class XMLParser extends DefaultHandler {
 		owner = null;
 		content = new String();
 		isBestAnswer = false;
-		pId=0;
+		pId = 0;
 	}
 
 	/** This method is called when warnings occur */
@@ -370,9 +369,8 @@ public class XMLParser extends DefaultHandler {
 		SAXParser saxParser = saxParserFactory.newSAXParser();
 
 		// Create a SAX input source for the file argument
-		InputSource input = new InputSource(new FileReader(Play.applicationPath
-				.getAbsolutePath()
-				+ "/public/data/data"));
+		InputSource input = new InputSource(new FileReader(
+				Play.applicationPath.getAbsolutePath() + "/public/data/data"));
 
 		// Create an instance of this class; it defines all the handler methods
 		XMLParser handler = new XMLParser();

@@ -116,8 +116,9 @@ public class User {
 		for (Post currentVotable : usersVotables) {
 			if (currentVotable instanceof models.Answer) {
 				Answer curAnswer = (Answer) currentVotable;
-				String questionOwner = manager.getQuestionById(
-						curAnswer.getQuestionId()).getOwner().getName();
+				String questionOwner = manager
+						.getQuestionById(curAnswer.getQuestionId()).getOwner()
+						.getName();
 				String answerOwner = curAnswer.getOwner().getName();
 
 				if (!questionOwner.equals(answerOwner)

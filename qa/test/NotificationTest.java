@@ -13,14 +13,14 @@ public class NotificationTest extends UnitTest {
 	private User notifiedUser;
 	private Question changingQuestion;
 	private static DbManager manager;
-	
+
 	@Before
 	public void setUp() {
 		manager = DbManager.getInstance();
 		notifiedUser = new User("notifiedUser", "note.user@ese.ch", "1234");
 		changingQuestion = new Question(true, "question", "title", notifiedUser);
 	}
-	
+
 	@Test
 	public void shouldNotifiyChange() {
 		new Answer(true, "answer", notifiedUser, changingQuestion);
