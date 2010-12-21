@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Properties;
 
 import models.DbManager;
 import models.User;
@@ -145,29 +144,21 @@ public class Admin extends Controller {
 	}
 
 	/**
-	 * Shows form for changing SMTP host, reads current SMTP host from
-	 * properties file.
+	 * TODO: Make SMTP server configurable
 	 */
 	public static void setServer() {
-		String configFile = Mails.getConfigFileName();
-		Properties prop = new Properties();
-		FileInputStream fis = null;
-
-		try {
-			fis = new FileInputStream(configFile);
-			prop.load(fis);
-			fis.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String server = prop.getProperty("mail.smtp.host");
-
-		render(server);
+		// render();
 	}
 
+	/**
+	 * TODO: Make SMTP server configurable
+	 * 
+	 * @param SMTP
+	 *            hostname
+	 */
 	public static void configureServer(String SMTP) {
-		Mails.configure(SMTP);
-		String message = SMTP;
-		render(message);
+		// Mails.configure(SMTP);
+		// String message = SMTP;
+		// render(message);
 	}
 }
