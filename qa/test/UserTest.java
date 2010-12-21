@@ -26,12 +26,12 @@ public class UserTest extends UnitTest {
 	@Test
 	public void shouldGetRightScore() {
 		User topScorer = new User("scorer", "user@champion", "password");
-		User u= new User("u","u@u.com","u");
+		User u = new User("u", "u@u.com", "u");
 		Question question = new Question(true, "Good Question", "title",
 				topScorer);
-		Vote v1=new Vote(question, 1, u);
+		Vote v1 = new Vote(question, 1, u);
 		Answer answer = new Answer(true, "Good Answer", topScorer, question);
-		Vote v2= new Vote(answer, 2, u);
+		Vote v2 = new Vote(answer, 2, u);
 		question.vote(v1);
 		answer.vote(v2);
 		assertEquals(3, topScorer.getScore());
@@ -54,13 +54,13 @@ public class UserTest extends UnitTest {
 		twoDaysAgo.setTimeInMillis(twoDaysAgo.getTimeInMillis() - 2 * 24 * 60
 				* 60 * 1000);
 		reputatedUser.setLastTimeOfReputation(twoDaysAgo);
-		reputatedUser.addReputation("admin",3);
-		reputatedUser.setLastReputation("admin",4);
+		reputatedUser.addReputation("admin", 3);
+		reputatedUser.setLastReputation("admin", 4);
 		assertEquals(2, reputatedUser.getReputations().size());
 		assertEquals(4, (int) reputatedUser.getReputations().get(0)); // yesterday
 		assertEquals(3, (int) reputatedUser.getReputations().get(1)); // the day
-																		// before
-																		// yesterday
+		// before
+		// yesterday
 	}
 
 	@Test
@@ -106,25 +106,6 @@ public class UserTest extends UnitTest {
 		new Notification("something changed", notifiedUser, changedQuestion);
 		notifiedUser.clearAllNotifications();
 		assertTrue(notifiedUser.getAllNotifications().isEmpty());
-	}
-	
-	@Test
-	public void shouldAvoidUpRatingEachOther(){
-		//TODO: UpRatingAvoidance testen
-//		new User("user1","user1@mail.com","user1");
-//		new User("user2","u2@u.u","user2");
-//		User u=new User("u","u@u.u","u");
-//		assertEquals(u.getScore(),0);
-//		u.addReputation("user1", 4);
-//		assertTrue(u.getReputations().get(0)==4); //assertEquals sei ambiguous für UserTest??
-//		u.addReputation("user1", 3);
-//		assertTrue(u.getReputations().get(0)==3);
-//		u.addReputation("user1", 10);
-//		assertTrue(u.getReputations().get(0)==10);
-//		u.addReputation("user1", 10);
-//		assertTrue(u.getReputations().get(0)==10);
-//		u.addReputation("user2", 10);
-//		assertTrue(u.getReputations().get(0)==10);
 	}
 
 	@AfterClass

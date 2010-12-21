@@ -120,13 +120,12 @@ public class User {
 						curAnswer.getQuestionId()).getOwner().getName();
 				String answerOwner = curAnswer.getOwner().getName();
 
-				for (Vote v : curAnswer.getVotes()) {
-					if (!questionOwner.equals(answerOwner))
+				if (!questionOwner.equals(answerOwner)
+						|| (questionOwner.equals(answerOwner) && !curAnswer
+								.isBestAnswer())) {
+					for (Vote v : curAnswer.getVotes()) {
 						userScore += addVoteToReputation(v);
-
-					if (questionOwner.equals(answerOwner)
-							&& !curAnswer.isBestAnswer())
-						userScore += addVoteToReputation(v);
+					}
 				}
 			} else {
 				Question curQuestion = (Question) currentVotable;
@@ -134,6 +133,7 @@ public class User {
 					userScore += addVoteToReputation(v);
 				}
 			}
+
 		}
 		this.setScore(userScore);
 	}
@@ -150,13 +150,13 @@ public class User {
 	private int addVoteToReputation(Vote v) {
 		if (checkReputationRatio(v.getUser().getName(), v.getVote())) {
 			int previousUserRep = 0;
-//			Integer previousUserRep=new Integer(0);
 			try {
-				previousUserRep = Integer.parseInt(reputation.get(v.getUser().getName().toString()).toString());
+				previousUserRep = Integer.parseInt(reputation.get(
+						v.getUser().getName().toString()).toString());
 			} catch (NullPointerException e) {
 			}
-			reputation
-					.put(v.getUser().getName(), new Integer(previousUserRep + v.getVote()));
+			reputation.put(v.getUser().getName(), new Integer(previousUserRep
+					+ v.getVote()));
 			return v.getVote();
 		} else
 			blockedReputation.put(v.getUser().getName(), v.getVote());
@@ -192,7 +192,7 @@ public class User {
 		// Defines the percentage of points a user can add to the reputation of
 		// another user.
 		final double QUOTE = 0.5;
-		final int MIN_REPUTATION = 15;
+		final int MIN_REPUTATION = 2;
 		if (this.reputation.containsKey(username)) {
 			int userPoints = Integer.parseInt(this.reputation.get(username)
 					.toString());
