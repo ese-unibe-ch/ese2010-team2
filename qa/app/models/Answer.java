@@ -36,13 +36,12 @@ public class Answer extends Post {
 		date = new Date();
 		question.setLastChanged(new Date());
 
-		stripImageTags();
-
 		if (addAnswerToList) {
 			oldVersions = new ArrayList<Post>();
 			user.addActivity("Answered question <" + question.getContent()
 					+ "> by writing: <" + content + ">");
 			manager.addAnswer(this);
+			stripImageTags();
 		}
 	}
 
@@ -112,7 +111,7 @@ public class Answer extends Post {
 		answer.isVoteable = false;
 		this.oldVersions.add(0, answer);
 		this.setEditor(uname);
-		super.setContent(content, uname);
+		setContent(content, uname);
 		manager.getUserByName(uname).addActivity(
 				"Edited Answer" + this.id + " by writing: <" + content + ">.");
 		this.setLastChanged(getDate());

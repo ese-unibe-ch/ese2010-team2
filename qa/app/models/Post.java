@@ -105,7 +105,7 @@ public abstract class Post {
 		if(this.votes.isEmpty()==false){
 			this.score = 0;
 			for(Vote each : this.votes){
-				this.score = this.score + each.getVoteToAddToScore();
+				this.score += each.getVoteToAddToScore();
 			}
 		}
 	}

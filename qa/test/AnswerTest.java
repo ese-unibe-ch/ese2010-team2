@@ -49,11 +49,11 @@ public class AnswerTest extends UnitTest {
 	@Test
 	public void shouldAddVersionAndRestore(){
 		Question q = new Question("content", "title", admin);
-		Answer a= new Answer("content of", admin, q);
+		Answer a = new Answer("content of", admin, q);
 		a.addVersion("content of answer", "admin");
 		assertEquals(1, a.getOldVersions().size());
 		a.restoreOldVersion("content of", "admin");
-		assertEquals(2,a.getOldVersions().size());
+		assertEquals(2, a.getOldVersions().size());
 		assertEquals("content of", a.getContent());
 	}
 

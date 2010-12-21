@@ -40,11 +40,10 @@ public class Question extends Post {
 		this.score = 0;
 		this.title = title;
 
-		stripImageTags();
-
 		date = new Date();
 		lastChangedDate = new Date();
 		if (addQuestionToList) {
+			stripImageTags();
 			oldVersions = new ArrayList<Post>();
 			manager.addQuestion(this);
 			questionOwner.addActivity("Asked question <" + content + ">");
