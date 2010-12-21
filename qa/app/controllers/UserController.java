@@ -54,8 +54,6 @@ public class UserController extends Controller {
 			Mails.confirm(user, chosenName);
 			flash.success("Please check your email");
 			Cache.delete(randomID);
-			// session.put("uid", user.getId());
-			// session.put("username", name);
 			Secure.redirectToOriginalURL();
 		}
 	}

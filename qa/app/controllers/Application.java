@@ -77,16 +77,6 @@ public class Application extends Controller {
 							&& !user.equals(currentUser))
 						userResult.add(user);
 				}
-				// returns list of users without duplicates or user logged
-				// into
-				// session
-				/**
-				 * ArrayList<SearchResult> newList = new ArrayList(); Set set =
-				 * new HashSet(); for (SearchResult result : results) { if
-				 * (set.add(result.getOwner()) &&
-				 * !result.getOwner().equals(currentUser)) newList.add(result);
-				 * } results.clear(); results.addAll(newList); }
-				 **/
 			}
 
 			// If query has no results

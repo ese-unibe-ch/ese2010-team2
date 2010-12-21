@@ -59,8 +59,8 @@ public class UserTest extends UnitTest {
 		assertEquals(2, reputatedUser.getReputations().size());
 		assertEquals(4, (int) reputatedUser.getReputations().get(0)); // yesterday
 		assertEquals(3, (int) reputatedUser.getReputations().get(1)); // the day
-		// before
-		// yesterday
+																		// before
+																		// yesterday
 	}
 
 	@Test

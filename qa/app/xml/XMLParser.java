@@ -279,10 +279,7 @@ public class XMLParser extends DefaultHandler {
 							.getInstance().getQuestionById(qId));
 					a.markAsBestAnswer(isBestAnswer);
 					a.setDate(creationDate);
-					// TODO: Wieso funktioniert dieser Aufruf und der untere
-					// nicht??
 					DbManager.getInstance().getQuestionById(qId).setLastChanged(lastChangedDate);
-//					 a.setLastChanged(lastChangedDate);
 					answers++;
 					this.cleanAnswer();
 				}

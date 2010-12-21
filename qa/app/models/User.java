@@ -256,24 +256,6 @@ public class User {
 	 *            - the reputations as an integer.
 	 */
 	public void addReputation(String username, int reputation) {
-		// // Defines the percentage of points a user can add to the reputation
-		// of
-		// // another user.
-		// final double QUOTE = 0.5;
-		// final int MIN_REPUTATION = 15;
-		// if (this.reputation.containsKey(username)) {
-		// int userPoints = Integer.parseInt(this.reputation.get(username)
-		// .toString());
-		// if (this.score <= MIN_REPUTATION || userPoints / this.score < QUOTE)
-		// {
-		// this.reputation.put(username, userPoints + reputation);
-		// this.reputations.addFirst(reputation);
-		// }
-		//
-		// } else if (!username.isEmpty()) {
-		// this.reputation.put(username, reputation);
-		// this.reputations.addFirst(reputation);
-		// }
 		this.reputations.addFirst(reputation);
 	}
 
