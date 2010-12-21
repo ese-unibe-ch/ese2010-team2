@@ -4,6 +4,6 @@
 <h4>Change your SMTP server settings</h4>
 <br/>
 <form action="@{Admin.configureServer()}" method="POST" enctype="multipart/form-data">
-		<input type="string" name="SMTP" id="SMTP" accept="text/*" />
+		<input type="string" name="SMTP" id="SMTP" accept="text/*" value="${server}" />
 		<input type="submit" value="Set" />
 </form>
