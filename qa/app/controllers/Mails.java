@@ -13,12 +13,4 @@ public class Mails extends Mailer {
 		setContentType("text/html");
 		send(user);
 	}
-
-	/**
-	 * TODO: Make SMTP server configurable
-	 * 
-	 * @param server
-	 */
-	public static void configure(String server) {
-	}
 }

@@ -142,23 +142,4 @@ public class Admin extends Controller {
 		manager.deleteWarning(manager.getWarningById(wid));
 		redirect("/admin/showwarnings");
 	}
-
-	/**
-	 * TODO: Make SMTP server configurable
-	 */
-	public static void setServer() {
-		// render();
-	}
-
-	/**
-	 * TODO: Make SMTP server configurable
-	 * 
-	 * @param SMTP
-	 *            hostname
-	 */
-	public static void configureServer(String SMTP) {
-		// Mails.configure(SMTP);
-		// String message = SMTP;
-		// render(message);
-	}
 }
